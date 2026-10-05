@@ -176,7 +176,8 @@ Branch:
 - `docs/repository-bootstrap`
 
 Pull Request:
-- #3
+- #3 — open against `develop`
+- #2 — merged into `main` before the prescribed `develop` review path; recorded as a workflow deviation, not a deployment
 
 ### Affected Surfaces
 
@@ -267,6 +268,7 @@ Changed env vars:
 - Initial branch seeding must not be misreported as staging or production deployment.
 - Later work must not reuse the bootstrap exception.
 - No local secret or backup artifact may enter the initial commit.
+- A separate PR from the bootstrap branch was merged into `main` while the governed `develop` PR remained open.
 
 ### Security Review
 
@@ -283,7 +285,7 @@ Status:
 ### Production Result
 
 Status:
-- Not Released
+- Not Released — a documentation merge exists on `main`, but no production deployment or smoke-test evidence exists
 
 Release:
 - Not Released
@@ -295,16 +297,18 @@ Deployment date:
 
 - The empty remote requires one exceptional branch-seeding operation before PR targets exist.
 - Branch protection and required approvals remain owner-managed GitHub settings and are not changed by this task.
-- The baseline remains unmerged until peer review and validation are complete.
+- The governed Pull Request #3 remains unmerged until peer review and validation are complete.
+- Pull Request #2 bypassed the documented `develop`-first release flow by merging the baseline into `main`; this must not be treated as staging or production deployment.
 
 ### Follow-Up
 
 - [x] Record the actual Pull Request reference: #3.
 - [ ] Obtain peer review before merging the baseline PR.
+- [ ] Decide whether Pull Request #2's premature `main` merge should be retained as a documented bootstrap exception or reverted through a new reviewed PR.
 
 ### Final Result
 
-In review. Governance consistency work and staged-content security checks passed. The empty remote was seeded with identical bootstrap refs for `main` and `develop`, and the complete documentation baseline was pushed to `docs/repository-bootstrap`. GitHub Issue #1 records the work, and Pull Request #3 is open against `develop` for peer review. It has not been merged. No staging or production deployment occurred.
+In review. Governance consistency work and staged-content security checks passed. The empty remote was seeded with identical bootstrap refs for `main` and `develop`, and the complete documentation baseline was pushed to `docs/repository-bootstrap`. GitHub Issue #1 records the work, and Pull Request #3 is open against `develop` for peer review. Pull Request #2 was separately merged into `main` by `gitg2k3` before the required `develop` review flow completed; no attempt was made to hide, overwrite or revert that event. No staging or production deployment occurred.
 
 ### Related Changes
 
