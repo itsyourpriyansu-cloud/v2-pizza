@@ -1,0 +1,137 @@
+# 18 — Acceptance Criteria
+
+## Auth
+- OTP request/verify works with cooldown, attempt and per-phone/IP rate limits
+- invalid, expired or replayed OTP is rejected without account enumeration
+- active QR redirects to official WhatsApp with attributable source/campaign; inactive/unknown QR grants no session
+- only authenticity-verified WhatsApp webhook sender resolves identity
+- duplicate inbound provider ID creates no duplicate customer or auth outcome
+- existing PHONE/WHATSAPP identities can resolve to one user; new verified sender creates one user idempotently
+- raw magic token is never stored/logged; stored hash, short expiry and single-use are enforced
+- invalid, expired, used or concurrently consumed magic link creates no session and offers safe recovery
+- OTP and WhatsApp paths create the same server-revocable session model
+- session cookie is `Secure`, `HttpOnly`, uses approved `SameSite`; CSRF and production origin/CORS checks pass
+- login/privilege change rotates session; logout, expiry, account/staff revocation invalidate it
+- no long-lived auth credential is stored in localStorage
+
+## Menu
+- only active/available shown
+- variants/modifiers valid
+- invalid config blocked
+
+## Builder
+- required groups enforced
+- min/max enforced
+- price deltas clear
+- backend validation
+- edit works
+
+## Cart
+- items persist
+- edit/remove
+- backend quote
+- unavailable conflict handled
+
+## Pickup
+- ASAP
+- scheduled slots
+- full slot unavailable
+- backend capacity validation
+- reservation expires
+- successful order consumes capacity
+
+## Payment
+- server creates attempt
+- client cannot set price
+- signature verified
+- duplicates safe
+- one order only
+- failure never reaches KDS
+- retry works
+- database uniqueness covers provider event, provider transaction where available and payment idempotency key
+- verified success atomically records payment, confirms one order, consumes capacity and inserts one outbox event
+
+## Order
+- legal state transitions
+- event history
+- customer mapping
+- KDS visibility after paid
+- payment `SUCCESS` is not treated as an order state; first KDS-visible state is `CONFIRMED`
+
+## KDS
+- paid orders only
+- readable modifiers
+- pickup target
+- valid actions
+- live update
+- refresh recovers truth
+- reconnect/gap fetches API/database truth; socket events cannot permanently diverge state
+
+## Counter
+- ready search
+- verification
+- duplicate pickup block
+- audit
+
+## Loyalty
+- ledger-based
+- one credit/order
+- duplicate safe
+- refund adjustment
+- correct derived balance
+
+## Rewards
+- backend eligibility
+- availability
+- reservation safety
+- failed payment releases
+
+## Passport
+- progress once
+- milestone unlock
+- duplicate-safe
+
+## Reorder
+- current menu mapping
+- discontinued handling
+- current price
+- changes visible
+
+## Upsell
+- contextual
+- explicit
+- tracked
+- accepted incremental cart value comes from authoritative quote data
+
+## Founder
+- live orders
+- menu/availability
+- protected sensitive actions
+- core analytics
+- permission-protected QR source management, auth audit and QR/WhatsApp funnel
+
+## Outbox and worker
+- critical domain mutation and outbox row commit together
+- events support `PENDING`, `PROCESSING`, `PROCESSED`, `FAILED`, retry count, last error and processed timestamp
+- stale processing is recoverable and exhausted failures are operator-visible
+- replay/retry yields one loyalty, Passport, notification intent and analytics outcome per idempotency rule
+- Redis/BullMQ outage does not erase PostgreSQL domain/outbox truth
+
+## Production readiness
+- staging
+- production separation
+- secrets out of repo
+- migrations
+- backups
+- restore procedure
+- health checks
+- error tracking
+- rollback path
+- Hostinger KVM 2 India/Ubuntu 24.04 deployment is documented and current pricing/specs are verified before purchase
+- Docker Compose includes Caddy, customer, KDS, Admin, API, worker, PostgreSQL and Redis
+- only required HTTP/HTTPS ports are public; PostgreSQL/Redis are not internet-exposed
+- Caddy HTTPS and customer/API/KDS/Admin host routing pass
+- Cloudflare DNS/proxy policy and secret ownership are documented
+- nightly compressed/encrypted-as-applicable dump reaches off-server R2 with monitored retention
+- isolated restore test succeeds on the recorded cadence
+- `/health` and `/health/ready`, structured logs, exception monitoring and redaction are verified
