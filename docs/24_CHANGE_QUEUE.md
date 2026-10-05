@@ -109,7 +109,7 @@ Open:
 1
 
 In Progress:
-1
+0
 
 Blocked:
 0
@@ -136,7 +136,7 @@ When an item reaches a final state, move it to **Completed History** below.
 
 ## CHG-0001 — Publish governed documentation baseline to GitHub
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** DOCUMENTATION, INFRA
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -176,7 +176,7 @@ Branch:
 - `docs/repository-bootstrap`
 
 Pull Request:
-- Pending
+- #3
 
 ### Affected Surfaces
 
@@ -257,7 +257,7 @@ Changed env vars:
 - [x] Secret-name and staged-content scan
 - [x] Git branch/remotes/status verification
 - [x] Remote refs verification after push
-- [ ] GitHub Issue/PR verification where available
+- [x] GitHub Issue/PR verification where available
 - [ ] Staging — not applicable/not deployed
 - [ ] Production smoke test — not applicable/not deployed
 
@@ -295,17 +295,16 @@ Deployment date:
 
 - The empty remote requires one exceptional branch-seeding operation before PR targets exist.
 - Branch protection and required approvals remain owner-managed GitHub settings and are not changed by this task.
-- GitHub Issue/PR creation depends on an authenticated browser because GitHub CLI is unavailable.
+- The baseline remains unmerged until peer review and validation are complete.
 
 ### Follow-Up
 
-- [ ] Record the actual Pull Request reference.
+- [x] Record the actual Pull Request reference: #3.
 - [ ] Obtain peer review before merging the baseline PR.
-- [ ] Enable the documented branch-protection rules through repository-owner action.
 
 ### Final Result
 
-In progress. Governance consistency work and staged-content security checks passed. The empty remote was seeded with identical bootstrap refs for `main` and `develop`, and the complete documentation baseline was pushed to `docs/repository-bootstrap`. GitHub Issue #1 records the work; the Pull Request remains pending. No staging or production deployment occurred.
+In review. Governance consistency work and staged-content security checks passed. The empty remote was seeded with identical bootstrap refs for `main` and `develop`, and the complete documentation baseline was pushed to `docs/repository-bootstrap`. GitHub Issue #1 records the work, and Pull Request #3 is open against `develop` for peer review. It has not been merged. No staging or production deployment occurred.
 
 ### Related Changes
 
