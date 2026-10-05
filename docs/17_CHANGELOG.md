@@ -1,0 +1,98 @@
+# 17 — Changelog
+
+## Template
+### YYYY-MM-DD — title
+
+Added:
+- ...
+
+Changed:
+- ...
+
+Fixed:
+- ...
+
+Docs updated:
+- ...
+
+Decision:
+- DEC-xxx
+
+Risk:
+- ...
+
+## Initial baseline
+Added:
+- pickup-first architecture
+- customer/KDS/counter/founder surfaces
+- OTP
+- pizza builder
+- capacity pickup
+- verified payment
+- loyalty ledger
+- Pizza Passport
+- reorder
+- analytics
+- adapter-ready integration layer
+
+Excluded:
+- delivery
+- drivers
+- direct marketplace integration
+- microservices
+
+## 2026-10-05 — Architecture Freeze — Node/NestJS + Hostinger + WhatsApp Magic Login
+
+Added:
+- dual passwordless auth: phone OTP plus QR → WhatsApp verified sender → one-time magic link
+- shared auth identities, hashed magic tokens, QR sources and secure cookie sessions
+- WhatsApp provider/auth boundaries and acquisition analytics funnel
+- transactional outbox, Redis/BullMQ jobs and idempotent consumer requirements
+- Hostinger KVM 2, Ubuntu 24.04, Docker Compose, Caddy and Cloudflare/R2 topology
+- off-server database backup, retention and restore-testing requirements
+
+Changed:
+- backend freeze from FastAPI/Python to Node.js LTS, TypeScript, NestJS and Prisma
+- production strategy from unspecified/managed-platform assumptions to a consolidated portable VPS
+- KDS path to canonical `CONFIRMED → PREPARING → READY`; payment success remains separate
+- pickup availability clarified as a calculation, with stored reservations beginning at `HELD`
+- loyalty/Passport trigger standardized on idempotent `ORDER_COMPLETED` processing
+
+Fixed:
+- client payment success can no longer be read as operational confirmation
+- duplicate WhatsApp/payment/outbox events now have explicit database and consumer idempotency rules
+- session, CSRF, secret logging, webhook verification and backup boundaries are documented
+
+Docs updated:
+- `AGENTS.md`, `README.md` and `docs/00` through `docs/20`
+
+Decision:
+- DEC-003, DEC-012 through DEC-022
+
+Risk:
+- single-VPS availability remains a conscious V1 tradeoff; off-server backups, monitoring and a portable scaling path reduce but do not remove it
+- WhatsApp provider onboarding/templates, precise auth durations and founder policies remain to be confirmed before implementation
+
+## 2026-10-05 — Repository Governance and GitHub Bootstrap
+
+Added:
+- root `.gitignore` covering Node/pnpm outputs, environment secrets, private keys, logs, database dumps and local tooling
+- mandatory change-queue and Git workflow references in the agent operating manual
+
+Changed:
+- master/recommended reading paths now include deployment, Git/GitHub, coding-agent and change-queue governance documents
+- documented the one-time empty-remote branch-seeding exception required to establish `main` and `develop`
+- future work is explicitly required to use a tracked short-lived branch and Pull Request
+
+Fixed:
+- `docs/21` through `docs/25` are now discoverable from the master index and mandatory agent instructions
+- coding-agent startup instructions now require the change queue and its agent rules
+
+Docs updated:
+- `AGENTS.md`, `README.md`, `docs/17_CHANGELOG.md`, `docs/20_MASTER_INDEX.md`, `docs/22_GIT_GITHUB_WORKFLOW_RULES.md`, `docs/23_CODING_AGENT_PROMPTING_GUIDE.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- No product or application architecture decision changed
+
+Risk:
+- branch protection and required reviews remain GitHub repository settings for the owner to enable; this bootstrap does not weaken the documented rule

@@ -1,0 +1,46 @@
+# Dependencies and package-manager state
+node_modules/
+.pnpm-store/
+.turbo/
+
+# Build and test outputs
+dist/
+build/
+coverage/
+.vite/
+.cache/
+*.tsbuildinfo
+
+# Environment files and local secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Logs and runtime files
+*.log
+logs/
+*.pid
+*.pid.lock
+
+# Local databases, dumps and backups
+*.sql
+*.sql.gz
+*.dump
+backups/
+
+# Editors and operating systems
+.idea/
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local tooling
+.eslintcache
+.npmrc.local
