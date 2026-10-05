@@ -170,7 +170,7 @@ Excluded:
 ### GitHub Tracking
 
 Issue:
-- Pending
+- #1
 
 Branch:
 - `docs/repository-bootstrap`
@@ -299,13 +299,13 @@ Deployment date:
 
 ### Follow-Up
 
-- [ ] Record actual Issue and Pull Request references.
+- [ ] Record the actual Pull Request reference.
 - [ ] Obtain peer review before merging the baseline PR.
 - [ ] Enable the documented branch-protection rules through repository-owner action.
 
 ### Final Result
 
-In progress. Governance consistency work and staged-content security checks passed. The empty remote was seeded with identical bootstrap refs for `main` and `develop`, and commit `5c31c46` containing the complete documentation baseline was pushed to `docs/repository-bootstrap`. GitHub Issue and Pull Request creation remain pending because the available browser requires the repository owner to sign in; no staging or production deployment occurred.
+In progress. Governance consistency work and staged-content security checks passed. The empty remote was seeded with identical bootstrap refs for `main` and `develop`, and the complete documentation baseline was pushed to `docs/repository-bootstrap`. GitHub Issue #1 records the work; the Pull Request remains pending. No staging or production deployment occurred.
 
 ### Related Changes
 
