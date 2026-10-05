@@ -109,7 +109,7 @@ Open:
 2
 
 In Progress:
-1
+0
 
 Blocked:
 0
@@ -318,7 +318,7 @@ In review. Governance consistency work and staged-content security checks passed
 
 ## CHG-0002 — Frontend Stage 1 Architecture Foundation
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** FEATURE, REFACTOR, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -363,7 +363,7 @@ Branch:
 - `feature/frontend-stage-1-foundation`
 
 Pull Request:
-- Pending
+- #6 — open against `develop`
 
 ### Affected Surfaces
 
@@ -507,13 +507,13 @@ Deployment date:
 
 ### Follow-Up
 
-- [ ] Open a PR into `develop` after all required checks pass.
+- [x] Open Pull Request #6 into `develop` after all required checks passed.
 - [ ] Obtain review before merge.
 - [ ] Define the design system and implement the high-fidelity Customer PWA in the next task only.
 
 ### Final Result
 
-Implementation complete on the task branch. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks pass. No backend, database, provider, real authentication, deployment or final design system was created. Pull Request remains pending.
+In review in Pull Request #6. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks pass. No backend, database, provider, real authentication, deployment or final design system was created. No staging or production deployment occurred.
 
 ### Related Changes
 
