@@ -67,6 +67,9 @@ Use Redis/BullMQ for retryable provider calls, notifications, asynchronous loyal
 ## DEC-022 Canonical Operational Order States
 Payment success is a Payment state, not an Order state. A verified provider event atomically produces order `CONFIRMED`, the first KDS-visible/New state. The operational path is `CONFIRMED → PREPARING → READY → PICKED_UP → COMPLETED`; loyalty and Passport normally consume `ORDER_COMPLETED` idempotently.
 
+## DEC-023 Integer-Paise Money Contracts
+All frontend/backend JSON money contracts represent `amount` as a safe integer count of paise with `currency: 'INR'`. For example, ₹349.00 is `{ "amount": 34900, "currency": "INR" }`. UI formatting may render rupees, but client arithmetic and provisional display values never become authoritative pricing; the backend remains responsible for validation and final totals.
+
 ## Pending founder decisions
 - exact hours
 - cancellation cutoff

@@ -1,6 +1,6 @@
-# The Pizza Avenue — V1 Documentation Pack
+# The Pizza Avenue — V1 Repository
 
-This repository contains the complete working specification for the first Pizza Avenue production prototype.
+This repository contains the working specification and implementation foundation for the first Pizza Avenue production prototype.
 
 ## Project
 The Pizza Avenue, Sainikpuri, Hyderabad
@@ -24,6 +24,51 @@ Pickup-first direct ordering + loyalty + repeat-customer platform.
 The backend is a modular monolith with `auth`, `customers`, `stores`, `menu`, `cart`, `pricing`, `pickup`, `orders`, `payments`, `kitchen`, `loyalty`, `passport`, `promotions`, `referrals`, `notifications`, `analytics`, `audit` and `integrations` modules. Each module keeps controller/API, application service, domain rules and Prisma repository/data responsibilities separate.
 
 The four product surfaces use three frontend deployments in V1: Customer is `apps/customer`, Kitchen and the role-gated Counter/Handover view are `apps/kds`, and Founder/Admin is `apps/admin`. This preserves the required Counter workflow without adding an unnecessary fourth deployment.
+
+## Stage 1 frontend foundation
+
+The pnpm workspace currently provides architecture-only React applications and shared packages:
+
+```text
+apps/customer      Customer route and feature foundation
+apps/kds           Kitchen route foundation
+apps/admin         Founder/Admin route foundation
+packages/types     Shared domain and API contract types
+packages/api-client Typed HTTP boundary for `/api/v1`
+packages/mocks     MSW handlers, fixtures, factories and scenarios
+packages/utils     Query keys, money helpers and state helpers
+packages/ui        Neutral structural primitives only
+```
+
+Stage 1 deliberately contains no final visual design system, backend service, database connection, provider integration, real payment flow or real authentication.
+
+## Local development
+
+Requirements: Node.js 24 LTS and pnpm 11.
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Individual apps:
+
+```bash
+pnpm dev:customer  # http://localhost:5173
+pnpm dev:kds       # http://localhost:5174/kds
+pnpm dev:admin     # http://localhost:5175/admin
+```
+
+Mocks are enabled unless `VITE_ENABLE_MOCKS=false`. Copy `.env.example` to a local ignored environment file when overrides are required. A future NestJS backend replaces MSW behind `packages/api-client`; route and feature modules should not change their data-access boundary.
+
+Validation:
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
+```
 
 ## Authentication
 Customers can sign in with phone OTP or enter through the in-store QR → WhatsApp → one-time magic-link flow. Both paths resolve the same customer identity and create the same secure HttpOnly cookie session. The WhatsApp path trusts only the verified webhook sender, never QR text or a phone number in a URL.

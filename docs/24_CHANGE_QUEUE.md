@@ -385,7 +385,16 @@ Pull Request:
 
 ### Files / Areas Changed
 
-- Pending implementation.
+- root pnpm, TypeScript, ESLint, Vitest, environment and CI configuration
+- `apps/customer` route/feature/query/form/scenario foundation
+- `apps/kds` route/query foundation
+- `apps/admin` route/query foundation
+- `packages/types` shared domain contracts
+- `packages/api-client` typed HTTP modules and error normalization
+- `packages/mocks` MSW handlers, realistic fixtures, factories and scenarios
+- `packages/utils` query keys, integer-paise money helpers and order-transition validation
+- `packages/ui` neutral structural primitives only
+- generated MSW browser workers for the three applications
 
 ### Database Impact
 
@@ -401,15 +410,16 @@ New backend endpoints:
 - None
 
 Frontend contract impact:
-- typed client functions and MSW handlers will mirror the existing frozen `/api/v1` contracts
+- typed client functions and MSW handlers mirror the existing frozen `/api/v1` contracts
 
 Breaking change:
 - No production API exists or changes in this stage
 
 ### State Machine Impact
 
-- No state transitions are implemented.
-- Shared types and mock transitions must use the exact documented order, payment, pickup, reward, promotion, store and magic-token state values.
+- No production state transitions are implemented.
+- Shared types use the documented order, payment, pickup, reward and store values.
+- A pure test helper validates the documented order transition graph and rejects illegal shortcuts.
 
 ### Permission Impact
 
@@ -418,7 +428,7 @@ Breaking change:
 
 ### Analytics Impact
 
-- Shared event names/types may mirror `12_ANALYTICS_EVENTS.md` for contract readiness.
+- Shared event names/types mirror `12_ANALYTICS_EVENTS.md` for contract readiness.
 - No analytics provider or authoritative financial reporting is implemented.
 
 ### Environment / Secret Impact
@@ -433,7 +443,6 @@ Changed secrets:
 
 ### Documentation Updated
 
-Planned:
 - `README.md`
 - `docs/16_DECISIONS.md`
 - `docs/17_CHANGELOG.md`
@@ -441,17 +450,18 @@ Planned:
 
 ### Tests Required
 
-- [ ] Workspace lint
-- [ ] Workspace typecheck
-- [ ] Unit/component tests
-- [ ] App boot tests
-- [ ] Customer route resolution tests
-- [ ] Mocked menu API-client test
-- [ ] TanStack Query rendering test
-- [ ] Payment-failure scenario test
-- [ ] Pickup-full scenario test
-- [ ] Valid order-state transition test
-- [ ] Customer/KDS/Admin production builds
+- [x] Workspace lint
+- [x] Workspace typecheck
+- [x] Unit/component tests — 27 passed
+- [x] App boot tests — Customer, KDS and Admin
+- [x] Customer route resolution tests
+- [x] Mocked menu API-client test
+- [x] TanStack Query rendering test
+- [x] Payment-failure scenario test
+- [x] Pickup-full scenario test
+- [x] Valid and invalid order-state transition tests
+- [x] Customer/KDS/Admin production builds
+- [x] Local dev-server HTTP smoke checks — ports 5173, 5174 and 5175 returned HTTP 200
 - [ ] Staging — not performed in this task
 - [ ] Production smoke test — not performed in this task
 
@@ -493,6 +503,7 @@ Deployment date:
 - Menu names/prices are realistic documentation fixtures, not founder-approved production menu truth.
 - MSW validates frontend architecture only and cannot prove future backend enforcement, transactions, idempotency or permissions.
 - Stage 1 intentionally leaves visual design and high-fidelity interaction decisions open.
+- Browser MSW is development-only and is removed from the live data path by setting `VITE_ENABLE_MOCKS=false` when a backend is available.
 
 ### Follow-Up
 
@@ -502,7 +513,7 @@ Deployment date:
 
 ### Final Result
 
-In progress. Issue #4 and the task branch exist; implementation and validation are pending.
+Implementation complete on the task branch. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks pass. No backend, database, provider, real authentication, deployment or final design system was created. Pull Request remains pending.
 
 ### Related Changes
 
