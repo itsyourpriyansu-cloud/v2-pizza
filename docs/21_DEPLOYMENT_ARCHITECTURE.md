@@ -33,12 +33,12 @@ The application must remain portable so that it can later move to E2E Networks, 
                         CLOUDFLARE
                   DNS / Proxy / Security
                               │
-          ┌───────────────────┼───────────────────┐
-          │                   │                   │
-          ▼                   ▼                   ▼
-pizzaavenue.<domain>   kds.<domain>       admin.<domain>
-          │                   │                   │
-          └───────────────────┼───────────────────┘
+          ┌────────────────────┼────────────────────┐
+          │                    │                    │
+          ▼                    ▼                    ▼
+pizzaavenue.<domain>  app.pizzaavenue.<domain>  kds/admin.pizzaavenue.<domain>
+          │                    │                    │
+          └────────────────────┼────────────────────┘
                               │
                               ▼
                        HOSTINGER KVM 2
@@ -48,13 +48,13 @@ pizzaavenue.<domain>   kds.<domain>       admin.<domain>
                          │  Caddy  │
                          └────┬────┘
                               │
-        ┌─────────────────────┼─────────────────────┐
-        │                     │                     │
-        ▼                     ▼                     ▼
- Customer PWA               KDS UI               Admin UI
- React/Vite               React/Vite            React/Vite
-        │                     │                     │
-        └─────────────────────┼─────────────────────┘
+        ┌──────────────────────┼──────────────────────┐
+        │                      │                      │
+        ▼                      ▼                      ▼
+ Landing               Customer PWA             KDS UI / Admin UI
+ React/Vite            React/Vite               React/Vite
+        │                      │                      │
+        └──────────────────────┼──────────────────────┘
                               │
                               ▼
                          NestJS API
@@ -131,6 +131,7 @@ It is selected because Pizza Avenue V1:
 
 A single KVM 2 instance can comfortably host:
 
+- landing frontend
 - customer PWA
 - KDS
 - founder dashboard
@@ -194,8 +195,9 @@ without rewriting the application domain.
 Recommended subdomains:
 
 ```text
-pizzaavenue.<domain>          Customer PWA
-api.pizzaavenue.<domain>      NestJS API
+pizzaavenue.<domain>          Landing / marketing only
+app.pizzaavenue.<domain>      Customer PWA
+api.pizzaavenue.<domain>      NestJS API (`/api/v1`)
 kds.pizzaavenue.<domain>      Kitchen/KDS
 admin.pizzaavenue.<domain>    Founder/Admin
 ```
@@ -206,7 +208,7 @@ Optional:
 status.pizzaavenue.<domain>   Future status page
 ```
 
-All public DNS is managed through Cloudflare.
+All public DNS is managed through Cloudflare. Do not put a real VPS IP in repository configuration. The expected production records are `A @`, `A app`, `A kds`, `A admin` and `A api` to the VPS; staging adds `A staging`, `A app-staging`, `A kds-staging`, `A admin-staging` and `A api-staging`. Use Cloudflare SSL/TLS mode **Full (strict)**.
 
 ---
 
@@ -227,6 +229,9 @@ Example logical routing:
 
 ```text
 pizzaavenue.<domain>
+→ landing frontend
+
+app.pizzaavenue.<domain>
 → customer frontend
 
 api.pizzaavenue.<domain>
@@ -250,6 +255,7 @@ Recommended production services:
 ```yaml
 services:
   caddy:
+  landing:
   customer:
   kds:
   admin:
@@ -279,6 +285,10 @@ Only Caddy should expose public HTTP/HTTPS ports.
 - TLS
 - routing
 - WebSocket proxying
+
+## landing
+- public marketing and campaign/SEO surface
+- sends ordering and rewards CTAs to the Customer app host
 
 ## customer
 - customer PWA static build
@@ -738,6 +748,9 @@ Recommended host:
 
 ```text
 staging.pizzaavenue.<domain>
+app-staging.pizzaavenue.<domain>
+kds-staging.pizzaavenue.<domain>
+admin-staging.pizzaavenue.<domain>
 api-staging.pizzaavenue.<domain>
 ```
 
@@ -752,6 +765,26 @@ Use:
 Real credentials, customers and transactions.
 
 Never share production secrets with staging.
+
+## Domain, SPA and browser security contract
+
+Each static frontend host must fall back to its own `index.html` for client-side routes. For example, direct loads of `https://app.pizzaavenue.<domain>/orders/123`, `https://kds.pizzaavenue.<domain>/orders/123` and `https://admin.pizzaavenue.<domain>/menu` must not produce a reverse-proxy 404.
+
+The target Caddy host mapping is:
+
+```text
+pizzaavenue.<domain>       → landing:80
+app.pizzaavenue.<domain>   → customer:80
+kds.pizzaavenue.<domain>   → kds:80
+admin.pizzaavenue.<domain> → admin:80
+api.pizzaavenue.<domain>   → api:3000
+```
+
+The repository implements this routing for the existing static frontend services through `compose.yaml`, `Dockerfile.frontend`, `infra/caddy/Caddyfile` and `infra/caddy/Caddyfile.frontend`. Each frontend image uses the fallback above. The API host is reserved in Caddy but its service is intentionally absent until a real NestJS runtime exists; the same applies to worker, PostgreSQL and Redis. Staging must mirror this host structure when it is introduced.
+
+Future API CORS allowlists must enumerate the Landing, Customer, KDS and Admin origins for the selected environment. Credentialed API requests must never receive a wildcard origin. The intended cookie model is `Secure`, `HttpOnly`, `SameSite=Lax` and, where finalized backend policy needs session sharing, `Domain=.pizzaavenue.<domain>`; cookies remain unavailable to JavaScript and state-changing requests require CSRF protection.
+
+WhatsApp magic-login replies must target `https://app.pizzaavenue.<domain>/auth/magic?token=...`. QR attribution redirects to WhatsApp and never turn the Landing host into an authentication callback.
 
 ---
 

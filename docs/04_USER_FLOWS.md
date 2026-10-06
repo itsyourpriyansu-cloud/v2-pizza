@@ -11,7 +11,7 @@ Failure: invalid, expired or attempt-limited OTP does not create a session; rese
 3. Customer sends the message. WhatsApp delivers an inbound webhook.
 4. Backend verifies provider authenticity, stores/deduplicates the provider message ID and extracts the verified sender phone.
 5. `WhatsAppAuthService` idempotently resolves/creates the WHATSAPP identity, generates a random short-lived token and stores only its hash.
-6. `WhatsAppProvider` replies with “Continue to Pizza Avenue” and the one-time HTTPS app link.
+6. `WhatsAppProvider` replies with “Continue to Pizza Avenue” and the one-time Customer-app link: `https://app.pizzaavenue.<domain>/auth/magic?token=...`.
 7. Customer opens the link. Backend hashes and verifies the token, atomically marks it used, creates/rotates the same session model used by OTP and redirects into the PWA.
 
 Failure paths: an invalid webhook is rejected; a duplicate inbound message reuses/avoids duplicating the logical outcome; an expired, used or invalid token creates no session and shows `MagicLinkExpired` with a safe restart through WhatsApp or phone OTP. A provider outage records retryable delivery failure without trusting client input as identity.

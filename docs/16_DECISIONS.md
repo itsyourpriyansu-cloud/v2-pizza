@@ -70,6 +70,9 @@ Payment success is a Payment state, not an Order state. A verified provider even
 ## DEC-023 Integer-Paise Money Contracts
 All frontend/backend JSON money contracts represent `amount` as a safe integer count of paise with `currency: 'INR'`. For example, ₹349.00 is `{ "amount": 34900, "currency": "INR" }`. UI formatting may render rupees, but client arithmetic and provisional display values never become authoritative pricing; the backend remains responsible for validation and final totals.
 
+## DEC-024 Domain Routing Freeze
+The root `pizzaavenue.<domain>` host serves only the public Landing/Marketing surface. Customer PWA, KDS, Founder/Admin and NestJS API are independently hosted at `app.pizzaavenue.<domain>`, `kds.pizzaavenue.<domain>`, `admin.pizzaavenue.<domain>` and `api.pizzaavenue.<domain>/api/v1`. KDS and Admin routes are root-relative within their own hosts, avoiding redundant `/kds` and `/admin` URL prefixes. This separation keeps marketing/SEO, customer ordering, operations and API security boundaries clear while retaining one VPS/Caddy deployment topology.
+
 ## Pending founder decisions
 - exact hours
 - cancellation cutoff

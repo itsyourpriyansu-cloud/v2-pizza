@@ -41,6 +41,28 @@ Excluded:
 - direct marketplace integration
 - microservices
 
+## 2026-10-06 — Domain Routing Freeze — Root Landing + App Subdomains
+
+Added:
+- minimal Landing application shell and a shared public surface/API URL configuration package
+- per-app public environment examples for local, staging and production configuration
+- Docker Compose, reusable frontend image build and Caddy host-routing configuration for the four implemented static frontend services
+
+Changed:
+- root domain responsibility to Landing/Marketing; Customer now belongs to the `app` subdomain
+- KDS and Admin internal routes to root-relative paths on their own subdomains
+- local frontend ports to Landing `5173`, Customer `5174`, KDS `5175` and Admin `5176`
+- WhatsApp magic-link continuation target to the Customer app host
+
+Docs updated:
+- `README.md`, `docs/04_USER_FLOWS.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/10_API_CONTRACTS.md`, `docs/15_BUILD_PLAN.md`, `docs/16_DECISIONS.md`, `docs/21_DEPLOYMENT_ARCHITECTURE.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- DEC-024
+
+Risk:
+- API, worker, PostgreSQL and Redis containers remain intentionally absent until their real runtimes exist. Real DNS, session and CORS enforcement remain provider/backend work; no environment was deployed.
+
 ## 2026-10-05 — Architecture Freeze — Node/NestJS + Hostinger + WhatsApp Magic Login
 
 Added:

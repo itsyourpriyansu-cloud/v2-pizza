@@ -23,7 +23,7 @@ Product:
 - hi-fi core
 
 Engineering:
-- pnpm workspace/monorepo: `apps/customer`, `apps/kds`, `apps/admin`, shared packages and `server`
+- pnpm workspace/monorepo: `apps/landing`, `apps/customer`, `apps/kds`, `apps/admin`, shared packages and `server`
 - Node.js LTS, TypeScript, NestJS, Prisma/PostgreSQL and OpenAPI baseline
 - development/staging/production environments and Pino request logging
 - auth foundation: identities, secure sessions, OTP, QR sources and WhatsApp magic-login adapter
@@ -87,6 +87,7 @@ Provision Hostinger KVM 2 in the India region with Ubuntu 24.04 LTS. Verify curr
 
 Docker Compose services:
 - `caddy`
+- `landing`
 - `customer`
 - `kds`
 - `admin`
@@ -95,7 +96,9 @@ Docker Compose services:
 - `postgres`
 - `redis`
 
-Caddy terminates HTTPS and routes the customer domain plus `api`, `kds` and `admin` subdomains. Only required HTTP/HTTPS ports are public. API, worker, PostgreSQL and Redis communicate on private Docker networks; PostgreSQL and Redis publish no internet-facing port. Cloudflare manages DNS and may provide proxy/security/caching where appropriate.
+Caddy terminates HTTPS and routes `pizzaavenue.<domain>` to Landing, `app.pizzaavenue.<domain>` to Customer, and the `api`, `kds` and `admin` subdomains to their respective services. Each SPA must return its `index.html` for a direct nested-route request. Only required HTTP/HTTPS ports are public. API, worker, PostgreSQL and Redis communicate on private Docker networks; PostgreSQL and Redis publish no internet-facing port. Cloudflare manages DNS and may provide proxy/security/caching where appropriate.
+
+The repository currently includes Compose/Caddy routing for the implemented static frontend services only: `caddy`, `landing`, `customer`, `kds` and `admin`. Add API, worker, PostgreSQL and Redis to that file only when their real runtime modules exist; do not use placeholder containers to claim an operational backend.
 
 The Counter/Handover surface is a separately permissioned route within the KDS operational frontend for V1, so the four product surfaces still fit the three documented frontend services. Split it only if measured device/deployment needs justify another app.
 

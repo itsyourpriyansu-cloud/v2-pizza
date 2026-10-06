@@ -1,0 +1,61 @@
+name: pizza-avenue
+
+services:
+  caddy:
+    image: caddy:2.8-alpine
+    env_file:
+      - path: infra/docker/.env
+        required: false
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      landing:
+        condition: service_started
+      customer:
+        condition: service_started
+      kds:
+        condition: service_started
+      admin:
+        condition: service_started
+    restart: unless-stopped
+
+  landing:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        APP_NAME: landing
+    restart: unless-stopped
+
+  customer:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        APP_NAME: customer
+    restart: unless-stopped
+
+  kds:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        APP_NAME: kds
+    restart: unless-stopped
+
+  admin:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        APP_NAME: admin
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:
