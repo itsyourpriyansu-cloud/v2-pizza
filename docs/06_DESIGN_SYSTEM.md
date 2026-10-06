@@ -1,5 +1,7 @@
 # 06 — Design System
 
+> **Current design sources:** This document remains the high-level interaction baseline. Read `27_DESIGN_SYSTEM_FOUNDATION.md` for the approved brand foundation and component-layering rules, and `28_UI_VISUAL_DIRECTION.md` for reference interpretation, imagery, Landing rhythm and preliminary visual direction. Where visual guidance differs, Documents 27–28 are current; product and architecture source-of-truth priority remains unchanged.
+
 ## Interaction principles
 - Food first
 - Pickup timing visible
