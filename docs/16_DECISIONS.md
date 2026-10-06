@@ -7,11 +7,15 @@ Microservices rejected for V1.
 ## DEC-002 Pickup-Only
 No delivery in V1.
 
+**Superseded in part by DEC-026:** V1 now includes restaurant Dine-in while delivery remains excluded.
+
 ## DEC-003 Dual Passwordless Customer Authentication
 Customer auth supports normal phone OTP and in-store QR → WhatsApp verified sender → one-time magic link. Both resolve the same user/identity/session model; customers have no password in V1.
 
 ## DEC-004 Paid Before Kitchen
 Only verified paid order becomes operational.
+
+**Superseded by DEC-026:** this remains true for Pickup only. Dine-in kitchen entry is waiter-confirmed and paid at table-session end.
 
 ## DEC-005 Backend Pricing
 Server owns authoritative price.
@@ -65,7 +69,7 @@ Critical domain writes and their outbox events share one PostgreSQL transaction.
 Use Redis/BullMQ for retryable provider calls, notifications, asynchronous loyalty/Passport processing, analytics forwarding, reports and cleanup. PostgreSQL retains critical domain/outbox state so queue loss can be recovered.
 
 ## DEC-022 Canonical Operational Order States
-Payment success is a Payment state, not an Order state. A verified provider event atomically produces order `CONFIRMED`, the first KDS-visible/New state. The operational path is `CONFIRMED → PREPARING → READY → PICKED_UP → COMPLETED`; loyalty and Passport normally consume `ORDER_COMPLETED` idempotently.
+Payment success is a Payment state, not an Order state. For Pickup, a verified provider event atomically produces order `CONFIRMED`, the first KDS-visible/New state; the path is `CONFIRMED → PREPARING → READY_FOR_PICKUP → PICKED_UP → COMPLETED`. DEC-026 adds the Dine-in mode-specific gate/path. Loyalty and Passport consume mode-appropriate paid/completed events idempotently.
 
 ## DEC-023 Integer-Paise Money Contracts
 All frontend/backend JSON money contracts represent `amount` as a safe integer count of paise with `currency: 'INR'`. For example, ₹349.00 is `{ "amount": 34900, "currency": "INR" }`. UI formatting may render rupees, but client arithmetic and provisional display values never become authoritative pricing; the backend remains responsible for validation and final totals.
@@ -75,6 +79,20 @@ The root `pizzaavenue.<domain>` host serves only the public Landing/Marketing su
 
 ## DEC-025 Pizza Avenue Brand Foundation
 The official brand palette is Cream `#FDF6E9`, Sand Beige `#EADCC8`, Maroon `#6B1F1F`, Italian Brown `#8C4A2F`, Olive Green `#556B2F`, Sage Green `#A7B58B` and Espresso `#3B2F2A`. Phudu is the display/heading family and Poppins is the body/functional UI family, matching the verified primary Pizza Wave application typography. The unrelated bakery experiment's Lilita One/Outfit pair is not adopted. The visual identity is warm craft, modern neighbourhood pizzeria and confident food-led digital convenience. Landing and application compositions stay separate while sharing foundations and neutral primitives. No logo, mark or legacy Pizza Wave identity may be assumed until an approved Pizza Avenue logo is supplied.
+
+## DEC-026 Dual Service Operations — Waiter-Gated Dine-In and End-of-Session Billing
+
+Pizza Avenue V1 supports `PICKUP` and `DINE_IN` without duplicating the order, kitchen, payment or loyalty systems.
+
+- Pickup remains payment-first: verified payment gates `CONFIRMED` and KDS entry.
+- Dine-in starts only from a server-resolved opaque table QR/session. Customer submission creates a waiter request, not a kitchen ticket.
+- Waiter confirmation idempotently gates Dine-in `CONFIRMED` and KDS entry without prior payment.
+- Multiple accepted rounds belong to one table session and one open bill. Ready means `READY_FOR_PICKUP` or `READY_TO_SERVE` by immutable service mode.
+- Only authorized Admin/Counter controls finalize and settle the Dine-in bill. Waiter cannot mark payment paid.
+- Payments target either a Pickup `ORDER` or Dine-in `TABLE_BILL` through one infrastructure.
+- Dine-in loyalty/Passport/missions finalize only after `TABLE_BILL_PAID`, attributed to each authenticated ordering customer's own eligible served orders; guests receive none and the payer does not inherit table-wide credit.
+- Waiter routes live in the existing Admin frontend. No new staff application is introduced.
+- Split/partial bills, seat-level ordering, customer pay-at-table, tips, reservations, course firing, advanced floor plans/table merge-split and delivery remain excluded.
 
 ## Pending founder decisions
 - exact hours
@@ -97,3 +115,7 @@ The official brand palette is Cream `#FDF6E9`, Sand Beige `#EADCC8`, Maroon `#6B
 - production domains and Cloudflare proxy policy
 - approved Pizza Avenue logo asset and usage rules
 - production photography provenance and image pipeline
+- Dine-in cancellation/confirmation timeout and table-session expiry policies
+- supported table payment methods, service-charge/GST policy and cash reconciliation
+- discount/reward/void/refund authority thresholds
+- waiter assignment/transfer policy and shared-kitchen capacity calibration

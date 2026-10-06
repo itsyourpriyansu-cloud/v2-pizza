@@ -7,5 +7,12 @@ export const queryKeys = {
   orders: () => ['orders'] as const,
   loyalty: () => ['loyalty'] as const,
   passport: () => ['passport'] as const,
-  kdsOrders: () => ['kds', 'orders'] as const,
+  kdsOrders: (serviceMode?: string) => ['kds', 'orders', serviceMode ?? 'ALL'] as const,
+  tableContext: (token: string) => ['dine-in', 'table-context', token] as const,
+  tableSession: () => ['dine-in', 'session'] as const,
+  tableBill: () => ['dine-in', 'bill'] as const,
+  waiterRequests: () => ['waiter', 'order-requests'] as const,
+  waiterTables: () => ['waiter', 'tables'] as const,
+  adminBills: () => ['admin', 'bills'] as const,
+  adminBill: (billId: string) => ['admin', 'bills', billId] as const,
 } as const;

@@ -149,6 +149,9 @@ importers:
       '@pizza-avenue/mocks':
         specifier: workspace:*
         version: link:../../packages/mocks
+      '@pizza-avenue/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@pizza-avenue/ui':
         specifier: workspace:*
         version: link:../../packages/ui

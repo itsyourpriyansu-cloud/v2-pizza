@@ -1,6 +1,11 @@
 # 01 — Product Scope
 
 ## Customer V1
+### Service entry
+- choose Pickup or Dine-in when no service context exists
+- enter Dine-in only through a server-resolved opaque table QR token
+- keep Pickup and Dine-in carts separate when switching context
+
 ### Authentication
 - browse without login
 - normal app entry: phone OTP with resend cooldown and brute-force protection
@@ -55,13 +60,20 @@
 - server-created payment attempt
 - verified callback
 - failure/retry
-- no kitchen order before verified success
+- Pickup only: no kitchen order before verified success
+- Dine-in payment is handled by authorized Admin/Counter at table-session end
 
 ### Order tracking
 - Confirmed
 - Preparing
-- Ready
-- Picked Up
+- Ready for Pickup / Picked Up
+- Waiting for Waiter / Ready to Serve / Served for Dine-in
+
+### Dine-in
+- submit each round to a waiter for confirmation
+- order more within one active table session
+- view current table bill estimate, call waiter and request bill
+- no customer-side payment in V1
 
 ### Retention
 - history
@@ -72,12 +84,12 @@
 - Pizza Passport
 
 ## KDS V1
-- paid orders only
+- Pickup after verified payment; Dine-in after waiter confirmation
 - order number
 - pickup promise
 - elapsed time
 - modifier detail
-- New → Preparing → Ready
+- New → Preparing → Ready for Pickup / Ready to Serve
 - sold-out controls
 - overload/busy indicator
 
@@ -87,6 +99,14 @@
 - code verification
 - mark picked up
 - duplicate handover protection
+- authorized table-bill finalization/payment controls
+
+## Waiter V1
+- role-protected routes inside the Admin frontend
+- submitted-order review, confirmation, clarification and rejection
+- active-table and round visibility
+- Ready-to-Serve, service-request and bill-request queues
+- mark Served; never settle payment or adjust loyalty directly
 
 ## Founder V1
 - overview KPIs
@@ -104,6 +124,13 @@
 - QR source/campaign management and acquisition funnel analytics
 - auth audit visibility
 - messaging template management only if the selected WhatsApp provider requires an approved operational workflow
+- live tables, open bills, authorized discount/reward/void controls and table-session payment/close operations
+
+## Explicit Dine-in exclusions
+- split or partial bills
+- seat-level ordering and customer pay-at-table
+- tips, reservations and course firing
+- advanced floor plans, complex table merge/split and dynamic seat assignment
 
 ## Platform and operations V1
 - Node.js/TypeScript/NestJS modular monolith with Prisma and PostgreSQL

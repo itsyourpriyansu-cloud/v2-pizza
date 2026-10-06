@@ -1,5 +1,15 @@
 # 19 — Founder Workshop
 
+## Dual-service decisions to confirm
+- supported Dine-in payment methods and cash-reconciliation process
+- service-charge/GST policy and receipt/invoice requirements
+- customer cancellation cutoff and waiter-confirmation timeout
+- table-session inactivity/expiry and exceptional reopen policy
+- Waiter assignment/transfer and staff-assisted ordering policy
+- discount, reward, void and refund authority thresholds
+- Pickup protected capacity, Dine-in operating capacity and safety buffer calibration
+- bill-request behaviour is frozen initially as “record request, disable new rounds, block finalization until active work resolves” unless the founder approves a stricter rule
+
 ## Business
 - What is the exact brand promise?
 - Current AOV?

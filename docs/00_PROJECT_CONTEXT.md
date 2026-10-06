@@ -5,12 +5,14 @@ The Pizza Avenue is an Italian-inspired pizzeria in Sainikpuri, Hyderabad. The b
 
 ## Product opportunity
 The application should convert an existing food business into a direct digital habit:
-social/store discovery → direct order → pickup → reward → reorder.
+social/store discovery → direct Pickup or Dine-in order → fulfilment → reward → reorder.
 
 The in-store acquisition loop is equally important:
 walk-in customer → placement-attributed QR → WhatsApp message → verified customer identity → secure magic link → customer PWA → loyalty → future direct reorder.
 
 The QR is a growth mechanism, not merely a login shortcut. Signage should communicate “Scan to Order & Earn Pizza Points” or a founder-approved equivalent, while the backend attributes the scan to placements such as the counter, door, bill, box or table.
+
+Table-service QR is a separate trusted-context flow: opaque table token → server-resolved active table session → customer request → waiter confirmation → kitchen → staff-settled table bill. A table QR does not authenticate a person.
 
 ## Problems to solve
 - customers repeatedly ask the same ordering questions
@@ -23,7 +25,7 @@ The QR is a growth mechanism, not merely a login shortcut. Signage should commun
 - direct-order analytics are weak
 
 ## Product vision
-Create the fastest way to order Pizza Avenue for pickup while making returning customers feel recognised and rewarded.
+Create the fastest way to order Pizza Avenue for Pickup or at a table while making returning customers feel recognised and rewarded.
 
 ## Product principles
 1. Speed over browsing complexity.
@@ -44,8 +46,11 @@ Needs confidence, bestsellers, easy customisation, pickup estimate.
 ### Returning customer
 Needs reorder, favourites, rewards, fast checkout.
 
+### Waiter
+Needs trusted table context, clear order requests, Ready-to-Serve work and bill/service queues without payment authority.
+
 ### Kitchen
-Needs paid orders, readable modifiers, timers, clear priority.
+Needs eligible orders, readable modifiers, service-mode context, timers and clear shared priority.
 
 ### Counter
 Needs ready-order lookup and secure handover.
@@ -57,7 +62,14 @@ Needs orders, GMV, AOV, availability, staff control, refunds, repeat and attach-
 The product is successful if:
 - a customer can order a customised pizza end-to-end
 - price cannot be tampered with
-- paid order reaches KDS once
+- Pickup reaches KDS once after verified payment
+- Dine-in reaches KDS once after waiter confirmation and accumulates into one table-session bill
+
+## Frozen service model
+
+- `PICKUP`: customer pays first; verified payment admits the order to KDS.
+- `DINE_IN`: customer submits a table-bound request; waiter confirmation admits it to KDS; accepted rounds accumulate into one table-session bill settled by Admin/Counter after service.
+- Both modes use one menu, one order aggregate, one kitchen workload, one payment infrastructure and one customer loyalty system.
 - pickup capacity prevents overload
 - rewards are credited correctly
 - reordering is fast

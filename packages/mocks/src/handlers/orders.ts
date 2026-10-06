@@ -1,13 +1,13 @@
 import { HttpResponse, http } from 'msw';
 import type { Order, OrderStatus, PaginatedResult } from '@pizza-avenue/types';
-import { assertOrderTransition } from '@pizza-avenue/utils';
+import { assertOrderTransition, isKitchenEligible } from '@pizza-avenue/utils';
 import { orders } from '../data';
 import { getScenarioState } from '../scenarios';
 
 const scenarioStatus = (): OrderStatus => {
   const scenario = getScenarioState().order;
   if (scenario === 'ORDER_PREPARING') return 'PREPARING';
-  if (scenario === 'ORDER_READY') return 'READY';
+  if (scenario === 'ORDER_READY') return 'READY_FOR_PICKUP';
   return 'CONFIRMED';
 };
 
@@ -19,7 +19,7 @@ const scenarioOrders = (): Order[] =>
 function transition(orderId: string, next: OrderStatus) {
   const order = scenarioOrders().find((candidate) => candidate.id === orderId);
   if (!order) return null;
-  assertOrderTransition(order.status, next);
+  assertOrderTransition(order.status, next, order.serviceMode);
   return { ...order, status: next, version: order.version + 1 };
 }
 
@@ -46,13 +46,14 @@ export const orderHandlers = [
   http.post('*/api/v1/orders/:orderId/reorder', () =>
     HttpResponse.json({ cartId: 'cart-reorder-1' }),
   ),
-  http.get('*/api/v1/kds/orders', () =>
-    HttpResponse.json(
-      scenarioOrders().filter((order) =>
-        ['CONFIRMED', 'PREPARING', 'READY'].includes(order.status),
+  http.get('*/api/v1/kds/orders', ({ request }) => {
+    const serviceMode = new URL(request.url).searchParams.get('serviceMode');
+    return HttpResponse.json(
+      scenarioOrders().filter(
+        (order) => isKitchenEligible(order) && (!serviceMode || order.serviceMode === serviceMode),
       ),
-    ),
-  ),
+    );
+  }),
   http.post('*/api/v1/orders/:orderId/preparing', ({ params }) => {
     const order = transition(String(params.orderId), 'PREPARING');
     return order
@@ -63,7 +64,9 @@ export const orderHandlers = [
         );
   }),
   http.post('*/api/v1/orders/:orderId/ready', ({ params }) => {
-    const order = transition(String(params.orderId), 'READY');
+    const source = scenarioOrders().find((candidate) => candidate.id === params.orderId);
+    const next = source?.serviceMode === 'DINE_IN' ? 'READY_TO_SERVE' : 'READY_FOR_PICKUP';
+    const order = transition(String(params.orderId), next);
     return order
       ? HttpResponse.json(order)
       : HttpResponse.json(

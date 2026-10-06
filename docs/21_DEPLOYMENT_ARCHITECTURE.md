@@ -51,7 +51,7 @@ pizzaavenue.<domain>  app.pizzaavenue.<domain>  kds/admin.pizzaavenue.<domain>
         ┌──────────────────────┼──────────────────────┐
         │                      │                      │
         ▼                      ▼                      ▼
- Landing               Customer PWA             KDS UI / Admin UI
+ Landing               Customer PWA             KDS UI / Admin + Waiter UI
  React/Vite            React/Vite               React/Vite
         │                      │                      │
         └──────────────────────┼──────────────────────┘
@@ -297,7 +297,7 @@ Only Caddy should expose public HTTP/HTTPS ports.
 - kitchen UI static build
 
 ## admin
-- founder/admin static build
+- founder/admin static build, including role-protected Waiter and Counter billing routes
 
 ## api
 - NestJS application
@@ -486,7 +486,7 @@ Do not move payment/order truth outside PostgreSQL.
 
 Use Socket.IO or WebSocket for KDS and live order status.
 
-Flow:
+Pickup flow:
 
 ```text
 Verified payment
@@ -502,8 +502,23 @@ Kitchen updates:
 ```text
 CONFIRMED
 → PREPARING
-→ READY
+→ READY_FOR_PICKUP
 ```
+
+Dine-in uses the same transport but a different admission gate:
+
+```text
+customer submits
+→ waiter confirms
+→ order CONFIRMED
+→ outbox/live event
+→ unified KDS
+→ PREPARING
+→ READY_TO_SERVE
+→ waiter marks SERVED
+```
+
+Payment is handled later against the table bill through authorized Admin/Counter controls. Waiter routes remain in the Admin service; no additional public host/container is introduced.
 
 Customer receives mapped live status.
 
@@ -607,7 +622,8 @@ Rules:
 - verify signature
 - deduplicate provider event
 - lock/update payment atomically
-- create exactly one confirmed order
+- for Pickup targets, create/confirm exactly one paid operational order
+- for Dine-in table-bill targets, mark one finalized bill paid and close/process the same table session without creating another order
 - never trust frontend payment success
 
 ---

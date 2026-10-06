@@ -46,26 +46,50 @@
 - signature verified
 - duplicates safe
 - one order only
-- failure never reaches KDS
+- Pickup failure never reaches KDS
 - retry works
 - database uniqueness covers provider event, provider transaction where available and payment idempotency key
-- verified success atomically records payment, confirms one order, consumes capacity and inserts one outbox event
+- verified Pickup success atomically records payment, confirms one order, consumes capacity and inserts one outbox event
+- payment target is explicitly one `ORDER` or `TABLE_BILL`; a Dine-in retry never creates another bill
+- only authorized Admin/Counter can settle Dine-in; Waiter cannot mark paid
 
 ## Order
 - legal state transitions
 - event history
 - customer mapping
-- KDS visibility after paid
+- Pickup KDS visibility after paid; Dine-in KDS visibility only after waiter confirmation
 - payment `SUCCESS` is not treated as an order state; first KDS-visible state is `CONFIRMED`
 
 ## KDS
-- paid orders only
+- paid Pickup and waiter-confirmed Dine-in only
 - readable modifiers
 - pickup target
 - valid actions
 - live update
 - refresh recovers truth
 - reconnect/gap fetches API/database truth; socket events cannot permanently diverge state
+- unified All/Pickup/Dine-in queue and deterministic mode-aware priority
+- Ready for Pickup and Ready to Serve are distinct
+
+## Dine-in Customer
+- general entry offers Pickup/Dine-in; a valid table QR bypasses the selector
+- only an opaque server-resolved token establishes table context; wrong/expired/revoked flows recover safely
+- visible table/status/next action persists across Dine-in screens
+- customer submit creates `CUSTOMER_SUBMITTED` and clearly waits for Waiter; it does not enter KDS
+- clarification/rejection preserves selections and reason; additional rounds repeat the gate
+- customer views bill estimate, calls waiter and requests bill but cannot pay/mark paid
+
+## Waiter
+- role-protected Admin-hosted routes show requests, active tables, Ready-to-Serve, service and bill requests
+- confirmation is idempotent and enqueues one KDS ticket; rejection/clarification require reason/history
+- waiter marks Served but cannot settle payment, apply unrestricted discount/refund or edit loyalty
+
+## Table session and billing
+- multiple devices/customers can share one session without private-account leakage
+- one open bill aggregates accepted/served rounds with immutable references/snapshots
+- bill request disables new customer rounds; pre-finalization reopen is permissioned
+- unresolved order/void work blocks finalization
+- cash acknowledgement or authoritative digital confirmation marks Paid; close occurs once and releases table
 
 ## Counter
 - ready search
@@ -79,6 +103,8 @@
 - duplicate safe
 - refund adjustment
 - correct derived balance
+- Dine-in confirmation/Served alone awards nothing; paid table bill triggers once
+- each authenticated order owner receives only their eligible spend; guest receives none and payer receives no automatic table-wide credit
 
 ## Rewards
 - backend eligibility

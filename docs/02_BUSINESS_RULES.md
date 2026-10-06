@@ -66,10 +66,23 @@ Rules and reservations are store-scoped. A reservation moves `HELD` → `CONSUME
 2. provider flow starts
 3. signed/verified callback received
 4. success recorded exactly once
-5. order confirmed
-6. KDS visibility begins
+5. Pickup order confirmed
+6. Pickup KDS visibility begins
 
-The signed provider webhook, not client success UI, is authoritative. `provider_event_id`, applicable `provider_transaction_id` and request idempotency keys are unique. One duplicate or replayed callback must still yield one payment, one order, one first KDS event, one capacity consumption and one downstream loyalty outcome.
+The signed provider webhook, not client success UI, is authoritative. `provider_event_id`, applicable `provider_transaction_id` and request idempotency keys are unique. One duplicate or replayed callback must still yield one payment, one order, one first KDS event, one capacity consumption and one downstream loyalty outcome. This payment-first gate applies to Pickup. Dine-in uses the waiter gate and settles one table bill after service.
+
+## Dine-in order and table rules
+
+- A valid opaque table QR resolves server-side to a store/table and joins or opens one active table session. A plain table number is never trusted.
+- Customer submission creates `CUSTOMER_SUBMITTED`; it is not kitchen confirmation.
+- Waiter confirmation creates operational `CONFIRMED` and one KDS admission without prior payment.
+- Clarification preserves the request snapshot; rejection includes a reason; waiter edits require reason, audit and customer acknowledgement where appropriate.
+- Every additional round repeats the waiter gate and remains attached to the same open table session and bill.
+- Multiple devices/customers may share the table session without sharing private account details.
+- One open bill exists per table session. A bill request may be recorded while work remains, but finalization is blocked until waiter-review, preparation, Ready-to-Serve and void work is resolved.
+- After `BILL_REQUESTED`, new customer rounds stop unless Waiter/Admin reopens before finalization.
+- Only authorized Admin/Counter/Manager policy can finalize, settle, mark paid, close, void or refund. Waiter cannot record payment.
+- No split/partial bills, seat-level billing or customer pay-at-table in V1.
 
 ## Cancellation
 Recommended baseline:
@@ -88,6 +101,8 @@ Refund requests and provider events are idempotent. A confirmed full or partial 
 ## Loyalty
 Ledger-based.
 Points earn once after `COMPLETED`, which follows verified pickup/handover; they never earn on payment success alone. Refund policy may add a reversing ledger transaction rather than mutating history. If the founder later chooses `PICKED_UP` as the trigger, that change must be recorded consistently before implementation.
+
+For Dine-in, waiter confirmation and Served do not finalize economic benefits. `TABLE_BILL_PAID` evaluates eligible served orders idempotently. Each authenticated ordering customer receives credit only for their own eligible spend; guest orders receive none, and the payer does not inherit the table's full loyalty.
 
 ## Rewards
 Prefer high perceived value, controlled food cost:
@@ -132,7 +147,7 @@ Marketing/reward communication follows preferences/consent.
 
 ## Future external orders
 All provider payloads normalize into internal order schema.
-V1 order sources are `PWA` and `COUNTER`. `POS`, `SWIGGY`, `ZOMATO`, `DISTRICT` and `WHATSAPP_ASSISTED` are reserved future values with nullable external identifiers; their integrations are not implemented in V1.
+V1 order sources are `PWA_PICKUP`, `TABLE_QR`, `WAITER_ASSISTED` and `COUNTER`. `POS`, `SWIGGY`, `ZOMATO`, `DISTRICT` and `WHATSAPP_ASSISTED` are reserved future values with nullable external identifiers; their integrations are not implemented in V1.
 
 ## Transactional events and background work
 - A critical domain change and its `outbox_event` are written in one PostgreSQL transaction.

@@ -8,8 +8,6 @@ const currentPayment = () => ({
     getScenarioState().payment === 'PAYMENT_FAILURE'
       ? ('FAILED' as const)
       : ('SUCCESS' as const),
-  orderId:
-    getScenarioState().payment === 'PAYMENT_FAILURE' ? null : payment.orderId,
 });
 
 export const paymentHandlers = [

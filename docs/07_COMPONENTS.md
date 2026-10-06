@@ -21,7 +21,9 @@ Never auto-add.
 Available / selected / nearly full / unavailable.
 
 ## OrderStatus
-Confirmed / Preparing / Ready / Picked Up.
+Pickup: Confirmed / Preparing / Ready for Pickup / Picked Up.
+
+Dine-in: Waiting for Waiter / Needs Clarification / Accepted / Preparing / Ready to Serve / Served.
 
 On reconnect, fetch current API state; a socket message alone never becomes the rendered source of truth.
 
@@ -35,7 +37,16 @@ Points + next reward + progress.
 Required items + completed + milestones.
 
 ## KDS OrderTicket
-Order no, source, promised time, elapsed, items, modifiers, state action.
+Order no, service mode, promised Pickup time or Dine-in table/round/waiter, elapsed, items, modifiers and state action.
+
+## Dine-in Customer
+`ServiceModeSelector`, `TableQrResolver`, `TableContextBanner`, `DineInOrderReview`, `WaiterConfirmationStatus`, `TableRoundList`, `CurrentTableBill`, `BillRequestAction`, `ServiceRequestAction`.
+
+## Waiter
+`WaiterDashboard`, `OrderRequestCard`, `OrderRequestDetail`, `ActiveTableCard`, `TableSessionDetail`, `ReadyToServeQueue`, `ServiceRequestQueue`, `BillRequestQueue`.
+
+## Admin Billing
+`OpenBillList`, `TableBillDetail`, `LoyaltyAttributionSummary`, `BillFinalizationGuard`, `PaymentMethodControl`, `PaymentOutcome`, `SessionCloseAction`.
 
 ## AvailabilityToggle
 Product/variant/modifier. Must audit.

@@ -1,4 +1,5 @@
 import type { EntityId } from './common';
+import type { ServiceModeAvailability } from './service';
 
 export type StoreState = 'OPEN' | 'BUSY' | 'PAUSED' | 'CLOSED';
 
@@ -9,4 +10,5 @@ export interface Store {
   timezone: string;
   state: StoreState;
   currentPickupEstimateMinutes: number | null;
+  serviceModes: ServiceModeAvailability;
 }

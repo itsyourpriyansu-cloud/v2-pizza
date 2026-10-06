@@ -12,6 +12,9 @@
 - Errors must be recoverable
 - Mobile first
 - Authentication should feel continuous across QR, WhatsApp and PWA without suggesting that QR text itself is secure.
+- Dine-in screens keep the server-resolved table label, current state and next action visible.
+- Customer copy uses “Send Order to Waiter”, “Waiting for waiter confirmation” and “Ready to be served”; internal enum labels stay in staff surfaces.
+- Pickup and Dine-in share foundations, but cart, service and fulfilment context is never hidden or silently converted.
 
 ## Spacing
 Use a consistent 4/8pt scale.

@@ -73,6 +73,8 @@ RBAC foundation.
 - name
 - timezone
 - state
+- pickup_ordering_enabled
+- dine_in_ordering_enabled
 
 ### store_hours
 - weekday
@@ -121,6 +123,8 @@ product/variant/group/modifier mapping to prevent impossible combinations
 ### availability_overrides
 entity_type, entity_id, unavailable_until, reason
 
+Optional `scope`: `GLOBAL`, `PICKUP`, `DINE_IN`. One catalog remains authoritative.
+
 ## Cart
 ### carts
 customer/session, store, status, expiry
@@ -137,10 +141,13 @@ modifier, quantity
 - public order number
 - customer
 - store
-- order_source (`PWA`, `COUNTER`; reserved future values: `POS`, `SWIGGY`, `ZOMATO`, `DISTRICT`, `WHATSAPP_ASSISTED`)
+- service_mode (`PICKUP`, `DINE_IN`)
+- order_source (`PWA_PICKUP`, `TABLE_QR`, `WAITER_ASSISTED`, `COUNTER`; reserved future values: `POS`, `SWIGGY`, `ZOMATO`, `DISTRICT`, `WHATSAPP_ASSISTED`)
 - state
-- pickup type
-- promised_ready_at
+- customer nullable for guest Dine-in
+- pickup type / promised_ready_at nullable outside Pickup
+- table_session_id / table_id / round_number nullable outside Dine-in
+- waiter_confirmed_at / served_at nullable
 - subtotal
 - discount
 - tax
@@ -168,7 +175,7 @@ Append-only state history.
 
 ## Payments
 ### payment_attempts
-provider, reference, amount, status, idempotency_key (unique within operation/provider scope)
+provider, reference, amount, status, method, payment_target_type (`ORDER`, `TABLE_BILL`), payment_target_id, idempotency_key (unique within operation/provider scope)
 
 ### payment_transactions
 verified provider transaction; `provider_transaction_id` unique where supplied
@@ -182,6 +189,30 @@ provider, provider_event_id, event type, authenticity result, payload reference/
 ## Pickup
 ### handover_events
 order, staff, verification method, timestamp
+
+## Dine-in
+
+### restaurant_tables
+store, display label, operational status, active_session_id nullable. Table labels are display data; trusted context comes from an opaque active QR token.
+
+### table_qr_tokens
+hashed/opaque token identity, store, table, active/revoked/expiry metadata. Never trust a plain `table=12` query.
+
+### table_sessions
+store, table, status, primary_customer nullable, assigned_waiter nullable, opened/last_activity/bill_requested/finalized/paid/closed/expiry timestamps, optimistic version. Multiple devices/customers may join one session without sharing account data.
+
+Statuses: `OPEN`, `ACTIVE`, `BILL_REQUESTED`, `PAYMENT_PENDING`, `PAID`, `CLOSED`, `EXPIRED`, `CANCELLED`.
+
+### dine_in_bills
+One open bill per table session. Status, integer-paise subtotal/tax/service charge/discount/reward/grand total, finalization/payment/close timestamps, optimistic version.
+
+Statuses: `OPEN`, `BILL_REQUESTED`, `FINALIZED`, `PAYMENT_PENDING`, `PAID`, `VOID`.
+
+### dine_in_bill_lines
+Reference order/order item plus immutable name, quantity, unit-price, modifier, tax, line-total and void snapshots. This is a settlement projection, not a second unrelated commerce truth.
+
+### service_requests
+table session, type (`CALL_WAITER`, `REQUEST_BILL`), status (`OPEN`, `ACKNOWLEDGED`, `RESOLVED`, `CANCELLED`), timestamps. Enforce one active equivalent request to prevent spam.
 
 ## Loyalty
 ### loyalty_accounts
@@ -272,3 +303,7 @@ event, user/session/order, properties, timestamp
 11. Prisma migrations and database constraints enforce identity, provider-event, transaction, outbox-consumer and Passport idempotency.
 12. Provider payloads stay in integration boundaries and are redacted/encrypted according to retention policy; core models receive normalized fields only.
 13. PostgreSQL is the source of truth. Redis/BullMQ holds short-lived queue/rate-limit state, never the sole copy of critical commerce state.
+
+## Migration requirement
+
+When the real NestJS/Prisma backend is introduced, a reviewed migration must add tables, opaque table-token mapping, table sessions, Dine-in bills/lines, service requests, mode-specific order fields and normalized payment targets. Required constraints include one open session per table, one open bill per session, unique idempotency/domain-event keys and conditional uniqueness for external/payment references. No migration is generated in the frontend-only repository because no backend schema/runtime exists yet.

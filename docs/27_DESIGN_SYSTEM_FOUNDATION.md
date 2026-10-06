@@ -458,7 +458,7 @@ These prioritize price, availability, modifier clarity, pickup promise and a sin
 - primarily Poppins, with Phudu limited to large ticket numbers, timers or headings,
 - large controls and numbers,
 - high information contrast,
-- paid/confirmed operational truth only,
+- mode-eligible operational truth only: paid Pickup or waiter-confirmed Dine-in,
 - no decorative imagery in the primary queue,
 - state and time never rely on colour alone.
 
@@ -517,7 +517,7 @@ The current repository and legacy `pizza_wave_v1` implementation were audited. �
 | `ModifierGroupControl` | legacy product feature | Yes | No | Reuse selection semantics after matching current types/rules |
 | Customer bottom navigation | legacy Customer layout | Partial | No | Reuse navigation behaviour only; remove delivery/Puri/Wave assumptions |
 | Fulfilment sheet | legacy Customer components | Partial | No | Reuse sheet/radio pattern only; remove delivery completely for V1 |
-| KDS queue/ticket/action patterns | legacy KDS pages | Partial | No | Reuse scanning/action lessons; align to canonical `CONFIRMED → PREPARING → READY` |
+| KDS queue/ticket/action patterns | legacy KDS pages | Partial | No | Reuse scanning/action lessons; align to `CONFIRMED → PREPARING → READY_FOR_PICKUP/READY_TO_SERVE` |
 | KDS temporary availability pattern | legacy KDS availability page | Partial | No | Reuse search/duration interaction after permission/API review |
 | Checkout progress | legacy Customer checkout | Partial | No | Reuse step clarity; remove delivery/address/PhonePe assumptions |
 | Pizza Wave food images | legacy `public/assets` | Partial | Partial | Use curated candidates only; validate content/provenance and optimize |
@@ -545,7 +545,7 @@ Avoid:
 - logo invention,
 - using Reference 02/04 colours,
 - copying the old Pizza Wave palette, layout or brand system beyond the explicitly approved typography and curated image candidates,
-- carrying delivery or Puri assumptions into pickup-only Sainikpuri V1.
+- carrying delivery or Puri assumptions into Pickup/Dine-in Sainikpuri V1.
 
 ## 25. Open Design Questions
 

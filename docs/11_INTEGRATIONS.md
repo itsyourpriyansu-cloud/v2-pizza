@@ -12,7 +12,7 @@ Internal methods:
 
 Core order domain must not understand provider-specific payloads.
 
-The payment webhook is authoritative. After signature verification and `provider_event_id` deduplication, a database transaction records payment success, confirms one order, consumes the pickup hold and inserts one outbox event. Unique provider transaction/idempotency keys prevent a duplicate callback from creating duplicate operational effects.
+The payment webhook is authoritative for integrated methods. After signature verification and `provider_event_id` deduplication, a Pickup-target transaction records success, confirms one order, consumes the pickup hold and inserts one outbox event. A Dine-in table-bill target records the finalized bill paid and inserts session-close/downstream events; it does not create another order. Unique provider transaction/idempotency keys prevent duplicate operational effects.
 
 ## MessagingProvider interface
 - `sendTransactional`
@@ -74,6 +74,8 @@ Store raw payloads only when necessary and allowed, with access control, redacti
 
 ## Transactional outbox and jobs
 Domain writes and outbox inserts are atomic in PostgreSQL. An event processor publishes retryable work to BullMQ for WhatsApp/provider calls, loyalty/Passport consumers, analytics forwarding, reports, magic-token cleanup and abandoned-reservation cleanup. Redis queue data accelerates work but PostgreSQL outbox/domain records remain recoverable truth. Consumers use event/aggregate uniqueness to make retries harmless.
+
+Dine-in uses the same pattern. Waiter confirmation emits one kitchen-admission event; `TABLE_BILL_PAID` and `TABLE_SESSION_CLOSED` drive per-order-owner loyalty, Passport, missions, XP, analytics, receipt and notifications. A payer identity is never substituted for each order's authenticated owner.
 
 ## Secrets
 - no secrets in source

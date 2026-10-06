@@ -9,6 +9,7 @@ export function CustomerLayout() {
         <>
           <Link to="/">Home</Link>
           <Link to="/menu">Menu</Link>
+          <Link to="/dine-in">Dine In</Link>
           <Link to="/orders">Orders</Link>
           <Link to="/rewards">Rewards</Link>
           <Link to="/profile">Profile</Link>

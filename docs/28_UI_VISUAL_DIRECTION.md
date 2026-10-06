@@ -89,7 +89,7 @@ The Customer application should feel related but more direct:
 - Cream/Sand surfaces with Espresso information hierarchy,
 - Poppins for scanning, prices, controls and checkout,
 - Phudu reserved for strong category, product or story moments,
-- visible price, availability, pickup promise and next action,
+- visible price, availability, service-mode context, Pickup promise or Dine-in table/status, and next action,
 - restrained product cards rather than decorative card stacks,
 - consistent modifiers, quantities, validation and order-state feedback,
 - mobile-first navigation with safe areas and accessible touch targets.
@@ -161,7 +161,7 @@ The following order is **EXPLORATORY** and may change after copy and content val
 1. Utility notice, only when genuinely useful.
 2. Header with location/store context and one primary ordering action.
 3. Hero: short promise, signature food image and `Order pickup` action.
-4. Immediate proof: pickup-first convenience, fresh preparation and direct-order value.
+4. Immediate proof: direct Pickup/Dine-in convenience, fresh preparation and direct-order value.
 5. Menu/category discovery.
 6. Signature pizza feature.
 7. Sides or add-on feature supporting AOV.
