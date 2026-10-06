@@ -1,6 +1,14 @@
 # 10 — API Contracts
 
-Base path: `/api/v1`
+Production base URL: `https://api.pizzaavenue.<domain>/api/v1`
+
+Frontend applications configure this through the public `VITE_API_BASE_URL` environment variable. Local development uses `http://localhost:3000/api/v1`; MSW continues to intercept the same `/api/v1` path shape. Feature components must not hardcode deployment URLs.
+
+## Browser origin and cookie contract
+
+The future cookie-authenticated API permits only explicit HTTPS origins: `https://pizzaavenue.<domain>`, `https://app.pizzaavenue.<domain>`, `https://kds.pizzaavenue.<domain>` and `https://admin.pizzaavenue.<domain>`, with the corresponding staging hosts configured separately. Credentialed responses never use `Access-Control-Allow-Origin: *`.
+
+The intended production session model is a `Secure`, `HttpOnly`, `SameSite=Lax` cookie scoped to `.pizzaavenue.<domain>` when the finalized backend/domain policy requires cross-subdomain session sharing. Cookies remain inaccessible to JavaScript; state-changing requests retain CSRF protection and strict origin validation.
 
 ## Standard error
 ```json
@@ -34,7 +42,7 @@ Provider-facing endpoint. Verify authenticity before processing; persist/dedupli
 Request: one-time token (prefer request body to reduce URL/log leakage after the landing page removes it from browser history)
 Response: customer summary; sets rotated `Secure`, `HttpOnly` session cookie
 
-Rules: hash lookup, constant-time comparison where applicable, short expiry, single use, atomic `used_at` + session creation, generic `MAGIC_LINK_INVALID_OR_EXPIRED` on invalid/expired/used tokens.
+Rules: the WhatsApp continuation lands on `https://app.pizzaavenue.<domain>/auth/magic?token=...`; the landing page removes the token from browser history before this endpoint is called. Perform hash lookup, constant-time comparison where applicable, short expiry, single use, atomic `used_at` + session creation, and return generic `MAGIC_LINK_INVALID_OR_EXPIRED` on invalid/expired/used tokens.
 
 ### POST /auth/logout
 Revokes the current server-side session and clears its cookie.

@@ -71,6 +71,9 @@ importers:
       '@pizza-avenue/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
+      '@pizza-avenue/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@pizza-avenue/mocks':
         specifier: workspace:*
         version: link:../../packages/mocks
@@ -98,6 +101,9 @@ importers:
       '@pizza-avenue/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
+      '@pizza-avenue/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@pizza-avenue/mocks':
         specifier: workspace:*
         version: link:../../packages/mocks
@@ -137,6 +143,9 @@ importers:
       '@pizza-avenue/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
+      '@pizza-avenue/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@pizza-avenue/mocks':
         specifier: workspace:*
         version: link:../../packages/mocks
@@ -159,6 +168,18 @@ importers:
         specifier: 7.18.4
         version: 7.18.4(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
 
+  apps/landing:
+    dependencies:
+      '@pizza-avenue/config':
+        specifier: workspace:*
+        version: link:../../packages/config
+      react:
+        specifier: 19.3.0
+        version: 19.3.0
+      react-dom:
+        specifier: 19.3.0
+        version: 19.3.0(react@19.3.0)
+
   packages/api-client:
     dependencies:
       '@pizza-avenue/types':
@@ -168,6 +189,8 @@ importers:
       '@pizza-avenue/mocks':
         specifier: workspace:*
         version: link:../mocks
+
+  packages/config: {}
 
   packages/mocks:
     dependencies:

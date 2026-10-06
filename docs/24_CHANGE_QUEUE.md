@@ -103,13 +103,13 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0003
+Next Change ID: CHG-0004
 
 Open:
-2
+3
 
 In Progress:
-0
+1
 
 Blocked:
 0
@@ -518,6 +518,194 @@ In review in Pull Request #6. The three applications boot, all requested routes 
 ### Related Changes
 
 - CHG-0001
+
+---
+
+## CHG-0003 — Domain Routing Freeze — Root Landing + App Subdomains
+
+- **Status:** IN_PROGRESS
+- **Type:** INFRA, REFACTOR, DOCUMENTATION, DECISION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-06
+
+### Business Reason
+
+Separate the public marketing surface from customer and operational applications so the root domain can serve landing/SEO needs while Customer, KDS, Admin and API have clear deployment, security and routing boundaries.
+
+### Requested Outcome
+
+Reserve `pizzaavenue.<domain>` for a minimal landing surface; move Customer, KDS, Admin and API to `app`, `kds`, `admin` and `api` subdomains respectively; remove redundant KDS/Admin internal path namespaces; and document future cookie, CORS, QR/magic-link, DNS and SPA-routing behavior.
+
+### Scope
+
+Included:
+- minimal Landing application shell and local-development configuration,
+- shared environment-derived surface/API URL configuration,
+- KDS/Admin root-relative routing and route-test updates,
+- per-app environment examples and local port documentation,
+- deployment/domain, CORS, cookie, DNS, magic-link and SPA fallback documentation.
+
+Excluded:
+- final landing-page design or content,
+- backend, session, CORS, DNS, Cloudflare, Docker or Caddy deployment implementation,
+- real WhatsApp, payment or authentication integration,
+- staging or production deployment.
+
+### GitHub Tracking
+
+Issue:
+- #7 — Domain Routing Freeze — Root Landing + App Subdomains
+
+Branch:
+- `feature/domain-routing-freeze` (stacked on the unmerged Stage 1 frontend foundation)
+
+Pull Request:
+- Pending
+
+### Affected Surfaces
+
+- Landing
+- Customer PWA
+- Kitchen/KDS
+- Founder/Admin
+- Infrastructure documentation
+
+### Affected Modules
+
+- `apps/landing`
+- `apps/customer`
+- `apps/kds`
+- `apps/admin`
+- `packages/config`
+- deployment and routing documentation
+
+### Files / Areas Changed
+
+- `apps/landing` minimal React/Vite architecture shell and local environment example.
+- `apps/customer`, `apps/kds` and `apps/admin` environment examples, URL bootstrap configuration and Vite port configuration.
+- KDS and Admin React Router paths/tests.
+- `packages/config` shared public surface/API URL resolver.
+- `compose.yaml`, `Dockerfile.frontend`, `.dockerignore` and `infra/caddy`/`infra/docker` deployment configuration for existing frontend services.
+- root workspace scripts, lockfile and local-environment guidance.
+- `README.md`, `docs/04_USER_FLOWS.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/10_API_CONTRACTS.md`, `docs/15_BUILD_PLAN.md`, `docs/16_DECISIONS.md`, `docs/17_CHANGELOG.md`, `docs/21_DEPLOYMENT_ARCHITECTURE.md` and this queue entry.
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New endpoints:
+- None
+
+Changed endpoints:
+- None; frontend API base configuration remains `/api/v1`-compatible.
+
+Breaking change:
+- No production API exists. KDS/Admin browser route prefixes change before public launch.
+
+### State Machine Impact
+
+- None.
+
+### Permission Impact
+
+- No permission implementation change. Documentation will preserve future cookie-session, CSRF and credentialed CORS requirements.
+
+### Analytics Impact
+
+- None in this routing shell. Landing acquisition instrumentation remains future work.
+
+### Environment / Secret Impact
+
+New public, non-secret Vite configuration may include:
+- `VITE_API_BASE_URL`
+- `VITE_LANDING_URL`
+- `VITE_CUSTOMER_APP_URL`
+- `VITE_KDS_URL`
+- `VITE_ADMIN_URL`
+
+### Documentation Updated
+
+- `README.md`
+- `docs/04_USER_FLOWS.md`
+- `docs/05_INFORMATION_ARCHITECTURE.md`
+- `docs/10_API_CONTRACTS.md`
+- `docs/15_BUILD_PLAN.md`
+- `docs/16_DECISIONS.md` (DEC-024)
+- `docs/17_CHANGELOG.md`
+- `docs/21_DEPLOYMENT_ARCHITECTURE.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Unit/component route tests — Landing CTA and root-relative KDS/Admin route matching; 37 tests pass in 6 files.
+- [x] Workspace lint — passed with zero warnings.
+- [x] Workspace typecheck — passed across all 11 workspace projects.
+- [x] Workspace test suite — 6 files, 37 tests passed.
+- [x] Workspace production builds — Landing, Customer, KDS and Admin passed.
+- [x] Manual local route smoke checks — HTTP 200 for Landing `/`; Customer `/`, `/menu`, `/cart`, `/orders/example`; KDS `/`, `/orders`; Admin `/`, `/menu`.
+- [x] Docker Compose configuration — `docker compose --env-file infra/docker/.env.example config` passed.
+- [ ] Docker image build — not run because Docker Desktop's Linux daemon is unavailable on this machine.
+- [ ] Staging — not deployed
+- [ ] Production smoke test — not released
+
+### Edge Cases
+
+- Direct SPA navigation/reload for nested Customer, KDS and Admin routes.
+- MSW must intercept the configured cross-origin or same-origin `/api/v1` API base.
+- Future credentialed API calls must not rely on wildcard CORS.
+- QR/WhatsApp magic links must target Customer, never the marketing root domain.
+
+### Security Review
+
+- Auth implications: no session is implemented; document the intended parent-domain, `Secure`, `HttpOnly`, `SameSite=Lax` model for a future backend.
+- RBAC implications: none; route relocation is not authorization.
+- Secret/PII implications: Vite files contain public URLs only, never session or provider secrets.
+- Replay/idempotency implications: none.
+
+### Staging Result
+
+Status:
+- Not Tested — no staging environment is configured or deployed
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- This branch is intentionally stacked on unmerged PR #6; it must be rebased or retargeted after that foundation merges.
+- API, worker, PostgreSQL and Redis are intentionally absent from the current Compose file until their real runtimes exist.
+- Docker Desktop's Linux daemon is currently unavailable, so image construction and Caddy runtime validation remain pending.
+
+### Follow-Up
+
+- [x] Create GitHub Issue #7.
+- [ ] Push branch and open a stacked Pull Request against `feature/frontend-stage-1-foundation`.
+- [ ] Build and run the frontend Compose stack on a host with Docker's Linux daemon, then validate Caddy routes and TLS.
+- [ ] Configure Cloudflare DNS, TLS Full (strict), secrets and credentialed CORS only during infrastructure rollout.
+
+### Final Result
+
+Implementation complete locally and awaiting an Issue/PR/review. The root domain is reserved by a neutral Landing shell; Customer, KDS and Admin receive dedicated local ports and production/staging URL configuration; KDS/Admin no longer include their subdomain namespaces in browser routes. Compose/Caddy configuration is present for the existing static frontend services, while API/backend runtime services remain intentionally absent. No DNS, Cloudflare, staging or production action occurred.
+
+### Related Changes
+
+- CHG-0002
 
 ---
 
