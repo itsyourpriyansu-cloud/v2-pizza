@@ -430,7 +430,7 @@ Landing-specific compositions may include:
 - `LargeCTA`,
 - `BrandFooter`.
 
-These belong to the Landing application composition layer. A Landing Hero must not become a KDS shared component.
+These belong to the `apps/landing` composition layer frozen by DEC-024. A Landing Hero must not become a Customer, KDS or Admin shared component.
 
 ## 20. Customer App Components
 
@@ -554,7 +554,6 @@ Avoid:
 - Which Pizza Wave candidate images have acceptable provenance and founder approval?
 - Which menu items and prices from Reference 03 are accurate production truth?
 - What real store photography, staff photography and Sainikpuri exterior/interior imagery is available?
-- Should the Landing be a new `apps/landing` deployment or an expressive route within Customer? This requires architecture/product approval before implementation.
 - Which semantic utility colours will represent success, warning, danger and information while preserving accessibility?
 - How much handwritten accent or line art survives the first high-fidelity exploration?
 - Which Landing sections are essential for the first release versus later content?

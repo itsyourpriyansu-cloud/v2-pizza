@@ -9,15 +9,15 @@ import {
 
 function AdminLayout() {
   const links = [
-    ['Orders', '/admin/orders'],
-    ['Menu', '/admin/menu'],
-    ['Availability', '/admin/availability'],
-    ['Pickup', '/admin/pickup'],
-    ['Loyalty', '/admin/loyalty'],
-    ['Passport', '/admin/passport'],
-    ['Analytics', '/admin/analytics'],
-    ['Staff', '/admin/staff'],
-    ['Settings', '/admin/settings'],
+    ['Orders', '/orders'],
+    ['Menu', '/menu'],
+    ['Availability', '/availability'],
+    ['Pickup', '/pickup'],
+    ['Loyalty', '/loyalty'],
+    ['Passport', '/passport'],
+    ['Analytics', '/analytics'],
+    ['Staff', '/staff'],
+    ['Settings', '/settings'],
   ] as const;
   return (
     <AppShell
@@ -35,7 +35,7 @@ const placeholder = (title: string) => <RoutePlaceholder title={title} />;
 
 export const adminRoutes: RouteObject[] = [
   {
-    path: '/admin',
+    path: '/',
     element: <AdminLayout />,
     errorElement: <RouteError />,
     children: [
@@ -57,6 +57,6 @@ export const adminRoutes: RouteObject[] = [
 
 export const adminRouter = createBrowserRouter(adminRoutes);
 
-export function createAdminMemoryRouter(initialEntries: string[] = ['/admin']) {
+export function createAdminMemoryRouter(initialEntries: string[] = ['/']) {
   return createMemoryRouter(adminRoutes, { initialEntries });
 }

@@ -17,9 +17,9 @@ function KdsLayout() {
       title="Pizza Avenue — KDS Foundation"
       navigation={
         <>
-          <Link to="/kds">KDS</Link>
-          <Link to="/kds/orders">Orders</Link>
-          <Link to="/kds/login">Login</Link>
+          <Link to="/">KDS</Link>
+          <Link to="/orders">Orders</Link>
+          <Link to="/login">Login</Link>
         </>
       }
     >
@@ -40,7 +40,7 @@ function KdsOrdersPage() {
       <ul>
         {ordersQuery.data.map((order) => (
           <li key={order.id}>
-            <Link to={`/kds/orders/${order.id}`}>{order.publicNumber}</Link> — {order.status}
+            <Link to={`/orders/${order.id}`}>{order.publicNumber}</Link> — {order.status}
           </li>
         ))}
       </ul>
@@ -55,7 +55,7 @@ function KdsOrderDetailPage() {
 
 export const kdsRoutes: RouteObject[] = [
   {
-    path: '/kds',
+    path: '/',
     element: <KdsLayout />,
     errorElement: <RouteError />,
     children: [
@@ -70,6 +70,6 @@ export const kdsRoutes: RouteObject[] = [
 
 export const kdsRouter = createBrowserRouter(kdsRoutes);
 
-export function createKdsMemoryRouter(initialEntries: string[] = ['/kds']) {
+export function createKdsMemoryRouter(initialEntries: string[] = ['/']) {
   return createMemoryRouter(kdsRoutes, { initialEntries });
 }

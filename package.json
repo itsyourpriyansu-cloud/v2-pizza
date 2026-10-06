@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "pnpm --parallel -r --if-present dev",
+    "dev:landing": "pnpm --filter @pizza-avenue/landing dev",
     "dev:customer": "pnpm --filter @pizza-avenue/customer dev",
     "dev:kds": "pnpm --filter @pizza-avenue/kds dev",
     "dev:admin": "pnpm --filter @pizza-avenue/admin dev",

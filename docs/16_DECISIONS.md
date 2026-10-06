@@ -70,7 +70,10 @@ Payment success is a Payment state, not an Order state. A verified provider even
 ## DEC-023 Integer-Paise Money Contracts
 All frontend/backend JSON money contracts represent `amount` as a safe integer count of paise with `currency: 'INR'`. For example, ₹349.00 is `{ "amount": 34900, "currency": "INR" }`. UI formatting may render rupees, but client arithmetic and provisional display values never become authoritative pricing; the backend remains responsible for validation and final totals.
 
-## DEC-024 Pizza Avenue Brand Foundation
+## DEC-024 Domain Routing Freeze
+The root `pizzaavenue.<domain>` host serves only the public Landing/Marketing surface. Customer PWA, KDS, Founder/Admin and NestJS API are independently hosted at `app.pizzaavenue.<domain>`, `kds.pizzaavenue.<domain>`, `admin.pizzaavenue.<domain>` and `api.pizzaavenue.<domain>/api/v1`. KDS and Admin routes are root-relative within their own hosts, avoiding redundant `/kds` and `/admin` URL prefixes. This separation keeps marketing/SEO, customer ordering, operations and API security boundaries clear while retaining one VPS/Caddy deployment topology.
+
+## DEC-025 Pizza Avenue Brand Foundation
 The official brand palette is Cream `#FDF6E9`, Sand Beige `#EADCC8`, Maroon `#6B1F1F`, Italian Brown `#8C4A2F`, Olive Green `#556B2F`, Sage Green `#A7B58B` and Espresso `#3B2F2A`. Phudu is the display/heading family and Poppins is the body/functional UI family, matching the verified primary Pizza Wave application typography. The unrelated bakery experiment's Lilita One/Outfit pair is not adopted. The visual identity is warm craft, modern neighbourhood pizzeria and confident food-led digital convenience. Landing and application compositions stay separate while sharing foundations and neutral primitives. No logo, mark or legacy Pizza Wave identity may be assumed until an approved Pizza Avenue logo is supplied.
 
 ## Pending founder decisions

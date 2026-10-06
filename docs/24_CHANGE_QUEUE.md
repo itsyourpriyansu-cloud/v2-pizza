@@ -103,10 +103,10 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0004
+Next Change ID: CHG-0005
 
 Open:
-3
+4
 
 In Progress:
 0
@@ -318,12 +318,12 @@ In review. Governance consistency work and staged-content security checks passed
 
 ## CHG-0002 — Frontend Stage 1 Architecture Foundation
 
-- **Status:** IN_REVIEW
+- **Status:** STAGING
 - **Type:** FEATURE, REFACTOR, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-05
-- **Last Updated:** 2026-10-05
+- **Last Updated:** 2026-10-06
 
 ### Business Reason
 
@@ -485,7 +485,7 @@ Changed secrets:
 ### Staging Result
 
 Status:
-- Not Tested — no staging deployment performed
+- Not Tested — merged into `develop` through PR #6 on 2026-10-06; no staging environment or deployment evidence is available.
 
 ### Production Result
 
@@ -507,13 +507,13 @@ Deployment date:
 
 ### Follow-Up
 
-- [x] Open Pull Request #6 into `develop` after all required checks passed.
-- [ ] Obtain review before merge.
+- [x] Merge Pull Request #6 into `develop` after required CI passed.
+- [ ] Deploy and validate staging when that environment exists.
 - [ ] Define the design system and implement the high-fidelity Customer PWA in the next task only.
 
 ### Final Result
 
-In review in Pull Request #6. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks pass. No backend, database, provider, real authentication, deployment or final design system was created. No staging or production deployment occurred.
+Merged into `develop` through PR #6 at `fef19a37c1e080fb46e2722b2b00b2bbf7ecec67`. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks passed before merge. No backend, database, provider, real authentication, deployment or final design system was created. No staging or production deployment occurred.
 
 ### Related Changes
 
@@ -521,10 +521,200 @@ In review in Pull Request #6. The three applications boot, all requested routes 
 
 ---
 
-## CHG-0003 — Design System Foundation — Pizza Avenue
+## CHG-0003 — Domain Routing Freeze — Root Landing + App Subdomains
+
+- **Status:** STAGING
+- **Type:** INFRA, REFACTOR, DOCUMENTATION, DECISION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-06
+
+### Business Reason
+
+Separate the public marketing surface from customer and operational applications so the root domain can serve landing/SEO needs while Customer, KDS, Admin and API have clear deployment, security and routing boundaries.
+
+### Requested Outcome
+
+Reserve `pizzaavenue.<domain>` for a minimal landing surface; move Customer, KDS, Admin and API to `app`, `kds`, `admin` and `api` subdomains respectively; remove redundant KDS/Admin internal path namespaces; and document future cookie, CORS, QR/magic-link, DNS and SPA-routing behavior.
+
+### Scope
+
+Included:
+- minimal Landing application shell and local-development configuration,
+- shared environment-derived surface/API URL configuration,
+- KDS/Admin root-relative routing and route-test updates,
+- per-app environment examples and local port documentation,
+- deployment/domain, CORS, cookie, DNS, magic-link and SPA fallback documentation.
+
+Excluded:
+- final landing-page design or content,
+- backend, session, CORS, DNS, Cloudflare, Docker or Caddy deployment implementation,
+- real WhatsApp, payment or authentication integration,
+- staging or production deployment.
+
+### GitHub Tracking
+
+Issue:
+- #7 — Domain Routing Freeze — Root Landing + App Subdomains
+
+Branch:
+- `feature/domain-routing-freeze`
+
+Pull Request:
+- #8 — merged into `develop` after Pull Request #6
+
+### Affected Surfaces
+
+- Landing
+- Customer PWA
+- Kitchen/KDS
+- Founder/Admin
+- Infrastructure documentation
+
+### Affected Modules
+
+- `apps/landing`
+- `apps/customer`
+- `apps/kds`
+- `apps/admin`
+- `packages/config`
+- deployment and routing documentation
+
+### Files / Areas Changed
+
+- `apps/landing` minimal React/Vite architecture shell and local environment example.
+- `apps/customer`, `apps/kds` and `apps/admin` environment examples, URL bootstrap configuration and Vite port configuration.
+- KDS and Admin React Router paths/tests.
+- `packages/config` shared public surface/API URL resolver.
+- `compose.yaml`, `Dockerfile.frontend`, `.dockerignore` and `infra/caddy`/`infra/docker` deployment configuration for existing frontend services.
+- root workspace scripts, lockfile and local-environment guidance.
+- `README.md`, `docs/04_USER_FLOWS.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/10_API_CONTRACTS.md`, `docs/15_BUILD_PLAN.md`, `docs/16_DECISIONS.md`, `docs/17_CHANGELOG.md`, `docs/21_DEPLOYMENT_ARCHITECTURE.md` and this queue entry.
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New endpoints:
+- None
+
+Changed endpoints:
+- None; frontend API base configuration remains `/api/v1`-compatible.
+
+Breaking change:
+- No production API exists. KDS/Admin browser route prefixes change before public launch.
+
+### State Machine Impact
+
+- None.
+
+### Permission Impact
+
+- No permission implementation change. Documentation will preserve future cookie-session, CSRF and credentialed CORS requirements.
+
+### Analytics Impact
+
+- None in this routing shell. Landing acquisition instrumentation remains future work.
+
+### Environment / Secret Impact
+
+New public, non-secret Vite configuration may include:
+- `VITE_API_BASE_URL`
+- `VITE_LANDING_URL`
+- `VITE_CUSTOMER_APP_URL`
+- `VITE_KDS_URL`
+- `VITE_ADMIN_URL`
+
+### Documentation Updated
+
+- `README.md`
+- `docs/04_USER_FLOWS.md`
+- `docs/05_INFORMATION_ARCHITECTURE.md`
+- `docs/10_API_CONTRACTS.md`
+- `docs/15_BUILD_PLAN.md`
+- `docs/16_DECISIONS.md` (DEC-024)
+- `docs/17_CHANGELOG.md`
+- `docs/21_DEPLOYMENT_ARCHITECTURE.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Unit/component route tests — Landing CTA and root-relative KDS/Admin route matching; 37 tests pass in 6 files.
+- [x] Workspace lint — passed with zero warnings.
+- [x] Workspace typecheck — passed across all 11 workspace projects.
+- [x] Workspace test suite — 6 files, 37 tests passed.
+- [x] Workspace production builds — Landing, Customer, KDS and Admin passed.
+- [x] Manual local route smoke checks — HTTP 200 for Landing `/`; Customer `/`, `/menu`, `/cart`, `/orders/example`; KDS `/`, `/orders`; Admin `/`, `/menu`.
+- [x] Docker Compose configuration — `docker compose --env-file infra/docker/.env.example config` passed.
+- [ ] Docker image build — not run because Docker Desktop's Linux daemon is unavailable on this machine.
+- [x] GitHub Actions `frontend-foundation` for PR #8 — passed.
+- [ ] Staging — not deployed
+- [ ] Production smoke test — not released
+
+### Edge Cases
+
+- Direct SPA navigation/reload for nested Customer, KDS and Admin routes.
+- MSW must intercept the configured cross-origin or same-origin `/api/v1` API base.
+- Future credentialed API calls must not rely on wildcard CORS.
+- QR/WhatsApp magic links must target Customer, never the marketing root domain.
+
+### Security Review
+
+- Auth implications: no session is implemented; document the intended parent-domain, `Secure`, `HttpOnly`, `SameSite=Lax` model for a future backend.
+- RBAC implications: none; route relocation is not authorization.
+- Secret/PII implications: Vite files contain public URLs only, never session or provider secrets.
+- Replay/idempotency implications: none.
+
+### Staging Result
+
+Status:
+- Not Tested — merged into `develop`; no staging environment or deployment evidence is available.
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- API, worker, PostgreSQL and Redis are intentionally absent from the current Compose file until their real runtimes exist.
+- Docker Desktop's Linux daemon is currently unavailable, so image construction and Caddy runtime validation remain pending.
+
+### Follow-Up
+
+- [x] Create GitHub Issue #7.
+- [x] Push branch and open stacked Pull Request #8 against `feature/frontend-stage-1-foundation`.
+- [x] Rebase and retarget Pull Request #8 to `develop` after PR #6 merged, with no conflicts.
+- [ ] Deploy and validate staging when that environment exists.
+- [ ] Build and run the frontend Compose stack on a host with Docker's Linux daemon, then validate Caddy routes and TLS.
+- [ ] Configure Cloudflare DNS, TLS Full (strict), secrets and credentialed CORS only during infrastructure rollout.
+
+### Final Result
+
+Merged into `develop` through PR #8 after its dependency, PR #6, merged first. The root domain is reserved by a neutral Landing shell; Customer, KDS and Admin receive dedicated local ports and production/staging URL configuration; KDS/Admin no longer include their subdomain namespaces in browser routes. Compose/Caddy configuration is present for the existing static frontend services, while API/backend runtime services remain intentionally absent. No DNS, Cloudflare, staging or production action occurred.
+
+### Related Changes
+
+- CHG-0002
+
+---
+
+## CHG-0004 — Design System Foundation — Pizza Avenue
 
 - **Status:** IN_REVIEW
-- **Type:** DOCUMENTATION, UX
+- **Type:** DOCUMENTATION, UX, DECISION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-06
@@ -569,7 +759,7 @@ Branch:
 - `docs/design-system-foundation`
 
 Pull Request:
-- #10 — open against `feature/frontend-stage-1-foundation`; retarget to `develop` after Pull Request #6 merges
+- #10 — synchronized with and retargeted to `develop` after Pull Requests #6 and #8 merged
 
 ### Affected Surfaces
 
@@ -658,17 +848,17 @@ Changed secrets:
 - [x] Asset filename/hash inventory — six unique Pizza Wave candidates
 - [x] Repository lint — passed
 - [x] Repository typecheck — passed
-- [x] Repository tests — 5 files, 27 tests passed
-- [x] Repository builds — Customer, KDS and Admin passed
-- [ ] Staging — not part of this task
-- [ ] Production smoke test — not part of this task
+- [x] Repository tests — 6 files, 37 tests passed after synchronization with `develop`
+- [x] Repository builds — Landing, Customer, KDS and Admin passed after synchronization with `develop`
+- [ ] Staging — not deployed
+- [ ] Production smoke test — not released
 
 ### Edge Cases
 
 - legacy Pizza Wave colours, delivery/Puri assumptions and unrelated bakery-experiment typography must not leak into Pizza Avenue V2; only the explicitly approved Phudu/Poppins pair is retained,
 - duplicate legacy images must not be copied repeatedly,
 - legacy logo and loyalty artwork must not be treated as the Pizza Avenue logo,
-- image colors must not become brand tokens,
+- image colours must not become brand tokens,
 - supplied website screenshots are references, not layouts to reproduce,
 - preliminary menu text/prices must not become authoritative seed or commerce data,
 - design guidance must remain usable across expressive and operational surfaces without tightly coupling their composition layers.
@@ -700,7 +890,6 @@ Deployment date:
 
 - The supplied palette/typography direction is frozen, but exact logo, production photography and some founder menu decisions remain unavailable.
 - Legacy prototype imagery may be useful for exploration but still requires founder approval, provenance review and production optimization before customer-facing release.
-- CHG-0002 and Pull Request #6 must reach `develop` before this stacked documentation change can be cleanly retargeted there.
 
 ### Follow-Up
 
@@ -710,11 +899,12 @@ Deployment date:
 
 ### Final Result
 
-Typography correction is complete on Pull Request #10. The previous proposal was removed in favour of the verified Pizza Wave pair Phudu/Poppins, and the full repository validation remains green. No UI implementation has started; the Pull Request remains stacked on CHG-0002 / Pull Request #6.
+The design-system foundation, visual direction, curated reference assets and Phudu/Poppins correction are complete. Pull Request #10 is synchronized with current `develop`, including the other developer's domain-routing changes, and is awaiting final review/merge. No UI implementation has started.
 
 ### Related Changes
 
 - CHG-0002
+- CHG-0003
 
 ---
 
