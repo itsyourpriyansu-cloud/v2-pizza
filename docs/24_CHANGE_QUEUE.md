@@ -103,13 +103,13 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0005
+Next Change ID: CHG-0006
 
 Open:
-4
+5
 
 In Progress:
-0
+1
 
 Blocked:
 0
@@ -906,6 +906,186 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 
 - CHG-0002
 - CHG-0003
+
+---
+
+## CHG-0005 — Build initial Pizza Avenue landing experience
+
+- **Status:** IN_PROGRESS
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-06
+
+### Business Reason
+
+Turn the root-domain Landing shell into a clear, appetising direct-order entry point that explains what Pizza Avenue offers, where pickup happens and how a customer starts an order, while preserving the separate Customer PWA boundary.
+
+### Requested Outcome
+
+Implement the first approved Landing batch: utility strip, responsive header, editorial hero, compact proof strip and a signature-pizza section. Use the frozen Pizza Avenue palette and Phudu/Poppins typography plus the curated Pizza Wave food candidates, without inventing a logo or treating exploratory menu content as production truth.
+
+### Scope
+
+Included:
+- utility strip with Sainikpuri and pickup context,
+- responsive header with functional navigation and one primary ordering action,
+- food-led hero with configured Customer-app CTAs,
+- compact proof strip,
+- four-item signature pizza selection aligned to available curated imagery,
+- responsive and reduced-motion behaviour,
+- focused component and link tests,
+- documentation and handoff updates.
+
+Excluded:
+- later Landing chapters, footer and final release content,
+- an invented or legacy Pizza Wave logo,
+- backend, database, real authentication, WhatsApp, payment or analytics-provider integration,
+- production deployment,
+- founder approval of final menu prices, imagery provenance or final product photography.
+
+### GitHub Tracking
+
+Issue:
+- #12
+
+Branch:
+- `feature/landing-initial-ui`
+
+Pull Request:
+- Pending
+
+### Affected Surfaces
+
+- Landing / Marketing
+- Customer PWA entry links only
+
+### Affected Modules
+
+- `apps/landing`
+- `packages/config` local loopback detection
+
+### Files / Areas Changed
+
+- Landing React composition, content model and styles
+- Landing public food assets copied from the curated Pizza Wave candidates
+- Landing tests and metadata
+- dependency lockfile for approved Fontsource packages
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New endpoints:
+- None
+
+Changed endpoints:
+- None
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- None
+
+### Permission Impact
+
+- None; the Landing remains public and does not implement authentication.
+
+### Analytics Impact
+
+- No analytics provider is connected. Existing discovery and ordering event names remain unchanged for later implementation.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed secrets:
+- None
+
+The Landing continues to resolve the Customer app through `VITE_CUSTOMER_APP_URL` and local safe defaults.
+
+### Documentation Updated
+
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Landing component and destination-link tests — 4 passed
+- [x] Responsive visual check at 390×844 mobile and 1440×900 desktop
+- [x] Keyboard/focus and reduced-motion implementation review
+- [x] Repository lint — passed
+- [x] Repository typecheck — passed
+- [x] Repository tests — 6 files, 40 tests passed
+- [x] Repository builds — Landing, Customer, KDS and Admin passed
+- [ ] GitHub Actions for the Pull Request
+- [ ] Staging smoke test — not part of this task unless staging is deployed
+- [ ] Production smoke test — not released
+
+### Edge Cases
+
+- production/staging Customer URLs must remain environment-configured rather than hardcoded,
+- navigation must not expose dead links to deferred Landing sections,
+- provisional menu prices must be visibly qualified and must not become authoritative checkout values,
+- food candidates must be matched honestly to visible product names and remain pending provenance/founder review,
+- mobile must recompose rather than shrink the desktop layout,
+- missing approved logo requires a clearly textual, non-logo brand lockup.
+
+### Security Review
+
+- Auth implications: none.
+- RBAC implications: none.
+- Secret/PII implications: none; public non-secret URL configuration only.
+- Replay/idempotency implications: none.
+
+### Staging Result
+
+Status:
+- Not Tested
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- Candidate Pizza Wave imagery remains prototype-only until provenance, usage rights and founder approval are confirmed.
+- Menu names, descriptions and photographed prices remain exploratory until founder validation.
+- The approved Pizza Avenue logo has not been supplied, so the header uses text only.
+
+### Follow-Up
+
+- [ ] Obtain founder confirmation for image provenance and production use.
+- [ ] Replace provisional menu details with backend-authoritative menu data when available.
+- [ ] Continue later Landing chapters only through a separate tracked task after this batch is audited.
+
+### Final Result
+
+Implementation complete on `feature/landing-initial-ui` under GitHub Issue #12. The first Landing batch matches the approved visual foundation, all exposed actions work, loopback and responsive browser checks pass, and the repository validation suite is green. Awaiting Pull Request review; no staging or production deployment was performed.
+
+### Related Changes
+
+- CHG-0003
+- CHG-0004
 
 ---
 

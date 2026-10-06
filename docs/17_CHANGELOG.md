@@ -21,6 +21,35 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-06 — Initial Pizza Avenue Landing Experience
+
+Added:
+- first approved Landing batch with utility strip, responsive navigation, food-led hero, proof strip and four-product signature selection
+- curated Pizza Wave food candidates in the Landing public asset set
+- local Phudu 600/700 and Poppins 400/500/600/700 font assets through Fontsource
+- Landing tests for offer clarity, Customer-app destinations, loopback development and provisional-pricing disclosure
+
+Changed:
+- root-domain Landing from a neutral architecture placeholder into an accessible, responsive direct-pickup entry point
+- local URL detection to support `127.0.0.1` and IPv6 loopback in addition to `localhost`
+- production metadata to describe the Sainikpuri pickup proposition
+
+Fixed:
+- all ordering, menu and Pizza Passport actions now resolve through the configured Customer app host
+- deferred Landing chapters are not exposed as dead navigation links
+- prototype prices are explicitly qualified and remain outside authoritative checkout calculations
+
+Docs updated:
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- Implements the frozen DEC-024 host boundary and DEC-025 visual foundation; no new permanent product or architecture decision
+
+Risk:
+- candidate imagery, menu names and photographed prices remain prototype-only until provenance and founder validation are complete
+- no approved Pizza Avenue logo exists, so the header uses a text treatment rather than an invented mark
+
 ## Initial baseline
 Added:
 - pickup-first architecture
