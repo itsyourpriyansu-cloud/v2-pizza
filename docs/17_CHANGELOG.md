@@ -41,6 +41,26 @@ Excluded:
 - direct marketplace integration
 - microservices
 
+## 2026-10-06 — Landing Header and Hero Exploration
+
+Added:
+- a responsive, pickup-first Landing header and editorial hero in the root-domain Landing application
+- an accessible CSS-only food composition, deliberate mobile reflow, reduced-motion treatment and keyboard focus styles
+- self-hosted audited Latin Phudu/Poppins font weights used by the Landing page
+- a focused Landing assertion for the primary ordering route
+
+Changed:
+- the Landing document title and description now describe the Sainikpuri, pickup-first marketing surface
+
+Docs updated:
+- `docs/17_CHANGELOG.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- DEC-024, DEC-025
+
+Risk:
+- no approved Pizza Avenue logo or production food photography is available yet. The hero therefore uses a non-product-specific CSS composition; do not substitute the exploratory image candidates until approval, provenance and optimization are recorded.
+
 ## 2026-10-06 — Domain Routing Freeze — Root Landing + App Subdomains
 
 Added:

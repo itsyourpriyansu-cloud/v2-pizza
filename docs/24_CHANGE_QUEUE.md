@@ -103,10 +103,10 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0005
+Next Change ID: CHG-0006
 
 Open:
-4
+5
 
 In Progress:
 0
@@ -906,6 +906,125 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 
 - CHG-0002
 - CHG-0003
+
+---
+
+## CHG-0005 — Landing Header and Hero Exploration
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, FRONTEND, UX
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-06
+
+### Business Reason
+
+Give the root-domain marketing surface a credible, pickup-first first impression that turns interest into a clear path to the Customer ordering application while establishing the approved Pizza Avenue visual foundations in code.
+
+### Requested Outcome
+
+Implement the first responsive, accessible high-fidelity Landing header and hero exploration in `apps/landing`, using the frozen palette and Phudu/Poppins direction without presenting an unapproved logo, production menu facts, or unapproved Pizza Wave imagery as final brand content.
+
+### Scope
+
+Included:
+- responsive Header and Hero compositions in the dedicated Landing application,
+- a clear primary action to the configured Customer app ordering route,
+- keyboard/focus and mobile navigation behaviour,
+- self-hosted, audited Latin Phudu and Poppins font weights used by this page,
+- Landing-specific visual styles based on Documents 27 and 28,
+- targeted component tests and frontend validation.
+
+Excluded:
+- production menu, pricing, availability, checkout, authentication or cart work,
+- logo creation or use of an unapproved logo,
+- wiring exploratory food-image candidates into the application,
+- backend, API, database, payment, KDS, Admin or deployment changes,
+- new shared design-system package or UI-component dependency.
+
+### GitHub Tracking
+
+Issue:
+- #14
+
+Branch:
+- `feature/landing-header-hero`
+
+Pull Request:
+- Pending
+
+### Affected Surfaces
+
+- Landing / Marketing
+
+### Affected Modules
+
+- `apps/landing`
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New endpoints:
+- None
+
+Changed endpoints:
+- None
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- None
+
+### Permission Impact
+
+- None; the public Landing CTA delegates ordering to the Customer application.
+
+### Analytics Impact
+
+- No new instrumentation in this exploration. The CTA preserves a future integration point for the documented `app_opened` / discovery funnel without collecting PII.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed env vars:
+- None
+
+Secrets involved:
+- None
+
+### Acceptance Criteria
+
+- [x] Header and hero clearly communicate The Pizza Avenue and pickup-first ordering.
+- [x] Primary CTA resolves to the configured Customer app menu route.
+- [x] Layout is responsive, keyboard accessible and provides visible focus states.
+- [x] Only the frozen palette and approved typography direction are used.
+- [x] No exploratory Pizza Wave imagery, logo, menu price or unverified product fact is presented as production truth.
+- [x] Lint, typecheck, tests and Landing build pass.
+
+### Implementation Notes
+
+- Implemented a responsive Header, Hero, pickup promise and closing CTA composition in `apps/landing`; all Customer-app actions use the existing `VITE_CUSTOMER_APP_URL` configuration and point to `/menu`.
+- Bundled only the page's audited Latin font weights: Phudu 600/700 and Poppins 400/600/700.
+- Browser QA passed at desktop and 375px mobile widths; the navigation, primary CTA and visible keyboard focus treatment were inspected. No deployment was performed.
+- Validation passed: `pnpm lint`, `pnpm typecheck`, `pnpm test` (6 files / 38 tests), and `pnpm build`.
+- The food-image candidates remain documentation-only until founder approval, provenance confirmation, product matching and production optimization are complete.
+
+### Related Changes
+
+- CHG-0003
+- CHG-0004
 
 ---
 

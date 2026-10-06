@@ -170,6 +170,12 @@ importers:
 
   apps/landing:
     dependencies:
+      '@fontsource/phudu':
+        specifier: 5.3.0
+        version: 5.3.0
+      '@fontsource/poppins':
+        specifier: 5.3.0
+        version: 5.3.0
       '@pizza-avenue/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -395,6 +401,12 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
+
+  '@fontsource/phudu@5.3.0':
+    resolution: {integrity: sha512-2mt6SJ0ZHX/j2E1cRNpNv6e2lOzAcwy6i80UoeOVhrajzflTfxZbJpPTwzFPBK5BZF163HOY78ZurbmtHmRDlA==}
+
+  '@fontsource/poppins@5.3.0':
+    resolution: {integrity: sha512-cms1nM7U6SN8epIV1WMVOV8VsA645aSm3wHfzIQnkk188U341ThbJGSl2Sv54V29gnDbT2arMPfLzvVIIVCceQ==}
 
   '@hookform/resolvers@5.9.1':
     resolution: {integrity: sha512-7b7vsbraJxKgjVSA1Nur9tLwj539WGJUBLA7QNvXnFoT2pM5Z7G+6rlukk4B2/QrTZy6huRtH6wKeESPKuIr6w==}
@@ -1963,6 +1975,10 @@ snapshots:
       levn: 0.4.1
 
   '@exodus/bytes@1.16.0': {}
+
+  '@fontsource/phudu@5.3.0': {}
+
+  '@fontsource/poppins@5.3.0': {}
 
   '@hookform/resolvers@5.9.1(react-hook-form@7.89.0(@types/react@19.3.0)(react@19.3.0))(zod@4.6.5)':
     dependencies:
