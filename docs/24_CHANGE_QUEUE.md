@@ -1030,7 +1030,7 @@ The Landing continues to resolve the Customer app through `VITE_CUSTOMER_APP_URL
 - [x] Repository typecheck — passed
 - [x] Repository tests — 6 files, 40 tests passed
 - [x] Repository builds — Landing, Customer, KDS and Admin passed
-- [ ] GitHub Actions for the Pull Request
+- [x] GitHub Actions `frontend-foundation` for Pull Request #13 — passed
 - [ ] Staging smoke test — not part of this task unless staging is deployed
 - [ ] Production smoke test — not released
 
@@ -1080,7 +1080,7 @@ Deployment date:
 
 ### Final Result
 
-Implementation complete on `feature/landing-initial-ui` under GitHub Issue #12 and Pull Request #13. The first Landing batch matches the approved visual foundation, all exposed actions work, loopback and responsive browser checks pass, and the repository validation suite is green. Awaiting peer review and GitHub Actions; no staging or production deployment was performed.
+Implementation complete on `feature/landing-initial-ui` under GitHub Issue #12 and Pull Request #13. The first Landing batch matches the approved visual foundation, all exposed actions work, loopback and responsive browser checks pass, and both local validation and GitHub Actions are green. Awaiting peer review; no staging or production deployment was performed.
 
 ### Related Changes
 
