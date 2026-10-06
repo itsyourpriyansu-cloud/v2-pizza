@@ -109,7 +109,7 @@ Open:
 3
 
 In Progress:
-1
+0
 
 Blocked:
 0
@@ -523,7 +523,7 @@ In review in Pull Request #6. The three applications boot, all requested routes 
 
 ## CHG-0003 — Design System Foundation — Pizza Avenue
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** DOCUMENTATION, UX
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -569,7 +569,7 @@ Branch:
 - `docs/design-system-foundation`
 
 Pull Request:
-- Pending; this branch currently depends on the still-open CHG-0002 foundation branch
+- #10 — open against `feature/frontend-stage-1-foundation`; retarget to `develop` after Pull Request #6 merges
 
 ### Affected Surfaces
 
@@ -710,7 +710,7 @@ Deployment date:
 
 ### Final Result
 
-Documentation and asset curation are complete and validated. No UI implementation has started. Awaiting Pull Request creation and review.
+Documentation and asset curation are complete and validated. No UI implementation has started. Pull Request #10 is in review and remains stacked on CHG-0002 / Pull Request #6.
 
 ### Related Changes
 
