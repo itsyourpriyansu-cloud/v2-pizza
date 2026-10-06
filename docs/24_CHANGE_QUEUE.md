@@ -523,7 +523,7 @@ In review in Pull Request #6. The three applications boot, all requested routes 
 
 ## CHG-0003 — Domain Routing Freeze — Root Landing + App Subdomains
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** INFRA, REFACTOR, DOCUMENTATION, DECISION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -562,7 +562,7 @@ Branch:
 - `feature/domain-routing-freeze` (stacked on the unmerged Stage 1 frontend foundation)
 
 Pull Request:
-- Pending
+- #8 — open against `feature/frontend-stage-1-foundation` (stacked on PR #6)
 
 ### Affected Surfaces
 
@@ -695,7 +695,8 @@ Deployment date:
 ### Follow-Up
 
 - [x] Create GitHub Issue #7.
-- [ ] Push branch and open a stacked Pull Request against `feature/frontend-stage-1-foundation`.
+- [x] Push branch and open stacked Pull Request #8 against `feature/frontend-stage-1-foundation`.
+- [ ] Retarget/rebase PR #8 to `develop` after PR #6 merges; do not merge PR #6 without the required human authorization and review.
 - [ ] Build and run the frontend Compose stack on a host with Docker's Linux daemon, then validate Caddy routes and TLS.
 - [ ] Configure Cloudflare DNS, TLS Full (strict), secrets and credentialed CORS only during infrastructure rollout.
 
