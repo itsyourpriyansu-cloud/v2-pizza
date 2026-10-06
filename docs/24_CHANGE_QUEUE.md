@@ -523,7 +523,7 @@ Merged into `develop` through PR #6 at `fef19a37c1e080fb46e2722b2b00b2bbf7ecec67
 
 ## CHG-0003 — Domain Routing Freeze — Root Landing + App Subdomains
 
-- **Status:** IN_REVIEW
+- **Status:** STAGING
 - **Type:** INFRA, REFACTOR, DOCUMENTATION, DECISION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -674,7 +674,7 @@ New public, non-secret Vite configuration may include:
 ### Staging Result
 
 Status:
-- Not Tested — no staging environment is configured or deployed
+- Not Tested — merged into `develop`; no staging environment or deployment evidence is available.
 
 ### Production Result
 
@@ -697,13 +697,14 @@ Deployment date:
 
 - [x] Create GitHub Issue #7.
 - [x] Push branch and open stacked Pull Request #8 against `feature/frontend-stage-1-foundation`.
-- [ ] Retarget/rebase PR #8 to `develop` after PR #6 merges; do not merge PR #6 without the required human authorization and review.
+- [x] Rebase and retarget Pull Request #8 to `develop` after PR #6 merged, with no conflicts.
+- [ ] Deploy and validate staging when that environment exists.
 - [ ] Build and run the frontend Compose stack on a host with Docker's Linux daemon, then validate Caddy routes and TLS.
 - [ ] Configure Cloudflare DNS, TLS Full (strict), secrets and credentialed CORS only during infrastructure rollout.
 
 ### Final Result
 
-Implementation complete locally and awaiting an Issue/PR/review. The root domain is reserved by a neutral Landing shell; Customer, KDS and Admin receive dedicated local ports and production/staging URL configuration; KDS/Admin no longer include their subdomain namespaces in browser routes. Compose/Caddy configuration is present for the existing static frontend services, while API/backend runtime services remain intentionally absent. No DNS, Cloudflare, staging or production action occurred.
+Merged into `develop` through PR #8 after its dependency, PR #6, merged first. The root domain is reserved by a neutral Landing shell; Customer, KDS and Admin receive dedicated local ports and production/staging URL configuration; KDS/Admin no longer include their subdomain namespaces in browser routes. Compose/Caddy configuration is present for the existing static frontend services, while API/backend runtime services remain intentionally absent. No DNS, Cloudflare, staging or production action occurred.
 
 ### Related Changes
 
