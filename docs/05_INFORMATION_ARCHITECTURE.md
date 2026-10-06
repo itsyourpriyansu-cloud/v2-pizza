@@ -1,9 +1,15 @@
 # 05 — Information Architecture
 
+## Surface domains
+- `pizzaavenue.<domain>` is Landing/Marketing only. It may later link to menu previews, campaigns and store information, but never hosts the logged-in Customer application.
+- `app.pizzaavenue.<domain>` is the Customer PWA. Customer routes such as `/menu`, `/orders` and `/rewards` are relative to this host, not nested beneath `/app` on the landing domain.
+- `kds.pizzaavenue.<domain>` is the Kitchen/KDS surface; its internal routes are `/`, `/login`, `/orders` and `/orders/:orderId`.
+- `admin.pizzaavenue.<domain>` is the Founder/Admin surface; its internal routes are relative to that host.
+
 ## Customer entry points
-- Normal app/domain: browse first; phone OTP is requested when identity is required.
+- Normal Customer app: browse first; phone OTP is requested when identity is required.
 - In-store QR: placement-attributed redirect opens the official WhatsApp join conversation.
-- WhatsApp magic link: consumes a short-lived one-time token, creates the normal web session and lands in the intended PWA context.
+- WhatsApp magic link: `https://app.pizzaavenue.<domain>/auth/magic` consumes a short-lived one-time token, creates the normal web session and lands in the intended PWA context. The Landing host is never an authentication callback.
 
 After login, the product does not expose “PHONE” versus “WHATSAPP” as separate account types. Profile, orders, loyalty and sessions belong to one customer identity.
 

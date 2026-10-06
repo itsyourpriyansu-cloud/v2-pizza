@@ -103,13 +103,13 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0002
+Next Change ID: CHG-0005
 
 Open:
-1
+4
 
 In Progress:
-1
+0
 
 Blocked:
 0
@@ -136,7 +136,7 @@ When an item reaches a final state, move it to **Completed History** below.
 
 ## CHG-0001 — Publish governed documentation baseline to GitHub
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** DOCUMENTATION, INFRA
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -170,13 +170,14 @@ Excluded:
 ### GitHub Tracking
 
 Issue:
-- Pending
+- #1
 
 Branch:
 - `docs/repository-bootstrap`
 
 Pull Request:
-- Pending
+- #3 — merged into `develop`; no staging deployment was performed
+- #2 — merged into `main` before the prescribed `develop` review path; recorded as a workflow deviation, not a deployment
 
 ### Affected Surfaces
 
@@ -257,7 +258,7 @@ Changed env vars:
 - [x] Secret-name and staged-content scan
 - [x] Git branch/remotes/status verification
 - [x] Remote refs verification after push
-- [ ] GitHub Issue/PR verification where available
+- [x] GitHub Issue/PR verification where available
 - [ ] Staging — not applicable/not deployed
 - [ ] Production smoke test — not applicable/not deployed
 
@@ -267,6 +268,7 @@ Changed env vars:
 - Initial branch seeding must not be misreported as staging or production deployment.
 - Later work must not reuse the bootstrap exception.
 - No local secret or backup artifact may enter the initial commit.
+- A separate PR from the bootstrap branch was merged into `main` while the governed `develop` PR remained open.
 
 ### Security Review
 
@@ -283,7 +285,7 @@ Status:
 ### Production Result
 
 Status:
-- Not Released
+- Not Released — a documentation merge exists on `main`, but no production deployment or smoke-test evidence exists
 
 Release:
 - Not Released
@@ -295,21 +297,615 @@ Deployment date:
 
 - The empty remote requires one exceptional branch-seeding operation before PR targets exist.
 - Branch protection and required approvals remain owner-managed GitHub settings and are not changed by this task.
-- GitHub Issue/PR creation depends on an authenticated browser because GitHub CLI is unavailable.
+- The governed Pull Request #3 remains unmerged until peer review and validation are complete.
+- Pull Request #2 bypassed the documented `develop`-first release flow by merging the baseline into `main`; this must not be treated as staging or production deployment.
 
 ### Follow-Up
 
-- [ ] Record actual Issue and Pull Request references.
+- [x] Record the actual Pull Request reference: #3.
 - [ ] Obtain peer review before merging the baseline PR.
-- [ ] Enable the documented branch-protection rules through repository-owner action.
+- [ ] Decide whether Pull Request #2's premature `main` merge should be retained as a documented bootstrap exception or reverted through a new reviewed PR.
 
 ### Final Result
 
-In progress. Governance consistency work and staged-content security checks passed. The empty remote was seeded with identical bootstrap refs for `main` and `develop`, and commit `5c31c46` containing the complete documentation baseline was pushed to `docs/repository-bootstrap`. GitHub Issue and Pull Request creation remain pending because the available browser requires the repository owner to sign in; no staging or production deployment occurred.
+In review. Governance consistency work and staged-content security checks passed. The empty remote was seeded with identical bootstrap refs for `main` and `develop`, and the complete documentation baseline was pushed to `docs/repository-bootstrap`. GitHub Issue #1 records the work, and Pull Request #3 is open against `develop` for peer review. Pull Request #2 was separately merged into `main` by `gitg2k3` before the required `develop` review flow completed; no attempt was made to hide, overwrite or revert that event. No staging or production deployment occurred.
 
 ### Related Changes
 
 - None
+
+---
+
+## CHG-0002 — Frontend Stage 1 Architecture Foundation
+
+- **Status:** STAGING
+- **Type:** FEATURE, REFACTOR, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-05
+- **Last Updated:** 2026-10-06
+
+### Business Reason
+
+Create a production-shaped frontend operating foundation so Customer, KDS and Admin work can proceed in parallel and later replace mocked HTTP responses with the frozen NestJS `/api/v1` backend without rewriting route or feature architecture.
+
+### Requested Outcome
+
+A buildable, type-safe, route-complete, mock-powered and testable pnpm workspace using React 19, Vite, TypeScript, React Router, TanStack Query, Zustand, React Hook Form, Zod, MSW, Vitest and React Testing Library. The result must remain visually neutral and contain no backend, database, provider or real-auth implementation.
+
+### Scope
+
+Included:
+- create `apps/customer`, `apps/kds` and `apps/admin`,
+- create shared `types`, `api-client`, `mocks`, `utils` and neutral `ui` packages,
+- define documented domain/state contracts and integer-paise `Money`,
+- model documented `/api/v1` HTTP contracts through a typed API client,
+- provide realistic seed fixtures, factories and programmatically switchable mock scenarios,
+- configure TanStack Query for server state and Zustand only for transient prototype state,
+- provide React Hook Form/Zod schema foundations,
+- add representative architecture tests, workspace lint/typecheck/test/build commands and CI validation,
+- document developer commands, the paise contract decision and actual verification results.
+
+Excluded:
+- polished or high-fidelity UI,
+- final brand/design tokens or component styling,
+- NestJS services/controllers, Prisma, PostgreSQL, Redis or BullMQ,
+- real OTP, WhatsApp, payment, session or WebSocket integration,
+- marketplace/delivery features,
+- deployment and GitHub repository settings.
+
+### GitHub Tracking
+
+Issue:
+- #4
+
+Branch:
+- `feature/frontend-stage-1-foundation`
+
+Pull Request:
+- #6 — open against `develop`
+
+### Affected Surfaces
+
+- Customer PWA foundation
+- Kitchen/KDS foundation
+- Founder/Admin foundation
+- Shared frontend packages
+
+### Affected Modules
+
+- `apps/customer`
+- `apps/kds`
+- `apps/admin`
+- `packages/types`
+- `packages/api-client`
+- `packages/mocks`
+- `packages/utils`
+- `packages/ui`
+
+### Files / Areas Changed
+
+- root pnpm, TypeScript, ESLint, Vitest, environment and CI configuration
+- `apps/customer` route/feature/query/form/scenario foundation
+- `apps/kds` route/query foundation
+- `apps/admin` route/query foundation
+- `packages/types` shared domain contracts
+- `packages/api-client` typed HTTP modules and error normalization
+- `packages/mocks` MSW handlers, realistic fixtures, factories and scenarios
+- `packages/utils` query keys, integer-paise money helpers and order-transition validation
+- `packages/ui` neutral structural primitives only
+- generated MSW browser workers for the three applications
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New backend endpoints:
+- None
+
+Frontend contract impact:
+- typed client functions and MSW handlers mirror the existing frozen `/api/v1` contracts
+
+Breaking change:
+- No production API exists or changes in this stage
+
+### State Machine Impact
+
+- No production state transitions are implemented.
+- Shared types use the documented order, payment, pickup, reward and store values.
+- A pure test helper validates the documented order transition graph and rejects illegal shortcuts.
+
+### Permission Impact
+
+- No real authentication or authorization is implemented.
+- KDS/Admin route shells do not grant access; future protected APIs remain server-authoritative.
+
+### Analytics Impact
+
+- Shared event names/types mirror `12_ANALYTICS_EVENTS.md` for contract readiness.
+- No analytics provider or authoritative financial reporting is implemented.
+
+### Environment / Secret Impact
+
+New placeholder variables:
+- `VITE_API_BASE_URL`
+- `VITE_APP_ENV`
+- `VITE_ENABLE_MOCKS`
+
+Changed secrets:
+- None
+
+### Documentation Updated
+
+- `README.md`
+- `docs/16_DECISIONS.md`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace lint
+- [x] Workspace typecheck
+- [x] Unit/component tests — 27 passed
+- [x] App boot tests — Customer, KDS and Admin
+- [x] Customer route resolution tests
+- [x] Mocked menu API-client test
+- [x] TanStack Query rendering test
+- [x] Payment-failure scenario test
+- [x] Pickup-full scenario test
+- [x] Valid and invalid order-state transition tests
+- [x] Customer/KDS/Admin production builds
+- [x] Local dev-server HTTP smoke checks — ports 5173, 5174 and 5175 returned HTTP 200
+- [ ] Staging — not performed in this task
+- [ ] Production smoke test — not performed in this task
+
+### Edge Cases
+
+- page and feature modules must not import mock fixtures directly,
+- mocks must use documented HTTP contracts rather than simplified prompt examples,
+- provisional client prices must never appear authoritative,
+- future order-source values must not create marketplace integrations,
+- invalid mock order-state transitions must be rejected,
+- scenario changes must remain deterministic between tests,
+- MSW must be disabled safely when a real backend is introduced.
+
+### Security Review
+
+- Auth implications: modeled states only; no real OTP, magic token, cookie or credential storage.
+- RBAC implications: route placeholders are not authorization; protected APIs remain future server responsibilities.
+- Secret/PII implications: only fictional data and empty environment placeholders; no real phone, OTP, token or provider payload.
+- Replay/idempotency implications: contracts expose idempotency boundaries, but no provider processing is implemented.
+
+### Staging Result
+
+Status:
+- Not Tested — merged into `develop` through PR #6 on 2026-10-06; no staging environment or deployment evidence is available.
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- Menu names/prices are realistic documentation fixtures, not founder-approved production menu truth.
+- MSW validates frontend architecture only and cannot prove future backend enforcement, transactions, idempotency or permissions.
+- Stage 1 intentionally leaves visual design and high-fidelity interaction decisions open.
+- Browser MSW is development-only and is removed from the live data path by setting `VITE_ENABLE_MOCKS=false` when a backend is available.
+
+### Follow-Up
+
+- [x] Merge Pull Request #6 into `develop` after required CI passed.
+- [ ] Deploy and validate staging when that environment exists.
+- [ ] Define the design system and implement the high-fidelity Customer PWA in the next task only.
+
+### Final Result
+
+Merged into `develop` through PR #6 at `fef19a37c1e080fb46e2722b2b00b2bbf7ecec67`. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks passed before merge. No backend, database, provider, real authentication, deployment or final design system was created. No staging or production deployment occurred.
+
+### Related Changes
+
+- CHG-0001
+
+---
+
+## CHG-0003 — Domain Routing Freeze — Root Landing + App Subdomains
+
+- **Status:** STAGING
+- **Type:** INFRA, REFACTOR, DOCUMENTATION, DECISION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-06
+
+### Business Reason
+
+Separate the public marketing surface from customer and operational applications so the root domain can serve landing/SEO needs while Customer, KDS, Admin and API have clear deployment, security and routing boundaries.
+
+### Requested Outcome
+
+Reserve `pizzaavenue.<domain>` for a minimal landing surface; move Customer, KDS, Admin and API to `app`, `kds`, `admin` and `api` subdomains respectively; remove redundant KDS/Admin internal path namespaces; and document future cookie, CORS, QR/magic-link, DNS and SPA-routing behavior.
+
+### Scope
+
+Included:
+- minimal Landing application shell and local-development configuration,
+- shared environment-derived surface/API URL configuration,
+- KDS/Admin root-relative routing and route-test updates,
+- per-app environment examples and local port documentation,
+- deployment/domain, CORS, cookie, DNS, magic-link and SPA fallback documentation.
+
+Excluded:
+- final landing-page design or content,
+- backend, session, CORS, DNS, Cloudflare, Docker or Caddy deployment implementation,
+- real WhatsApp, payment or authentication integration,
+- staging or production deployment.
+
+### GitHub Tracking
+
+Issue:
+- #7 — Domain Routing Freeze — Root Landing + App Subdomains
+
+Branch:
+- `feature/domain-routing-freeze`
+
+Pull Request:
+- #8 — merged into `develop` after Pull Request #6
+
+### Affected Surfaces
+
+- Landing
+- Customer PWA
+- Kitchen/KDS
+- Founder/Admin
+- Infrastructure documentation
+
+### Affected Modules
+
+- `apps/landing`
+- `apps/customer`
+- `apps/kds`
+- `apps/admin`
+- `packages/config`
+- deployment and routing documentation
+
+### Files / Areas Changed
+
+- `apps/landing` minimal React/Vite architecture shell and local environment example.
+- `apps/customer`, `apps/kds` and `apps/admin` environment examples, URL bootstrap configuration and Vite port configuration.
+- KDS and Admin React Router paths/tests.
+- `packages/config` shared public surface/API URL resolver.
+- `compose.yaml`, `Dockerfile.frontend`, `.dockerignore` and `infra/caddy`/`infra/docker` deployment configuration for existing frontend services.
+- root workspace scripts, lockfile and local-environment guidance.
+- `README.md`, `docs/04_USER_FLOWS.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/10_API_CONTRACTS.md`, `docs/15_BUILD_PLAN.md`, `docs/16_DECISIONS.md`, `docs/17_CHANGELOG.md`, `docs/21_DEPLOYMENT_ARCHITECTURE.md` and this queue entry.
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New endpoints:
+- None
+
+Changed endpoints:
+- None; frontend API base configuration remains `/api/v1`-compatible.
+
+Breaking change:
+- No production API exists. KDS/Admin browser route prefixes change before public launch.
+
+### State Machine Impact
+
+- None.
+
+### Permission Impact
+
+- No permission implementation change. Documentation will preserve future cookie-session, CSRF and credentialed CORS requirements.
+
+### Analytics Impact
+
+- None in this routing shell. Landing acquisition instrumentation remains future work.
+
+### Environment / Secret Impact
+
+New public, non-secret Vite configuration may include:
+- `VITE_API_BASE_URL`
+- `VITE_LANDING_URL`
+- `VITE_CUSTOMER_APP_URL`
+- `VITE_KDS_URL`
+- `VITE_ADMIN_URL`
+
+### Documentation Updated
+
+- `README.md`
+- `docs/04_USER_FLOWS.md`
+- `docs/05_INFORMATION_ARCHITECTURE.md`
+- `docs/10_API_CONTRACTS.md`
+- `docs/15_BUILD_PLAN.md`
+- `docs/16_DECISIONS.md` (DEC-024)
+- `docs/17_CHANGELOG.md`
+- `docs/21_DEPLOYMENT_ARCHITECTURE.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Unit/component route tests — Landing CTA and root-relative KDS/Admin route matching; 37 tests pass in 6 files.
+- [x] Workspace lint — passed with zero warnings.
+- [x] Workspace typecheck — passed across all 11 workspace projects.
+- [x] Workspace test suite — 6 files, 37 tests passed.
+- [x] Workspace production builds — Landing, Customer, KDS and Admin passed.
+- [x] Manual local route smoke checks — HTTP 200 for Landing `/`; Customer `/`, `/menu`, `/cart`, `/orders/example`; KDS `/`, `/orders`; Admin `/`, `/menu`.
+- [x] Docker Compose configuration — `docker compose --env-file infra/docker/.env.example config` passed.
+- [ ] Docker image build — not run because Docker Desktop's Linux daemon is unavailable on this machine.
+- [x] GitHub Actions `frontend-foundation` for PR #8 — passed.
+- [ ] Staging — not deployed
+- [ ] Production smoke test — not released
+
+### Edge Cases
+
+- Direct SPA navigation/reload for nested Customer, KDS and Admin routes.
+- MSW must intercept the configured cross-origin or same-origin `/api/v1` API base.
+- Future credentialed API calls must not rely on wildcard CORS.
+- QR/WhatsApp magic links must target Customer, never the marketing root domain.
+
+### Security Review
+
+- Auth implications: no session is implemented; document the intended parent-domain, `Secure`, `HttpOnly`, `SameSite=Lax` model for a future backend.
+- RBAC implications: none; route relocation is not authorization.
+- Secret/PII implications: Vite files contain public URLs only, never session or provider secrets.
+- Replay/idempotency implications: none.
+
+### Staging Result
+
+Status:
+- Not Tested — merged into `develop`; no staging environment or deployment evidence is available.
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- API, worker, PostgreSQL and Redis are intentionally absent from the current Compose file until their real runtimes exist.
+- Docker Desktop's Linux daemon is currently unavailable, so image construction and Caddy runtime validation remain pending.
+
+### Follow-Up
+
+- [x] Create GitHub Issue #7.
+- [x] Push branch and open stacked Pull Request #8 against `feature/frontend-stage-1-foundation`.
+- [x] Rebase and retarget Pull Request #8 to `develop` after PR #6 merged, with no conflicts.
+- [ ] Deploy and validate staging when that environment exists.
+- [ ] Build and run the frontend Compose stack on a host with Docker's Linux daemon, then validate Caddy routes and TLS.
+- [ ] Configure Cloudflare DNS, TLS Full (strict), secrets and credentialed CORS only during infrastructure rollout.
+
+### Final Result
+
+Merged into `develop` through PR #8 after its dependency, PR #6, merged first. The root domain is reserved by a neutral Landing shell; Customer, KDS and Admin receive dedicated local ports and production/staging URL configuration; KDS/Admin no longer include their subdomain namespaces in browser routes. Compose/Caddy configuration is present for the existing static frontend services, while API/backend runtime services remain intentionally absent. No DNS, Cloudflare, staging or production action occurred.
+
+### Related Changes
+
+- CHG-0002
+
+---
+
+## CHG-0004 — Design System Foundation — Pizza Avenue
+
+- **Status:** STAGING
+- **Type:** DOCUMENTATION, UX, DECISION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-06
+
+### Business Reason
+
+Give the future Landing, Customer, KDS and Admin interfaces one coherent Pizza Avenue brand language without prematurely forcing them into identical layouts or implementing polished UI before the visual direction is approved.
+
+### Requested Outcome
+
+Document a flexible design-system foundation and visual direction using the supplied references, the official seven-colour palette, the verified Pizza Wave typography pair Phudu and Poppins, the current Stage 1 frontend architecture, and a careful audit of reusable Pizza Wave assets and interaction logic. Preserve suitable non-logo image candidates for later implementation without wiring them into an application in this documentation-only task.
+
+### Scope
+
+Included:
+- create `docs/27_DESIGN_SYSTEM_FOUNDATION.md`,
+- create `docs/28_UI_VISUAL_DIRECTION.md`,
+- distinguish frozen, recommended and exploratory decisions,
+- define semantic colour, typography, spacing, radius, elevation, imagery, motion, accessibility and responsive guidance,
+- document Landing/Customer/KDS/Admin component separation,
+- audit current V2 components and the legacy `pizza_wave_v1` component/asset library,
+- preserve supplied references and approved non-logo Pizza Wave image candidates as documentation assets,
+- extract the photographed menu as preliminary founder-validation content only,
+- update design-system discovery, changelog and queue documentation.
+
+Excluded:
+- final Landing or app UI,
+- production CSS/design-token implementation,
+- React component implementation or restyling,
+- animation implementation,
+- logo creation or adoption,
+- backend, database, provider or deployment work,
+- treating preliminary menu prices or legacy imagery as production truth.
+
+### GitHub Tracking
+
+Issue:
+- #9
+
+Branch:
+- `docs/design-system-foundation`
+
+Pull Request:
+- #10 — merged into `develop` at `85e106f73d6c346084157713cdfce38f23d94b38` after synchronization with Pull Requests #6 and #8
+
+### Affected Surfaces
+
+- Landing / Marketing direction
+- Customer PWA direction
+- Kitchen/KDS direction
+- Founder/Admin direction
+- Shared UI and brand foundations
+- Documentation asset library
+
+### Affected Modules
+
+- `docs/06_DESIGN_SYSTEM.md`
+- `docs/20_MASTER_INDEX.md`
+- `docs/27_DESIGN_SYSTEM_FOUNDATION.md`
+- `docs/28_UI_VISUAL_DIRECTION.md`
+- `docs/assets/design-references`
+- `packages/ui` audit only; no implementation change
+- legacy `pizza_wave_v1` audit only; no source mutation
+
+### Files / Areas Changed
+
+- `AGENTS.md`
+- `README.md`
+- `docs/06_DESIGN_SYSTEM.md`
+- `docs/16_DECISIONS.md`
+- `docs/17_CHANGELOG.md`
+- `docs/20_MASTER_INDEX.md`
+- `docs/23_CODING_AGENT_PROMPTING_GUIDE.md`
+- `docs/24_CHANGE_QUEUE.md`
+- `docs/27_DESIGN_SYSTEM_FOUNDATION.md`
+- `docs/28_UI_VISUAL_DIRECTION.md`
+- `docs/assets/design-references/*`
+- `docs/assets/pizza-wave-candidates/*`
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New endpoints:
+- None
+
+Changed endpoints:
+- None
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- None
+
+### Permission Impact
+
+- None
+
+### Analytics Impact
+
+- No event implementation or contract change; later UI work must use the existing documented analytics events.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed secrets:
+- None
+
+### Documentation Updated
+
+- `AGENTS.md`, `README.md`, `docs/06_DESIGN_SYSTEM.md`, `docs/16_DECISIONS.md`, `docs/17_CHANGELOG.md`, `docs/20_MASTER_INDEX.md`, `docs/23_CODING_AGENT_PROMPTING_GUIDE.md`, `docs/24_CHANGE_QUEUE.md`, `docs/27_DESIGN_SYSTEM_FOUNDATION.md`, `docs/28_UI_VISUAL_DIRECTION.md`
+
+### Tests Required
+
+- [x] Markdown/reference validation
+- [x] Official palette value scan
+- [x] Phudu/Poppins direction scan — verified against `pizza_wave_v1/src/main.tsx` and `src/styles/tokens.css`
+- [x] Logo-assumption scan
+- [x] Preliminary-menu disclaimer scan
+- [x] Asset filename/hash inventory — six unique Pizza Wave candidates
+- [x] Repository lint — passed
+- [x] Repository typecheck — passed
+- [x] Repository tests — 6 files, 37 tests passed after synchronization with `develop`
+- [x] Repository builds — Landing, Customer, KDS and Admin passed after synchronization with `develop`
+- [x] GitHub Actions `frontend-foundation` for Pull Request #10 — passed before merge
+- [ ] Staging — not deployed
+- [ ] Production smoke test — not released
+
+### Edge Cases
+
+- legacy Pizza Wave colours, delivery/Puri assumptions and unrelated bakery-experiment typography must not leak into Pizza Avenue V2; only the explicitly approved Phudu/Poppins pair is retained,
+- duplicate legacy images must not be copied repeatedly,
+- legacy logo and loyalty artwork must not be treated as the Pizza Avenue logo,
+- image colours must not become brand tokens,
+- supplied website screenshots are references, not layouts to reproduce,
+- preliminary menu text/prices must not become authoritative seed or commerce data,
+- design guidance must remain usable across expressive and operational surfaces without tightly coupling their composition layers.
+
+### Security Review
+
+- Auth implications: none.
+- RBAC implications: none.
+- Secret/PII implications: reference and legacy image candidates contain no credentials or customer data; branded third-party imagery must be rejected.
+- Replay/idempotency implications: none.
+
+### Staging Result
+
+Status:
+- Not Tested — documentation-only work has not been deployed
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- The supplied palette/typography direction is frozen, but exact logo, production photography and some founder menu decisions remain unavailable.
+- Legacy prototype imagery may be useful for exploration but still requires founder approval, provenance review and production optimization before customer-facing release.
+
+### Follow-Up
+
+- [ ] Obtain founder/design review of the design-system foundation.
+- [ ] After approval, create the first high-fidelity Landing Hero + Header exploration as a separate task.
+- [ ] Decide final logo asset, photography provenance and production image pipeline before release.
+
+### Final Result
+
+Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce38f23d94b38`. The design-system foundation, visual direction, curated reference assets and Phudu/Poppins correction are complete. The merge preserves the other developer's CHG-0003 / DEC-024 domain-routing work and records this design work as CHG-0004 / DEC-025. No UI implementation, staging deployment or production release occurred.
+
+### Related Changes
+
+- CHG-0002
+- CHG-0003
 
 ---
 

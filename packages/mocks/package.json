@@ -1,0 +1,19 @@
+{
+  "name": "@pizza-avenue/mocks",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./browser": "./src/browser.ts",
+    "./server": "./src/server.ts"
+  },
+  "dependencies": {
+    "@pizza-avenue/types": "workspace:*",
+    "@pizza-avenue/utils": "workspace:*",
+    "msw": "3.0.2"
+  }
+}

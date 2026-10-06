@@ -1,0 +1,16 @@
+FROM node:24-alpine AS build
+
+WORKDIR /workspace
+RUN corepack enable
+
+COPY . .
+RUN pnpm install --frozen-lockfile
+
+ARG APP_NAME
+RUN pnpm --filter "@pizza-avenue/${APP_NAME}" build \
+  && cp -R "apps/${APP_NAME}/dist" /output
+
+FROM caddy:2.8-alpine
+
+COPY infra/caddy/Caddyfile.frontend /etc/caddy/Caddyfile
+COPY --from=build /output /srv
