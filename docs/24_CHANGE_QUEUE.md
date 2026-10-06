@@ -713,7 +713,7 @@ Merged into `develop` through PR #8 after its dependency, PR #6, merged first. T
 
 ## CHG-0004 — Design System Foundation — Pizza Avenue
 
-- **Status:** IN_REVIEW
+- **Status:** STAGING
 - **Type:** DOCUMENTATION, UX, DECISION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -759,7 +759,7 @@ Branch:
 - `docs/design-system-foundation`
 
 Pull Request:
-- #10 — synchronized with and retargeted to `develop` after Pull Requests #6 and #8 merged
+- #10 — merged into `develop` at `85e106f73d6c346084157713cdfce38f23d94b38` after synchronization with Pull Requests #6 and #8
 
 ### Affected Surfaces
 
@@ -850,6 +850,7 @@ Changed secrets:
 - [x] Repository typecheck — passed
 - [x] Repository tests — 6 files, 37 tests passed after synchronization with `develop`
 - [x] Repository builds — Landing, Customer, KDS and Admin passed after synchronization with `develop`
+- [x] GitHub Actions `frontend-foundation` for Pull Request #10 — passed before merge
 - [ ] Staging — not deployed
 - [ ] Production smoke test — not released
 
@@ -899,7 +900,7 @@ Deployment date:
 
 ### Final Result
 
-The design-system foundation, visual direction, curated reference assets and Phudu/Poppins correction are complete. Pull Request #10 is synchronized with current `develop`, including the other developer's domain-routing changes, and is awaiting final review/merge. No UI implementation has started.
+Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce38f23d94b38`. The design-system foundation, visual direction, curated reference assets and Phudu/Poppins correction are complete. The merge preserves the other developer's CHG-0003 / DEC-024 domain-routing work and records this design work as CHG-0004 / DEC-025. No UI implementation, staging deployment or production release occurred.
 
 ### Related Changes
 
