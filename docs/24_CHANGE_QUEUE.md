@@ -103,13 +103,13 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0003
+Next Change ID: CHG-0004
 
 Open:
-2
+3
 
 In Progress:
-0
+1
 
 Blocked:
 0
@@ -518,6 +518,203 @@ In review in Pull Request #6. The three applications boot, all requested routes 
 ### Related Changes
 
 - CHG-0001
+
+---
+
+## CHG-0003 — Design System Foundation — Pizza Avenue
+
+- **Status:** IN_PROGRESS
+- **Type:** DOCUMENTATION, UX
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-06
+
+### Business Reason
+
+Give the future Landing, Customer, KDS and Admin interfaces one coherent Pizza Avenue brand language without prematurely forcing them into identical layouts or implementing polished UI before the visual direction is approved.
+
+### Requested Outcome
+
+Document a flexible design-system foundation and visual direction using the supplied references, the official seven-colour palette, Cardo and Inter, the current Stage 1 frontend architecture, and a careful audit of reusable Pizza Wave assets and interaction logic. Preserve suitable non-logo image candidates for later implementation without wiring them into an application in this documentation-only task.
+
+### Scope
+
+Included:
+- create `docs/27_DESIGN_SYSTEM_FOUNDATION.md`,
+- create `docs/28_UI_VISUAL_DIRECTION.md`,
+- distinguish frozen, recommended and exploratory decisions,
+- define semantic colour, typography, spacing, radius, elevation, imagery, motion, accessibility and responsive guidance,
+- document Landing/Customer/KDS/Admin component separation,
+- audit current V2 components and the legacy `pizza_wave_v1` component/asset library,
+- preserve supplied references and approved non-logo Pizza Wave image candidates as documentation assets,
+- extract the photographed menu as preliminary founder-validation content only,
+- update design-system discovery, changelog and queue documentation.
+
+Excluded:
+- final Landing or app UI,
+- production CSS/design-token implementation,
+- React component implementation or restyling,
+- animation implementation,
+- logo creation or adoption,
+- backend, database, provider or deployment work,
+- treating preliminary menu prices or legacy imagery as production truth.
+
+### GitHub Tracking
+
+Issue:
+- #9
+
+Branch:
+- `docs/design-system-foundation`
+
+Pull Request:
+- Pending; this branch currently depends on the still-open CHG-0002 foundation branch
+
+### Affected Surfaces
+
+- Landing / Marketing direction
+- Customer PWA direction
+- Kitchen/KDS direction
+- Founder/Admin direction
+- Shared UI and brand foundations
+- Documentation asset library
+
+### Affected Modules
+
+- `docs/06_DESIGN_SYSTEM.md`
+- `docs/20_MASTER_INDEX.md`
+- `docs/27_DESIGN_SYSTEM_FOUNDATION.md`
+- `docs/28_UI_VISUAL_DIRECTION.md`
+- `docs/assets/design-references`
+- `packages/ui` audit only; no implementation change
+- legacy `pizza_wave_v1` audit only; no source mutation
+
+### Files / Areas Changed
+
+- `AGENTS.md`
+- `README.md`
+- `docs/06_DESIGN_SYSTEM.md`
+- `docs/16_DECISIONS.md`
+- `docs/17_CHANGELOG.md`
+- `docs/20_MASTER_INDEX.md`
+- `docs/23_CODING_AGENT_PROMPTING_GUIDE.md`
+- `docs/24_CHANGE_QUEUE.md`
+- `docs/27_DESIGN_SYSTEM_FOUNDATION.md`
+- `docs/28_UI_VISUAL_DIRECTION.md`
+- `docs/assets/design-references/*`
+- `docs/assets/pizza-wave-candidates/*`
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New endpoints:
+- None
+
+Changed endpoints:
+- None
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- None
+
+### Permission Impact
+
+- None
+
+### Analytics Impact
+
+- No event implementation or contract change; later UI work must use the existing documented analytics events.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed secrets:
+- None
+
+### Documentation Updated
+
+- `AGENTS.md`, `README.md`, `docs/06_DESIGN_SYSTEM.md`, `docs/16_DECISIONS.md`, `docs/17_CHANGELOG.md`, `docs/20_MASTER_INDEX.md`, `docs/23_CODING_AGENT_PROMPTING_GUIDE.md`, `docs/24_CHANGE_QUEUE.md`, `docs/27_DESIGN_SYSTEM_FOUNDATION.md`, `docs/28_UI_VISUAL_DIRECTION.md`
+
+### Tests Required
+
+- [x] Markdown/reference validation
+- [x] Official palette value scan
+- [x] Cardo/Inter direction scan
+- [x] Logo-assumption scan
+- [x] Preliminary-menu disclaimer scan
+- [x] Asset filename/hash inventory — six unique Pizza Wave candidates
+- [x] Repository lint — passed
+- [x] Repository typecheck — passed
+- [x] Repository tests — 5 files, 27 tests passed
+- [x] Repository builds — Customer, KDS and Admin passed
+- [ ] Staging — not part of this task
+- [ ] Production smoke test — not part of this task
+
+### Edge Cases
+
+- legacy Pizza Wave colors, typography and delivery/Puri assumptions must not leak into Pizza Avenue V2,
+- duplicate legacy images must not be copied repeatedly,
+- legacy logo and loyalty artwork must not be treated as the Pizza Avenue logo,
+- image colors must not become brand tokens,
+- supplied website screenshots are references, not layouts to reproduce,
+- preliminary menu text/prices must not become authoritative seed or commerce data,
+- design guidance must remain usable across expressive and operational surfaces without tightly coupling their composition layers.
+
+### Security Review
+
+- Auth implications: none.
+- RBAC implications: none.
+- Secret/PII implications: reference and legacy image candidates contain no credentials or customer data; branded third-party imagery must be rejected.
+- Replay/idempotency implications: none.
+
+### Staging Result
+
+Status:
+- Not Tested — documentation-only work has not been deployed
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- The supplied palette/typography direction is frozen, but exact logo, production photography and some founder menu decisions remain unavailable.
+- Legacy prototype imagery may be useful for exploration but still requires founder approval, provenance review and production optimization before customer-facing release.
+- CHG-0002 and Pull Request #6 must reach `develop` before this stacked documentation change can be cleanly retargeted there.
+
+### Follow-Up
+
+- [ ] Obtain founder/design review of the design-system foundation.
+- [ ] After approval, create the first high-fidelity Landing Hero + Header exploration as a separate task.
+- [ ] Decide final logo asset, photography provenance and production image pipeline before release.
+
+### Final Result
+
+Documentation and asset curation are complete and validated. No UI implementation has started. Awaiting Pull Request creation and review.
+
+### Related Changes
+
+- CHG-0002
 
 ---
 

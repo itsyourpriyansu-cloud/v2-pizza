@@ -13,6 +13,8 @@
 ## UX
 06 Design System
 07 Components
+27 Design System Foundation
+28 UI Visual Direction
 
 ## Engineering
 08 Data Model
@@ -43,8 +45,8 @@ Backend stack and deployment decisions are frozen in 16; execution/topology live
 
 Documents 22–25 are mandatory process controls, not optional reading. Every meaningful implementation must have a truthful queue entry and follow the documented branch/PR workflow.
 
-## Prototype reading sequence
-AGENTS → 20 → 22 → 23 → 24 → 25 → 00 → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 13.
+## Prototype / frontend reading sequence
+AGENTS → 20 → 22 → 23 → 24 → 25 → 00 → 01 → 02 → 03 → 04 → 05 → 06 → 27 → 28 → 07 → 10 → 12 → 13 → 18.
 
 ## Backend reading sequence
 AGENTS → 20 → 22 → 23 → 24 → 25 → 02 → 03 → 08 → 09 → 10 → 11 → 14 → 18.

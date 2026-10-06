@@ -77,7 +77,7 @@ Customers can sign in with phone OTP or enter through the in-store QR → WhatsA
 V1 targets one Hostinger KVM 2 server in India running Ubuntu 24.04 LTS, Docker Compose and Caddy. Customer, KDS, Admin, NestJS API, BullMQ worker, PostgreSQL and Redis run as separate services; only HTTP/HTTPS is public. Cloudflare provides DNS and optional edge protection, while encrypted database dumps are copied off-server to R2 and periodically restore-tested.
 
 ## Recommended reading order
-AGENTS.md → Master Index → Git/GitHub Workflow → Coding Agent Guide → Change Queue and Agent Rules → Project Context → Product Scope → Business Rules → Roles → User Flows → IA → Design System → Components → Data Model → State Machines → API Contracts → Integrations → Analytics → Seed Data → Test Plan → Build Plan → Decisions → Deployment Architecture → Acceptance Criteria.
+AGENTS.md → Master Index → Git/GitHub Workflow → Coding Agent Guide → Change Queue and Agent Rules → Project Context → Product Scope → Business Rules → Roles → User Flows → IA → Design System → Design System Foundation → UI Visual Direction → Components → Data Model → State Machines → API Contracts → Integrations → Analytics → Seed Data → Test Plan → Build Plan → Decisions → Deployment Architecture → Acceptance Criteria.
 
 Every meaningful change must use a short-lived task branch, a matching entry in `docs/24_CHANGE_QUEUE.md`, validation, relevant documentation and a Pull Request. `main` represents production-ready work and `develop` represents staging/integration.
 

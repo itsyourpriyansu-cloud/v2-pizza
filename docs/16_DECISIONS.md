@@ -70,6 +70,9 @@ Payment success is a Payment state, not an Order state. A verified provider even
 ## DEC-023 Integer-Paise Money Contracts
 All frontend/backend JSON money contracts represent `amount` as a safe integer count of paise with `currency: 'INR'`. For example, ₹349.00 is `{ "amount": 34900, "currency": "INR" }`. UI formatting may render rupees, but client arithmetic and provisional display values never become authoritative pricing; the backend remains responsible for validation and final totals.
 
+## DEC-024 Pizza Avenue Brand Foundation
+The official brand palette is Cream `#FDF6E9`, Sand Beige `#EADCC8`, Maroon `#6B1F1F`, Italian Brown `#8C4A2F`, Olive Green `#556B2F`, Sage Green `#A7B58B` and Espresso `#3B2F2A`. Cardo is the editorial/display family and Inter is the functional/UI family. The visual identity is Italian editorial, warm craft and modern neighbourhood pizzeria. Landing and application compositions stay separate while sharing foundations and neutral primitives. No logo, mark or legacy Pizza Wave identity may be assumed until an approved Pizza Avenue logo is supplied.
+
 ## Pending founder decisions
 - exact hours
 - cancellation cutoff
@@ -89,3 +92,5 @@ All frontend/backend JSON money contracts represent `amount` as a safe integer c
 - QR first-login reward, if any
 - backup retention periods and restore-test cadence
 - production domains and Cloudflare proxy policy
+- approved Pizza Avenue logo asset and usage rules
+- production photography provenance and image pipeline

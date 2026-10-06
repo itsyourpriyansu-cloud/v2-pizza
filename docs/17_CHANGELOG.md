@@ -41,6 +41,32 @@ Excluded:
 - direct marketplace integration
 - microservices
 
+## 2026-10-06 — Pizza Avenue Design System Foundation
+
+Added:
+- design-system foundation covering colour roles, Cardo/Inter typography, spacing, layout, radius, imagery, motion, accessibility and responsive principles
+- visual-direction guide interpreting the four supplied references without copying their identities or layouts
+- preliminary menu inventory of eight categories and 29 items, explicitly pending founder validation
+- local documentation copies of the supplied references and six unique Pizza Wave food-image candidates for review only
+
+Changed:
+- frontend reading paths now include the current design foundation and visual direction
+- legacy Pizza Wave component and asset reuse is documented as selective logic/content evaluation rather than direct visual reuse
+
+Fixed:
+- logo status is explicit: no mark or legacy identity may be assumed before an approved Pizza Avenue logo is supplied
+- palette authority is limited to the seven official Reference 01 colours
+
+Docs updated:
+- `AGENTS.md`, `README.md`, `docs/06_DESIGN_SYSTEM.md`, `docs/16_DECISIONS.md`, `docs/17_CHANGELOG.md`, `docs/20_MASTER_INDEX.md`, `docs/23_CODING_AGENT_PROMPTING_GUIDE.md`, `docs/24_CHANGE_QUEUE.md`, `docs/27_DESIGN_SYSTEM_FOUNDATION.md`, `docs/28_UI_VISUAL_DIRECTION.md`
+
+Decision:
+- DEC-024
+
+Risk:
+- candidate imagery remains exploratory until founder approval, provenance confirmation, menu-content matching and production optimization
+- exact logo, final production photography and preliminary menu details remain open
+
 ## 2026-10-05 — Architecture Freeze — Node/NestJS + Hostinger + WhatsApp Magic Login
 
 Added:
