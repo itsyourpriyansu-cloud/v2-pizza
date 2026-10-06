@@ -1,0 +1,55 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+}
+
+.app-shell {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+header,
+nav,
+.route-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+header {
+  justify-content: space-between;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1rem;
+}
+
+main {
+  padding-block: 1rem;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+form {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 28rem;
+}
+
+label {
+  display: grid;
+  gap: 0.25rem;
+}
+
+[role='alert'] {
+  border: 1px solid currentColor;
+  padding: 1rem;
+}

@@ -103,10 +103,10 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0002
+Next Change ID: CHG-0003
 
 Open:
-1
+2
 
 In Progress:
 0
@@ -176,7 +176,7 @@ Branch:
 - `docs/repository-bootstrap`
 
 Pull Request:
-- #3 — open against `develop`
+- #3 — merged into `develop`; no staging deployment was performed
 - #2 — merged into `main` before the prescribed `develop` review path; recorded as a workflow deviation, not a deployment
 
 ### Affected Surfaces
@@ -313,6 +313,211 @@ In review. Governance consistency work and staged-content security checks passed
 ### Related Changes
 
 - None
+
+---
+
+## CHG-0002 — Frontend Stage 1 Architecture Foundation
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, REFACTOR, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-05
+- **Last Updated:** 2026-10-05
+
+### Business Reason
+
+Create a production-shaped frontend operating foundation so Customer, KDS and Admin work can proceed in parallel and later replace mocked HTTP responses with the frozen NestJS `/api/v1` backend without rewriting route or feature architecture.
+
+### Requested Outcome
+
+A buildable, type-safe, route-complete, mock-powered and testable pnpm workspace using React 19, Vite, TypeScript, React Router, TanStack Query, Zustand, React Hook Form, Zod, MSW, Vitest and React Testing Library. The result must remain visually neutral and contain no backend, database, provider or real-auth implementation.
+
+### Scope
+
+Included:
+- create `apps/customer`, `apps/kds` and `apps/admin`,
+- create shared `types`, `api-client`, `mocks`, `utils` and neutral `ui` packages,
+- define documented domain/state contracts and integer-paise `Money`,
+- model documented `/api/v1` HTTP contracts through a typed API client,
+- provide realistic seed fixtures, factories and programmatically switchable mock scenarios,
+- configure TanStack Query for server state and Zustand only for transient prototype state,
+- provide React Hook Form/Zod schema foundations,
+- add representative architecture tests, workspace lint/typecheck/test/build commands and CI validation,
+- document developer commands, the paise contract decision and actual verification results.
+
+Excluded:
+- polished or high-fidelity UI,
+- final brand/design tokens or component styling,
+- NestJS services/controllers, Prisma, PostgreSQL, Redis or BullMQ,
+- real OTP, WhatsApp, payment, session or WebSocket integration,
+- marketplace/delivery features,
+- deployment and GitHub repository settings.
+
+### GitHub Tracking
+
+Issue:
+- #4
+
+Branch:
+- `feature/frontend-stage-1-foundation`
+
+Pull Request:
+- #6 — open against `develop`
+
+### Affected Surfaces
+
+- Customer PWA foundation
+- Kitchen/KDS foundation
+- Founder/Admin foundation
+- Shared frontend packages
+
+### Affected Modules
+
+- `apps/customer`
+- `apps/kds`
+- `apps/admin`
+- `packages/types`
+- `packages/api-client`
+- `packages/mocks`
+- `packages/utils`
+- `packages/ui`
+
+### Files / Areas Changed
+
+- root pnpm, TypeScript, ESLint, Vitest, environment and CI configuration
+- `apps/customer` route/feature/query/form/scenario foundation
+- `apps/kds` route/query foundation
+- `apps/admin` route/query foundation
+- `packages/types` shared domain contracts
+- `packages/api-client` typed HTTP modules and error normalization
+- `packages/mocks` MSW handlers, realistic fixtures, factories and scenarios
+- `packages/utils` query keys, integer-paise money helpers and order-transition validation
+- `packages/ui` neutral structural primitives only
+- generated MSW browser workers for the three applications
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New backend endpoints:
+- None
+
+Frontend contract impact:
+- typed client functions and MSW handlers mirror the existing frozen `/api/v1` contracts
+
+Breaking change:
+- No production API exists or changes in this stage
+
+### State Machine Impact
+
+- No production state transitions are implemented.
+- Shared types use the documented order, payment, pickup, reward and store values.
+- A pure test helper validates the documented order transition graph and rejects illegal shortcuts.
+
+### Permission Impact
+
+- No real authentication or authorization is implemented.
+- KDS/Admin route shells do not grant access; future protected APIs remain server-authoritative.
+
+### Analytics Impact
+
+- Shared event names/types mirror `12_ANALYTICS_EVENTS.md` for contract readiness.
+- No analytics provider or authoritative financial reporting is implemented.
+
+### Environment / Secret Impact
+
+New placeholder variables:
+- `VITE_API_BASE_URL`
+- `VITE_APP_ENV`
+- `VITE_ENABLE_MOCKS`
+
+Changed secrets:
+- None
+
+### Documentation Updated
+
+- `README.md`
+- `docs/16_DECISIONS.md`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace lint
+- [x] Workspace typecheck
+- [x] Unit/component tests — 27 passed
+- [x] App boot tests — Customer, KDS and Admin
+- [x] Customer route resolution tests
+- [x] Mocked menu API-client test
+- [x] TanStack Query rendering test
+- [x] Payment-failure scenario test
+- [x] Pickup-full scenario test
+- [x] Valid and invalid order-state transition tests
+- [x] Customer/KDS/Admin production builds
+- [x] Local dev-server HTTP smoke checks — ports 5173, 5174 and 5175 returned HTTP 200
+- [ ] Staging — not performed in this task
+- [ ] Production smoke test — not performed in this task
+
+### Edge Cases
+
+- page and feature modules must not import mock fixtures directly,
+- mocks must use documented HTTP contracts rather than simplified prompt examples,
+- provisional client prices must never appear authoritative,
+- future order-source values must not create marketplace integrations,
+- invalid mock order-state transitions must be rejected,
+- scenario changes must remain deterministic between tests,
+- MSW must be disabled safely when a real backend is introduced.
+
+### Security Review
+
+- Auth implications: modeled states only; no real OTP, magic token, cookie or credential storage.
+- RBAC implications: route placeholders are not authorization; protected APIs remain future server responsibilities.
+- Secret/PII implications: only fictional data and empty environment placeholders; no real phone, OTP, token or provider payload.
+- Replay/idempotency implications: contracts expose idempotency boundaries, but no provider processing is implemented.
+
+### Staging Result
+
+Status:
+- Not Tested — no staging deployment performed
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- Menu names/prices are realistic documentation fixtures, not founder-approved production menu truth.
+- MSW validates frontend architecture only and cannot prove future backend enforcement, transactions, idempotency or permissions.
+- Stage 1 intentionally leaves visual design and high-fidelity interaction decisions open.
+- Browser MSW is development-only and is removed from the live data path by setting `VITE_ENABLE_MOCKS=false` when a backend is available.
+
+### Follow-Up
+
+- [x] Open Pull Request #6 into `develop` after all required checks passed.
+- [ ] Obtain review before merge.
+- [ ] Define the design system and implement the high-fidelity Customer PWA in the next task only.
+
+### Final Result
+
+In review in Pull Request #6. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks pass. No backend, database, provider, real authentication, deployment or final design system was created. No staging or production deployment occurred.
+
+### Related Changes
+
+- CHG-0001
 
 ---
 

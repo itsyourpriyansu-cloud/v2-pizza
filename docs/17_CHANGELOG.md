@@ -96,3 +96,33 @@ Decision:
 
 Risk:
 - branch protection and required reviews remain GitHub repository settings for the owner to enable; this bootstrap does not weaken the documented rule
+
+## 2026-10-05 — Frontend Stage 1 Architecture Foundation
+
+Added:
+- pnpm workspace with React 19/Vite/TypeScript Customer, KDS and Admin applications
+- route-complete neutral shells for all requested Customer, KDS and Admin paths
+- shared domain contracts for identity, store, menu, cart, pickup, order, payment, loyalty, rewards, Passport, promotions, upsells, analytics and errors
+- typed `/api/v1` client modules, consistent error normalization and backend-replacement boundary
+- MSW handlers, realistic Pizza Avenue fixtures, factories and switchable prototype scenarios
+- TanStack Query providers/query keys, client-only Zustand scenario/builder state and React Hook Form/Zod validation foundations
+- Vitest/React Testing Library/MSW tests and GitHub Actions validation for lint, typecheck, tests and builds
+
+Changed:
+- money contracts now explicitly use integer paise and `INR`
+- repository README now documents app commands, validation and mock enablement
+- Stage 1 mock endpoints follow the frozen API contracts rather than simplified prompt examples
+
+Fixed:
+- route modules no longer depend on page-level mock JSON or direct `fetch()` calls
+- mock network interception uses a late-bound fetch implementation so browser and test transports share the same API-client boundary
+
+Docs updated:
+- `README.md`, `docs/16_DECISIONS.md`, `docs/17_CHANGELOG.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- DEC-023
+
+Risk:
+- fixture menu prices remain examples pending founder-approved production menu truth
+- MSW proves frontend boundaries only; future NestJS work must still enforce pricing, permissions, state, transactions and idempotency server-side
