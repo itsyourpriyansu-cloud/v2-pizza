@@ -536,7 +536,7 @@ Give the future Landing, Customer, KDS and Admin interfaces one coherent Pizza A
 
 ### Requested Outcome
 
-Document a flexible design-system foundation and visual direction using the supplied references, the official seven-colour palette, Cardo and Inter, the current Stage 1 frontend architecture, and a careful audit of reusable Pizza Wave assets and interaction logic. Preserve suitable non-logo image candidates for later implementation without wiring them into an application in this documentation-only task.
+Document a flexible design-system foundation and visual direction using the supplied references, the official seven-colour palette, the verified Pizza Wave typography pair Phudu and Poppins, the current Stage 1 frontend architecture, and a careful audit of reusable Pizza Wave assets and interaction logic. Preserve suitable non-logo image candidates for later implementation without wiring them into an application in this documentation-only task.
 
 ### Scope
 
@@ -652,7 +652,7 @@ Changed secrets:
 
 - [x] Markdown/reference validation
 - [x] Official palette value scan
-- [x] Cardo/Inter direction scan
+- [x] Phudu/Poppins direction scan — verified against `pizza_wave_v1/src/main.tsx` and `src/styles/tokens.css`
 - [x] Logo-assumption scan
 - [x] Preliminary-menu disclaimer scan
 - [x] Asset filename/hash inventory — six unique Pizza Wave candidates
@@ -665,7 +665,7 @@ Changed secrets:
 
 ### Edge Cases
 
-- legacy Pizza Wave colors, typography and delivery/Puri assumptions must not leak into Pizza Avenue V2,
+- legacy Pizza Wave colours, delivery/Puri assumptions and unrelated bakery-experiment typography must not leak into Pizza Avenue V2; only the explicitly approved Phudu/Poppins pair is retained,
 - duplicate legacy images must not be copied repeatedly,
 - legacy logo and loyalty artwork must not be treated as the Pizza Avenue logo,
 - image colors must not become brand tokens,
@@ -710,7 +710,7 @@ Deployment date:
 
 ### Final Result
 
-Documentation and asset curation are complete and validated. No UI implementation has started. Pull Request #10 is in review and remains stacked on CHG-0002 / Pull Request #6.
+Typography correction is complete on Pull Request #10. The previous proposal was removed in favour of the verified Pizza Wave pair Phudu/Poppins, and the full repository validation remains green. No UI implementation has started; the Pull Request remains stacked on CHG-0002 / Pull Request #6.
 
 ### Related Changes
 

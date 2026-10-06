@@ -44,8 +44,8 @@ The experience is premium-casual rather than luxury-stiff. Food leads. Technolog
 ### FROZEN
 
 - The official brand palette is exactly the seven colours in Reference 01.
-- Cardo is the primary editorial/display typeface.
-- Inter is the secondary functional/UI typeface.
+- Phudu is the primary display/heading typeface.
+- Poppins is the secondary body/functional UI typeface.
 - The identity direction is Italian editorial, warm craft and modern neighbourhood pizzeria.
 - Landing and application composition layers remain separate.
 - Customer, KDS and Admin share primitives and tokens without being forced into identical cards or layouts.
@@ -134,9 +134,9 @@ Olive on Sand Beige is approximately `4.41:1`, so it should not be the default s
 
 ## 6. Typography
 
-### Cardo — editorial/display
+### Phudu — display/heading
 
-Use Cardo for:
+Use Phudu for:
 
 - Landing hero headlines,
 - major display headings,
@@ -146,11 +146,11 @@ Use Cardo for:
 - editorial quotes,
 - large promotional numbers or phrases when appropriate.
 
-Cardo provides heritage, Italian/editorial warmth and crafted restaurant character. It is not the default for buttons, forms, dense labels, KDS tickets or Admin tables.
+Phudu carries the bold, condensed and recognisable display character already established in the primary Pizza Wave application. Use its verified 600 and 700 weights. It is not the default for paragraphs, form help, dense labels or long operational copy.
 
-### Inter — functional/UI
+### Poppins — body/functional UI
 
-Use Inter for:
+Use Poppins for:
 
 - navigation,
 - body copy,
@@ -163,9 +163,9 @@ Use Inter for:
 - Customer operational UI,
 - nearly all KDS and Admin content.
 
-Inter provides clarity, compact scanning and operational reliability.
+Poppins provides friendly geometric clarity across commerce and operational interfaces. Use the verified 400, 500, 600 and 700 weights.
 
-Font files, loading strategy, weight budget and fallback metrics remain implementation decisions. Avoid layout shifts and do not load unused weights.
+The source audit is `pizza_wave_v1/src/main.tsx` plus `src/styles/tokens.css`: `@fontsource/phudu` at 600/700 and `@fontsource/poppins` at 400/500/600/700, exposed as `--font-display` and `--font-body`. The bakery experiment's Lilita One/Outfit pair is unrelated and must not be adopted. Package versions, subset selection, preloading and fallback metrics remain implementation decisions. Avoid layout shifts and do not load unused weights.
 
 ## 7. Typography Roles
 
@@ -173,31 +173,31 @@ Ranges are guidance, not fixed production tokens.
 
 | Role | Family | Recommended responsive direction | Typical use |
 |---|---|---|---|
-| Display XL | Cardo | roughly 48–72px mobile; 72–112px desktop | Landing hero only; usually 2–3 lines maximum |
-| Display L | Cardo | roughly 40–56px mobile; 56–80px desktop | Major Landing chapter |
-| Heading 1 | Cardo or Inter by surface | roughly 34–48px | Page or editorial feature title |
-| Heading 2 | Cardo on expressive surfaces; Inter operationally | roughly 28–40px | Section title |
-| Heading 3 | Inter, occasionally Cardo | roughly 22–30px | Card group or product story |
-| Editorial Quote | Cardo | roughly 28–56px | Short social proof or brand statement |
-| Product Title | Cardo or Inter by density | roughly 18–28px | Product card/detail |
-| Body L | Inter | roughly 17–20px | Introductory copy |
-| Body | Inter | roughly 15–18px | Default copy |
-| Body S | Inter | roughly 13–15px | Supporting copy |
-| Price L | Inter, strong weight | roughly 24–36px | Product detail or totals |
-| Price | Inter, strong weight | roughly 15–20px | Product card and cart |
-| Label | Inter | roughly 12–14px | Forms and metadata |
-| Navigation | Inter | roughly 13–16px | Header and app navigation |
-| Button | Inter, medium/strong weight | roughly 14–17px | Actions |
-| Caption | Inter | roughly 11–13px | Low-emphasis metadata |
-| Overline | Inter, restrained tracking | roughly 11–13px | Short category/editorial cue only |
+| Display XL | Phudu 700 | roughly 48–72px mobile; 72–112px desktop | Landing hero only; usually 2–3 lines maximum |
+| Display L | Phudu 700 | roughly 40–56px mobile; 56–80px desktop | Major Landing chapter |
+| Heading 1 | Phudu 700 | roughly 34–48px | Page or feature title |
+| Heading 2 | Phudu 600/700 | roughly 28–40px | Section title |
+| Heading 3 | Phudu 600 or Poppins 700 by density | roughly 22–30px | Card group or product story |
+| Editorial Quote | Phudu 600 | roughly 28–56px | Short social proof or brand statement |
+| Product Title | Phudu 600 or Poppins 700 by density | roughly 18–28px | Product card/detail |
+| Body L | Poppins 400/500 | roughly 17–20px | Introductory copy |
+| Body | Poppins 400 | roughly 15–18px | Default copy |
+| Body S | Poppins 400/500 | roughly 13–15px | Supporting copy |
+| Price L | Phudu 700 or Poppins 700 by context | roughly 24–36px | Product detail or totals |
+| Price | Poppins 700 | roughly 15–20px | Product card and cart |
+| Label | Poppins 500/600 | roughly 12–14px | Forms and metadata |
+| Navigation | Poppins 600 | roughly 13–16px | Header and app navigation |
+| Button | Poppins 600/700 | roughly 14–17px | Actions |
+| Caption | Poppins 400/500 | roughly 11–13px | Low-emphasis metadata |
+| Overline | Poppins 600/700, restrained tracking | roughly 11–13px | Short category/editorial cue only |
 
 Principles:
 
 - Keep major Landing headlines wide and concise; avoid narrow six-line text walls.
 - Mobile layouts recompose and reduce scale rather than clipping or merely shrinking desktop composition.
 - Prices and modifiers prioritize legibility over editorial expression.
-- KDS uses large, high-contrast Inter with clear numeric hierarchy.
-- Admin uses consistent Inter hierarchy and compact but accessible density.
+- KDS uses large, high-contrast Poppins with selective Phudu numbers/headings where scanning improves.
+- Admin uses a consistent Poppins hierarchy with selective Phudu metrics and compact but accessible density.
 - Avoid fake section labels such as “SECTION 01” when they add no customer meaning.
 
 ## 8. Spacing Philosophy
@@ -455,7 +455,7 @@ These prioritize price, availability, modifier clarity, pickup promise and a sin
 
 ### KDS
 
-- almost entirely Inter,
+- primarily Poppins, with Phudu limited to large ticket numbers, timers or headings,
 - large controls and numbers,
 - high information contrast,
 - paid/confirmed operational truth only,
@@ -464,7 +464,7 @@ These prioritize price, availability, modifier clarity, pickup promise and a sin
 
 ### Admin
 
-- almost entirely Inter,
+- primarily Poppins, with Phudu limited to major headings or KPI values,
 - compact but readable data layouts,
 - permission-aware actions,
 - explicit destructive confirmation,
@@ -480,7 +480,7 @@ Layering model:
 ```text
 Official brand foundation
 ├── colour roles
-├── Cardo + Inter
+├── Phudu + Poppins
 ├── imagery principles
 └── neutral interaction primitives
     ├── Landing compositions
@@ -521,6 +521,7 @@ The current repository and legacy `pizza_wave_v1` implementation were audited. �
 | KDS temporary availability pattern | legacy KDS availability page | Partial | No | Reuse search/duration interaction after permission/API review |
 | Checkout progress | legacy Customer checkout | Partial | No | Reuse step clarity; remove delivery/address/PhonePe assumptions |
 | Pizza Wave food images | legacy `public/assets` | Partial | Partial | Use curated candidates only; validate content/provenance and optimize |
+| Pizza Wave typography variables/imports | legacy `src/main.tsx`, `src/styles/tokens.css` | Yes | Yes | Retain Phudu 600/700 and Poppins 400/500/600/700; do not copy legacy colours |
 | Pizza Wave logo/loyalty art | legacy `public/assets/brand`, `loyalty` | No | No | Explicitly reject; not Pizza Avenue identity |
 
 Legacy code must not be copied wholesale. It contains delivery, Puri/Grand Road, Wave loyalty, PhonePe, FastAPI-era and old-brand assumptions that conflict with the current repository.
@@ -543,13 +544,13 @@ Avoid:
 - optimistic payment/order success,
 - logo invention,
 - using Reference 02/04 colours,
-- copying the old Pizza Wave visual system,
+- copying the old Pizza Wave palette, layout or brand system beyond the explicitly approved typography and curated image candidates,
 - carrying delivery or Puri assumptions into pickup-only Sainikpuri V1.
 
 ## 25. Open Design Questions
 
 - What is the approved Pizza Avenue logo/wordmark asset?
-- Which Cardo and Inter weights should ship, and how will fonts be hosted?
+- Should production self-host the verified Fontsource files, and which script subsets/preload strategy will minimize layout shift?
 - Which Pizza Wave candidate images have acceptable provenance and founder approval?
 - Which menu items and prices from Reference 03 are accurate production truth?
 - What real store photography, staff photography and Sainikpuri exterior/interior imagery is available?

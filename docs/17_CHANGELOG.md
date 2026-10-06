@@ -44,7 +44,7 @@ Excluded:
 ## 2026-10-06 — Pizza Avenue Design System Foundation
 
 Added:
-- design-system foundation covering colour roles, Cardo/Inter typography, spacing, layout, radius, imagery, motion, accessibility and responsive principles
+- design-system foundation covering colour roles, Phudu/Poppins typography, spacing, layout, radius, imagery, motion, accessibility and responsive principles
 - visual-direction guide interpreting the four supplied references without copying their identities or layouts
 - preliminary menu inventory of eight categories and 29 items, explicitly pending founder validation
 - local documentation copies of the supplied references and six unique Pizza Wave food-image candidates for review only
@@ -52,6 +52,7 @@ Added:
 Changed:
 - frontend reading paths now include the current design foundation and visual direction
 - legacy Pizza Wave component and asset reuse is documented as selective logic/content evaluation rather than direct visual reuse
+- the initial typography proposal was withdrawn; typography now matches the verified primary Pizza Wave application pair: Phudu 600/700 for display and Poppins 400/500/600/700 for body/UI
 
 Fixed:
 - logo status is explicit: no mark or legacy identity may be assumed before an approved Pizza Avenue logo is supplied

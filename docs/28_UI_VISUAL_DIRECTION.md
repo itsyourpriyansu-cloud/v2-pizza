@@ -32,7 +32,7 @@ Local reference copies are stored under `docs/assets/design-references/` so futu
 - Use only these official brand colours: Cream `#FDF6E9`, Sand Beige `#EADCC8`, Maroon `#6B1F1F`, Italian Brown `#8C4A2F`, Olive Green `#556B2F`, Sage Green `#A7B58B` and Espresso `#3B2F2A`.
 - Carry forward the warm editorial atmosphere, natural ingredient associations and premium-casual balance.
 - Let Cream, food photography and Espresso establish the base; use Maroon and natural greens deliberately.
-- Use Cardo for selective editorial expression and Inter for functional clarity, as frozen in Document 27.
+- Use Phudu for bold display expression and Poppins for functional clarity, matching the verified primary Pizza Wave application typography and the frozen direction in Document 27.
 
 ## 4. Reference 02 — Take
 
@@ -69,7 +69,7 @@ Local reference copies are stored under `docs/assets/design-references/` so futu
 
 ## 8. Landing Visual Language
 
-The Landing surface should be the most expressive part of the system. Use an editorial grid, confident Cardo headlines, generous Cream space, bold food crops and a small number of Maroon actions. Sections may shift between Cream, Sand and occasional Espresso framing while maintaining strong text contrast.
+The Landing surface should be the most expressive part of the system. Use an editorial grid, confident Phudu headlines, generous Cream space, bold food crops and a small number of Maroon actions. Sections may shift between Cream, Sand and occasional Espresso framing while maintaining strong text contrast.
 
 Recommended character:
 
@@ -87,8 +87,8 @@ The Landing page must still load quickly, remain keyboard accessible and recompo
 The Customer application should feel related but more direct:
 
 - Cream/Sand surfaces with Espresso information hierarchy,
-- Inter for scanning, prices, controls and checkout,
-- Cardo reserved for short category or story moments,
+- Poppins for scanning, prices, controls and checkout,
+- Phudu reserved for strong category, product or story moments,
 - visible price, availability, pickup promise and next action,
 - restrained product cards rather than decorative card stacks,
 - consistent modifiers, quantities, validation and order-state feedback,
@@ -117,8 +117,10 @@ Rejected from reuse: Pizza Wave logos and loyalty graphics; duplicated image var
 
 ## 11. Typography Behaviour
 
-- Cardo leads only the expressive hierarchy: hero, chapter headline, selected quote or product story.
-- Inter carries navigation, body copy, product data, prices, buttons, forms, cart, checkout, KDS and Admin.
+- Phudu leads the expressive hierarchy: hero, chapter headline, selected quote, product story and selective operational metrics.
+- Poppins carries navigation, body copy, product data, prices, buttons, forms, cart, checkout and most KDS/Admin content.
+- Use the audited Pizza Wave weights only: Phudu 600/700 and Poppins 400/500/600/700.
+- Do not adopt Lilita One/Outfit from the unrelated bakery experiment.
 - Landing headlines should remain short and broad, generally no more than three lines.
 - Mobile headlines should recompose and resize; do not force desktop line breaks.
 - Dense operational surfaces should not use decorative type for atmosphere.
@@ -202,7 +204,7 @@ Warm. Editorial. Italian. Handcrafted. Neighbourhood. Appetising. Cultured. Eart
 - A restrained paper-menu texture that passes readability and performance review.
 - Ingredient line art derived from actual menu ingredients.
 - Mobile art direction for edge-cropped food photography.
-- A compact Cardo category treatment within the otherwise functional Customer app.
+- A compact Phudu category treatment within the otherwise functional Poppins Customer app.
 - Motion studies for hero entrance, cart confirmation and loyalty unlock with reduced-motion equivalents.
 - A future brand-asset audit after the approved logo is supplied.
 
