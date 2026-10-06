@@ -109,7 +109,7 @@ Open:
 5
 
 In Progress:
-1
+0
 
 Blocked:
 0
@@ -911,7 +911,7 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 
 ## CHG-0005 — Build initial Pizza Avenue landing experience
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** FEATURE, UX, TEST, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -954,7 +954,7 @@ Branch:
 - `feature/landing-initial-ui`
 
 Pull Request:
-- Pending
+- #13 — open against `develop`
 
 ### Affected Surfaces
 
@@ -1080,7 +1080,7 @@ Deployment date:
 
 ### Final Result
 
-Implementation complete on `feature/landing-initial-ui` under GitHub Issue #12. The first Landing batch matches the approved visual foundation, all exposed actions work, loopback and responsive browser checks pass, and the repository validation suite is green. Awaiting Pull Request review; no staging or production deployment was performed.
+Implementation complete on `feature/landing-initial-ui` under GitHub Issue #12 and Pull Request #13. The first Landing batch matches the approved visual foundation, all exposed actions work, loopback and responsive browser checks pass, and the repository validation suite is green. Awaiting peer review and GitHub Actions; no staging or production deployment was performed.
 
 ### Related Changes
 
