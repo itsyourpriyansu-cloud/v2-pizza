@@ -653,6 +653,7 @@ New public, non-secret Vite configuration may include:
 - [x] Manual local route smoke checks — HTTP 200 for Landing `/`; Customer `/`, `/menu`, `/cart`, `/orders/example`; KDS `/`, `/orders`; Admin `/`, `/menu`.
 - [x] Docker Compose configuration — `docker compose --env-file infra/docker/.env.example config` passed.
 - [ ] Docker image build — not run because Docker Desktop's Linux daemon is unavailable on this machine.
+- [x] GitHub Actions `frontend-foundation` for PR #8 — passed.
 - [ ] Staging — not deployed
 - [ ] Production smoke test — not released
 
