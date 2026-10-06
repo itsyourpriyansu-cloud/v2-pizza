@@ -318,12 +318,12 @@ In review. Governance consistency work and staged-content security checks passed
 
 ## CHG-0002 — Frontend Stage 1 Architecture Foundation
 
-- **Status:** IN_REVIEW
+- **Status:** STAGING
 - **Type:** FEATURE, REFACTOR, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-05
-- **Last Updated:** 2026-10-05
+- **Last Updated:** 2026-10-06
 
 ### Business Reason
 
@@ -485,7 +485,7 @@ Changed secrets:
 ### Staging Result
 
 Status:
-- Not Tested — no staging deployment performed
+- Not Tested — merged into `develop` through PR #6 on 2026-10-06; no staging environment or deployment evidence is available.
 
 ### Production Result
 
@@ -507,13 +507,13 @@ Deployment date:
 
 ### Follow-Up
 
-- [x] Open Pull Request #6 into `develop` after all required checks passed.
-- [ ] Obtain review before merge.
+- [x] Merge Pull Request #6 into `develop` after required CI passed.
+- [ ] Deploy and validate staging when that environment exists.
 - [ ] Define the design system and implement the high-fidelity Customer PWA in the next task only.
 
 ### Final Result
 
-In review in Pull Request #6. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks pass. No backend, database, provider, real authentication, deployment or final design system was created. No staging or production deployment occurred.
+Merged into `develop` through PR #6 at `fef19a37c1e080fb46e2722b2b00b2bbf7ecec67`. The three applications boot, all requested routes resolve, frontend modules consume typed HTTP contracts through TanStack Query and the shared API client, and MSW provides realistic fixtures/scenarios without page-level data coupling. Lint, typecheck, 27 tests, three production builds and local HTTP smoke checks passed before merge. No backend, database, provider, real authentication, deployment or final design system was created. No staging or production deployment occurred.
 
 ### Related Changes
 
