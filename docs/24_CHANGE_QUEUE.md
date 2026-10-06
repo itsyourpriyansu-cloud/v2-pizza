@@ -952,7 +952,7 @@ Branch:
 - `feature/landing-header-hero`
 
 Pull Request:
-- Pending
+- #15 — open against `develop`; review and CI pending
 
 ### Affected Surfaces
 
