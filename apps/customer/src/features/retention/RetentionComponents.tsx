@@ -12,7 +12,7 @@ export function PointsBalanceCard({ account }: { account: LoyaltyAccount }) {
       <div><p className="eyebrow">Your Points</p><strong className="points-total">{account.pointsBalance.toLocaleString('en-IN')}</strong></div>
       <div className="points-balance-card__detail">
         <strong>{account.nextRewardAt === null ? 'Every current reward is within reach' : `${remaining} Points to your next reward`}</strong>
-        <div className="progress-track" aria-label={`${Math.round(progress)}% progress to the next reward`}><span style={{ width: `${progress}%` }} /></div>
+        <div className="progress-track" role="progressbar" aria-label="Progress to the next reward" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)}><span style={{ width: `${progress}%` }} /></div>
         {account.pendingPoints > 0 ? <p className="pending-copy">+{account.pendingPoints} Points pending until your table bill is paid</p> : null}
       </div>
     </Surface>
@@ -54,7 +54,7 @@ export function PassportProgressCard({ passport, compact = false }: { passport: 
         <div><p className="eyebrow">Pizza Passport</p><h2>{passport.status === 'COMPLETE' ? 'Passport complete' : `${completed} of ${total} discovered`}</h2></div>
         <span className="passport-stamp" aria-hidden="true"><Check /></span>
       </div>
-      <div className="progress-track" aria-label={`${completed} of ${total} Passport pizzas completed`}><span style={{ width: `${total ? completed / total * 100 : 0}%` }} /></div>
+      <div className="progress-track" role="progressbar" aria-label="Pizza Passport progress" aria-valuemin={0} aria-valuemax={total} aria-valuenow={completed}><span style={{ width: `${total ? completed / total * 100 : 0}%` }} /></div>
       <p className="muted">{passport.status === 'COMPLETE' ? 'Your completion reward is unlocked.' : passport.status === 'NEAR_COMPLETE' ? 'You’re close—choose your next signature.' : 'Every eligible completed pizza adds a stamp.'}</p>
       <Link className="text-link" to="/rewards/passport">Open Pizza Passport <ArrowRight aria-hidden="true" /></Link>
     </Surface>
@@ -71,14 +71,14 @@ export function MissionCard({ mission }: { mission: Mission }) {
     <Surface as="article" className={`mission-card${mission.status === 'EXPIRED' ? ' mission-card--expired' : ''}`}>
       <div className="mission-card__heading"><Badge>{mission.scope === 'PERSONAL' ? 'For you' : 'For everyone'}</Badge><XpBadge value={mission.rewardXp} /></div>
       <div><h3>{mission.title}</h3><p className="muted">{mission.requirement}</p></div>
-      <div className="progress-track" aria-label={mission.progress.label}><span style={{ width: `${percent}%` }} /></div>
+      <div className="progress-track" role="progressbar" aria-label={mission.progress.label} aria-valuemin={0} aria-valuemax={mission.progress.target} aria-valuenow={mission.progress.current}><span style={{ width: `${percent}%` }} /></div>
       <div className="mission-card__footer"><strong>{mission.progress.label}</strong>{mission.ctaHref && mission.ctaLabel && mission.status !== 'EXPIRED' ? <Link className="text-link" to={mission.ctaHref}>{mission.ctaLabel} <ArrowRight aria-hidden="true" /></Link> : <Badge tone={mission.status === 'COMPLETED' ? 'success' : mission.status === 'EXPIRED' ? 'danger' : 'neutral'}>{mission.status}</Badge>}</div>
     </Surface>
   );
 }
 
-export function RetentionLinkCard({ eyebrow, title, body, href, icon }: { eyebrow: string; title: string; body: string; href: string; icon?: ReactNode }) {
-  return <Link className="surface retention-link-card" to={href}><span className="retention-link-card__icon" aria-hidden="true">{icon ?? <Star />}</span><span><small>{eyebrow}</small><strong>{title}</strong><span className="muted">{body}</span></span><ArrowRight aria-hidden="true" /></Link>;
+export function RetentionLinkCard({ eyebrow, title, body, href, icon, onClick }: { eyebrow: string; title: string; body: string; href: string; icon?: ReactNode; onClick?: () => void }) {
+  return <Link className="surface retention-link-card" to={href} onClick={onClick}><span className="retention-link-card__icon" aria-hidden="true">{icon ?? <Star />}</span><span><small>{eyebrow}</small><strong>{title}</strong><span className="muted">{body}</span></span><ArrowRight aria-hidden="true" /></Link>;
 }
 
 export function ProfileSection({ title, children }: { title: string; children: ReactNode }) {

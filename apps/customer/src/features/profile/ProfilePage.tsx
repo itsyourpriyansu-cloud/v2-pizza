@@ -2,7 +2,7 @@ import { getProfile, updateProfile } from '@pizza-avenue/api-client';
 import type { CustomerProfile, CustomerProfileUpdate, FoodPreference } from '@pizza-avenue/types';
 import { queryKeys } from '@pizza-avenue/utils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Bell, ChevronRight, CircleUserRound, Heart, ReceiptText, ShieldCheck, Star } from 'lucide-react';
+import { Bell, CalendarHeart, ChevronRight, CircleUserRound, Heart, Palette, ReceiptText, ShieldCheck, ShoppingBasket, Star, Trophy, UserPlus, UsersRound } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';
@@ -11,6 +11,7 @@ import { useToast } from '../../shared/feedback/use-toast';
 import { useCommerceStore } from '../../shared/state/commerce-store';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
 import { ProfileSection } from '../retention/RetentionComponents';
+import { customerFeatureFlags } from '../../shared/config/feature-flags';
 
 function ProfileForm({ profile }: { profile: CustomerProfile }) {
   const queryClient = useQueryClient();
@@ -49,9 +50,10 @@ export function ProfilePage() {
   const profile = query.data;
   return <div className="page-stack retention-page"><PageHeader eyebrow="Your Pizza Avenue" title="Profile" description="Keep your account, preferences and notification choices in one place." />
     <ProfileSection title="Account"><div className="profile-identity"><span><CircleUserRound aria-hidden="true" /></span><div><strong>{profile.name}</strong><p>{profile.phoneMasked}</p></div>{profile.phoneVerified ? <Badge tone="success">Verified</Badge> : null}</div></ProfileSection>
-    <nav className="profile-links" aria-label="Profile shortcuts"><Link className="surface profile-link" to="/orders"><ReceiptText aria-hidden="true" /><span><strong>Orders</strong><small>Track and review past orders</small></span><ChevronRight aria-hidden="true" /></Link><Link className="surface profile-link" to="/rewards"><Star aria-hidden="true" /><span><strong>Rewards</strong><small>Points, Passport and missions</small></span><ChevronRight aria-hidden="true" /></Link></nav>
+    <nav className="profile-links" aria-label="Profile shortcuts"><Link className="surface profile-link" to="/orders"><ReceiptText aria-hidden="true" /><span><strong>Orders</strong><small>Track and review past orders</small></span><ChevronRight aria-hidden="true" /></Link><Link className="surface profile-link" to="/rewards"><Star aria-hidden="true" /><span><strong>Rewards</strong><small>Points, Passport and missions</small></span><ChevronRight aria-hidden="true" /></Link>{customerFeatureFlags.FEATURE_SAVED_BASKETS ? <Link className="surface profile-link" to="/profile/saved-baskets"><ShoppingBasket aria-hidden="true" /><span><strong>Saved Baskets</strong><small>My Usual, Family Friday and more</small></span><ChevronRight aria-hidden="true" /></Link> : null}{customerFeatureFlags.FEATURE_FAMILY ? <Link className="surface profile-link" to="/profile/family"><UsersRound aria-hidden="true" /><span><strong>Family & Household</strong><small>Private optional ordering preferences</small></span><ChevronRight aria-hidden="true" /></Link> : null}{customerFeatureFlags.FEATURE_OCCASIONS ? <Link className="surface profile-link" to="/profile/occasions"><CalendarHeart aria-hidden="true" /><span><strong>Important Occasions</strong><small>Plan useful reminders and baskets</small></span><ChevronRight aria-hidden="true" /></Link> : null}{customerFeatureFlags.FEATURE_REFERRALS ? <Link className="surface profile-link" to="/rewards/invite"><UserPlus aria-hidden="true" /><span><strong>Invite Friends</strong><small>Track qualifying first-order progress</small></span><ChevronRight aria-hidden="true" /></Link> : null}{customerFeatureFlags.FEATURE_TASTE_CARD ? <Link className="surface profile-link" to="/profile/taste-card"><Palette aria-hidden="true" /><span><strong>Taste Card</strong><small>Preview a privacy-safe share card</small></span><ChevronRight aria-hidden="true" /></Link> : null}</nav>
     {profile.favouriteProductIds.length ? <ProfileSection title="Your favourites"><p className="profile-inline"><Heart aria-hidden="true" /><span>{profile.favouriteProductIds.length} saved menu favourites</span></p></ProfileSection> : null}
     <ProfileForm profile={profile} />
+    {customerFeatureFlags.FEATURE_LEAGUE ? <ProfileSection title="League privacy"><p className="profile-inline"><Trophy aria-hidden="true" /><span>League is optional. Only your selected display name appears after opt-in and meaningful participation.</span></p><Link className="text-link" to="/rewards/league">Review League settings</Link></ProfileSection> : null}
     <ProfileSection title="Help & legal"><div className="profile-info-row"><strong>Help</strong><span>Ask our Sainikpuri counter team for order or account support.</span></div><div className="profile-info-row"><strong>Privacy</strong><span>Only service and preference data needed for this account is represented here.</span></div><div className="profile-info-row"><strong>Terms</strong><span>Reward eligibility and availability are confirmed by Pizza Avenue.</span></div></ProfileSection>
     <Button type="button" variant="secondary" onClick={() => { clearSession(); showToast('Signed out of this device.'); }}>Log out</Button>
     <p className="profile-footer-note"><Bell aria-hidden="true" /> Transactional order updates may still be required to complete your service.</p>

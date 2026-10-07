@@ -42,6 +42,15 @@ const RewardsPage = lazyNamed(() => import('../features/loyalty/RewardsPage'), '
 const PassportPage = lazyNamed(() => import('../features/passport/PassportPage'), 'PassportPage');
 const MissionsPage = lazyNamed(() => import('../features/missions/MissionsPage'), 'MissionsPage');
 const ProfilePage = lazyNamed(() => import('../features/profile/ProfilePage'), 'ProfilePage');
+const SavedBasketsPage = lazyNamed(() => import('../features/saved-baskets/SavedBasketPages'), 'SavedBasketsPage');
+const SavedBasketDetailPage = lazyNamed(() => import('../features/saved-baskets/SavedBasketPages'), 'SavedBasketDetailPage');
+const FamilyPage = lazyNamed(() => import('../features/family/FamilyPage'), 'FamilyPage');
+const OccasionsPage = lazyNamed(() => import('../features/occasions/OccasionsPage'), 'OccasionsPage');
+const InvitePage = lazyNamed(() => import('../features/referrals/ReferralPages'), 'InvitePage');
+const TasteCardPage = lazyNamed(() => import('../features/referrals/ReferralPages'), 'TasteCardPage');
+const LeaguePage = lazyNamed(() => import('../features/league/LeaguePage'), 'LeaguePage');
+const GroupOrderStartPage = lazyNamed(() => import('../features/group-order/GroupOrderPages'), 'GroupOrderStartPage');
+const GroupOrderDetailPage = lazyNamed(() => import('../features/group-order/GroupOrderPages'), 'GroupOrderDetailPage');
 
 export const customerRoutes: RouteObject[] = [
   {
@@ -93,8 +102,17 @@ export const customerRoutes: RouteObject[] = [
       { path: 'rewards', element: pending(<RewardsPage />) },
       { path: 'rewards/passport', element: pending(<PassportPage />) },
       { path: 'rewards/missions', element: pending(<MissionsPage />) },
+      { path: 'rewards/invite', element: pending(<InvitePage />) },
+      { path: 'rewards/league', element: pending(<LeaguePage />) },
       { path: 'passport', element: <Navigate to="/rewards/passport" replace /> },
       { path: 'profile', element: pending(<ProfilePage />) },
+      { path: 'profile/saved-baskets', element: pending(<SavedBasketsPage />) },
+      { path: 'profile/saved-baskets/:basketId', element: pending(<SavedBasketDetailPage />) },
+      { path: 'profile/family', element: pending(<FamilyPage />) },
+      { path: 'profile/occasions', element: pending(<OccasionsPage />) },
+      { path: 'profile/taste-card', element: pending(<TasteCardPage />) },
+      { path: 'group-order', element: pending(<GroupOrderStartPage />) },
+      { path: 'group-order/:groupId', element: pending(<GroupOrderDetailPage />) },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

@@ -17,6 +17,10 @@ export function resetCartData() {
   carts = new Map();
 }
 
+export function seedCartData(cart: Cart) {
+  carts.set(cart.id, cart);
+}
+
 export const cartHandlers = [
   http.post('*/api/v1/carts', async ({ request }) => {
     const input = (await request.json()) as { storeId: string; serviceMode?: ServiceMode };

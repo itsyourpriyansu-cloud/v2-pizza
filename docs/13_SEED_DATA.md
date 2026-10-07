@@ -117,3 +117,14 @@ Development seed values are fictional and environment-scoped. Never seed product
 
 ## Customer retention mock catalog
 The Customer prototype exposes the documented preliminary 29-item, eight-category menu through shared menu contracts. Prices, availability, reward costs and earn values are fictional integer-paise/Points fixtures pending founder confirmation. Retention fixtures cover new/returning/loyal customers, locked through consumed rewards, Passport new/progress/one-left/complete/unavailable, Personal/Common Mission states, pending/paid Dine-in loyalty and complete/partial/error Profile states.
+
+## Customer engagement prototype personas
+- `FAMILY_CUSTOMER`, `NO_FAMILY_MEMBERS`
+- `UPCOMING_OCCASION`, `NO_OCCASIONS`
+- `SAVED_BASKET_READY`, `SAVED_BASKET_STALE`, empty/error states
+- `REFERRAL_PENDING`, `REFERRAL_QUALIFIED`, `REFERRAL_REWARDED`, expired
+- `LEAGUE_NOT_JOINED`, `LEAGUE_ACTIVE`, `LEAGUE_TOP_10`, error
+- `GROUP_ORDER_HOST`, `GROUP_ORDER_PARTICIPANT`, `GROUP_ORDER_EXPIRED`, closed/host-left/item-unavailable/basket-changed/participant-removed/network-failure
+- `REACTIVATION_CUSTOMER`
+
+Named baskets cover My Usual, Family Friday, Movie Night, Office Lunch, Date Night and Custom. Fixtures use fictional identities and privacy-filtered public display names. Referral codes, reminders, tier thresholds, ranks, basket prices and group contributions are prototype-only and must not be treated as production truth.

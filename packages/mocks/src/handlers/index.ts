@@ -3,6 +3,7 @@ import { authHandlers } from './auth';
 import { billingHandlers } from './billing';
 import { cartHandlers } from './cart';
 import { dineInHandlers } from './dine-in';
+import { engagementHandlers } from './engagement';
 import { loyaltyHandlers } from './loyalty';
 import { menuHandlers } from './menu';
 import { missionHandlers } from './missions';
@@ -18,6 +19,7 @@ export const handlers = [
   ...menuHandlers,
   ...cartHandlers,
   ...dineInHandlers,
+  ...engagementHandlers,
   ...pickupHandlers,
   ...paymentHandlers,
   ...orderHandlers,

@@ -2,7 +2,7 @@ import { getLoyaltyAccount, getLoyaltyActivity, getPassportProgress, getRewards,
 import type { Reward } from '@pizza-avenue/types';
 import { queryKeys } from '@pizza-avenue/utils';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
-import { ClipboardCheck, Trophy } from 'lucide-react';
+import { ClipboardCheck, Crown, Trophy, UserPlus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';
 import { EmptyState, ErrorState, PageHeader, PageSkeleton, SectionHeader, Surface } from '../../shared/components/Primitives';
@@ -43,7 +43,7 @@ export function RewardsPage() {
       {rewards.data.length ? <div className="reward-grid">{rewards.data.map((reward) => <RewardCard key={reward.id} reward={reward} busy={reservation.isPending || release.isPending} onReserve={reward.status === 'AVAILABLE' ? () => reservation.mutate(reward.id) : undefined} onRelease={reward.status === 'RESERVED' ? () => release.mutate(reservationId ?? 'redemption-mock-1') : undefined} />)}</div> : <EmptyState title="Your first reward starts here" body="Complete eligible orders to earn Points and unlock rewards." />}
       {reservation.isError ? <p className="validation-message" role="alert">That reward could not be reserved. Refresh its status and try again.</p> : null}
     </section>
-    <div className="retention-link-grid"><PassportProgressCard passport={passport.data} compact /><RetentionLinkCard eyebrow="Avenue XP" title="Missions" body="Take on personal and community challenges." href="/rewards/missions" icon={<Trophy />} /></div>
+    <div className="retention-link-grid"><PassportProgressCard passport={passport.data} compact /><RetentionLinkCard eyebrow="Avenue XP" title="Missions" body="Take on personal and community challenges." href="/rewards/missions" icon={<Trophy />} /><RetentionLinkCard eyebrow="Friends" title="Invite progress" body="Rewards unlock only after a qualifying first order." href="/rewards/invite" icon={<UserPlus />} /><RetentionLinkCard eyebrow="Seasonal" title="Avenue League" body="Optional rankings powered by Avenue XP, not spend." href="/rewards/league" icon={<Crown />} /></div>
     <section className="page-stack" aria-labelledby="points-activity"><SectionHeader id="points-activity" title="Points activity" /><Surface><ul className="activity-list">{activity.data.map((entry) => <li key={entry.id}><span><ClipboardCheck aria-hidden="true" /><span><strong>{entry.displayLabel}</strong><small>{new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(entry.createdAt))}</small></span></span><strong className={entry.pointsDelta >= 0 ? 'positive-value' : ''}>{entry.pointsDelta >= 0 ? '+' : ''}{entry.pointsDelta}</strong></li>)}</ul></Surface></section>
   </div>;
 }

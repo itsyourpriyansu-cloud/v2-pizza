@@ -170,3 +170,19 @@
 - Profile preferences save through the typed API boundary and retain prior values on failure
 - mock menu contains the documented 29 preliminary items across eight categories with aligned cards
 - retention routes are lazy-loaded and pass responsive, accessibility, console/network and commerce-regression checks
+
+## Customer engagement-complete frontend prototype
+- Saved Baskets support named use cases, modifier snapshots, edit/delete/rebuild/share and current-menu revalidation before reorder
+- stale Saved Baskets preserve valid items and explain product, price, modifier or service-mode differences
+- Family Basket uses the Saved Basket engine rather than a duplicate cart implementation
+- Household forms are optional, private, day/month-only for birthdays and clearly disclaim avoid-ingredient safety
+- Occasions can link a Household member and Saved Basket and plan through the normal cart
+- reactivation presents one useful known-context action without requiring a discount
+- referral UX represents Shared through Rewarded but grants nothing before verified identity plus qualifying completed/paid first order
+- Taste Card shares only selected public picks and Passport progress
+- League is seasonal, Avenue-XP-based, opt-in/participation-aware and shows Top 3 plus nearby positions with concrete progress
+- Group Ordering supports host creation, participant contribution, lightweight poll, failure/recovery states and one-host checkout handoff; no split payment exists
+- Home preserves active Dine-in and Pickup dominance and renders no more than one contextual engagement module
+- Profile links Saved Baskets, Family, Occasions, Invite Friends, Taste Card and League privacy without becoming a game dashboard
+- served-but-unpaid Dine-in does not finalize loyalty, Missions, XP or League progress
+- major route groups are lazy-loaded and commerce/retention regression, accessibility, responsive, console/network, build and audit checks pass

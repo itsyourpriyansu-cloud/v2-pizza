@@ -18,7 +18,7 @@ describe('customer retention end-to-end missions', () => {
 
   it('01. opens one-left Passport from Home and preserves source into Product Detail', async () => {
     const user = userEvent.setup();
-    const state = setScenarioState({ customer: 'LOYAL_CUSTOMER', rewards: 'REWARD_LOCKED', passport: 'PASSPORT_ONE_LEFT' });
+    const state = setScenarioState({ customer: 'LOYAL_CUSTOMER', rewards: 'REWARD_LOCKED', passport: 'PASSPORT_ONE_LEFT', savedBasket: 'SAVED_BASKETS_EMPTY', occasion: 'NO_OCCASIONS' });
     usePrototypeStore.setState({ scenarioState: state }); setPickupContext(); renderRoute('/');
     await user.click(await screen.findByRole('link', { name: /Pizza Passport/ }));
     expect(await screen.findByText('5 of 6 discovered')).toBeVisible();

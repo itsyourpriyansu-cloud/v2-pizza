@@ -82,6 +82,15 @@
 - points
 - rewards
 - Pizza Passport
+- Saved Baskets, including Family Basket as a Saved Basket use case with current-menu revalidation
+- optional private Household profiles and Important Occasions for progressive order planning
+- contextual reactivation that uses known customer intent rather than default discounting
+- referral progress that rewards only a verified identity plus qualifying completed/paid first order
+- privacy-safe Taste Card sharing
+- optional seasonal Avenue League based on Avenue XP rather than direct spend
+- frontend-prototype Group Ordering with one host, one final basket, one checkout and a lightweight poll
+
+These engagement concepts are required for the first client-reviewable Customer prototype. Production engines, persistence, collaboration and policy values remain backend/client-review work.
 
 ## KDS V1
 - Pickup after verified payment; Dine-in after waiter confirmation
@@ -141,7 +150,6 @@
 - off-server encrypted database backups to Cloudflare R2 with retention and restore testing
 
 ## Phase 1.1
-- stronger referrals
 - advanced bundles
 - customer segmentation
 - limited drops

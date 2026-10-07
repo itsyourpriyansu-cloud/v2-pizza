@@ -82,8 +82,8 @@ describe('customer discovery and builder flows', () => {
     const user = userEvent.setup();
     renderRoute('/?scenario=LOYAL_CUSTOMER');
     await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
-    expect(await screen.findByText('Reward ready')).toBeVisible();
-    expect(screen.getByText('Free dip')).toBeVisible();
+    expect(await screen.findByText('Saved basket')).toBeVisible();
+    expect(screen.getByText('Family Friday')).toBeVisible();
   });
 
   it('filters the menu by category', async () => {
