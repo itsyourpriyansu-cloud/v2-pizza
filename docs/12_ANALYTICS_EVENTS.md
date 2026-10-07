@@ -108,8 +108,16 @@ reward_viewed
 reward_unlocked
 reward_reserved
 reward_redeemed
+reward_reservation_started
+reward_reservation_released
 passport_progress
 passport_completed
+passport_viewed
+passport_product_selected
+missions_viewed
+mission_selected
+profile_viewed
+profile_preferences_saved
 
 ## Retention
 reorder_clicked

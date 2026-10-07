@@ -5,6 +5,7 @@ export interface PassportItem {
   productId: EntityId;
   label: string;
   displayOrder: number;
+  availability: 'AVAILABLE' | 'UNAVAILABLE';
 }
 
 export interface PassportProgram {
@@ -16,9 +17,12 @@ export interface PassportProgram {
 }
 
 export interface PassportProgress {
+  program: PassportProgram;
   programId: EntityId;
   customerId: EntityId;
   completedItemIds: EntityId[];
   completed: boolean;
+  status: 'NEW' | 'IN_PROGRESS' | 'NEAR_COMPLETE' | 'COMPLETE';
+  nextItemId: EntityId | null;
   unlockedRewardId: EntityId | null;
 }

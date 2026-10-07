@@ -116,3 +116,13 @@ Simulate 20–30 orders, rush, sold-out, delayed payment, pickup queue, staff ro
 - outbox event loss or non-idempotent worker effect
 - no successful off-server restore test
 - duplicate/incorrect table bill, unauthorized payment settlement or loyalty credited before Dine-in bill payment
+
+## Customer retention frontend missions
+- Home → one-left Passport → current Product Detail with `source=PASSPORT`
+- reward reserve/release without consumption
+- Passport five-of-six → complete with unique stamps
+- Personal and Common Mission completion with stable exactly-once XP response
+- served/unpaid Dine-in pending → paid balance update
+- typed Profile save success and recoverable failure
+- active Pickup and Table 12 operational-priority checks
+- 360/390/430/768/1440 overflow/accessibility scan, console/network inspection and screenshot evidence

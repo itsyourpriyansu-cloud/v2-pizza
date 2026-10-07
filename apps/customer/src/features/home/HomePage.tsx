@@ -1,12 +1,13 @@
-import { getMenu, getPassportProgress, listOrders } from '@pizza-avenue/api-client';
+import { getLoyaltyAccount, getMenu, getMissions, getPassportProgress, getRewards, listOrders } from '@pizza-avenue/api-client';
 import { queryKeys } from '@pizza-avenue/utils';
 import { useQuery } from '@tanstack/react-query';
-import { CakeSlice, CookingPot, CupSoda, Pizza, Search, Utensils } from 'lucide-react';
+import { CakeSlice, CookingPot, CupSoda, Pizza, Search, Star, Trophy, Utensils } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge, Button, ButtonLink, ErrorState, PageSkeleton, SectionHeader, Surface } from '../../shared/components/Primitives';
 import { usePrototypeStore } from '../../shared/state/prototype-store';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
 import { ProductCard } from '../menu/components/ProductCard';
+import { RetentionLinkCard } from '../retention/RetentionComponents';
 
 export function HomePage() {
   useScenarioFromUrl();
@@ -15,6 +16,7 @@ export function HomePage() {
   const setServiceContext = usePrototypeStore((state) => state.setServiceContext);
 
   const pickupSelected = serviceContext?.mode === 'PICKUP';
+  const dineInSelected = serviceContext?.mode === 'DINE_IN';
   const menuQuery = useQuery({
     queryKey: queryKeys.menu('sainikpuri'),
     queryFn: () => getMenu('sainikpuri'),
@@ -28,8 +30,11 @@ export function HomePage() {
   const passportQuery = useQuery({
     queryKey: queryKeys.passport(),
     queryFn: getPassportProgress,
-    enabled: pickupSelected && scenarioState.customer === 'LOYAL_CUSTOMER',
+    enabled: pickupSelected && scenarioState.customer !== 'NEW_CUSTOMER',
   });
+  const loyaltyQuery = useQuery({ queryKey: queryKeys.loyalty(), queryFn: getLoyaltyAccount, enabled: pickupSelected && scenarioState.customer !== 'NEW_CUSTOMER' });
+  const rewardsQuery = useQuery({ queryKey: queryKeys.rewards(), queryFn: getRewards, enabled: pickupSelected && scenarioState.customer !== 'NEW_CUSTOMER' });
+  const missionsQuery = useQuery({ queryKey: queryKeys.missions(), queryFn: getMissions, enabled: pickupSelected && scenarioState.customer !== 'NEW_CUSTOMER' });
 
   function choosePickup() {
     setServiceContext({
@@ -42,6 +47,10 @@ export function HomePage() {
     });
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
+  }
+
+  if (dineInSelected) {
+    return <div className="page-stack"><Surface className="order-status-card"><Badge tone="success">Active Dine-in · {serviceContext.tableLabel ?? 'Your table'}</Badge><h1>{serviceContext.tableLabel ?? 'Your table'} is active.</h1><p>Your active table order and service actions take priority over rewards.</p><div className="service-action-grid"><ButtonLink to="/dine-in/order-more">Order more</ButtonLink><ButtonLink to="/dine-in/bill" variant="secondary">Current bill</ButtonLink></div></Surface><ButtonLink to="/dine-in" variant="secondary">Open table workspace</ButtonLink></div>;
   }
 
   if (!pickupSelected) {
@@ -82,7 +91,7 @@ export function HomePage() {
     ? ordersQuery.data?.items.find((order) => order.serviceMode === 'PICKUP' && ['CONFIRMED', 'PREPARING', 'READY_FOR_PICKUP'].includes(order.status))
     : null;
   const featured = menuQuery.data.products.filter((product) => product.flags.includes('SIGNATURE') || product.flags.includes('BESTSELLER')).slice(0, 3);
-  const returning = scenarioState.customer === 'RETURNING_CUSTOMER' || scenarioState.customer === 'LOYAL_CUSTOMER';
+  const returning = scenarioState.customer === 'RETURNING_CUSTOMER' || scenarioState.customer === 'LOYAL_CUSTOMER' || scenarioState.customer === 'ACTIVE_ORDER';
   const favourite = returning ? menuQuery.data.products.find((product) => product.id === 'pizza-diavola') : null;
   const pastOrder = ordersQuery.data?.items.find((order) => order.serviceMode === 'PICKUP' && order.status === 'COMPLETED');
   const storeMessage = {
@@ -91,6 +100,15 @@ export function HomePage() {
     STORE_PAUSED: ['Pickup orders are paused', 'You can still browse the live menu'],
     STORE_CLOSED: ['Pickup is closed right now', 'Browse now and come back when we reopen'],
   }[scenarioState.store];
+  const availableReward = rewardsQuery.data?.find((reward) => reward.status === 'AVAILABLE');
+  const activeMission = missionsQuery.data?.personal.find((mission) => !['COMPLETED', 'EXPIRED', 'CANCELLED'].includes(mission.status));
+  const retentionModule = availableReward
+    ? <RetentionLinkCard eyebrow="Reward ready" title={availableReward.name} body={`${loyaltyQuery.data?.pointsBalance ?? 0} Points available`} href="/rewards" icon={<Star />} />
+    : passportQuery.data?.status === 'NEAR_COMPLETE'
+      ? <RetentionLinkCard eyebrow="Pizza Passport" title={`${passportQuery.data.completedItemIds.length} of ${passportQuery.data.program.items.length} discovered`} body="Your next signature is waiting." href="/rewards/passport" icon={<Pizza />} />
+      : activeMission
+        ? <RetentionLinkCard eyebrow="Personal mission" title={activeMission.title} body={activeMission.progress.label} href="/rewards/missions" icon={<Trophy />} />
+        : null;
 
   return (
     <div className="page-stack">
@@ -150,13 +168,7 @@ export function HomePage() {
           <p className="muted">Your previous pickup order is ready to review before reordering.</p>
         </Surface>
       ) : null}
-      {scenarioState.customer === 'LOYAL_CUSTOMER' && passportQuery.data ? (
-        <Surface>
-          <SectionHeader title="Pizza Passport" action={<Link className="text-link" to="/passport">View passport</Link>} />
-          <p>{passportQuery.data.completedItemIds.length} signature pizzas discovered.</p>
-          <div className="progress-track" aria-label={`${passportQuery.data.completedItemIds.length} passport items completed`}><span style={{ width: `${Math.min(100, passportQuery.data.completedItemIds.length / 6 * 100)}%` }} /></div>
-        </Surface>
-      ) : null}
+      {returning && retentionModule ? <section aria-label="Your next loyalty action">{retentionModule}</section> : null}
       <section className="page-stack" aria-labelledby="featured-menu">
         <SectionHeader id="featured-menu" title="Popular at Pizza Avenue" action={<Link className="text-link" to="/menu">See all</Link>} />
         <div className="product-grid">{featured.map((product) => <ProductCard key={product.id} product={product} />)}</div>

@@ -42,18 +42,20 @@
 .category-tab { flex: 0 0 auto; min-height: 2.75rem; padding: 0.55rem 0.9rem; border: 1px solid var(--color-border); border-radius: 999px; color: var(--color-ink); background: var(--color-surface); font-weight: 700; cursor: pointer; }
 .category-tab.is-active { border-color: var(--color-ink); color: white; background: var(--color-ink); }
 .product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
-.product-grid--compact { max-width: 20rem; }
-.product-card { display: grid; min-width: 0; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
-.product-media { display: grid; overflow: hidden; min-height: 9rem; place-items: center; background: var(--color-surface-strong); }
+.product-grid.product-grid--compact { grid-template-columns: 1fr; max-width: 20rem; }
+.product-card { display: grid; height: 100%; min-width: 0; overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
+.product-media { display: grid; overflow: hidden; height: 10rem; min-height: 10rem; place-items: center; background: var(--color-surface-strong); }
 .product-media img { width: 100%; height: 100%; object-fit: cover; }
 .product-media--fallback { align-content: center; gap: 0.5rem; padding: 1rem; color: var(--color-brand); background: linear-gradient(135deg, var(--color-surface-strong), var(--color-canvas)); font-family: var(--font-display); font-size: 1.05rem; text-align: center; }
 .product-media--fallback svg { width: 1.5rem; height: 1.5rem; stroke-width: 1.6; }
-.product-card__body { display: grid; gap: 0.5rem; padding: 1rem; }
+.product-card__body { display: grid; grid-template-rows: auto auto 1fr auto; gap: 0.5rem; min-width: 0; padding: 1rem; }
 .product-card__meta, .product-card__badges { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .product-card h3, .product-card p { margin-bottom: 0; }
 .product-card h3 { font-family: var(--font-display); font-size: 1.35rem; }
-.product-card__description { color: var(--color-muted); font-size: 0.82rem; }
-.product-card__link { text-decoration: none; }
+.product-card h3 { min-height: 3rem; }
+.product-card__badges { min-height: 1.5rem; }
+.product-card__description { min-height: 2.5rem; color: var(--color-muted); font-size: 0.82rem; }
+.product-card__link { display: grid; grid-template-rows: auto 1fr; height: 100%; min-width: 0; text-decoration: none; }
 .product-card--unavailable { opacity: 0.68; }
 .order-status-card { display: grid; gap: 0.8rem; border-color: #9ebca8; background: #edf5ef; }
 .progress-track { height: 0.55rem; overflow: hidden; border-radius: 999px; background: #d8d3ca; }
@@ -143,11 +145,75 @@
 .service-action-grid { display: grid; gap: 0.75rem; }
 .toast-region { position: fixed; z-index: 60; top: 4.5rem; right: 1rem; left: 1rem; display: grid; justify-items: center; gap: 0.5rem; pointer-events: none; }
 .toast { width: fit-content; max-width: 30rem; padding: 0.75rem 1rem; border-radius: 999px; color: white; background: var(--color-ink); box-shadow: var(--shadow-soft); font-weight: 700; }
+.retention-page { max-width: 70rem; margin-inline: auto; }
+.points-balance-card { display: grid; gap: 1.25rem; padding: clamp(1.25rem, 5vw, 2rem); color: var(--color-canvas); background: var(--color-ink); }
+.points-balance-card .eyebrow { color: #e8c584; }
+.points-total { display: block; font-family: var(--font-display); font-size: clamp(3.5rem, 15vw, 6.5rem); line-height: 0.9; }
+.points-balance-card__detail { display: grid; align-content: end; gap: 0.75rem; }
+.points-balance-card .progress-track { background: rgb(255 255 255 / 20%); }
+.points-balance-card .progress-track > span { background: #e8c584; }
+.pending-copy { margin: 0; color: #f7e8c9; font-size: 0.85rem; }
+.reward-grid, .mission-grid, .passport-grid, .retention-link-grid { display: grid; gap: 0.75rem; }
+.reward-card, .mission-card { display: grid; min-height: 15rem; align-content: space-between; gap: 1rem; }
+.reward-card h3, .mission-card h3, .passport-item h2, .passport-progress-card h2, .retention-link-card strong { margin: 0; font-family: var(--font-display); }
+.reward-card__top, .reward-card__footer, .mission-card__heading, .mission-card__footer, .retention-card__heading { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.reward-card__icon, .passport-stamp, .passport-item__mark, .retention-link-card__icon { display: grid; width: 2.75rem; height: 2.75rem; flex: 0 0 auto; place-items: center; border-radius: 50%; color: var(--color-brand); background: var(--color-brand-soft); }
+.reward-card__icon svg, .passport-stamp svg, .passport-item__mark svg, .retention-link-card__icon svg { width: 1.25rem; height: 1.25rem; }
+.reward-card--locked { background: #f4f0e8; }
+.reward-card--reserved, .reward-card--applied { border-color: #d8b976; background: #fff8e8; }
+.passport-progress-card { display: grid; gap: 0.9rem; padding: clamp(1rem, 4vw, 1.5rem); background: linear-gradient(135deg, var(--color-surface), var(--color-success-soft)); }
+.passport-progress-card p { margin: 0; }
+.passport-progress-card .text-link, .mission-card .text-link { display: inline-flex; align-items: center; gap: 0.3rem; }
+.passport-progress-card .text-link svg, .mission-card .text-link svg { width: 1rem; }
+.passport-item { display: grid; grid-template-columns: auto 1fr; align-items: start; gap: 1rem; }
+.passport-item > .button { grid-column: 1 / -1; }
+.passport-item--complete { border-color: #9ebca8; background: var(--color-success-soft); }
+.mission-card--expired { opacity: 0.68; }
+.badge svg { width: 0.9rem; height: 0.9rem; }
+.retention-link-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.9rem; text-decoration: none; }
+.retention-link-card > span:nth-child(2) { display: grid; gap: 0.15rem; }
+.retention-link-card small { color: var(--color-brand); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.retention-link-card > svg { width: 1.2rem; }
+.activity-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.activity-list li { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.85rem; border-top: 1px solid var(--color-border); }
+.activity-list li:first-child { padding-top: 0; border-top: 0; }
+.activity-list li > span { display: flex; align-items: center; gap: 0.75rem; }
+.activity-list li svg { width: 1.1rem; color: var(--color-muted); }
+.activity-list small { display: block; color: var(--color-muted); }
+.positive-value { color: var(--color-success); }
+.profile-section { display: grid; gap: 0.85rem; }
+.profile-section h2 { margin: 0; font-family: var(--font-display); }
+.profile-identity { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.8rem; }
+.profile-identity > span { display: grid; width: 3rem; height: 3rem; place-items: center; border-radius: 50%; background: var(--color-brand-soft); color: var(--color-brand); }
+.profile-identity p { margin: 0; color: var(--color-muted); }
+.profile-links { display: grid; gap: 0.75rem; }
+.profile-link { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.75rem; text-decoration: none; }
+.profile-link > svg:first-child { color: var(--color-brand); }
+.profile-link span { display: grid; }
+.profile-link small { color: var(--color-muted); }
+.preference-fieldset { display: grid; gap: 0.5rem; margin: 0; padding: 0; border: 0; }
+.preference-fieldset legend { margin-bottom: 0.5rem; font-weight: 750; }
+.preference-option { display: flex; min-height: 2.75rem; align-items: center; gap: 0.7rem; padding: 0.6rem 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: white; }
+.preference-option input { width: 1.1rem; height: 1.1rem; accent-color: var(--color-brand); }
+.allergy-warning { display: flex; gap: 0.65rem; margin: 0; padding: 0.8rem; border-radius: var(--radius-sm); color: var(--color-warning); background: #f7e8c9; font-size: 0.85rem; }
+.allergy-warning svg, .profile-inline svg, .profile-footer-note svg { width: 1.2rem; flex: 0 0 auto; }
+.profile-inline, .profile-footer-note { display: flex; align-items: center; gap: 0.6rem; margin: 0; }
+.profile-info-row { display: grid; gap: 0.15rem; padding-top: 0.75rem; border-top: 1px solid var(--color-border); }
+.profile-info-row span { color: var(--color-muted); font-size: 0.88rem; }
+.profile-footer-note { color: var(--color-muted); font-size: 0.82rem; }
+.post-order-retention { display: grid; gap: 0.9rem; background: var(--color-success-soft); }
+.post-order-retention h2 { margin: 0; font-family: var(--font-display); }
+.post-order-retention__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.post-order-retention__stats span { display: grid; padding: 0.65rem; border-radius: var(--radius-sm); background: rgb(255 255 255 / 62%); }
+.post-order-retention__stats strong { font-family: var(--font-display); font-size: 1.35rem; }
+.post-order-retention__stats small { color: var(--color-muted); }
 @media (min-width: 38rem) {
   .customer-shell > main { padding-inline: 1.5rem; }
   .service-choice__grid, .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .product-hero { grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr); }
   .checkout-review__grid, .service-action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .points-balance-card { grid-template-columns: minmax(12rem, 0.75fr) minmax(16rem, 1.25fr); }
+  .reward-grid, .mission-grid, .passport-grid, .retention-link-grid, .profile-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 23.75rem) {
   .product-card__body { padding: 0.75rem; }

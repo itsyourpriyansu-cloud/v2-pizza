@@ -65,3 +65,6 @@ Use only where the UX genuinely offers both paths. It presents phone OTP and “
 
 ## QRCodeCampaignCard
 Founder/Admin component showing source code, store, placement, campaign, active state and funnel metrics. Activation changes are permission-protected and audited. The component never embeds credentials; export/print uses the server-owned redirect URL.
+
+## Customer retention components
+`PointsBalanceCard`, `RewardCard`, `PassportProgressCard`, `MissionCard`, `XPBadge`, `RetentionLinkCard` and `ProfileSection` are shared across the Customer retention routes. They render API-owned balances and states; buttons request typed mutations but never calculate or finalize Points, XP, reward consumption or Passport completion in the browser.

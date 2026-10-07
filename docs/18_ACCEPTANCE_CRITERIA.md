@@ -161,3 +161,12 @@
 - nightly compressed/encrypted-as-applicable dump reaches off-server R2 with monitored retention
 - isolated restore test succeeds on the recorded cadence
 - `/health` and `/health/ready`, structured logs, exception monitoring and redaction are verified
+
+## Customer retention frontend V1
+- Rewards presents Points, next reward, usable state labels, reversible reservation and activity
+- Passport progress is unique, completion-aware and links unavailable-safe items to current products
+- Personal and Common Missions are separated; Avenue XP is explicitly non-redeemable
+- Home renders no more than one retention prompt beneath active order/table and reorder priorities
+- Profile preferences save through the typed API boundary and retain prior values on failure
+- mock menu contains the documented 29 preliminary items across eight categories with aligned cards
+- retention routes are lazy-loaded and pass responsive, accessibility, console/network and commerce-regression checks

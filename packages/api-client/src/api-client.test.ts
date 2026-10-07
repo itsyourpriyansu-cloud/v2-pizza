@@ -11,7 +11,8 @@ import { setScenario } from '@pizza-avenue/mocks';
 describe('typed API client over MSW', () => {
   it('receives the realistic mocked menu', async () => {
     const menu = await getMenu('sainikpuri');
-    expect(menu.products.map((product) => product.name)).toContain('Avenue Signature');
+    expect(menu.products.map((product) => product.name)).toContain('Farmhouse Pizza');
+    expect(menu.products).toHaveLength(29);
     expect(menu.products[0]?.variants[0]?.basePrice.currency).toBe('INR');
   });
 

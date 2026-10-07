@@ -103,13 +103,13 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0009 (CHG-0005 is reserved on the parallel Landing branch)
+Next Change ID: CHG-0010 (CHG-0005 is reserved on the parallel Landing branch)
 
 Open:
-7
+8
 
 In Progress:
-0
+1
 
 In Review:
 4
@@ -1411,6 +1411,187 @@ Implementation and local validation are complete on the stacked Customer commerc
 - CHG-0002
 - CHG-0006
 - CHG-0007
+
+---
+
+## CHG-0009 — Customer Retention & Profile V1
+
+- **Status:** IN_PROGRESS
+- **Type:** FEATURE, UX, RETENTION, TEST, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Complete the first Customer retention loop after ordering so one verified customer account can understand Pizza Points, safely reserve rewards, explore the Pizza Passport, complete Personal and Common Missions, maintain practical preferences and return to the live menu without retention ever blocking ordering.
+
+### Requested Outcome
+
+Deliver production-shaped, deterministic mock-backed Rewards, Passport, Missions, Home retention and Profile experiences through the existing React → TanStack Query → typed API client → MSW boundary. Align the current menu presentation and replace incomplete placeholder catalog content with the documented preliminary Pizza Avenue mock menu while keeping all prices and production truth explicitly provisional.
+
+### Scope
+
+Included:
+- Pizza Points balance, next-reward progress, pending Dine-in explanation and human-readable activity,
+- reward locked/available/reserved/applied/consumed/unavailable states with reservation and release recovery,
+- Pizza Passport new/progress/one-left/complete/unavailable states linked to current Product Detail routes,
+- visibly separated Personal and Common Missions with exact progress and subtle Avenue XP,
+- one adaptive Home retention module subordinate to active order/table/reorder priorities,
+- practical Profile identity, verified-phone, preferences, favourites, notifications, legal/help/logout and typed save recovery,
+- deterministic mock personas/scenarios, retention analytics, lazy routes, focused mission/regression tests and responsive browser evidence,
+- menu grid/content alignment using documented mock-only catalog names and current shared product contracts.
+
+Excluded:
+- full Avenue League or public ranking,
+- household/family/DOB/occasion automation,
+- advanced referral or collaborative/group baskets,
+- real loyalty/reward/mission backend, persistence, notifications, database or Admin tooling,
+- changes to payment, order admission or Dine-in billing authority.
+
+### GitHub Tracking
+
+Issue:
+- [#22 — Customer Retention & Profile V1](https://github.com/itsyourpriyansu-cloud/v2-pizza/issues/22)
+
+Branch:
+- `feature/customer-retention-v1`, stacked from exact commerce head `72697aab048dae4e7f6662b9f51534d1827c4112` while PRs #18, #19 and #21 remain open
+
+Pull Request:
+- Pending; must target `feature/customer-commerce-flow` while PR #21 remains unmerged
+
+### Affected Surfaces
+
+- Customer PWA
+- Shared frontend API/type/mock boundaries
+- Customer seed menu and documentation/test evidence
+
+### Affected Modules
+
+- Rewards and loyalty activity
+- Pizza Passport and Product Detail attribution
+- Personal/Common Missions and Avenue XP presentation
+- Home adaptive retention module
+- Customer Profile/preferences
+- Menu catalog fixtures and product layout alignment
+- Shared API client, types, mocks, analytics and route splitting
+
+### Files / Areas Changed
+
+- `apps/customer/src/features/loyalty`, Passport, Missions, Home, Orders, Profile and shared retention components
+- `apps/customer/src/app/router.tsx`, focused retention/regression tests and Customer styles
+- `packages/types`, `packages/api-client`, `packages/mocks` and `packages/utils` retention/menu contracts, handlers and query keys
+- six responsive screenshot artifacts and the task-relevant product/engineering documentation
+
+### Database Impact
+
+Migration required:
+- No. Frontend/MSW implementation only; documented future PostgreSQL ledger and progress models remain authoritative.
+
+Data migration required:
+- No
+
+### API Impact
+
+New production endpoints:
+- None implemented. Typed frontend contracts may represent the already documented loyalty/rewards/passport endpoints plus mock-only missions/profile endpoints for future backend alignment.
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- Renders the existing reward `AVAILABLE → RESERVED → APPLIED → CONSUMED` and `RESERVED → RELEASED` lifecycle without allowing client authority.
+- Loyalty/Passport/Missions remain finalized only by qualifying completed Pickup or paid Dine-in events.
+
+### Permission Impact
+
+- Customer can read/update only their own mock profile and retention state.
+- No staff/admin loyalty authority is added.
+
+### Analytics Impact
+
+- Add privacy-safe client journey hooks for rewards, Points, Passport, Personal/Common Missions, Profile, Home retention and post-order retention summary interactions.
+- No analytics vendor or authoritative economic mutation is introduced.
+
+### Environment / Secret Impact
+
+New env vars:
+- None planned
+
+Changed secrets:
+- None
+
+### Tests Required
+
+- [x] reward mapping, reservation, release and conflict recovery
+- [x] Passport progression, uniqueness, unavailable recommendation and Product navigation
+- [x] Personal/Common Mission progress and exactly-once XP presentation
+- [x] unpaid Dine-in Points pending versus paid loyalty state
+- [x] Profile load/save success/failure and validation
+- [x] Home operational-priority matrix
+- [x] menu mock catalog and responsive alignment
+- [x] commerce regression suite
+- [x] workspace lint, typecheck, 131 tests, builds and production dependency audit
+- [x] 360/390/430/768/1440 browser verification and screenshots
+- [x] console/network and privacy/security scan
+
+### Edge Cases
+
+- Retention never blocks order, track, reorder or active table actions.
+- Reward reserve does not consume; abandoned/released reservation restores availability.
+- Passport completion and XP presentation are duplicate-safe in the mock state model.
+- Sold-out Passport recommendations fall forward without resetting progress.
+- Served but unpaid Dine-in items show pending copy and never increase spendable Points.
+- Profile preference failures retain the last saved profile and explain recovery.
+- Menu data remains explicitly mock/preliminary pending founder confirmation.
+
+### Security Review
+
+- No arbitrary Points/XP mutation from UI inputs.
+- No raw private profile data in logs, analytics or screenshots.
+- No DOB/household collection or medical/allergen guarantee.
+- Reward/loyalty finalization remains backend-authoritative in documented production architecture.
+
+### Staging Result
+
+Status:
+- Local validation complete; stacked feature branch is ready for PR CI
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- PRs #18, #19 and #21 remain unmerged; this branch is intentionally stacked.
+- Founder-confirmed earn ratio, reward costs, expiry policy and production menu prices remain pending; mocks must not be represented as production truth.
+- MSW cannot prove server ledger idempotency, ownership enforcement or paid-bill loyalty attribution.
+
+### Follow-Up
+
+- [x] Implement and validate the scoped Customer retention batch.
+- [ ] Open the tracked Issue and correctly based stacked PR.
+- [ ] Retarget only after the prerequisite chain merges.
+
+### Current Result
+
+Implementation and local validation are complete. The Customer build exposes separate lazy Rewards (7.07 kB), Passport (1.88 kB), Missions (1.75 kB) and Profile (7.37 kB) chunks; initial Customer entry is 272.80 kB (84.45 kB gzip). Browser evidence reports no horizontal overflow at 360/390/430/768/1440, zero unnamed buttons/unlabelled inputs on reviewed retention routes, zero console/network errors, 29 menu products, eight categories and zero measured card-height spread.
+
+### Related Changes
+
+- CHG-0002
+- CHG-0006
+- CHG-0007
+- CHG-0008
 
 ---
 
