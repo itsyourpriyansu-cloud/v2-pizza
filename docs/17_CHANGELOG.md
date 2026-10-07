@@ -29,7 +29,7 @@ Added:
 - capacity-aware Pickup selection with ASAP/scheduled slots, reservation countdown, full-slot and expired-hold recovery
 - checkout review, payment pending/verified/failure handling, Pickup confirmation and fulfilment tracking
 - waiter-gated Dine-in submission, clarification/rejection/accepted/preparing/ready/served states, additional rounds and a read-only current bill
-- 14 focused commerce-flow tests and responsive browser evidence for the primary Pickup and Dine-in missions
+- 15 focused commerce-flow tests and responsive browser evidence for the primary Pickup and Dine-in missions
 
 Changed:
 - Customer discovery links and product building now respect the active service mode

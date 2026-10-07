@@ -1404,7 +1404,7 @@ Deployment date:
 
 ### Current Result
 
-Implementation and local validation are complete on the stacked Customer commerce branch. Pickup and Dine-in missions pass through typed API-client/MSW boundaries; all 120 tests pass, workspace lint and all TypeScript project checks pass, all four production app builds pass, and `pnpm audit --prod` reports no known vulnerabilities. Browser walkthroughs pass at 360, 390, 430, 768 and 1440 px without horizontal overflow; saved evidence covers cart, Pickup review/tracking and the Dine-in waiter gate. Browser console and network error checks are clean after adding the Customer favicon. The Customer entry bundle is 374.79 kB / 117.18 kB gzip versus the 533.25 kB / 164.56 kB gzip baseline. Production backend/provider behavior remains intentionally unproved by this MSW batch.
+Implementation and local validation are complete on the stacked Customer commerce branch. Pickup and Dine-in missions pass through typed API-client/MSW boundaries; all 121 tests pass, workspace lint and all TypeScript project checks pass, all four production app builds pass, and `pnpm audit --prod` reports no known vulnerabilities. Browser walkthroughs pass at 360, 390, 430, 768 and 1440 px without horizontal overflow; saved evidence covers cart, Pickup review/tracking and the Dine-in waiter gate. Browser console and network error checks are clean after adding the Customer favicon. The Customer entry bundle is 374.79 kB / 117.18 kB gzip versus the 533.25 kB / 164.56 kB gzip baseline. Production backend/provider behavior remains intentionally unproved by this MSW batch.
 
 ### Related Changes
 

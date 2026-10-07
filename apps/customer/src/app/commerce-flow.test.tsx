@@ -128,6 +128,19 @@ describe('customer commerce missions', () => {
     expect(useCommerceStore.getState().carts.PICKUP.itemCount).toBe(1);
   });
 
+  it('recovers when an available slot fills after selection', async () => {
+    const user = userEvent.setup();
+    await seedCart('PICKUP');
+    setPickupContext();
+    renderRoute('/checkout/pickup');
+    await user.click(await screen.findByRole('radio', { name: /As soon as possible/ }));
+    setScenario('PICKUP_SLOT_FULL');
+    await user.click(screen.getByRole('button', { name: 'Hold this pickup time' }));
+    expect(await screen.findByText('That pickup time just filled up.')).toBeVisible();
+    expect(useCommerceStore.getState().pickupSelection).toBeNull();
+    expect(useCommerceStore.getState().carts.PICKUP.itemCount).toBe(1);
+  });
+
   it('shows hold-expiry recovery without returning to the menu', async () => {
     const user = userEvent.setup();
     await seedCart('PICKUP');
@@ -200,11 +213,16 @@ describe('customer commerce missions', () => {
   });
 
   it('shows served second-round readiness and the existing bill path', async () => {
+    const user = userEvent.setup();
+    await seedCart('DINE_IN');
     setDineInContext();
     renderRoute('/dine-in/orders/order-pa-2001?scenario=DINE_IN_SERVED');
     expect(await screen.findByRole('heading', { name: 'Served' })).toBeVisible();
-    expect(screen.getByRole('button', { name: 'Order More' })).toBeVisible();
     expect(screen.getByRole('link', { name: 'View Current Bill' })).toHaveAttribute('href', '/dine-in/bill');
+    await user.click(screen.getByRole('button', { name: 'Order More' }));
+    expect(usePrototypeStore.getState().serviceContext?.mode).toBe('DINE_IN');
+    expect(useCommerceStore.getState().carts.DINE_IN.itemCount).toBe(0);
+    expect(await screen.findByText('Table 12')).toBeVisible();
   });
 
   it('renders the read-only Dine-in bill and requests staff action', async () => {
