@@ -33,8 +33,9 @@ Added:
 
 Changed:
 - Customer discovery links and product building now respect the active service mode
-- Customer routes use route-level lazy loading; the main entry bundle decreased from 533.25 kB / 164.56 kB gzip to 374.57 kB / 117.13 kB gzip
+- Customer routes use route-level lazy loading; the main entry bundle decreased from 533.25 kB / 164.56 kB gzip to 374.79 kB / 117.18 kB gzip
 - the floating cart is limited to discovery routes so it cannot overlap checkout, payment or tracking actions
+- the Customer document now declares its theme color and an inline brand favicon, avoiding a stray browser 404
 - shared cart, Pickup and analytics types plus API/MSW fixtures now represent the documented commerce recovery states
 
 Fixed:
