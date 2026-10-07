@@ -106,6 +106,13 @@ export type MissionsScenario =
   | 'COMMON_MISSION_ACTIVE' | 'COMMON_MISSION_COMPLETE' | 'MISSION_EXPIRED'
   | 'MULTIPLE_MISSIONS' | 'NO_ACTIVE_MISSIONS' | 'MISSIONS_NETWORK_ERROR';
 export type ProfileScenario = 'PROFILE_COMPLETE' | 'PROFILE_PARTIAL' | 'PROFILE_NETWORK_ERROR' | 'PROFILE_SAVE_SUCCESS' | 'PROFILE_SAVE_FAILURE';
+export type SavedBasketScenario = 'SAVED_BASKET_READY' | 'SAVED_BASKET_STALE' | 'SAVED_BASKETS_EMPTY' | 'SAVED_BASKETS_NETWORK_ERROR';
+export type FamilyScenario = 'FAMILY_CUSTOMER' | 'NO_FAMILY_MEMBERS' | 'FAMILY_NETWORK_ERROR';
+export type OccasionScenario = 'UPCOMING_OCCASION' | 'NO_OCCASIONS' | 'OCCASION_NETWORK_ERROR';
+export type ReferralScenario = 'REFERRAL_PENDING' | 'REFERRAL_QUALIFIED' | 'REFERRAL_REWARDED' | 'REFERRAL_EXPIRED';
+export type LeagueScenario = 'LEAGUE_NOT_JOINED' | 'LEAGUE_ACTIVE' | 'LEAGUE_TOP_10' | 'LEAGUE_NETWORK_ERROR';
+export type GroupOrderScenario = 'GROUP_ORDER_HOST' | 'GROUP_ORDER_PARTICIPANT' | 'GROUP_ORDER_EXPIRED' | 'GROUP_ORDER_CLOSED' | 'GROUP_ORDER_HOST_LEFT' | 'GROUP_ITEM_UNAVAILABLE' | 'GROUP_BASKET_CHANGED' | 'GROUP_PARTICIPANT_REMOVED' | 'GROUP_ORDER_NETWORK_ERROR';
+export type EngagementScenario = 'ENGAGEMENT_STANDARD' | 'REACTIVATION_CUSTOMER';
 
 export type MockScenarioName =
   | CustomerScenario
@@ -120,7 +127,14 @@ export type MockScenarioName =
   | RewardsScenario
   | PassportScenario
   | MissionsScenario
-  | ProfileScenario;
+  | ProfileScenario
+  | SavedBasketScenario
+  | FamilyScenario
+  | OccasionScenario
+  | ReferralScenario
+  | LeagueScenario
+  | GroupOrderScenario
+  | EngagementScenario;
 
 export interface MockScenarioState {
   customer: CustomerScenario;
@@ -136,6 +150,13 @@ export interface MockScenarioState {
   passport: PassportScenario;
   missions: MissionsScenario;
   profile: ProfileScenario;
+  savedBasket: SavedBasketScenario;
+  family: FamilyScenario;
+  occasion: OccasionScenario;
+  referral: ReferralScenario;
+  league: LeagueScenario;
+  groupOrder: GroupOrderScenario;
+  engagement: EngagementScenario;
 }
 
 const defaults: MockScenarioState = {
@@ -152,6 +173,13 @@ const defaults: MockScenarioState = {
   passport: 'PASSPORT_IN_PROGRESS',
   missions: 'MULTIPLE_MISSIONS',
   profile: 'PROFILE_COMPLETE',
+  savedBasket: 'SAVED_BASKET_READY',
+  family: 'FAMILY_CUSTOMER',
+  occasion: 'UPCOMING_OCCASION',
+  referral: 'REFERRAL_PENDING',
+  league: 'LEAGUE_ACTIVE',
+  groupOrder: 'GROUP_ORDER_HOST',
+  engagement: 'ENGAGEMENT_STANDARD',
 };
 
 let state: MockScenarioState = { ...defaults };
@@ -217,6 +245,13 @@ const groups = {
   passport: ['PASSPORT_NEW', 'PASSPORT_IN_PROGRESS', 'PASSPORT_PROGRESS', 'PASSPORT_ONE_LEFT', 'PASSPORT_COMPLETED', 'PASSPORT_ITEM_UNAVAILABLE', 'PASSPORT_NETWORK_ERROR'],
   missions: ['MISSIONS_ZERO_PROGRESS', 'PERSONAL_MISSION_0_PROGRESS', 'PERSONAL_MISSION_ACTIVE', 'PERSONAL_MISSION_PARTIAL', 'PERSONAL_MISSION_COMPLETE', 'COMMON_MISSION_ACTIVE', 'COMMON_MISSION_COMPLETE', 'MISSION_EXPIRED', 'MULTIPLE_MISSIONS', 'NO_ACTIVE_MISSIONS', 'MISSIONS_NETWORK_ERROR'],
   profile: ['PROFILE_COMPLETE', 'PROFILE_PARTIAL', 'PROFILE_NETWORK_ERROR', 'PROFILE_SAVE_SUCCESS', 'PROFILE_SAVE_FAILURE'],
+  savedBasket: ['SAVED_BASKET_READY', 'SAVED_BASKET_STALE', 'SAVED_BASKETS_EMPTY', 'SAVED_BASKETS_NETWORK_ERROR'],
+  family: ['FAMILY_CUSTOMER', 'NO_FAMILY_MEMBERS', 'FAMILY_NETWORK_ERROR'],
+  occasion: ['UPCOMING_OCCASION', 'NO_OCCASIONS', 'OCCASION_NETWORK_ERROR'],
+  referral: ['REFERRAL_PENDING', 'REFERRAL_QUALIFIED', 'REFERRAL_REWARDED', 'REFERRAL_EXPIRED'],
+  league: ['LEAGUE_NOT_JOINED', 'LEAGUE_ACTIVE', 'LEAGUE_TOP_10', 'LEAGUE_NETWORK_ERROR'],
+  groupOrder: ['GROUP_ORDER_HOST', 'GROUP_ORDER_PARTICIPANT', 'GROUP_ORDER_EXPIRED', 'GROUP_ORDER_CLOSED', 'GROUP_ORDER_HOST_LEFT', 'GROUP_ITEM_UNAVAILABLE', 'GROUP_BASKET_CHANGED', 'GROUP_PARTICIPANT_REMOVED', 'GROUP_ORDER_NETWORK_ERROR'],
+  engagement: ['ENGAGEMENT_STANDARD', 'REACTIVATION_CUSTOMER'],
 } as const satisfies Record<keyof MockScenarioState, readonly MockScenarioName[]>;
 
 export function setScenario(name: MockScenarioName): MockScenarioState {

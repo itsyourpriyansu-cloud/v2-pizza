@@ -223,3 +223,16 @@ CRUD:
 
 ## Retention frontend/mock boundary
 The current Customer prototype calls typed `/api/v1` boundaries for `GET /me/loyalty`, `GET /me/loyalty/activity`, `GET /me/rewards`, `POST /rewards/:rewardId/reserve`, `DELETE /reward-reservations/:id`, `GET /me/passport`, `GET /me/missions`, `POST /missions/:missionId/complete`, `GET /me/profile` and `PATCH /me/profile`. MSW supplies deterministic frontend fixtures only. A future NestJS implementation must enforce ownership, ledger idempotency, qualifying completed-order/paid-bill rules and exactly-once reward/XP/progress effects.
+
+## Engagement frontend/mock boundary
+The client-review prototype additionally models:
+
+- Saved Baskets: `GET/POST /me/saved-baskets`, `GET/PATCH/DELETE /me/saved-baskets/:id`, `POST /me/saved-baskets/:id/reorder`, `POST /me/saved-baskets/:id/share`
+- Household: `GET/POST /me/household`, `PATCH /me/household/:id`
+- Occasions: `GET/POST /me/occasions`, `POST /me/occasions/:id/plan`
+- Referrals/Taste Card: `GET /me/referrals`, `POST /me/referrals/share`, prototype lifecycle preview, `GET /me/taste-card`, `POST /me/taste-card/share`
+- League: `GET /me/league`, `POST /me/league/opt-in`
+- Group Ordering: `POST /group-orders`, `GET /group-orders/:id`, join/item/poll mutations and host-only checkout handoff
+- Adaptive Home: `GET /me/engagement-summary`
+
+These are typed frontend/MSW contracts, not implemented production APIs. Future backend work must enforce customer ownership, Household privacy, Saved Basket current-menu validation, referral qualification/idempotency, League season/XP truth, group membership/host authority and checkout idempotency. Share endpoints must return privacy-filtered payloads rather than raw customer/profile aggregates.

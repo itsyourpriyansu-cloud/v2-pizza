@@ -83,7 +83,31 @@ export type AnalyticsEventName =
   | 'bill_finalized'
   | 'dine_in_payment_started'
   | 'dine_in_payment_completed'
-  | 'table_session_closed';
+  | 'table_session_closed'
+  | 'saved_baskets_viewed'
+  | 'saved_basket_created'
+  | 'saved_basket_reordered'
+  | 'saved_basket_revalidation_failed'
+  | 'family_viewed'
+  | 'family_member_added'
+  | 'family_member_updated'
+  | 'occasion_created'
+  | 'occasion_cta_clicked'
+  | 'referral_viewed'
+  | 'referral_shared'
+  | 'referral_progress_viewed'
+  | 'taste_card_viewed'
+  | 'taste_card_shared'
+  | 'league_viewed'
+  | 'league_opted_in'
+  | 'league_progress_viewed'
+  | 'group_order_created'
+  | 'group_order_joined'
+  | 'group_item_added'
+  | 'group_poll_vote'
+  | 'group_checkout_started'
+  | 'reactivation_module_viewed'
+  | 'reactivation_cta_clicked';
 
 export interface AnalyticsEvent {
   id: EntityId;

@@ -4,6 +4,7 @@ export * from './auth';
 export * from './cart';
 export * from './common';
 export * from './dine-in';
+export * from './engagement';
 export * from './loyalty';
 export * from './menu';
 export * from './money';

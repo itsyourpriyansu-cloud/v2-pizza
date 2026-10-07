@@ -81,3 +81,15 @@ PAUSED → browsing remains → checkout disabled → existing orders continue.
 
 ## Customer retention flow (V1 frontend contract)
 Returning customer → one adaptive Home retention prompt → Rewards hub → reserve/release reward, open Passport or open Missions. Passport items link to current Product Detail with `source=PASSPORT`. Completed Pickup may show a compact progress summary. Served Dine-in remains pending until `TABLE_BILL_PAID`; operational order/table actions always outrank retention.
+
+## Customer engagement-complete prototype flows
+- Saved Basket: Profile → Saved Baskets → basket detail → current-menu revalidation → recoverable differences when needed → existing Pickup cart and checkout.
+- Household: Profile → Family & Household → add/edit optional member details → retain private account-only data and allergy disclaimer.
+- Occasion: Profile → Important Occasions → create/link member and Saved Basket → Plan Order → revalidate → existing cart.
+- Referral: Rewards/Profile → Invite Friends → share → clicked/registered/verified → first qualifying completed order → qualified → rewarded.
+- Taste Card: Profile → Taste Card preview → privacy-filtered share payload.
+- League: Rewards → optional opt-in → current season/tier/XP → Top 3 + nearby ranking → concrete threshold. Ordering remains usable without League.
+- Group Order: create → share invite → participant joins → contributes → optional poll → host reviews → existing cart/checkout. The host alone pays.
+- Reactivation: returning inactive customer → one known-context Home action such as Passport or Family Friday → normal current-menu flow; no automatic discount is required.
+
+Home preserves: Active Dine-in → Active Pickup → important Reorder/Saved Basket → upcoming Occasion → reward/Passport/Missions → referral → League → generic discovery. Only one engagement prompt is rendered.

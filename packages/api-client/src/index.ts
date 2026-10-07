@@ -4,6 +4,7 @@ export * from './billing';
 export * from './cart';
 export * from './client';
 export * from './errors';
+export * from './engagement';
 export * from './dine-in';
 export * from './kds';
 export * from './loyalty';

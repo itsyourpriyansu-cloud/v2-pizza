@@ -1,13 +1,15 @@
-import { getLoyaltyAccount, getMenu, getMissions, getPassportProgress, getRewards, listOrders } from '@pizza-avenue/api-client';
+import { getEngagementSummary, getLoyaltyAccount, getMenu, getMissions, getPassportProgress, getRewards, listOrders } from '@pizza-avenue/api-client';
 import { queryKeys } from '@pizza-avenue/utils';
 import { useQuery } from '@tanstack/react-query';
-import { CakeSlice, CookingPot, CupSoda, Pizza, Search, Star, Trophy, Utensils } from 'lucide-react';
+import { CakeSlice, CalendarHeart, CookingPot, Crown, CupSoda, Pizza, RotateCcw, Search, ShoppingBasket, Star, Trophy, UserPlus, Utensils } from 'lucide-react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Button, ButtonLink, ErrorState, PageSkeleton, SectionHeader, Surface } from '../../shared/components/Primitives';
 import { usePrototypeStore } from '../../shared/state/prototype-store';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
 import { ProductCard } from '../menu/components/ProductCard';
 import { RetentionLinkCard } from '../retention/RetentionComponents';
+import { trackCustomerEvent } from '../../shared/analytics/analytics';
 
 export function HomePage() {
   useScenarioFromUrl();
@@ -35,6 +37,10 @@ export function HomePage() {
   const loyaltyQuery = useQuery({ queryKey: queryKeys.loyalty(), queryFn: getLoyaltyAccount, enabled: pickupSelected && scenarioState.customer !== 'NEW_CUSTOMER' });
   const rewardsQuery = useQuery({ queryKey: queryKeys.rewards(), queryFn: getRewards, enabled: pickupSelected && scenarioState.customer !== 'NEW_CUSTOMER' });
   const missionsQuery = useQuery({ queryKey: queryKeys.missions(), queryFn: getMissions, enabled: pickupSelected && scenarioState.customer !== 'NEW_CUSTOMER' });
+  const engagementQuery = useQuery({ queryKey: queryKeys.engagementSummary(), queryFn: getEngagementSummary, enabled: pickupSelected && scenarioState.customer !== 'NEW_CUSTOMER' });
+  useEffect(() => {
+    if (engagementQuery.data?.reactivation) trackCustomerEvent('reactivation_module_viewed', { href: engagementQuery.data.reactivation.ctaHref });
+  }, [engagementQuery.data?.reactivation]);
 
   function choosePickup() {
     setServiceContext({
@@ -102,13 +108,27 @@ export function HomePage() {
   }[scenarioState.store];
   const availableReward = rewardsQuery.data?.find((reward) => reward.status === 'AVAILABLE');
   const activeMission = missionsQuery.data?.personal.find((mission) => !['COMPLETED', 'EXPIRED', 'CANCELLED'].includes(mission.status));
-  const retentionModule = availableReward
+  const commonMission = missionsQuery.data?.common.find((mission) => !['COMPLETED', 'EXPIRED', 'CANCELLED'].includes(mission.status));
+  const engagement = engagementQuery.data;
+  const retentionModule = engagement?.savedBasket
+    ? <RetentionLinkCard eyebrow="Saved basket" title={engagement.savedBasket.name} body={engagement.savedBasket.peopleCount ? `Ready to revalidate · Serves ${engagement.savedBasket.peopleCount}` : 'Ready to revalidate'} href={`/profile/saved-baskets/${engagement.savedBasket.id}`} icon={<ShoppingBasket />} />
+    : engagement?.occasion
+      ? <RetentionLinkCard eyebrow={`${engagement.occasion.daysAway} days away`} title={engagement.occasion.title} body="Plan the family order." href="/profile/occasions" icon={<CalendarHeart />} />
+      : availableReward
     ? <RetentionLinkCard eyebrow="Reward ready" title={availableReward.name} body={`${loyaltyQuery.data?.pointsBalance ?? 0} Points available`} href="/rewards" icon={<Star />} />
     : passportQuery.data?.status === 'NEAR_COMPLETE'
       ? <RetentionLinkCard eyebrow="Pizza Passport" title={`${passportQuery.data.completedItemIds.length} of ${passportQuery.data.program.items.length} discovered`} body="Your next signature is waiting." href="/rewards/passport" icon={<Pizza />} />
       : activeMission
         ? <RetentionLinkCard eyebrow="Personal mission" title={activeMission.title} body={activeMission.progress.label} href="/rewards/missions" icon={<Trophy />} />
-        : null;
+        : engagement?.referral && engagement.referral.status !== 'REWARDED'
+          ? <RetentionLinkCard eyebrow="Invite update" title={`${engagement.referral.inviteeDisplayName} joined Pizza Avenue`} body="A qualifying completed order unlocks your reward." href="/rewards/invite" icon={<UserPlus />} />
+          : commonMission
+            ? <RetentionLinkCard eyebrow="Common mission" title={commonMission.title} body={commonMission.progress.label} href="/rewards/missions" icon={<Trophy />} />
+            : engagement?.league?.optedIn
+              ? <RetentionLinkCard eyebrow={`${engagement.league.currentTier.replaceAll('_', ' ')} League`} title={engagement.league.currentRank ? `#${engagement.league.currentRank} this month` : 'Season in progress'} body={engagement.league.progressMessage} href="/rewards/league" icon={<Crown />} />
+              : engagement?.reactivation
+                ? <RetentionLinkCard eyebrow="Welcome back" title={engagement.reactivation.title} body={engagement.reactivation.body} href={engagement.reactivation.ctaHref} icon={<RotateCcw />} onClick={() => trackCustomerEvent('reactivation_cta_clicked', { href: engagement.reactivation?.ctaHref ?? '/menu' })} />
+                : null;
 
   return (
     <div className="page-stack">

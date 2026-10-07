@@ -124,6 +124,34 @@ reorder_clicked
 reorder_completed
 favourite_reordered
 
+## Customer engagement
+saved_baskets_viewed
+saved_basket_created
+saved_basket_reordered
+saved_basket_revalidation_failed
+family_viewed
+family_member_added
+family_member_updated
+occasion_created
+occasion_cta_clicked
+referral_viewed
+referral_shared
+referral_progress_viewed
+taste_card_viewed
+taste_card_shared
+league_viewed
+league_opted_in
+league_progress_viewed
+group_order_created
+group_order_joined
+group_item_added
+group_poll_vote
+group_checkout_started
+reactivation_module_viewed
+reactivation_cta_clicked
+
+Customer engagement events preserve the existing source attribution fields where relevant. Never attach Household birthdays, avoid-ingredient details, phone/email, raw referral codes, private preferences or full group invite payloads. Client events describe UX only; production referral qualification, League progression and cart/payment outcomes must come from authoritative server events.
+
 ## Primary KPIs
 - GMV
 - orders

@@ -100,3 +100,14 @@ which placement/campaign was scanned? → was the WhatsApp join sent/received? �
 - `/profile` — identity, preferences, favourites, notifications, help/legal and logout
 
 The legacy `/passport` path redirects to `/rewards/passport`. Passport and Missions remain inside the Rewards hierarchy and are not bottom-navigation destinations.
+
+## Customer engagement routes
+- `/profile/saved-baskets`, `/profile/saved-baskets/:basketId`
+- `/profile/family`
+- `/profile/occasions`
+- `/profile/taste-card`
+- `/rewards/invite`
+- `/rewards/league`
+- `/group-order`, `/group-order/:groupId`
+
+Bottom navigation remains frozen at Home / Menu / Orders / Rewards / Profile. Family, Occasions, Passport, Missions, referrals, League and Group Order are nested contextual destinations only.

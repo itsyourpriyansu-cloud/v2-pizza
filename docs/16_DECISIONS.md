@@ -94,6 +94,18 @@ Pizza Avenue V1 supports `PICKUP` and `DINE_IN` without duplicating the order, k
 - Waiter routes live in the existing Admin frontend. No new staff application is introduced.
 - Split/partial bills, seat-level ordering, customer pay-at-table, tips, reservations, course firing, advanced floor plans/table merge-split and delivery remain excluded.
 
+## DEC-027 Customer Engagement Prototype Completion Before Backend
+
+The first client-reviewable Customer prototype includes Saved Baskets/Family Basket, optional Household profiles, Important Occasions, contextual reactivation, advanced referral progress, privacy-safe Taste Card sharing, optional seasonal Avenue League and host-led Group Ordering.
+
+- Ordering, tracking/table service and reorder remain dominant; social/game layers never block or outrank active operations.
+- Bottom navigation remains Home, Menu, Orders, Rewards and Profile.
+- Saved Basket/Occasion/Group checkout reuse the existing Cart/Quote/Checkout flow and require current-menu validation.
+- Referral rewards require verified identity plus a qualifying completed/paid first order.
+- League uses Avenue XP rather than direct spend, is opt-in/participation-aware and exposes only Top 3 plus nearby privacy-safe names.
+- Group Ordering uses one host and one final checkout; split/participant payments are excluded.
+- This decision authorizes frontend types, typed API-client boundaries, MSW fixtures and client-review UX only. It does not authorize NestJS, Prisma, PostgreSQL, Redis/BullMQ, real collaboration, referrals, League, notifications, auth or payments in this batch.
+
 ## Pending founder decisions
 - exact hours
 - cancellation cutoff

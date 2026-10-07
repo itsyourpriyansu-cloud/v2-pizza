@@ -207,6 +207,81 @@
 .post-order-retention__stats span { display: grid; padding: 0.65rem; border-radius: var(--radius-sm); background: rgb(255 255 255 / 62%); }
 .post-order-retention__stats strong { font-family: var(--font-display); font-size: 1.35rem; }
 .post-order-retention__stats small { color: var(--color-muted); }
+.engagement-page { width: min(100%, 70rem); margin-inline: auto; }
+.engagement-grid, .engagement-list { display: grid; gap: 0.75rem; }
+.engagement-list-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.8rem; text-decoration: none; }
+.engagement-list-card > span:nth-child(2), .engagement-list-card > span:last-child { display: grid; gap: 0.15rem; }
+.engagement-list-card > span:last-child { justify-items: end; }
+.engagement-list-card small { color: var(--color-brand); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; }
+.engagement-list-card svg { width: 1.1rem; }
+.engagement-card-icon, .league-emblem { display: grid; width: 3rem; height: 3rem; flex: 0 0 auto; place-items: center; border-radius: 50%; color: var(--color-brand); background: var(--color-brand-soft); }
+.engagement-card-icon svg { width: 1.25rem; }
+.engagement-card-heading, .engagement-meta, .button-row, .engagement-actions, .choice-buttons { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.65rem; }
+.engagement-meta { justify-content: flex-start; color: var(--color-muted); font-size: 0.85rem; }
+.engagement-meta span { display: inline-flex; align-items: center; gap: 0.35rem; }
+.engagement-meta svg { width: 1rem; }
+.basket-item-list, .participant-card ul, .taste-card ol { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.basket-item-list li { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.8rem; border-top: 1px solid var(--color-border); }
+.basket-item-list li span:first-child { display: grid; }
+.basket-item-list small { color: var(--color-muted); }
+.price-line { display: flex; justify-content: space-between; gap: 1rem; padding-top: 0.85rem; border-top: 1px solid var(--color-border); }
+.engagement-actions { justify-content: flex-start; }
+.engagement-form { display: grid; gap: 0.85rem; }
+.engagement-form h2, .household-card h2, .occasion-card h2, .referral-card h2, .taste-card h2, .league-hero h2, .group-intro h2, .poll-card h2, .host-checkout h2 { margin: 0; font-family: var(--font-display); }
+.birthday-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; margin: 0; padding: 0; border: 0; }
+.birthday-fields legend { grid-column: 1 / -1; font-size: 0.875rem; font-weight: 750; }
+.privacy-banner, .qualification-card, .group-share { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; background: var(--color-success-soft); }
+.privacy-banner > span, .qualification-card > span, .group-share > span { display: grid; gap: 0.15rem; }
+.privacy-banner > svg, .qualification-card > svg { width: 1.5rem; flex: 0 0 auto; color: var(--color-success); }
+.privacy-banner small, .qualification-card small, .group-share small { color: var(--color-muted); }
+.household-card, .occasion-card, .referral-card, .participant-card { display: grid; align-content: start; gap: 0.7rem; }
+.household-card p, .occasion-card p, .participant-card p { margin: 0; }
+.referral-progress { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.2rem; margin: 0; padding: 0; list-style: none; }
+.referral-progress li { display: grid; justify-items: center; gap: 0.25rem; color: var(--color-muted); text-align: center; font-size: 0.64rem; }
+.referral-progress li > span:first-child { display: grid; width: 1.75rem; height: 1.75rem; place-items: center; border: 1px solid var(--color-border); border-radius: 50%; background: var(--color-surface-strong); }
+.referral-progress li svg { width: 0.85rem; }
+.referral-progress li.is-complete { color: var(--color-success); font-weight: 700; }
+.referral-progress li.is-complete > span:first-child { color: white; border-color: var(--color-success); background: var(--color-success); }
+.taste-card { display: grid; width: min(100%, 34rem); gap: 1rem; margin-inline: auto; padding: clamp(1.25rem, 5vw, 2.25rem); border-color: var(--color-brand); background: linear-gradient(145deg, var(--color-canvas), var(--color-surface-strong)); }
+.taste-card__heading { display: flex; align-items: center; gap: 0.8rem; }
+.taste-card__heading > span { display: grid; width: 4rem; height: 4rem; place-items: center; border-radius: 50%; color: var(--color-canvas); background: var(--color-brand); }
+.taste-card ol { counter-reset: picks; }
+.taste-card li { padding-block: 0.65rem; border-top: 1px solid var(--color-border); font-family: var(--font-display); font-size: 1.4rem; }
+.taste-card__passport { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; color: var(--color-canvas); background: var(--color-ink); }
+.taste-card__passport strong { font-family: var(--font-display); font-size: 1.6rem; }
+.league-opt-in { display: grid; justify-items: start; gap: 0.85rem; max-width: 42rem; padding: clamp(1.25rem, 6vw, 2.5rem); }
+.league-emblem { width: 4.5rem; height: 4.5rem; color: #f7e8c9; background: var(--color-brand); }
+.league-emblem svg { width: 2rem; }
+.league-hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; color: var(--color-canvas); background: var(--color-ink); }
+.league-hero > div:nth-child(2) { display: grid; align-content: start; justify-items: end; }
+.league-hero > div:nth-child(2) strong { font-family: var(--font-display); font-size: clamp(2.5rem, 9vw, 4rem); line-height: 0.9; }
+.league-hero .progress-track, .league-hero > p { grid-column: 1 / -1; }
+.league-hero .progress-track { background: rgb(255 255 255 / 20%); }
+.league-hero .progress-track > span { background: #e8c584; }
+.league-hero .muted { color: #f7e8c9; }
+.leaderboard { display: grid; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
+.leaderboard li { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; min-height: 3.5rem; padding: 0.7rem 0.85rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); }
+.leaderboard li > span { display: flex; align-items: center; gap: 0.45rem; }
+.leaderboard li svg { width: 1rem; color: var(--color-brand); }
+.leaderboard li.is-you { border-color: var(--color-brand); background: var(--color-brand-soft); }
+.group-intro { display: grid; justify-items: start; gap: 1rem; }
+.group-intro ol { display: grid; width: 100%; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+.group-intro li { display: grid; gap: 0.15rem; padding: 0.8rem; border-left: 0.2rem solid var(--color-brand); background: var(--color-surface-strong); }
+.group-intro li span { color: var(--color-muted); }
+.participant-card ul { gap: 0.4rem; }
+.choice-buttons { justify-content: flex-start; margin-top: 0.75rem; }
+.poll-card { display: grid; gap: 0.85rem; }
+.poll-card fieldset { display: grid; gap: 0.55rem; margin: 0; padding: 0; border: 0; }
+.poll-option { display: flex; min-height: 3.25rem; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.7rem 0.85rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-ink); background: white; cursor: pointer; }
+.poll-option > span { display: flex; align-items: center; gap: 0.5rem; }
+.poll-option svg { width: 1rem; }
+.poll-option.is-selected { border-color: var(--color-brand); background: var(--color-brand-soft); }
+.host-checkout { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 0.85rem; background: var(--color-success-soft); }
+.host-checkout .button { grid-column: 1 / -1; }
+@media (max-width: 37.99rem) {
+  .referral-progress { grid-template-columns: 1fr; gap: 0.4rem; }
+  .referral-progress li { grid-template-columns: 2rem minmax(0, 1fr); align-items: center; justify-items: start; font-size: 0.75rem; text-align: left; }
+}
 @media (min-width: 38rem) {
   .customer-shell > main { padding-inline: 1.5rem; }
   .service-choice__grid, .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -214,12 +289,17 @@
   .checkout-review__grid, .service-action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .points-balance-card { grid-template-columns: minmax(12rem, 0.75fr) minmax(16rem, 1.25fr); }
   .reward-grid, .mission-grid, .passport-grid, .retention-link-grid, .profile-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .engagement-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .host-checkout { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .host-checkout .button { grid-column: auto; }
 }
 @media (max-width: 23.75rem) {
   .product-card__body { padding: 0.75rem; }
   .product-card h3 { font-size: 1.08rem; }
   .product-card__description { display: none; }
   .hero-panel__content { width: 79%; }
+  .engagement-list-card { grid-template-columns: auto minmax(0, 1fr); }
+  .engagement-list-card > span:last-child { grid-column: 2; justify-items: start; }
 }
 @media (min-width: 60rem) {
   .customer-shell > main { padding-top: 2rem; }

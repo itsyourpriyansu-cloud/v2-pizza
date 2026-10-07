@@ -141,6 +141,32 @@ Historical order is intent only.
 Current availability and prices always apply.
 Map the historical product, variant and modifiers to the current menu, surface omissions/substitutions and require customer confirmation. Historical snapshot prices are never silently reused.
 
+## Saved Baskets and Occasions
+- A Saved Basket stores customer intent, including items, modifier configuration and optional people count; it is never a frozen authoritative cart.
+- Every reorder or Occasion plan revalidates current products, variants, modifiers, price, availability and service-mode eligibility before producing a cart.
+- Recoverable differences preserve all valid items and explain unavailable products, price changes and changed modifier choices.
+- Family Basket is a named Saved Basket use case, not a separate basket engine.
+- Household profiles and Occasions are optional progressive-profile data and are never onboarding requirements.
+- Avoid-ingredient preferences are convenience signals, not allergy-safety guarantees.
+
+## Referrals and public sharing
+- Referral reward qualification requires verified identity plus a qualifying completed/paid first order. Share, click or registration alone never earns a reward.
+- Referral and reward transitions must be idempotent in production.
+- Taste Cards may contain a selected display name, selected public favourites/preferences and public Passport progress only.
+- Public/share payloads exclude phone, email, birthday, Points, order history, Household data and private preferences.
+
+## Avenue League
+- Avenue League is optional, seasonal and based on Avenue XP, not direct spend.
+- A low-engagement customer is not shown a discouraging rank before opt-in or meaningful participation.
+- Leaderboards expose only selected display names or first name plus initial, Top 3 and nearby positions.
+- Dine-in Served does not finalize XP or League contribution; authoritative paid table-bill processing may do so idempotently.
+
+## Group Ordering
+- One host creates and shares a group, participants contribute food choices and optional poll votes, and the host remains final decision-maker.
+- V1 uses one host and one final checkout. Split bills, participant payment and wallet splitting are excluded.
+- Participants see display names, contributions and poll choices only; phone, Points, profile, order history and Household data remain private.
+- The combined group basket enters the existing cart/quote/checkout flow and is revalidated before payment.
+
 ## Notifications
 Transactional notifications must not block order success.
 Marketing/reward communication follows preferences/consent.

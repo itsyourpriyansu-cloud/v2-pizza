@@ -68,3 +68,8 @@ Founder/Admin component showing source code, store, placement, campaign, active 
 
 ## Customer retention components
 `PointsBalanceCard`, `RewardCard`, `PassportProgressCard`, `MissionCard`, `XPBadge`, `RetentionLinkCard` and `ProfileSection` are shared across the Customer retention routes. They render API-owned balances and states; buttons request typed mutations but never calculate or finalize Points, XP, reward consumption or Passport completion in the browser.
+
+## Customer engagement components
+`SavedBasketSummary`, `SavedBasketDetail`, `BasketRevalidationNotice`, `HouseholdMemberForm`, `OccasionCard`, `ReferralProgress`, `TasteCard`, `LeagueProgress`, `Leaderboard`, `GroupParticipantCard`, `GroupPoll` and `HostCheckoutHandoff` are Customer compositions built from existing primitives.
+
+Family Basket reuses the Saved Basket contract. Group checkout and Occasion planning produce the existing typed Cart rather than a second checkout engine. Progress, poll and leaderboard states use text and semantics in addition to colour; public/share surfaces receive privacy-filtered contracts only.

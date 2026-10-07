@@ -103,16 +103,16 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0010 (CHG-0005 is reserved on the parallel Landing branch)
+Next Change ID: CHG-0011 (CHG-0005 is reserved on the parallel Landing branch)
 
 Open:
-8
+9
 
 In Progress:
 0
 
 In Review:
-5
+6
 
 Staging:
 3
@@ -1592,6 +1592,191 @@ Implementation and local validation are complete on stacked PR #23. The Customer
 - CHG-0006
 - CHG-0007
 - CHG-0008
+
+---
+
+## CHG-0010 — Customer Engagement Complete V1
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Complete the final major Customer-facing prototype layer before client review so Pizza Avenue can demonstrate practical repeat-order, family, occasion, referral, social, League and group-ordering concepts without weakening the core ordering hierarchy or starting the production backend.
+
+### Requested Outcome
+
+Deliver deterministic Saved Baskets, Household, Occasions, reactivation, advanced referrals, privacy-safe Taste Card, seasonal Avenue League and host-paid Group Ordering experiences through the existing React → TanStack Query → typed API client → MSW boundary. Integrate the new concepts into Home and Profile without adding bottom-navigation destinations or allowing game/social content to outrank active Pickup or Dine-in operations.
+
+### Scope
+
+Included:
+- Saved Baskets including the Family Basket use case, current-menu revalidation and recoverable stale differences,
+- optional Household members with minimal useful profile fields and safety/privacy guidance,
+- important Occasions linked to Household members and Saved Baskets,
+- contextual reactivation without automatic discounting,
+- referral progress from shared through rewarded using qualifying paid/completed first-order semantics,
+- privacy-safe Taste Card sharing,
+- opt-in seasonal Avenue League based on Avenue XP with top-three and nearby-rank views,
+- frontend-only host-led Group Ordering, group basket, lightweight poll and checkout handoff,
+- one adaptive Home engagement module beneath operational/reorder priorities,
+- Profile subsections, centralized feature flags, deterministic scenarios, lazy routes, tests, responsive/browser evidence and affected documentation.
+
+Excluded:
+- NestJS, Prisma, PostgreSQL, Redis, BullMQ or database migrations,
+- real authentication, payments, referrals, League calculation, notifications or collaborative WebSocket synchronization,
+- split bills, participant payments, wallet splitting or POS replacement,
+- changes to the frozen five-item bottom navigation,
+- delivery, marketplace, multi-brand or other explicit V1 exclusions.
+
+### GitHub Tracking
+
+Issue:
+- [#24 — Customer Engagement Complete V1](https://github.com/itsyourpriyansu-cloud/v2-pizza/issues/24)
+
+Branch:
+- `feature/customer-engagement-complete-v1`, stacked from current `feature/customer-retention-v1` head `a114c93241876e4a0ceced9f698e1585013c342f` while PR #23 remains open
+
+Pull Request:
+- [#25 — feat(customer): complete engagement prototype](https://github.com/itsyourpriyansu-cloud/v2-pizza/pull/25), stacked into `feature/customer-retention-v1`
+
+### Affected Surfaces
+
+- Customer PWA
+- Shared frontend contracts/API client/MSW fixtures
+- Customer documentation and browser evidence
+
+### Affected Modules
+
+- Saved Baskets and cart handoff
+- Household and Occasions
+- referrals and Taste Card
+- Avenue League and Avenue XP presentation
+- Group Ordering and poll
+- Home adaptive engagement
+- Profile navigation
+- analytics, feature flags, route splitting and tests
+
+### Files / Areas Changed
+
+- Implemented: `apps/customer/src/features`, router, Customer tests and styles
+- Implemented: `packages/types`, `packages/api-client`, `packages/mocks`, `packages/utils`
+- Updated: affected product, flow, design-contract, analytics, seed, test, decision, changelog, acceptance and queue documents
+- Captured: ten required artifacts under `docs/assets/screenshots/`
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New production endpoints:
+- None implemented; typed frontend prototype contracts and MSW handlers only
+
+Changed production endpoints:
+- None
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- No production state machine is implemented or changed.
+- Referral, League and group states are deterministic frontend fixtures only.
+- Dine-in `SERVED` remains economically pending; only future authoritative `TABLE_BILL_PAID` processing may finalize loyalty, Missions, XP or League contribution.
+
+### Permission Impact
+
+- Customers manipulate only their own prototype Saved Baskets, Household, Occasions, referrals, Taste Card, League opt-in and hosted Group Order.
+- Participant views expose only display names, contributions and poll choices.
+- No staff/admin authority is added.
+
+### Analytics Impact
+
+Implemented privacy-safe client event names and instrumentation for Saved Basket, Household, Occasion, Referral, Taste Card, League, Group Order, poll, checkout-handoff and reactivation interactions listed in `docs/12_ANALYTICS_EVENTS.md`. Existing source attribution is preserved and no analytics event becomes operational truth.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed secrets:
+- None
+
+### Tests Required
+
+- [x] 14 focused end-to-end Customer engagement missions
+- [x] existing commerce regression
+- [x] existing retention regression
+- [x] workspace lint, typecheck, 145 tests and all app builds
+- [x] production dependency audit, secret scan and `git diff --check`
+- [x] browser validation at 360/390/430/768/1440
+- [x] forms, progress, leaderboard, sharing, polls, focus, keyboard, touch-target and semantic accessibility checks
+- [x] browser console/network inspection and ten required screenshots
+
+### Edge Cases
+
+- A Saved Basket is always revalidated and preserves valid items when an item, price or modifier changes.
+- Household private data never enters public Taste Card, League, referral or group payloads; avoid-ingredient copy is not an allergy guarantee.
+- Referral rewards require verified identity plus a qualifying completed/paid first order, never a share, click or registration alone.
+- Low-engagement customers are not shown discouraging ranks before opt-in/meaningful participation.
+- Group host remains final decision-maker and sole checkout payer; participant privacy is preserved across expired, closed, unavailable and network-failure states.
+- Active Dine-in and Pickup remain dominant over every engagement module.
+- Served but unpaid Dine-in does not finalize Points, Passport, Missions, XP or League contribution.
+
+### Security Review
+
+- Auth/RBAC: no real authentication or expanded staff authority; future server ownership enforcement remains mandatory.
+- PII: public/share surfaces exclude phone, email, birthdays, family data, Points, order history and private preferences.
+- Money/state: all prices are provisional integer paise and revalidated; clients do not award referral/League value or finalize economic outcomes.
+- Replay/idempotency: mock transitions remain deterministic; future backend must enforce referral qualification, XP/League contribution and group checkout idempotency.
+
+### Staging Result
+
+Status:
+- Local validation complete; staging deployment is not authorized in this task
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- PRs #18, #19, #21 and #23 remain open; this work is intentionally stacked.
+- Prototype policies, tiers, thresholds, referral reward values, reminders and Saved Basket economics require client/founder review.
+- MSW cannot prove production ownership, transactionality, collaboration, idempotency or delivery.
+- The requested scope is a large client-review batch and must remain route-split to protect the initial Customer bundle.
+
+### Follow-Up
+
+- [x] Implement and validate the complete Customer engagement prototype.
+- [x] Open a stacked PR against `feature/customer-retention-v1`.
+- [x] PR #25 `frontend-foundation` CI passed on commit `01d00da`.
+- [ ] Conduct client UX review and correction pass before backend implementation.
+
+### Current Result
+
+The Customer engagement prototype is complete locally through the existing typed frontend/MSW boundary. All 14 new missions and 131 existing tests pass, all apps build, dependency audit is clean, and the 35-route responsive browser matrix reports no console, network, overflow, labeling, progress, heading, keyboard or 44 px control-target failures. Stacked PR #25 is open against `feature/customer-retention-v1`; `frontend-foundation` CI passed on commit `01d00da`, and client review remains pending.
+
+### Related Changes
+
+- CHG-0008
+- CHG-0009
 
 ---
 

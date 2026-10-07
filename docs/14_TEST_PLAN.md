@@ -126,3 +126,21 @@ Simulate 20–30 orders, rush, sold-out, delayed payment, pickup queue, staff ro
 - typed Profile save success and recoverable failure
 - active Pickup and Table 12 operational-priority checks
 - 360/390/430/768/1440 overflow/accessibility scan, console/network inspection and screenshot evidence
+
+## Customer engagement-complete frontend missions
+1. Saved Basket → current-menu revalidation → existing cart.
+2. Stale Saved Basket → explain unavailable/price/modifier differences → preserve valid items.
+3. Add Household member → edit → view, with private-data and allergy-copy checks.
+4. Create Occasion → link Saved Basket → Plan Order.
+5. Referral pending → qualified → rewarded deterministic lifecycle.
+6. Taste Card preview → privacy-safe share payload.
+7. League opt-in → season → Top 3/nearby rank → concrete threshold.
+8. Group host create → participant join → contribution → host review.
+9. Group Poll vote → deterministic, duplicate-safe result.
+10. Group basket → existing one-host cart/checkout handoff.
+11. Reactivation → contextual Home CTA without automatic discounting.
+12. Active Pickup + Occasion → Pickup remains dominant.
+13. Active Dine-in + League → Dine-in remains dominant and engagement is suppressed.
+14. Served but unpaid Dine-in → no finalized Points/Passport/Missions/XP/League progression.
+
+Regression includes service selector, Home, Menu, Search, Product, Builder, Cart, Auth, Pickup, Checkout, Payment, Tracking, Dine-in, Rewards, Passport, Missions and Profile. Responsive/browser validation covers 360/390/430/768/1440 with special attention to Household forms, Saved Baskets, League, Group Ordering and polls.

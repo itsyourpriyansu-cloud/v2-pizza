@@ -21,6 +21,36 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-07 — Complete Customer engagement prototype
+
+Added:
+- Saved Baskets with five seeded use cases, custom creation, editing, sharing, deletion, current-menu revalidation and preserved-item stale recovery
+- optional Household members and Important Occasions with privacy/safety guidance and existing-cart planning handoff
+- referral lifecycle, privacy-safe Taste Card, opt-in seasonal Avenue League and host-paid Group Ordering with polls
+- centralized Customer feature flags, typed engagement contracts/API client, deterministic MSW personas and 14 focused mission tests
+- ten responsive Customer screenshot artifacts covering the seven feature areas, adaptive Home, and desktop League/Group views
+
+Changed:
+- Home now selects one engagement module below active service, current order and reorder priorities
+- Profile and Rewards expose the new routes without changing the frozen five-item bottom navigation
+- completed Pickup can show League context while served-but-unpaid Dine-in remains economically pending
+- all major engagement routes are lazy-loaded and retain the Pizza Avenue typography, warm palette and shared primitives
+
+Fixed:
+- referral progress uses a readable vertical timeline on phone widths instead of compressing seven labels
+- Points, Passport, Mission and League progress indicators now expose complete progressbar semantics
+- reactivation CTA clicks now emit a distinct privacy-safe analytics event
+
+Docs updated:
+- `docs/01_PRODUCT_SCOPE.md`, `docs/02_BUSINESS_RULES.md`, `docs/04_USER_FLOWS.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/07_COMPONENTS.md`, `docs/10_API_CONTRACTS.md`, `docs/12_ANALYTICS_EVENTS.md`, `docs/13_SEED_DATA.md`, `docs/14_TEST_PLAN.md`, `docs/16_DECISIONS.md`, `docs/17_CHANGELOG.md`, `docs/18_ACCEPTANCE_CRITERIA.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- DEC-027 — complete the client-review engagement prototype through typed frontend/MSW boundaries before production backend implementation
+
+Risk:
+- MSW proves frontend contracts and recovery UX only; production ownership, referral qualification, XP calculation, real-time collaboration, idempotency and persistence remain backend work
+- thresholds, reward values, reminder policy and Saved Basket economics remain subject to client/founder UX review
+
 ## 2026-10-07 — Customer retention, profile and preliminary mock menu
 
 Added:
