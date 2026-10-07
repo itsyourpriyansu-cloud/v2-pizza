@@ -1,6 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
+import '@fontsource/phudu/latin-600.css';
+import '@fontsource/phudu/latin-700.css';
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
 import { AppProviders } from './app/providers';
 import { customerRouter } from './app/router';
 import { startMocks } from './app/start-mocks';

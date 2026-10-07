@@ -30,8 +30,10 @@ import {
   PaymentPage,
   PaymentSuccessPage,
   ProductPage,
+  ProductBuilderPage,
   ProfilePage,
   RewardsPage,
+  SearchPage,
 } from '../routes';
 
 export const customerRoutes: RouteObject[] = [
@@ -42,7 +44,9 @@ export const customerRoutes: RouteObject[] = [
     children: [
       { index: true, element: <HomePage /> },
       { path: 'menu', element: <MenuPage /> },
+      { path: 'search', element: <SearchPage /> },
       { path: 'menu/:productId', element: <ProductPage /> },
+      { path: 'menu/:productId/customize', element: <ProductBuilderPage /> },
       { path: 'cart', element: <CartPage /> },
       { path: 'checkout', element: <CheckoutPage /> },
       { path: 'checkout/pickup', element: <CheckoutPickupPage /> },

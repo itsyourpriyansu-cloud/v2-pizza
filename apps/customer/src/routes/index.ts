@@ -9,5 +9,7 @@ export * from '../features/orders/OrderPages';
 export * from '../features/passport/PassportPage';
 export * from '../features/payment/PaymentPages';
 export * from '../features/product/ProductPage';
+export * from '../features/product/ProductBuilderPage';
 export * from '../features/profile/ProfilePage';
+export * from '../features/search/SearchPage';
 export * from './NotFoundPage';

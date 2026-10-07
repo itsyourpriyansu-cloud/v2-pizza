@@ -8,11 +8,11 @@ import type {
 import { money } from '../factories';
 
 export const categories: Category[] = [
-  { id: 'signature', name: 'Signature', displayOrder: 1, availability: 'AVAILABLE' },
-  { id: 'classics', name: 'Classics', displayOrder: 2, availability: 'AVAILABLE' },
-  { id: 'vegetarian', name: 'Vegetarian', displayOrder: 3, availability: 'AVAILABLE' },
-  { id: 'sides', name: 'Sides', displayOrder: 4, availability: 'AVAILABLE' },
-  { id: 'desserts', name: 'Desserts', displayOrder: 5, availability: 'AVAILABLE' },
+  { id: 'pizzas', name: 'Pizzas', displayOrder: 1, availability: 'AVAILABLE' },
+  { id: 'pastas', name: 'Pastas', displayOrder: 2, availability: 'AVAILABLE' },
+  { id: 'sides', name: 'Breads & Sides', displayOrder: 3, availability: 'AVAILABLE' },
+  { id: 'dips', name: 'Dips', displayOrder: 4, availability: 'AVAILABLE' },
+  { id: 'desserts', name: 'Dessert', displayOrder: 5, availability: 'AVAILABLE' },
   { id: 'drinks', name: 'Drinks', displayOrder: 6, availability: 'AVAILABLE' },
 ];
 
@@ -23,38 +23,6 @@ const pizzaIds = [
   'pizza-quattro-formaggi',
   'pizza-avenue-signature',
 ];
-
-const sizeGroup: ModifierGroup = {
-  id: 'group-size',
-  name: 'Size',
-  required: true,
-  selectionType: 'SINGLE',
-  minSelections: 1,
-  maxSelections: 1,
-  displayOrder: 1,
-  applicableProductIds: pizzaIds,
-  applicableVariantIds: [],
-  modifiers: [
-    {
-      id: 'size-regular',
-      groupId: 'group-size',
-      name: 'Regular',
-      priceDelta: money(0),
-      availability: 'AVAILABLE',
-      applicableProductIds: pizzaIds,
-      applicableVariantIds: [],
-    },
-    {
-      id: 'size-large',
-      groupId: 'group-size',
-      name: 'Large',
-      priceDelta: money(18000),
-      availability: 'AVAILABLE',
-      applicableProductIds: pizzaIds,
-      applicableVariantIds: [],
-    },
-  ],
-};
 
 const crustGroup: ModifierGroup = {
   id: 'group-crust',
@@ -95,7 +63,7 @@ const toppingsGroup: ModifierGroup = {
   selectionType: 'MULTIPLE',
   minSelections: 0,
   maxSelections: 3,
-  displayOrder: 3,
+  displayOrder: 4,
   applicableProductIds: pizzaIds,
   applicableVariantIds: [],
   modifiers: [
@@ -118,10 +86,74 @@ const toppingsGroup: ModifierGroup = {
       applicableVariantIds: [],
     },
     {
-      id: 'topping-extra-cheese',
+      id: 'topping-olives',
       groupId: 'group-toppings',
+      name: 'Olives',
+      priceDelta: money(5000),
+      availability: 'AVAILABLE',
+      applicableProductIds: pizzaIds,
+      applicableVariantIds: [],
+    },
+    {
+      id: 'topping-onion',
+      groupId: 'group-toppings',
+      name: 'Onion',
+      priceDelta: money(4000),
+      availability: 'AVAILABLE',
+      applicableProductIds: pizzaIds,
+      applicableVariantIds: [],
+    },
+  ],
+};
+
+const cheeseGroup: ModifierGroup = {
+  id: 'group-cheese',
+  name: 'Cheese',
+  required: false,
+  selectionType: 'MULTIPLE',
+  minSelections: 0,
+  maxSelections: 1,
+  displayOrder: 3,
+  applicableProductIds: pizzaIds,
+  applicableVariantIds: [],
+  modifiers: [
+    {
+      id: 'topping-extra-cheese',
+      groupId: 'group-cheese',
       name: 'Extra cheese',
       priceDelta: money(8000),
+      availability: 'AVAILABLE',
+      applicableProductIds: pizzaIds,
+      applicableVariantIds: [],
+    },
+  ],
+};
+
+const dipsGroup: ModifierGroup = {
+  id: 'group-dips',
+  name: 'Dips',
+  required: false,
+  selectionType: 'MULTIPLE',
+  minSelections: 0,
+  maxSelections: 2,
+  displayOrder: 5,
+  applicableProductIds: pizzaIds,
+  applicableVariantIds: [],
+  modifiers: [
+    {
+      id: 'dip-viva-rosso-addon',
+      groupId: 'group-dips',
+      name: 'Viva Rosso',
+      priceDelta: money(6000),
+      availability: 'AVAILABLE',
+      applicableProductIds: pizzaIds,
+      applicableVariantIds: [],
+    },
+    {
+      id: 'dip-pesto-addon',
+      groupId: 'group-dips',
+      name: 'Pesto Dip',
+      priceDelta: money(7000),
       availability: 'AVAILABLE',
       applicableProductIds: pizzaIds,
       applicableVariantIds: [],
@@ -136,7 +168,7 @@ const pizzaVariants = (productId: string, basePaise: number): ProductVariant[] =
     name: 'Regular',
     basePrice: money(basePaise),
     availability: 'AVAILABLE',
-    modifierGroupIds: ['group-size', 'group-crust', 'group-toppings'],
+    modifierGroupIds: ['group-crust', 'group-cheese', 'group-toppings', 'group-dips'],
   },
   {
     id: `${productId}-large`,
@@ -144,7 +176,7 @@ const pizzaVariants = (productId: string, basePaise: number): ProductVariant[] =
     name: 'Large',
     basePrice: money(basePaise + 18000),
     availability: 'AVAILABLE',
-    modifierGroupIds: ['group-size', 'group-crust', 'group-toppings'],
+    modifierGroupIds: ['group-crust', 'group-cheese', 'group-toppings', 'group-dips'],
   },
 ];
 
@@ -155,18 +187,19 @@ function pizza(
   description: string,
   basePaise: number,
   flags: Product['flags'] = [],
+  dietaryTags: string[] = [],
 ): Product {
   return {
     id,
     categoryId,
     name,
     description,
-    imageUrl: null,
-    dietaryTags: categoryId === 'vegetarian' ? ['VEGETARIAN'] : [],
+    imageUrl: id === 'pizza-funghi' ? '/assets/seed/mushroom-cheese-pizza.png' : null,
+    dietaryTags,
     flags,
     availability: 'AVAILABLE',
     variants: pizzaVariants(id, basePaise),
-    modifierGroups: [sizeGroup, crustGroup, toppingsGroup],
+    modifierGroups: [crustGroup, cheeseGroup, toppingsGroup, dipsGroup],
   };
 }
 
@@ -182,7 +215,9 @@ function simpleProduct(
     categoryId,
     name,
     description,
-    imageUrl: null,
+    imageUrl: id === 'side-garlic-bread' || id === 'side-loaded-garlic-bread'
+      ? '/assets/seed/cheesy-garlic-bread.png'
+      : null,
     dietaryTags: [],
     flags: [],
     availability: 'AVAILABLE',
@@ -203,15 +238,16 @@ function simpleProduct(
 export const products: Product[] = [
   pizza(
     'pizza-margherita',
-    'classics',
+    'pizzas',
     'Margherita',
     'Tomato, mozzarella and basil.',
     34900,
     ['BESTSELLER'],
+    ['VEGETARIAN'],
   ),
   pizza(
     'pizza-diavola',
-    'signature',
+    'pizzas',
     'Diavola',
     'Spicy salami, chilli and mozzarella.',
     44900,
@@ -219,27 +255,32 @@ export const products: Product[] = [
   ),
   pizza(
     'pizza-funghi',
-    'vegetarian',
+    'pizzas',
     'Funghi',
     'Mushrooms, mozzarella and herbs.',
     42900,
+    [],
+    ['VEGETARIAN'],
   ),
   pizza(
     'pizza-quattro-formaggi',
-    'vegetarian',
+    'pizzas',
     'Quattro Formaggi',
     'A four-cheese pizza with a rich finish.',
     49900,
     ['PASSPORT'],
+    ['VEGETARIAN'],
   ),
   pizza(
     'pizza-avenue-signature',
-    'signature',
+    'pizzas',
     'Avenue Signature',
     'The Pizza Avenue house combination.',
     54900,
     ['SIGNATURE', 'PASSPORT'],
   ),
+  simpleProduct('pasta-alfredo', 'pastas', 'Alfredo Pasta', 'Creamy sauce with herbs.', 32900),
+  simpleProduct('pasta-arrabbiata', 'pastas', 'Arrabbiata Pasta', 'Tomato, chilli and garlic.', 30900),
   simpleProduct('side-garlic-bread', 'sides', 'Garlic Bread', 'Oven-baked garlic bread.', 17900),
   simpleProduct(
     'side-loaded-garlic-bread',
@@ -248,6 +289,8 @@ export const products: Product[] = [
     'Garlic bread finished with cheese.',
     24900,
   ),
+  simpleProduct('dip-viva-rosso', 'dips', 'Viva Rosso', 'A bright tomato and chilli dip.', 6000),
+  simpleProduct('dip-pesto', 'dips', 'Pesto Dip', 'Herby basil pesto.', 7000),
   simpleProduct('drink-coke', 'drinks', 'Coke', 'Chilled soft drink.', 8000),
   simpleProduct('drink-sprite', 'drinks', 'Sprite', 'Chilled soft drink.', 8000),
   simpleProduct('dessert-tiramisu', 'desserts', 'Tiramisu', 'Coffee-layered Italian dessert.', 24900),

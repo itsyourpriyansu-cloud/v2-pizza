@@ -1,11 +1,21 @@
 import { configureApiClient } from '@pizza-avenue/api-client';
 import { createSurfaceConfig } from '@pizza-avenue/config';
+import { resetScenarioState } from '@pizza-avenue/mocks';
 
 export async function startMocks() {
-  const surfaceConfig = createSurfaceConfig(import.meta.env, window.location.origin);
-  configureApiClient({ baseUrl: surfaceConfig.apiBaseUrl });
+  const mocksEnabled = import.meta.env.VITE_ENABLE_MOCKS !== 'false';
+  if (mocksEnabled) {
+    configureApiClient({ baseUrl: `${window.location.origin}/api/v1` });
+  } else {
+    const surfaceConfig = createSurfaceConfig(import.meta.env, window.location.origin);
+    configureApiClient({ baseUrl: surfaceConfig.apiBaseUrl });
+  }
 
-  if (import.meta.env.VITE_ENABLE_MOCKS === 'false') return;
+  if (!mocksEnabled) return;
   const { worker } = await import('@pizza-avenue/mocks/browser');
-  await worker.start({ onUnhandledFrame: 'bypass' });
+  resetScenarioState();
+  await worker.start({
+    serviceWorker: { url: '/mockServiceWorker.js' },
+    onUnhandledFrame: 'bypass',
+  });
 }
