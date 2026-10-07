@@ -1766,12 +1766,12 @@ Deployment date:
 
 - [x] Implement and validate the complete Customer engagement prototype.
 - [x] Open a stacked PR against `feature/customer-retention-v1`.
-- [ ] Wait for PR #25 CI and review.
+- [x] PR #25 `frontend-foundation` CI passed on commit `01d00da`.
 - [ ] Conduct client UX review and correction pass before backend implementation.
 
 ### Current Result
 
-The Customer engagement prototype is complete locally through the existing typed frontend/MSW boundary. All 14 new missions and 131 existing tests pass, all apps build, dependency audit is clean, and the 35-route responsive browser matrix reports no console, network, overflow, labeling, progress, heading, keyboard or 44 px control-target failures. Stacked PR #25 is open against `feature/customer-retention-v1`; CI and review remain pending.
+The Customer engagement prototype is complete locally through the existing typed frontend/MSW boundary. All 14 new missions and 131 existing tests pass, all apps build, dependency audit is clean, and the 35-route responsive browser matrix reports no console, network, overflow, labeling, progress, heading, keyboard or 44 px control-target failures. Stacked PR #25 is open against `feature/customer-retention-v1`; `frontend-foundation` CI passed on commit `01d00da`, and client review remains pending.
 
 ### Related Changes
 
