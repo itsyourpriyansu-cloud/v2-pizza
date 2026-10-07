@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';
 import { Badge, Button, ButtonLink, ErrorState, PageHeader, PageSkeleton, Surface } from '../../shared/components/Primitives';
 import { useToast } from '../../shared/feedback/use-toast';
+import { useCommerceStore } from '../../shared/state/commerce-store';
 import { usePrototypeStore } from '../../shared/state/prototype-store';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
 
@@ -28,9 +29,11 @@ export function ProductBuilderPage() {
   const { productId = '' } = useParams();
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const cartId = usePrototypeStore((state) => state.cartId);
+  const serviceContext = usePrototypeStore((state) => state.serviceContext);
+  const serviceMode = serviceContext?.mode ?? 'PICKUP';
+  const cartId = useCommerceStore((state) => state.carts[serviceMode].cartId);
   const scenarioState = usePrototypeStore((state) => state.scenarioState);
-  const setCartSummary = usePrototypeStore((state) => state.setCartSummary);
+  const setCartSummary = useCommerceStore((state) => state.setCartSummary);
   const setBuilderModifierIds = usePrototypeStore((state) => state.setBuilderModifierIds);
   const [variantId, setVariantId] = useState('');
   const [selections, setSelections] = useState<SelectionMap>({});
@@ -70,7 +73,7 @@ export function ProductBuilderPage() {
   const addMutation = useMutation({
     mutationFn: async () => {
       if (!product || !activeVariant) throw new Error('Product configuration is incomplete.');
-      const activeCartId = cartId ?? (await createCart('sainikpuri')).id;
+      const activeCartId = cartId ?? (await createCart('sainikpuri', serviceMode)).id;
       const cart = await addCartItem(activeCartId, {
         productId: product.id,
         productNameSnapshot: product.name,
@@ -90,10 +93,10 @@ export function ProductBuilderPage() {
       return cart;
     },
     onSuccess: (cart) => {
-      setCartSummary(cart.id, cart.items.reduce((sum, item) => sum + item.quantity, 0));
+      setCartSummary(serviceMode, cart.id, cart.items.reduce((sum, item) => sum + item.quantity, 0));
       trackCustomerEvent('builder_completed', { productId, variantId: activeVariant?.id ?? null, modifierCount: selectedModifiers.length });
-      showToast(`${product?.name ?? 'Item'} added to your pickup cart.`);
-      navigate('/menu');
+      showToast(`${product?.name ?? 'Item'} added to your ${serviceMode === 'DINE_IN' ? 'dine-in' : 'pickup'} cart.`);
+      navigate(serviceMode === 'DINE_IN' ? '/dine-in/cart' : '/cart');
     },
   });
 
@@ -205,8 +208,8 @@ export function ProductBuilderPage() {
           )) : <p className="muted">Choose your crust and extras.</p>}
           <div className="builder-summary__line builder-summary__total"><strong>Provisional total</strong><strong>{formatMoney({ amount: provisionalTotal, currency: activeVariant?.basePrice.currency ?? 'INR' })}</strong></div>
           {addMutation.isError ? <p className="validation-message" role="alert">We couldn't add this item. Your choices are still here—try again.</p> : null}
-          <Button type="submit" disabled={addMutation.isPending || !storeAcceptingOrders}>{addMutation.isPending ? 'Adding…' : 'Add to pickup cart'}</Button>
-          <ButtonLink to={`/menu/${product.id}`} variant="ghost">Back to item</ButtonLink>
+          <Button type="submit" disabled={addMutation.isPending || !storeAcceptingOrders}>{addMutation.isPending ? 'Adding…' : `Add to ${serviceMode === 'DINE_IN' ? 'dine-in' : 'pickup'} cart`}</Button>
+          <ButtonLink to={`${serviceMode === 'DINE_IN' ? '/dine-in/menu' : '/menu'}/${product.id}`} variant="ghost">Back to item</ButtonLink>
         </aside>
       </div>
     </form>

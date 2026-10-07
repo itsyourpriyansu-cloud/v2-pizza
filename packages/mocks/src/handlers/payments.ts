@@ -4,10 +4,13 @@ import { getScenarioState } from '../scenarios';
 
 const currentPayment = () => ({
   ...payment,
-  status:
-    getScenarioState().payment === 'PAYMENT_FAILURE'
-      ? ('FAILED' as const)
-      : ('SUCCESS' as const),
+  status: (() => {
+    const scenario = getScenarioState().payment;
+    if (scenario === 'PAYMENT_FAILURE' || scenario === 'PICKUP_PAYMENT_FAILED') return 'FAILED' as const;
+    if (scenario === 'PICKUP_PAYMENT_TIMEOUT') return 'EXPIRED' as const;
+    if (scenario === 'PICKUP_PAYMENT_CHECKING') return 'PENDING' as const;
+    return 'SUCCESS' as const;
+  })(),
 });
 
 export const paymentHandlers = [

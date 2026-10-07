@@ -103,16 +103,16 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0008 (CHG-0005 is reserved on the parallel Landing branch)
+Next Change ID: CHG-0009 (CHG-0005 is reserved on the parallel Landing branch)
 
 Open:
-6
+7
 
 In Progress:
 0
 
 In Review:
-3
+4
 
 Staging:
 3
@@ -1229,6 +1229,188 @@ The first Customer UI batch and requested visual/startup refinement are implemen
 - CHG-0002
 - CHG-0004
 - CHG-0006
+
+---
+
+## CHG-0008 — Customer Commerce Flow Completion
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Complete the customer ordering journey after discovery so Pickup customers can move safely from a configured basket through authentication, capacity-aware pickup, mock payment verification and fulfilment tracking, while Dine-in customers can submit waiter-gated rounds and understand their current table bill.
+
+### Requested Outcome
+
+Deliver production-shaped, mock-backed Customer commerce flows for Pickup and Dine-in using the existing React, TanStack Query, typed API-client and MSW boundaries. Preserve backend-authoritative prices, payment verification, service-specific kitchen admission and separate carts for each service mode.
+
+### Scope
+
+Included:
+- service-mode-isolated Cart with edit, remove, quantity, quote, unavailable-item recovery and contextual upsells,
+- phone OTP and WhatsApp magic-link prototype states without real credentials or insecure identity shortcuts,
+- ASAP/scheduled Pickup selection, full-slot recovery and expiring reservation feedback,
+- checkout review plus mock payment pending, verified success, failure and retry states,
+- Pickup confirmation and tracking through Ready for Pickup,
+- Dine-in review, waiter confirmation/clarification/rejection, preparing/Ready-to-Serve/Served states, additional rounds and current bill estimate,
+- documented analytics hooks, focused flow tests, route-level lazy-loading evaluation and browser evidence.
+
+Excluded:
+- real NestJS, Prisma, PostgreSQL, Redis, BullMQ, OTP, WhatsApp, payment-provider or WebSocket integration,
+- Rewards, Pizza Passport, Missions or Profile redesign,
+- customer-side Dine-in payment, delivery, split bills, tips or other V1 exclusions,
+- any weakening of backend pricing, state, permission, idempotency or transactional-outbox requirements.
+
+### GitHub Tracking
+
+Issue:
+- #20 — Customer App: complete Pickup and Dine-in commerce flows
+
+Branch:
+- `feature/customer-commerce-flow` stacked from `feature/customer-ui-ux-v1` while prerequisite PRs #18 and #19 remain open and clean
+
+Pull Request:
+- #21 — targets `feature/customer-ui-ux-v1` while prerequisite PRs #18 and #19 remain open; must not target `develop` until they merge
+- GitHub Actions `frontend-foundation` validation passed before the final queue-only synchronization commit
+
+### Affected Surfaces
+
+- Customer PWA
+- Shared frontend API/type/mock boundaries where the documented Customer flows require them
+- Documentation and test evidence
+
+### Affected Modules
+
+- Customer cart and commerce session state
+- Customer authentication UI
+- Pickup reservation and checkout
+- Mock payment and order tracking
+- Customer Dine-in ordering and current bill
+- Shared API client, types, mocks, analytics and query keys
+
+### Files / Areas Changed
+
+- Implemented: Customer cart, Auth, Pickup checkout, payment, order tracking and Dine-in feature routes, shared commerce state, shell, design-system-aligned styles and focused tests
+- Implemented: typed cart/pickup/analytics contracts, API-client service-mode cart creation and deterministic MSW auth/cart/pickup/payment/order/Dine-in scenarios
+- Implemented: route-level lazy loading, analytics documentation, changelog/queue truth and browser evidence under `docs/assets/screenshots/`
+- Preserved: Customer Menu outage recovery, focused regression coverage, commerce/prototype test-state alignment and shared `Surface` ARIA-role typing from the diagnostic pass
+
+### Database Impact
+
+Migration required:
+- No. This is frontend/MSW implementation against documented future backend contracts.
+
+Data migration required:
+- No
+
+### API Impact
+
+New production endpoints:
+- None planned
+
+Changed production endpoints:
+- None planned; complete use of the documented Cart, Quote, Pickup, Payment, Orders and Customer Dine-in contracts.
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- No product-state decision changes. The prototype must render the existing Pickup payment gate, reservation lifecycle and Dine-in waiter gate without claiming client authority.
+
+### Permission Impact
+
+- No new permissions. Customer Dine-in remains read/request-only for bill and service actions; payment settlement stays Admin/Counter-only.
+
+### Analytics Impact
+
+Client UX hooks planned for documented events including `cart_viewed`, `checkout_started`, `pickup_options_viewed`, `pickup_slot_selected`, `quote_generated`, `payment_started`, `payment_success`, `payment_failed`, `dine_in_order_submitted`, waiter/status milestones, `order_more_clicked` and `bill_requested`. Client events remain non-authoritative and contain no OTP, phone, raw token or provider payload.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed secrets:
+- None
+
+### Tests Required
+
+- [x] Customer unit/component tests
+- [x] API-client/MSW integration tests
+- [x] Menu data loads through local MSW and injected outage recovers through “Try again”
+- [x] Pickup happy path
+- [x] Payment failure and retry
+- [x] Full pickup slot and expired hold recovery
+- [x] Unavailable cart item recovery
+- [x] OTP invalid/expired/cooldown states
+- [x] Magic-link invalid/expired/used recovery states
+- [x] Dine-in waiter confirmation, clarification and rejection states
+- [x] Dine-in additional round and current bill states
+- [x] Workspace lint, typecheck, tests and builds
+- [x] Responsive browser missions and screenshots
+- [x] Secret/dependency scan
+
+### Edge Cases
+
+- Pickup and Dine-in carts must not merge when context changes.
+- A cart/quote is provisional and must survive recoverable auth/payment failures.
+- Payment success UI must wait for mocked authoritative verification before showing `CONFIRMED`.
+- A full or expired pickup hold must release cleanly and offer valid alternatives.
+- Customer-submitted Dine-in orders must remain outside KDS until waiter confirmation.
+- Clarification/rejection must preserve the customer selection and explain the next action.
+- Current table bill is view-only and must never expose payment settlement controls.
+- A `MENU_NETWORK_ERROR` review URL must show the intended failure state but allow Retry to return to the normal menu without leaving the failure scenario active.
+
+### Security Review
+
+- Auth implications: prototype UI only; no raw OTP/token persistence, no account enumeration, and no client value establishes WhatsApp identity.
+- RBAC implications: no staff authority is added to Customer routes.
+- Secret/PII implications: fictional seed data only; analytics and screenshots exclude phone, OTP, raw magic token, cookie or provider payload.
+- Replay/idempotency implications: mock-sensitive submissions use stable idempotency intent and must demonstrate one logical order/payment outcome.
+
+### Staging Result
+
+Status:
+- CI Passed — GitHub Actions `frontend-foundation`; branch remains stacked and is not deployed
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- Prerequisite PRs #18 and #19 remain unmerged; this branch is intentionally stacked from their exact reviewed Customer head.
+- MSW can validate frontend behavior and contract use but cannot prove future server transactions, webhook verification, RBAC, capacity locking or idempotency.
+- Founder-approved production menu, payment provider, slot policy and final imagery remain pending.
+
+### Follow-Up
+
+- [x] Implement and validate the scoped Customer commerce batch.
+- [x] Open a tracked Issue and correctly based PR after validation.
+- [ ] Retarget to `develop` only after prerequisite PRs merge.
+
+### Current Result
+
+Implementation and local validation are complete on the stacked Customer commerce branch. Pickup and Dine-in missions pass through typed API-client/MSW boundaries; all 121 tests pass, workspace lint and all TypeScript project checks pass, all four production app builds pass, and `pnpm audit --prod` reports no known vulnerabilities. Browser walkthroughs pass at 360, 390, 430, 768 and 1440 px without horizontal overflow; saved evidence covers cart, Pickup review/tracking and the Dine-in waiter gate. Browser console and network error checks are clean after adding the Customer favicon. The Customer entry bundle is 374.79 kB / 117.18 kB gzip versus the 533.25 kB / 164.56 kB gzip baseline. Production backend/provider behavior remains intentionally unproved by this MSW batch.
+
+### Related Changes
+
+- CHG-0002
+- CHG-0006
+- CHG-0007
 
 ---
 

@@ -11,7 +11,7 @@ function currentOrderStatus(): OrderStatus {
   if (scenario === 'DINE_IN_PREPARING') return 'PREPARING';
   if (scenario === 'DINE_IN_READY_TO_SERVE') return 'READY_TO_SERVE';
   if (scenario === 'DINE_IN_SERVED') return 'SERVED';
-  if (scenario === 'DINE_IN_WAITING_WAITER') return 'WAITER_REVIEW';
+  if (scenario === 'DINE_IN_WAITING_WAITER' || scenario === 'DINE_IN_WAITER_REVIEW') return 'WAITER_REVIEW';
   return 'CUSTOMER_SUBMITTED';
 }
 

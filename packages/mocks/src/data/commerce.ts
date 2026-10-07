@@ -27,9 +27,10 @@ export const store: Store = {
 export const emptyCart: Cart = {
   id: 'cart-mock-1',
   storeId: 'sainikpuri',
+  serviceMode: 'PICKUP',
   status: 'ACTIVE',
   items: [],
-  expiresAt: '2026-10-05T15:00:00.000Z',
+  expiresAt: '2026-10-08T15:00:00.000Z',
 };
 
 export const cartQuote: CartQuote = {
@@ -39,8 +40,8 @@ export const cartQuote: CartQuote = {
   discount: money(0),
   tax: money(0),
   payableTotal: money(44900),
-  quotedAt: '2026-10-05T14:02:00.000Z',
-  expiresAt: '2026-10-05T14:12:00.000Z',
+  quotedAt: '2026-10-07T14:02:00.000Z',
+  expiresAt: '2026-10-07T14:12:00.000Z',
 };
 
 export const pickupOptions: PickupOptions = {

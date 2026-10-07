@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Badge } from '../../../shared/components/Primitives';
 import { ProductMedia } from './ProductMedia';
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product, href }: { product: Product; href?: string }) {
   const startingPrice = product.variants
     .filter((variant) => variant.availability === 'AVAILABLE')
     .sort((a, b) => a.basePrice.amount - b.basePrice.amount)[0]?.basePrice;
@@ -12,7 +12,7 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className={`product-card${available ? '' : ' product-card--unavailable'}`}>
-      <Link className="product-card__link" to={`/menu/${product.id}`} aria-label={`View ${product.name}`}>
+      <Link className="product-card__link" to={href ?? `/menu/${product.id}`} aria-label={`View ${product.name}`}>
         <ProductMedia product={product} className="product-card__media" />
         <div className="product-card__body">
           <div className="product-card__badges">

@@ -6,14 +6,22 @@ import { getScenarioState } from '../scenarios';
 
 const scenarioStatus = (): OrderStatus => {
   const scenario = getScenarioState().order;
-  if (scenario === 'ORDER_PREPARING') return 'PREPARING';
-  if (scenario === 'ORDER_READY') return 'READY_FOR_PICKUP';
+  if (scenario === 'ORDER_PREPARING' || scenario === 'PICKUP_PREPARING' || scenario === 'PICKUP_DELAYED' || scenario === 'PICKUP_STATUS_UNAVAILABLE') return 'PREPARING';
+  if (scenario === 'ORDER_READY' || scenario === 'PICKUP_READY') return 'READY_FOR_PICKUP';
+  if (scenario === 'PICKUP_PICKED_UP') return 'PICKED_UP';
+  if (scenario === 'PICKUP_COMPLETED') return 'COMPLETED';
   return 'CONFIRMED';
 };
 
 const scenarioOrders = (): Order[] =>
   orders.map((order, index) =>
-    index === 0 ? { ...order, status: scenarioStatus() } : order,
+    index === 0 ? {
+      ...order,
+      status: scenarioStatus(),
+      promisedReadyAt: getScenarioState().order === 'PICKUP_DELAYED'
+        ? '2026-10-07T15:00:00.000Z'
+        : order.promisedReadyAt,
+    } : order,
   );
 
 function transition(orderId: string, next: OrderStatus) {

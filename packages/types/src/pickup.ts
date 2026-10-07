@@ -1,7 +1,13 @@
 import type { EntityId, ISODateTime } from './common';
 
 export type PickupType = 'ASAP' | 'SCHEDULED';
-export type PickupSlotState = 'AVAILABLE' | 'NEARLY_FULL' | 'FULL';
+export type PickupSlotState =
+  | 'AVAILABLE'
+  | 'NEARLY_FULL'
+  | 'FULL'
+  | 'HELD'
+  | 'EXPIRED'
+  | 'UNAVAILABLE';
 export type PickupReservationStatus =
   | 'HELD'
   | 'CONSUMED'
