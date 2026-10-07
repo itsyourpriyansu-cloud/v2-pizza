@@ -1,9 +1,18 @@
 export type CustomerScenario =
   | 'NEW_CUSTOMER'
   | 'RETURNING_CUSTOMER'
-  | 'LOYAL_CUSTOMER';
-export type StoreScenario = 'STORE_OPEN' | 'STORE_BUSY' | 'STORE_PAUSED';
-export type MenuScenario = 'NORMAL_MENU' | 'PRODUCT_SOLD_OUT';
+  | 'LOYAL_CUSTOMER'
+  | 'ACTIVE_ORDER';
+export type StoreScenario =
+  | 'STORE_OPEN'
+  | 'STORE_BUSY'
+  | 'STORE_PAUSED'
+  | 'STORE_CLOSED';
+export type MenuScenario =
+  | 'NORMAL_MENU'
+  | 'PRODUCT_SOLD_OUT'
+  | 'MODIFIER_UNAVAILABLE'
+  | 'MENU_NETWORK_ERROR';
 export type PickupScenario =
   | 'PICKUP_AVAILABLE'
   | 'PICKUP_NEAR_FULL'
@@ -84,9 +93,9 @@ const defaults: MockScenarioState = {
 let state: MockScenarioState = { ...defaults };
 
 const groups = {
-  customer: ['NEW_CUSTOMER', 'RETURNING_CUSTOMER', 'LOYAL_CUSTOMER'],
-  store: ['STORE_OPEN', 'STORE_BUSY', 'STORE_PAUSED'],
-  menu: ['NORMAL_MENU', 'PRODUCT_SOLD_OUT'],
+  customer: ['NEW_CUSTOMER', 'RETURNING_CUSTOMER', 'LOYAL_CUSTOMER', 'ACTIVE_ORDER'],
+  store: ['STORE_OPEN', 'STORE_BUSY', 'STORE_PAUSED', 'STORE_CLOSED'],
+  menu: ['NORMAL_MENU', 'PRODUCT_SOLD_OUT', 'MODIFIER_UNAVAILABLE', 'MENU_NETWORK_ERROR'],
   pickup: ['PICKUP_AVAILABLE', 'PICKUP_NEAR_FULL', 'PICKUP_FULL'],
   payment: ['PAYMENT_SUCCESS', 'PAYMENT_FAILURE'],
   order: ['ORDER_CONFIRMED', 'ORDER_PREPARING', 'ORDER_READY'],
@@ -148,4 +157,10 @@ export function getScenarioState(): MockScenarioState {
 export function resetScenarioState(): MockScenarioState {
   state = { ...defaults };
   return getScenarioState();
+}
+
+export function isMockScenarioName(value: string): value is MockScenarioName {
+  return Object.values(groups).some((values) =>
+    (values as readonly string[]).includes(value),
+  );
 }

@@ -55,6 +55,15 @@ corepack pnpm install
 corepack pnpm dev:customer
 ```
 
+If Windows blocks creation of `C:\Program Files\nodejs\pnpm.ps1`, do not run `corepack enable`. Install with `corepack pnpm install`, then start the Customer app directly through the workspace Vite binary:
+
+```powershell
+cd apps/customer
+..\..\node_modules\.bin\vite.cmd --host 127.0.0.1 --port 5174
+```
+
+Open `http://127.0.0.1:5174/`. Local mocks and the documented seed menu are enabled by default; no `.env` file is required for this direct command.
+
 Otherwise:
 
 ```bash

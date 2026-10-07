@@ -3,15 +3,29 @@ import type { PropsWithChildren, ReactNode } from 'react';
 export function AppShell({
   title,
   navigation,
+  navigationPosition = 'header',
+  header,
+  className = '',
   children,
-}: PropsWithChildren<{ title: string; navigation?: ReactNode }>) {
+}: PropsWithChildren<{
+  title: string;
+  navigation?: ReactNode;
+  navigationPosition?: 'header' | 'footer';
+  header?: ReactNode;
+  className?: string;
+}>) {
   return (
-    <div className="app-shell">
-      <header>
-        <strong>{title}</strong>
-        {navigation ? <nav aria-label="Primary">{navigation}</nav> : null}
-      </header>
+    <div className={`app-shell ${className}`.trim()}>
+      {header ?? (
+        <header>
+          <strong>{title}</strong>
+          {navigation && navigationPosition === 'header' ? (
+            <nav aria-label="Primary">{navigation}</nav>
+          ) : null}
+        </header>
+      )}
       <main>{children}</main>
+      {navigation && navigationPosition === 'footer' ? navigation : null}
     </div>
   );
 }

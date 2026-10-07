@@ -21,6 +21,42 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-06 — Customer App UI — UX Implementation V1
+
+Added:
+- responsive Customer shell with service-aware context, five-item pickup navigation, loading/error/empty states and transient feedback
+- contextual new, returning, loyal and active-order Home states plus busy, paused and closed store messaging
+- category Menu, Search states, Product Detail, sold-out alternatives and a continuous Pizza Builder
+- deterministic menu/network/availability scenarios and focused Customer route/interaction coverage
+- vendor-neutral analytics hook points for discovery and builder events
+- self-hosted Phudu 600/700 and Poppins 400/500/600/700 Latin font assets plus consistent Lucide Customer navigation icons
+- content-matched seed imagery for the Home hero, Funghi and garlic-bread products, with an explicit fallback for products without approved imagery
+- the missing Rahul dual-identity customer/loyalty fixtures and independently selectable Cheese, Toppings and Dips modifier groups
+
+Changed:
+- the general entry now preserves the Pickup/Dine-in choice and withholds pickup navigation until a service mode is selected
+- menu mocks now represent the first-batch customer categories and products while retaining integer-money and backend-authoritative pricing boundaries
+- shared `AppShell` now supports compatible custom-header and footer-navigation slots
+- Customer colour, typography, card, category, hero and navigation treatments now apply selected Pizza Wave interaction lessons through the frozen Pizza Avenue palette rather than the legacy Wave palette
+
+Fixed:
+- Dine-in routes no longer inherit pickup bottom navigation
+- sold-out and unavailable selections remain visible with recovery guidance instead of becoming dead ends
+- required/min/max builder rules preserve selections and surface inline validation
+- direct Vite startup no longer evaluates non-local production URL requirements before enabling MSW; the default boot now resets to the normal documented seed scenario and registers the worker before rendering
+- category links from Home now initialize the matching Menu category instead of always opening the unfiltered list
+
+Docs updated:
+- `README.md`, `docs/24_CHANGE_QUEUE.md`, `docs/17_CHANGELOG.md`
+
+Decision:
+- no new architecture decision; DEC-026 dual-service boundaries remain unchanged
+
+Risk:
+- menu content remains example seed data pending founder validation; only content-matched, user-approved legacy candidate images are wired and their provenance/production optimization still require confirmation
+- the production build retains the existing non-failing Customer main-chunk size warning
+- CHG-0006 and CHG-0007 remain local and unmerged without Issues or Pull Requests
+
 ## 2026-10-06 — Dual Service Operations Foundation
 
 Added:

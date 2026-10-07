@@ -103,16 +103,16 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0007 (CHG-0005 is reserved on the parallel Landing branch)
+Next Change ID: CHG-0008 (CHG-0005 is reserved on the parallel Landing branch)
 
 Open:
-5
+6
 
 In Progress:
 0
 
 In Review:
-2
+3
 
 Staging:
 3
@@ -1031,6 +1031,204 @@ Breaking change:
 ### Current Result
 
 Frontend-first operating contracts, neutral route shells, mocks, tests and active documentation are complete and published on `feature/dual-service-operations`. Issue #16 and PR #18 are open; the latest combined validation passes lint, workspace typecheck, 103 tests and all implemented frontend builds. The change is `IN_REVIEW`; nothing has been merged, staged or deployed.
+---
+
+## CHG-0007 — Customer App UI — UX Implementation V1
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Turn the neutral Customer architecture shell into a complete, responsive and UX-testable first ordering batch while keeping the temporary visual skin replaceable and preserving the newly frozen Pickup/Dine-in service boundary.
+
+### Requested Outcome
+
+Implement the production-shaped Customer shell, five-item bottom navigation, contextual Home states, Menu, Search, Product Detail and continuous Pizza Builder through the typed API client, TanStack Query and MSW. Preserve Dine-in service entry and routes from CHG-0006 without expanding later commerce screens.
+
+### Scope
+
+Included:
+- Customer app shell, responsive page container, top-bar variants, bottom navigation, loading/error boundaries and feedback primitives,
+- service-aware Home with new, returning, active-order, busy, paused and closed states,
+- Menu categories, search states and reusable product cards,
+- Product Detail, sold-out alternatives and continuous Pizza Builder with required, optional, min/max, unavailable and price-delta behavior,
+- customer analytics hooks without a vendor dependency,
+- focused component/flow tests and mobile/desktop browser verification,
+- Customer tokens and component styles isolated from domain/query/state logic,
+- Pizza Wave-derived Phudu/Poppins typography and reusable interaction/component treatments mapped onto the frozen Pizza Avenue seven-color palette,
+- content-matched seed imagery plus reliable local MSW bootstrap so the documented seed menu is the default development experience.
+
+Excluded:
+- Cart, Pickup, Authentication, Checkout/Payment, Orders/Tracking, Rewards/Passport and Profile implementation batches,
+- Dine-in ordering/billing/waiter workflow expansion,
+- backend, database, provider, deployment or production integration,
+- final brand composition, approved production imagery, final typography scale, radius, shadow or animation language.
+
+### GitHub Tracking
+
+Issue:
+- [#17 — Customer app UI and ordering discovery V1](https://github.com/itsyourpriyansu-cloud/v2-pizza/issues/17)
+
+Branch:
+- `feature/customer-ui-ux-v1`
+
+Pull Request:
+- [#19 — feat: build customer ordering discovery experience](https://github.com/itsyourpriyansu-cloud/v2-pizza/pull/19) → stacked on `feature/dual-service-operations`
+
+### Affected Surfaces
+
+- Customer PWA only
+- Shared API/MSW contracts only where required by Customer states
+
+### Affected Modules
+
+- `apps/customer` shell, Home, Menu, Search, Product and Builder
+- `packages/mocks` Customer scenario behavior
+- existing `packages/api-client`, `packages/types`, `packages/utils` contracts reused where possible
+
+### Files / Areas Changed
+
+- `apps/customer/src/app`: service-aware shell/router/providers and first-batch route tests
+- `apps/customer/src/features/home`: service gate and contextual Home variants
+- `apps/customer/src/features/menu`: category filtering and reusable product/category components
+- `apps/customer/src/features/search`: empty, recent, results, no-result and error states
+- `apps/customer/src/features/product`: product detail, sold-out alternatives and continuous builder
+- `apps/customer/src/shared`: analytics, feedback, scenario and UI primitives
+- `apps/customer/src/styles`: isolated tokens, primitives and responsive Customer composition
+- `apps/customer/src/main.tsx`, `package.json`, `public/assets/seed`: self-hosted approved font weights, Lucide icons and content-matched seed imagery
+- `docs/assets/screenshots/customer-service-selector-desktop.png`: current desktop review evidence for the service-entry experience
+- `packages/mocks/src`: expanded menu inventory and deterministic Customer scenarios
+- `packages/ui/src`: backward-compatible shell header/footer composition slots
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New backend endpoints:
+- None
+
+Changed backend endpoints:
+- None
+
+Frontend behavior continues to use documented `GET /stores/{store_id}/menu`, `GET /products/{id}`, `GET /orders/me`, `GET /me/loyalty` and `GET /me/passport` mock contracts where relevant.
+
+### State Machine Impact
+
+- None. Builder selection is transient client state and final validation/pricing remains backend-authoritative.
+- CHG-0006 Pickup/Dine-in order-state and KDS-admission rules remain unchanged.
+
+### Permission Impact
+
+- None. Browsing, search and customization remain public Customer actions; protected operations remain server-authoritative.
+
+### Analytics Impact
+
+Client UX hook points:
+- `menu_viewed`
+- `category_viewed`
+- `product_viewed`
+- `search_used`
+- `builder_started`
+- `variant_selected`
+- `modifier_selected`
+- `builder_completed`
+
+No analytics vendor or authoritative reporting path is added.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed secrets:
+- None
+
+### Figma Source
+
+- `https://www.figma.com/design/JqbufOxXUwO6lz2FVDmY5s/TEST-01-UG`
+- Reviewed sections: `HF 02 — Home`, `HF 03 — Menu & Search`, `HF 04 — Product & Builder`.
+- Figma defines flow, hierarchy, CTA priority and recovery behavior; grayscale visual styling is not production authority.
+
+### Tests Required
+
+- [x] Workspace lint
+- [x] Workspace typecheck
+- [x] Customer unit/component tests
+- [x] New Customer: Home → Menu → Product → Customize
+- [x] Returning Customer: Home → Reorder entry
+- [x] Busy/Paused/Closed store messaging
+- [x] Sold-out Product → alternative
+- [x] Builder required choice, max modifier, price update and unavailable modifier
+- [x] Customer production build
+- [x] Responsive browser checks at 360px, 390px, 430px and desktop
+- [x] Keyboard/focus/accessibility smoke review
+
+Validation result:
+- workspace lint passed after the visual/startup refinement,
+- workspace typecheck passed sequentially across all 10 packages/apps plus tool configuration,
+- 103 workspace tests passed after the first-batch and seed/modifier refinements,
+- Landing, Customer, KDS and Admin production builds passed,
+- the refined Customer production build passed with bundled Latin subsets for the approved Phudu/Poppins weights,
+- direct no-`pnpm` Vite startup was browser-verified at `127.0.0.1:5174`: service selection, seeded returning Home and all 14 menu items loaded with no runtime warning/error,
+- Customer browser QA passed at 360 × 800, 390 × 844, 430 × 932 and 1440 × 900 with no horizontal overflow,
+- GitHub `frontend-foundation` CI passed on PR #19,
+- the existing non-failing Customer bundle-size warning remains (main chunk slightly above 500 kB).
+
+### Edge Cases
+
+- no service context must preserve the new Pickup/Dine-in selector,
+- Dine-in deep links and table-context routes must remain intact,
+- active Pickup order outranks discovery content,
+- paused/closed store allows browsing but disables order-start actions,
+- search empty query, recent searches, no results and network failure recover clearly,
+- sold-out products offer alternatives rather than a dead end,
+- builder required/min/max and unavailable choices preserve valid selections and explain recovery,
+- route components must not import mock fixtures directly,
+- provisional frontend prices must never be described as authoritative.
+
+### Security Review
+
+- Auth implications: none; no auth/session/token implementation is added.
+- RBAC implications: none.
+- Secret/PII implications: no real customer data, OTPs, tokens or provider payloads.
+- Replay/idempotency implications: no payment/order mutation is implemented in this batch.
+
+### Known Risks
+
+- Current menu names/prices remain example seed data until founder validation.
+- Only content-matched Pizza Wave candidate imagery is wired; provenance confirmation, responsive derivatives and production optimization remain required before release.
+- An approved Pizza Avenue logo and complete production photography are still unavailable, so text-only identity and intentional image fallbacks remain.
+- Browser Figma inspection is available, but the Figma MCP API is rate-limited on the connected Starter plan.
+- CHG-0006 remains an unmerged dependency; this branch is intentionally based on its committed frontend-first foundation.
+
+### Follow-Up
+
+- [x] Complete agent visual and functional review of the first Customer UI batch.
+- [x] Complete CI validation in PR #19.
+- [ ] Complete peer review in PR #19.
+- [ ] Supply final visual references before the remaining commerce screens are implemented.
+- [x] Push CHG-0006 and CHG-0007 branches and open their linked Issues/PRs.
+
+### Current Result
+
+The first Customer UI batch and requested visual/startup refinement are implemented and published on `feature/customer-ui-ux-v1`: the dual-service entry remains authoritative; Pickup discovery includes contextual Home states; Menu, Search, Product Detail and continuous Builder are responsive and mock-backed; Phudu/Poppins, Lucide navigation and selected Pizza Wave component/image treatments render through the frozen Pizza Avenue palette. Direct Vite startup defaults deterministically to the documented seed menu without requiring `pnpm.ps1` or a local `.env`. Issue #17 and stacked PR #19 are open, PR #18 is the prerequisite, and GitHub CI is green. The item is `IN_REVIEW`; peer approval is still required and nothing has been merged, staged or deployed.
+
+### Related Changes
+
+- CHG-0002
+- CHG-0004
+- CHG-0006
 
 ---
 

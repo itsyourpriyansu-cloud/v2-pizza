@@ -17,7 +17,9 @@ describe('customer application foundation', () => {
   it.each([
     '/',
     '/menu',
+    '/search',
     '/menu/pizza-margherita',
+    '/menu/pizza-margherita/customize',
     '/cart',
     '/checkout',
     '/checkout/pickup',
@@ -64,7 +66,7 @@ describe('customer application foundation', () => {
         <RouterProvider router={createCustomerMemoryRouter(['/menu'])} />
       </AppProviders>,
     );
-    expect(await screen.findByRole('link', { name: 'Margherita' })).toBeVisible();
-    expect(screen.getByText(/Mock HTTP data through TanStack Query/)).toBeVisible();
+    expect(await screen.findByRole('link', { name: 'View Margherita' })).toBeVisible();
+    expect(screen.getByText(/Choose a favourite or build your pizza your way/)).toBeVisible();
   });
 });
