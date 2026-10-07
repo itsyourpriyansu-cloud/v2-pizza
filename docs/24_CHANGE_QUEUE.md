@@ -1031,7 +1031,6 @@ Breaking change:
 ### Current Result
 
 Frontend-first operating contracts, neutral route shells, mocks, tests and active documentation are complete and published on `feature/dual-service-operations`. Issue #16 and PR #18 are open; the latest combined validation passes lint, workspace typecheck, 103 tests and all implemented frontend builds. The change is `IN_REVIEW`; nothing has been merged, staged or deployed.
-
 ---
 
 ## CHG-0007 — Customer App UI — UX Implementation V1
