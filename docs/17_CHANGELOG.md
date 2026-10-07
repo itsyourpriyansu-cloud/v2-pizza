@@ -21,6 +21,38 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-07 — Customer retention, profile and preliminary mock menu
+
+Added:
+- Customer Rewards hub with Points, next-reward progress, reversible reward reservation, activity, Passport and Missions entry points
+- Pizza Passport new/progress/one-left/complete/unavailable states and product links preserving `source=PASSPORT`
+- separate Personal/Common Missions with non-redeemable Avenue XP and deterministic completion responses
+- practical Profile preferences, favourites, notification controls, allergy warning, help/legal information and local logout
+- nine focused retention missions plus six responsive screenshot artifacts
+
+Changed:
+- Home now renders one adaptive retention action below active Pickup/Table and reorder priorities
+- completed Pickup tracking includes a compact retention summary
+- the shared preliminary menu now contains the documented 29 mock items across eight categories
+- menu cards use fixed media/content alignment and the single favourite card no longer inherits a two-column layout
+- Customer retention routes remain lazy-loaded under `/rewards`, `/rewards/passport`, `/rewards/missions` and `/profile`
+
+Fixed:
+- reward reservation no longer implies consumption and can be released safely
+- served but unpaid Dine-in loyalty is shown as pending; the paid fixture moves it into spendable Points
+- Passport sold-out items preserve progress and suppress an invalid Product CTA
+- Profile save failures retain the last server response and expose recovery copy
+
+Docs updated:
+- `docs/04_USER_FLOWS.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/07_COMPONENTS.md`, `docs/10_API_CONTRACTS.md`, `docs/12_ANALYTICS_EVENTS.md`, `docs/13_SEED_DATA.md`, `docs/14_TEST_PLAN.md`, `docs/17_CHANGELOG.md`, `docs/18_ACCEPTANCE_CRITERIA.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- no architecture decision changed; all balances, progress and final states remain server-authoritative in production
+
+Risk:
+- MSW validates frontend boundaries only; production ledger idempotency, paid-bill attribution, permissions and database persistence remain for the NestJS backend
+- the 29-item menu, prices, reward costs and earn values remain preliminary pending founder confirmation
+
 ## 2026-10-07 — Complete Customer Pickup and Dine-in commerce flows
 
 Added:

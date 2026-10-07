@@ -89,11 +89,23 @@ export type OperationsScenario =
   | 'DINE_IN_SESSION_CLOSED'
   | 'WAITER_SERVICE_REQUEST'
   | 'PICKUP_AND_DINEIN_SIMULTANEOUS';
-export type RewardsScenario = 'NO_REWARDS' | 'REWARD_AVAILABLE';
+export type RewardsScenario =
+  | 'NO_REWARDS' | 'REWARD_LOCKED' | 'REWARD_AVAILABLE' | 'REWARD_RESERVED'
+  | 'REWARD_APPLIED' | 'REWARD_RELEASED' | 'REWARD_CONSUMED' | 'REWARD_UNAVAILABLE'
+  | 'POINTS_NEAR_REWARD' | 'DINE_IN_LOYALTY_PENDING' | 'DINE_IN_LOYALTY_PAID' | 'REWARDS_NETWORK_ERROR' | 'REWARD_RESERVATION_CONFLICT';
 export type PassportScenario =
   | 'PASSPORT_NEW'
   | 'PASSPORT_IN_PROGRESS'
-  | 'PASSPORT_COMPLETED';
+  | 'PASSPORT_PROGRESS'
+  | 'PASSPORT_ONE_LEFT'
+  | 'PASSPORT_COMPLETED'
+  | 'PASSPORT_ITEM_UNAVAILABLE'
+  | 'PASSPORT_NETWORK_ERROR';
+export type MissionsScenario =
+  | 'MISSIONS_ZERO_PROGRESS' | 'PERSONAL_MISSION_0_PROGRESS' | 'PERSONAL_MISSION_ACTIVE' | 'PERSONAL_MISSION_PARTIAL' | 'PERSONAL_MISSION_COMPLETE'
+  | 'COMMON_MISSION_ACTIVE' | 'COMMON_MISSION_COMPLETE' | 'MISSION_EXPIRED'
+  | 'MULTIPLE_MISSIONS' | 'NO_ACTIVE_MISSIONS' | 'MISSIONS_NETWORK_ERROR';
+export type ProfileScenario = 'PROFILE_COMPLETE' | 'PROFILE_PARTIAL' | 'PROFILE_NETWORK_ERROR' | 'PROFILE_SAVE_SUCCESS' | 'PROFILE_SAVE_FAILURE';
 
 export type MockScenarioName =
   | CustomerScenario
@@ -106,7 +118,9 @@ export type MockScenarioName =
   | OrderScenario
   | OperationsScenario
   | RewardsScenario
-  | PassportScenario;
+  | PassportScenario
+  | MissionsScenario
+  | ProfileScenario;
 
 export interface MockScenarioState {
   customer: CustomerScenario;
@@ -120,6 +134,8 @@ export interface MockScenarioState {
   operations: OperationsScenario;
   rewards: RewardsScenario;
   passport: PassportScenario;
+  missions: MissionsScenario;
+  profile: ProfileScenario;
 }
 
 const defaults: MockScenarioState = {
@@ -134,6 +150,8 @@ const defaults: MockScenarioState = {
   operations: 'GENERAL_ENTRY',
   rewards: 'REWARD_AVAILABLE',
   passport: 'PASSPORT_IN_PROGRESS',
+  missions: 'MULTIPLE_MISSIONS',
+  profile: 'PROFILE_COMPLETE',
 };
 
 let state: MockScenarioState = { ...defaults };
@@ -195,8 +213,10 @@ const groups = {
     'WAITER_SERVICE_REQUEST',
     'PICKUP_AND_DINEIN_SIMULTANEOUS',
   ],
-  rewards: ['NO_REWARDS', 'REWARD_AVAILABLE'],
-  passport: ['PASSPORT_NEW', 'PASSPORT_IN_PROGRESS', 'PASSPORT_COMPLETED'],
+  rewards: ['NO_REWARDS', 'REWARD_LOCKED', 'REWARD_AVAILABLE', 'REWARD_RESERVED', 'REWARD_APPLIED', 'REWARD_RELEASED', 'REWARD_CONSUMED', 'REWARD_UNAVAILABLE', 'POINTS_NEAR_REWARD', 'DINE_IN_LOYALTY_PENDING', 'DINE_IN_LOYALTY_PAID', 'REWARDS_NETWORK_ERROR', 'REWARD_RESERVATION_CONFLICT'],
+  passport: ['PASSPORT_NEW', 'PASSPORT_IN_PROGRESS', 'PASSPORT_PROGRESS', 'PASSPORT_ONE_LEFT', 'PASSPORT_COMPLETED', 'PASSPORT_ITEM_UNAVAILABLE', 'PASSPORT_NETWORK_ERROR'],
+  missions: ['MISSIONS_ZERO_PROGRESS', 'PERSONAL_MISSION_0_PROGRESS', 'PERSONAL_MISSION_ACTIVE', 'PERSONAL_MISSION_PARTIAL', 'PERSONAL_MISSION_COMPLETE', 'COMMON_MISSION_ACTIVE', 'COMMON_MISSION_COMPLETE', 'MISSION_EXPIRED', 'MULTIPLE_MISSIONS', 'NO_ACTIVE_MISSIONS', 'MISSIONS_NETWORK_ERROR'],
+  profile: ['PROFILE_COMPLETE', 'PROFILE_PARTIAL', 'PROFILE_NETWORK_ERROR', 'PROFILE_SAVE_SUCCESS', 'PROFILE_SAVE_FAILURE'],
 } as const satisfies Record<keyof MockScenarioState, readonly MockScenarioName[]>;
 
 export function setScenario(name: MockScenarioName): MockScenarioState {

@@ -220,3 +220,6 @@ CRUD:
 - Zod/shared runtime validation where it reduces client/server contract drift; NestJS DTO/pipes remain server-authoritative
 - health endpoints: `GET /health` (process liveness) and `GET /health/ready` (required dependencies/readiness)
 - live event payloads include stable event/order versions; clients refetch API state after reconnect or detected gaps
+
+## Retention frontend/mock boundary
+The current Customer prototype calls typed `/api/v1` boundaries for `GET /me/loyalty`, `GET /me/loyalty/activity`, `GET /me/rewards`, `POST /rewards/:rewardId/reserve`, `DELETE /reward-reservations/:id`, `GET /me/passport`, `GET /me/missions`, `POST /missions/:missionId/complete`, `GET /me/profile` and `PATCH /me/profile`. MSW supplies deterministic frontend fixtures only. A future NestJS implementation must enforce ownership, ledger idempotency, qualifying completed-order/paid-bill rules and exactly-once reward/XP/progress effects.

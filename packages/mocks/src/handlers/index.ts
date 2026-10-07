@@ -5,10 +5,12 @@ import { cartHandlers } from './cart';
 import { dineInHandlers } from './dine-in';
 import { loyaltyHandlers } from './loyalty';
 import { menuHandlers } from './menu';
+import { missionHandlers } from './missions';
 import { orderHandlers } from './orders';
 import { passportHandlers } from './passport';
 import { paymentHandlers } from './payments';
 import { pickupHandlers } from './pickup';
+import { profileHandlers } from './profile';
 import { waiterHandlers } from './waiter';
 
 export const handlers = [
@@ -21,6 +23,8 @@ export const handlers = [
   ...orderHandlers,
   ...loyaltyHandlers,
   ...passportHandlers,
+  ...missionHandlers,
+  ...profileHandlers,
   ...adminHandlers,
   ...waiterHandlers,
   ...billingHandlers,

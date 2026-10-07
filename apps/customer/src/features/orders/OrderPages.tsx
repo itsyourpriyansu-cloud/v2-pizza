@@ -1,4 +1,4 @@
-import { getOrder, listOrders } from '@pizza-avenue/api-client';
+import { getLoyaltyAccount, getMissions, getOrder, getPassportProgress, listOrders } from '@pizza-avenue/api-client';
 import type { Order, OrderStatus } from '@pizza-avenue/types';
 import { formatMoney, queryKeys } from '@pizza-avenue/utils';
 import { useQuery } from '@tanstack/react-query';
@@ -53,6 +53,10 @@ export function OrderDetailPage() {
     enabled: Boolean(orderId),
     refetchOnWindowFocus: true,
   });
+  const completedPickup = orderQuery.data?.serviceMode === 'PICKUP' && orderQuery.data.status === 'COMPLETED';
+  const loyaltyQuery = useQuery({ queryKey: queryKeys.loyalty(), queryFn: getLoyaltyAccount, enabled: completedPickup });
+  const passportQuery = useQuery({ queryKey: queryKeys.passport(), queryFn: getPassportProgress, enabled: completedPickup });
+  const missionsQuery = useQuery({ queryKey: queryKeys.missions(), queryFn: getMissions, enabled: completedPickup });
   useEffect(() => {
     if (orderQuery.data) trackCustomerEvent('order_tracking_viewed', { orderId: orderQuery.data.id, serviceMode: orderQuery.data.serviceMode });
   }, [orderQuery.data]);
@@ -98,6 +102,7 @@ export function OrderDetailPage() {
         {order.items.map((item) => <p key={item.id}>{item.quantity} × {item.productNameSnapshot} · {item.variantNameSnapshot}</p>)}
         <strong>Total {formatMoney(order.total)}</strong>
       </Surface>
+      {order.status === 'COMPLETED' && loyaltyQuery.data && passportQuery.data && missionsQuery.data ? <Surface className="post-order-retention"><Badge tone="success">Progress updated</Badge><h2>Your visit counted</h2><div className="post-order-retention__stats"><span><strong>{loyaltyQuery.data.pointsBalance}</strong><small>Points balance</small></span><span><strong>{passportQuery.data.completedItemIds.length}/{passportQuery.data.program.items.length}</strong><small>Passport</small></span><span><strong>{missionsQuery.data.avenueXp}</strong><small>Avenue XP</small></span></div><ButtonLink to="/rewards" variant="secondary">See all rewards</ButtonLink></Surface> : null}
       <ButtonLink variant="secondary" to="/orders">All orders</ButtonLink>
     </div>
   );

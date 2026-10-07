@@ -1,5 +1,5 @@
 import { lazy, Suspense, type ComponentType, type ReactElement } from 'react';
-import { createBrowserRouter, createMemoryRouter, type RouteObject } from 'react-router-dom';
+import { createBrowserRouter, createMemoryRouter, Navigate, type RouteObject } from 'react-router-dom';
 import { RouteError, RoutePending } from '@pizza-avenue/ui';
 import { CustomerLayout } from './layout';
 import { HomePage } from '../features/home/HomePage';
@@ -40,6 +40,7 @@ const DineInShellPage = lazyNamed<{ title: string; guidance: string }>(() => imp
 const DineInWrongTablePage = lazyNamed(() => import('../features/dine-in/DineInPages'), 'DineInWrongTablePage');
 const RewardsPage = lazyNamed(() => import('../features/loyalty/RewardsPage'), 'RewardsPage');
 const PassportPage = lazyNamed(() => import('../features/passport/PassportPage'), 'PassportPage');
+const MissionsPage = lazyNamed(() => import('../features/missions/MissionsPage'), 'MissionsPage');
 const ProfilePage = lazyNamed(() => import('../features/profile/ProfilePage'), 'ProfilePage');
 
 export const customerRoutes: RouteObject[] = [
@@ -90,7 +91,9 @@ export const customerRoutes: RouteObject[] = [
       { path: 'orders', element: pending(<OrdersPage />) },
       { path: 'orders/:orderId', element: pending(<OrderDetailPage />) },
       { path: 'rewards', element: pending(<RewardsPage />) },
-      { path: 'passport', element: pending(<PassportPage />) },
+      { path: 'rewards/passport', element: pending(<PassportPage />) },
+      { path: 'rewards/missions', element: pending(<MissionsPage />) },
+      { path: 'passport', element: <Navigate to="/rewards/passport" replace /> },
       { path: 'profile', element: pending(<ProfilePage />) },
       { path: '*', element: <NotFoundPage /> },
     ],

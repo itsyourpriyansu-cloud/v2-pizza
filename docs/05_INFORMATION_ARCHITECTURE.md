@@ -92,3 +92,11 @@ what needs action? → what is late? → what is blocked? → what is next?
 
 Acquisition:
 which placement/campaign was scanned? → was the WhatsApp join sent/received? → was a magic link generated/opened? → was login completed? → did the customer later order/reorder?
+
+## Customer retention routes
+- `/rewards` — Points, next reward, reward catalog, Passport/Missions entry points and activity
+- `/rewards/passport` — Passport progress and item-to-product navigation
+- `/rewards/missions` — visually separate Personal and Common Missions with Avenue XP
+- `/profile` — identity, preferences, favourites, notifications, help/legal and logout
+
+The legacy `/passport` path redirects to `/rewards/passport`. Passport and Missions remain inside the Rewards hierarchy and are not bottom-navigation destinations.

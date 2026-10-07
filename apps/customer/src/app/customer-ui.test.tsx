@@ -44,10 +44,10 @@ describe('customer discovery and builder flows', () => {
     renderRoute('/?scenario=NEW_CUSTOMER');
     await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
     await user.click(await screen.findByRole('link', { name: 'Browse the menu' }));
-    await user.click(await screen.findByRole('link', { name: 'View Margherita' }));
+    await user.click(await screen.findByRole('link', { name: 'View Classic Margherita Pizza' }));
     await user.click(await screen.findByRole('link', { name: 'Customize' }));
     expect(await screen.findByRole('group', { name: 'Crust' })).toBeVisible();
-    expect(screen.getByRole('heading', { name: 'Margherita' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Classic Margherita Pizza' })).toBeVisible();
   });
 
   it('prioritizes an active pickup order on Home', async () => {
@@ -78,22 +78,23 @@ describe('customer discovery and builder flows', () => {
     expect(await screen.findByRole('heading', { name: 'Order again' })).toBeVisible();
   });
 
-  it('shows loyal-customer passport progress', async () => {
+  it('shows the highest-priority loyal-customer retention action', async () => {
     const user = userEvent.setup();
     renderRoute('/?scenario=LOYAL_CUSTOMER');
     await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
-    expect(await screen.findByRole('heading', { name: 'Pizza Passport' })).toBeVisible();
+    expect(await screen.findByText('Reward ready')).toBeVisible();
+    expect(screen.getByText('Free dip')).toBeVisible();
   });
 
   it('filters the menu by category', async () => {
     const user = userEvent.setup();
     renderRoute('/menu');
-    await screen.findByRole('link', { name: 'View Margherita' });
+    await screen.findByRole('link', { name: 'View Classic Margherita Pizza' });
 
-    await user.click(screen.getByRole('button', { name: 'Pastas' }));
+    await user.click(screen.getByRole('button', { name: 'Pasta — Tossed & Sauced' }));
 
     expect(screen.getByRole('link', { name: 'View Alfredo Pasta' })).toBeVisible();
-    expect(screen.queryByRole('link', { name: 'View Margherita' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'View Classic Margherita Pizza' })).not.toBeInTheDocument();
   });
 
   it('supports empty, matching and no-result search states', async () => {
@@ -103,7 +104,7 @@ describe('customer discovery and builder flows', () => {
 
     await user.type(screen.getByRole('searchbox', { name: 'Search menu' }), 'Margherita');
     await user.click(screen.getByRole('button', { name: 'Search' }));
-    expect(await screen.findByRole('link', { name: 'View Margherita' })).toBeVisible();
+    expect(await screen.findByRole('link', { name: 'View Classic Margherita Pizza' })).toBeVisible();
 
     const input = screen.getByRole('searchbox', { name: 'Search menu' });
     await user.clear(input);
@@ -125,7 +126,7 @@ describe('customer discovery and builder flows', () => {
     expect(await screen.findByRole('heading', { name: 'The menu is taking a breather' }, { timeout: 4_000 })).toBeVisible();
     await user.click(screen.getByRole('button', { name: 'Try again' }));
 
-    expect(await screen.findByRole('link', { name: 'View Margherita' })).toBeVisible();
+    expect(await screen.findByRole('link', { name: 'View Classic Margherita Pizza' })).toBeVisible();
     expect(screen.queryByRole('heading', { name: 'The menu is taking a breather' })).not.toBeInTheDocument();
   });
 
@@ -143,7 +144,7 @@ describe('customer discovery and builder flows', () => {
     expect(within(summary).getByText('+₹80.00')).toBeVisible();
     await user.click(addButton);
 
-    expect(await screen.findByText('Margherita added to your pickup cart.')).toBeVisible();
+    expect(await screen.findByText('Classic Margherita Pizza added to your pickup cart.')).toBeVisible();
     expect(screen.getByRole('link', { name: 'View cart with 1 item' })).toBeVisible();
   });
 

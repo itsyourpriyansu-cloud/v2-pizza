@@ -78,3 +78,6 @@ PAUSED → browsing remains → checkout disabled → existing orders continue.
 - founder dashboard
 - both authentication paths, including expired/reused magic links
 - live-update reconnect recovery and duplicate provider-event handling
+
+## Customer retention flow (V1 frontend contract)
+Returning customer → one adaptive Home retention prompt → Rewards hub → reserve/release reward, open Passport or open Missions. Passport items link to current Product Detail with `source=PASSPORT`. Completed Pickup may show a compact progress summary. Served Dine-in remains pending until `TABLE_BILL_PAID`; operational order/table actions always outrank retention.

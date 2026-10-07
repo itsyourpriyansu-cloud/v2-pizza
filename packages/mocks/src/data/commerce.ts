@@ -64,9 +64,9 @@ export const payment: Payment = {
 };
 
 export const rewards: Reward[] = [
-  { id: 'reward-dip', name: 'Free dip', pointsCost: 300, active: true },
-  { id: 'reward-garlic-bread', name: 'Garlic Bread', pointsCost: 900, active: true },
-  { id: 'reward-upgrade', name: 'Pizza size upgrade', pointsCost: 1200, active: true },
+  { id: 'reward-dip', name: 'Free dip', description: 'Choose Viva Rosso or Pesto with an eligible order.', pointsCost: 300, status: 'AVAILABLE', remainingPoints: 0, active: true },
+  { id: 'reward-garlic-bread', name: 'Garlic Bread', description: 'A warm Garlic Bread on your next eligible order.', pointsCost: 900, status: 'LOCKED', remainingPoints: 60, active: true },
+  { id: 'reward-upgrade', name: 'Pizza size upgrade', description: 'Upgrade one eligible regular pizza to large.', pointsCost: 1200, status: 'LOCKED', remainingPoints: 360, active: true },
 ];
 
 export const passportProgram: PassportProgram = {
@@ -74,35 +74,41 @@ export const passportProgram: PassportProgram = {
   name: 'Pizza Avenue Passport',
   active: true,
   items: [
-    { id: 'passport-margherita', productId: 'pizza-margherita', label: 'Margherita', displayOrder: 1 },
-    { id: 'passport-diavola', productId: 'pizza-diavola', label: 'Diavola', displayOrder: 2 },
-    { id: 'passport-funghi', productId: 'pizza-funghi', label: 'Funghi', displayOrder: 3 },
+    { id: 'passport-margherita', productId: 'pizza-margherita', label: 'Classic Margherita', displayOrder: 1, availability: 'AVAILABLE' },
+    { id: 'passport-diavola', productId: 'pizza-diavola', label: 'Chicken Pepperoni', displayOrder: 2, availability: 'AVAILABLE' },
+    { id: 'passport-funghi', productId: 'pizza-mushroom-alfredo', label: 'Mushroom Alfredo', displayOrder: 3, availability: 'AVAILABLE' },
     {
       id: 'passport-quattro',
-      productId: 'pizza-quattro-formaggi',
-      label: 'Quattro Formaggi',
+      productId: 'pizza-paneer-makhani',
+      label: 'Paneer Makhani',
       displayOrder: 4,
+      availability: 'AVAILABLE',
     },
     {
       id: 'passport-avenue',
-      productId: 'pizza-avenue-signature',
-      label: 'Avenue Signature',
+      productId: 'pizza-farmhouse',
+      label: 'Farmhouse',
       displayOrder: 5,
+      availability: 'AVAILABLE',
     },
-    { id: 'passport-seasonal', productId: 'pizza-seasonal', label: 'Seasonal Pizza', displayOrder: 6 },
+    { id: 'passport-seasonal', productId: 'pizza-meat-lovers', label: 'Meat Lovers', displayOrder: 6, availability: 'AVAILABLE' },
   ],
   milestoneRewardId: 'reward-garlic-bread',
 };
 
 export const passportProgress: Record<'new' | 'inProgress' | 'completed', PassportProgress> = {
   new: {
+    program: passportProgram,
     programId: passportProgram.id,
     customerId: 'customer-aisha',
     completedItemIds: [],
     completed: false,
+    status: 'NEW',
+    nextItemId: 'passport-margherita',
     unlockedRewardId: null,
   },
   inProgress: {
+    program: passportProgram,
     programId: passportProgram.id,
     customerId: 'customer-arjun',
     completedItemIds: [
@@ -112,13 +118,18 @@ export const passportProgress: Record<'new' | 'inProgress' | 'completed', Passpo
       'passport-quattro',
     ],
     completed: false,
+    status: 'NEAR_COMPLETE',
+    nextItemId: 'passport-avenue',
     unlockedRewardId: null,
   },
   completed: {
+    program: passportProgram,
     programId: passportProgram.id,
     customerId: 'customer-neha',
     completedItemIds: passportProgram.items.map((item) => item.id),
     completed: true,
+    status: 'COMPLETE',
+    nextItemId: null,
     unlockedRewardId: 'reward-garlic-bread',
   },
 };

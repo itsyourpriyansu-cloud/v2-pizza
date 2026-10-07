@@ -57,7 +57,8 @@ describe('customer application foundation', () => {
     '/orders',
     '/orders/order-pa-1001',
     '/rewards',
-    '/passport',
+    '/rewards/passport',
+    '/rewards/missions',
     '/profile',
   ])('resolves route %s', (path) => {
     expect(matchRoutes(customerRoutes, path)).not.toBeNull();
@@ -69,7 +70,7 @@ describe('customer application foundation', () => {
         <RouterProvider router={createCustomerMemoryRouter(['/menu'])} />
       </AppProviders>,
     );
-    expect(await screen.findByRole('link', { name: 'View Margherita' })).toBeVisible();
+    expect(await screen.findByRole('link', { name: 'View Classic Margherita Pizza' })).toBeVisible();
     expect(screen.getByText(/Choose a favourite or build your pizza your way/)).toBeVisible();
   });
 });

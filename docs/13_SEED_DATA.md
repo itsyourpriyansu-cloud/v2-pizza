@@ -114,3 +114,6 @@ PA-2002 DINE_IN / TABLE 12 / ROUND 2 / READY_TO_SERVE
 
 ## Infrastructure seed safety
 Development seed values are fictional and environment-scoped. Never seed production provider credentials, session secrets, real customer phone numbers, raw OTPs or reusable magic tokens. Payment and webhook fixtures must be clearly fake.
+
+## Customer retention mock catalog
+The Customer prototype exposes the documented preliminary 29-item, eight-category menu through shared menu contracts. Prices, availability, reward costs and earn values are fictional integer-paise/Points fixtures pending founder confirmation. Retention fixtures cover new/returning/loyal customers, locked through consumed rewards, Passport new/progress/one-left/complete/unavailable, Personal/Common Mission states, pending/paid Dine-in loyalty and complete/partial/error Profile states.
