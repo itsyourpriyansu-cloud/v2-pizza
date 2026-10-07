@@ -109,7 +109,13 @@ Open:
 6
 
 In Progress:
-2
+0
+
+In Review:
+3
+
+Staging:
+3
 
 Blocked:
 0
@@ -911,12 +917,12 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 
 ## CHG-0006 — Dual Service Operations — Dine-In Waiter Confirmation + Admin Billing
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** FEATURE, API, UX, DECISION, TEST, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-06
-- **Last Updated:** 2026-10-06
+- **Last Updated:** 2026-10-07
 
 ### Business Reason
 
@@ -944,13 +950,13 @@ Excluded:
 ### GitHub Tracking
 
 Issue:
-- Pending; local preparation was explicitly requested before push.
+- [#16 — Dual service operations foundation](https://github.com/itsyourpriyansu-cloud/v2-pizza/issues/16)
 
 Branch:
 - `feature/dual-service-operations`
 
 Pull Request:
-- Not created; user will authorize the later push/merge step.
+- [#18 — feat: add dual service operations foundation](https://github.com/itsyourpriyansu-cloud/v2-pizza/pull/18) → `develop`
 
 ### Affected Surfaces
 
@@ -1024,13 +1030,13 @@ Breaking change:
 
 ### Current Result
 
-Frontend-first operating contracts, neutral route shells, mocks, tests and active documentation are complete locally. Lint, typecheck, 86 tests and all four frontend builds pass. The change remains `IN_PROGRESS` only because the user explicitly deferred push/PR/merge; nothing has been pushed, merged, staged or deployed.
+Frontend-first operating contracts, neutral route shells, mocks, tests and active documentation are complete and published on `feature/dual-service-operations`. Issue #16 and PR #18 are open; the latest combined validation passes lint, workspace typecheck, 103 tests and all implemented frontend builds. The change is `IN_REVIEW`; nothing has been merged, staged or deployed.
 
 ---
 
 ## CHG-0007 — Customer App UI — UX Implementation V1
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** FEATURE, UX, TEST, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -1067,13 +1073,13 @@ Excluded:
 ### GitHub Tracking
 
 Issue:
-- Pending
+- [#17 — Customer app UI and ordering discovery V1](https://github.com/itsyourpriyansu-cloud/v2-pizza/issues/17)
 
 Branch:
 - `feature/customer-ui-ux-v1`
 
 Pull Request:
-- Pending
+- [#19 — feat: build customer ordering discovery experience](https://github.com/itsyourpriyansu-cloud/v2-pizza/pull/19) → stacked on `feature/dual-service-operations`
 
 ### Affected Surfaces
 
@@ -1096,6 +1102,7 @@ Pull Request:
 - `apps/customer/src/shared`: analytics, feedback, scenario and UI primitives
 - `apps/customer/src/styles`: isolated tokens, primitives and responsive Customer composition
 - `apps/customer/src/main.tsx`, `package.json`, `public/assets/seed`: self-hosted approved font weights, Lucide icons and content-matched seed imagery
+- `docs/assets/screenshots/customer-service-selector-desktop.png`: current desktop review evidence for the service-entry experience
 - `packages/mocks/src`: expanded menu inventory and deterministic Customer scenarios
 - `packages/ui/src`: backward-compatible shell header/footer composition slots
 
@@ -1207,13 +1214,14 @@ Validation result:
 
 ### Follow-Up
 
-- [ ] Visually and functionally review the first Customer UI batch.
+- [x] Complete agent visual and functional review of the first Customer UI batch.
+- [ ] Complete peer review and CI validation in PR #19.
 - [ ] Supply final visual references before the remaining commerce screens are implemented.
-- [ ] Push CHG-0006 and CHG-0007 branches and open their linked Issues/PRs when authorized.
+- [x] Push CHG-0006 and CHG-0007 branches and open their linked Issues/PRs.
 
 ### Current Result
 
-The first Customer UI batch and requested visual/startup refinement are implemented locally on `feature/customer-ui-ux-v1`: the dual-service entry remains authoritative; Pickup discovery includes contextual Home states; Menu, Search, Product Detail and continuous Builder are responsive and mock-backed; Phudu/Poppins, Lucide navigation and selected Pizza Wave component/image treatments now render through the frozen Pizza Avenue palette. Direct Vite startup defaults deterministically to the documented seed menu without requiring `pnpm.ps1` or a local `.env`. No backend contract, state-machine, auth, payment, deployment or database behavior changed. The item remains `IN_PROGRESS` because there is no Issue/PR, no push has been performed and the broader visual review/follow-up list remains open.
+The first Customer UI batch and requested visual/startup refinement are implemented and published on `feature/customer-ui-ux-v1`: the dual-service entry remains authoritative; Pickup discovery includes contextual Home states; Menu, Search, Product Detail and continuous Builder are responsive and mock-backed; Phudu/Poppins, Lucide navigation and selected Pizza Wave component/image treatments render through the frozen Pizza Avenue palette. Direct Vite startup defaults deterministically to the documented seed menu without requiring `pnpm.ps1` or a local `.env`. Issue #17 and stacked PR #19 are open, with PR #18 recorded as the prerequisite. The item is `IN_REVIEW`; nothing has been merged, staged or deployed.
 
 ### Related Changes
 
