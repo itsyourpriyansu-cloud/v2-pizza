@@ -1182,6 +1182,7 @@ Validation result:
 - the refined Customer production build passed with bundled Latin subsets for the approved Phudu/Poppins weights,
 - direct no-`pnpm` Vite startup was browser-verified at `127.0.0.1:5174`: service selection, seeded returning Home and all 14 menu items loaded with no runtime warning/error,
 - Customer browser QA passed at 360 × 800, 390 × 844, 430 × 932 and 1440 × 900 with no horizontal overflow,
+- GitHub `frontend-foundation` CI passed on PR #19,
 - the existing non-failing Customer bundle-size warning remains (main chunk slightly above 500 kB).
 
 ### Edge Cases
@@ -1214,13 +1215,14 @@ Validation result:
 ### Follow-Up
 
 - [x] Complete agent visual and functional review of the first Customer UI batch.
-- [ ] Complete peer review and CI validation in PR #19.
+- [x] Complete CI validation in PR #19.
+- [ ] Complete peer review in PR #19.
 - [ ] Supply final visual references before the remaining commerce screens are implemented.
 - [x] Push CHG-0006 and CHG-0007 branches and open their linked Issues/PRs.
 
 ### Current Result
 
-The first Customer UI batch and requested visual/startup refinement are implemented and published on `feature/customer-ui-ux-v1`: the dual-service entry remains authoritative; Pickup discovery includes contextual Home states; Menu, Search, Product Detail and continuous Builder are responsive and mock-backed; Phudu/Poppins, Lucide navigation and selected Pizza Wave component/image treatments render through the frozen Pizza Avenue palette. Direct Vite startup defaults deterministically to the documented seed menu without requiring `pnpm.ps1` or a local `.env`. Issue #17 and stacked PR #19 are open, with PR #18 recorded as the prerequisite. The item is `IN_REVIEW`; nothing has been merged, staged or deployed.
+The first Customer UI batch and requested visual/startup refinement are implemented and published on `feature/customer-ui-ux-v1`: the dual-service entry remains authoritative; Pickup discovery includes contextual Home states; Menu, Search, Product Detail and continuous Builder are responsive and mock-backed; Phudu/Poppins, Lucide navigation and selected Pizza Wave component/image treatments render through the frozen Pizza Avenue palette. Direct Vite startup defaults deterministically to the documented seed menu without requiring `pnpm.ps1` or a local `.env`. Issue #17 and stacked PR #19 are open, PR #18 is the prerequisite, and GitHub CI is green. The item is `IN_REVIEW`; peer approval is still required and nothing has been merged, staged or deployed.
 
 ### Related Changes
 
