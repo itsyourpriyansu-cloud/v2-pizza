@@ -109,10 +109,10 @@ Open:
 9
 
 In Progress:
-1
+0
 
 In Review:
-5
+6
 
 Staging:
 3
@@ -1597,7 +1597,7 @@ Implementation and local validation are complete on stacked PR #23. The Customer
 
 ## CHG-0010 — Customer Engagement Complete V1
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** FEATURE, UX, TEST, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -1642,7 +1642,7 @@ Branch:
 - `feature/customer-engagement-complete-v1`, stacked from current `feature/customer-retention-v1` head `a114c93241876e4a0ceced9f698e1585013c342f` while PR #23 remains open
 
 Pull Request:
-- Pending
+- [#25 — feat(customer): complete engagement prototype](https://github.com/itsyourpriyansu-cloud/v2-pizza/pull/25), stacked into `feature/customer-retention-v1`
 
 ### Affected Surfaces
 
@@ -1765,12 +1765,13 @@ Deployment date:
 ### Follow-Up
 
 - [x] Implement and validate the complete Customer engagement prototype.
-- [ ] Open a stacked PR against `feature/customer-retention-v1` and wait for CI.
+- [x] Open a stacked PR against `feature/customer-retention-v1`.
+- [ ] Wait for PR #25 CI and review.
 - [ ] Conduct client UX review and correction pass before backend implementation.
 
 ### Current Result
 
-The Customer engagement prototype is complete locally through the existing typed frontend/MSW boundary. All 14 new missions and 131 existing tests pass, all apps build, dependency audit is clean, and the 35-route responsive browser matrix reports no console, network, overflow, labeling, progress, heading, keyboard or 44 px control-target failures. The stacked PR remains to be opened and reviewed.
+The Customer engagement prototype is complete locally through the existing typed frontend/MSW boundary. All 14 new missions and 131 existing tests pass, all apps build, dependency audit is clean, and the 35-route responsive browser matrix reports no console, network, overflow, labeling, progress, heading, keyboard or 44 px control-target failures. Stacked PR #25 is open against `feature/customer-retention-v1`; CI and review remain pending.
 
 ### Related Changes
 
