@@ -11,7 +11,7 @@ describe('customer application foundation', () => {
         <RouterProvider router={createCustomerMemoryRouter(['/'])} />
       </AppProviders>,
     );
-    expect(await screen.findByRole('heading', { name: 'Customer home' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'How would you like to order?' })).toBeVisible();
   });
 
   it.each([
@@ -21,6 +21,27 @@ describe('customer application foundation', () => {
     '/cart',
     '/checkout',
     '/checkout/pickup',
+    '/dine-in/start?t=table-12-valid',
+    '/dine-in/table',
+    '/dine-in',
+    '/dine-in/menu',
+    '/dine-in/menu/pizza-margherita',
+    '/dine-in/cart',
+    '/dine-in/review',
+    '/dine-in/orders/order-pa-2001',
+    '/dine-in/orders/order-pa-2001/clarification',
+    '/dine-in/orders/order-pa-2001/rejected',
+    '/dine-in/orders/order-pa-2001/accepted',
+    '/dine-in/orders/order-pa-2001/preparing',
+    '/dine-in/orders/order-pa-2001/ready-to-serve',
+    '/dine-in/orders/order-pa-2001/served',
+    '/dine-in/order-more',
+    '/dine-in/bill',
+    '/dine-in/bill/request',
+    '/dine-in/service',
+    '/dine-in/session-complete',
+    '/dine-in/expired',
+    '/dine-in/wrong-table',
     '/auth',
     '/auth/otp',
     '/auth/whatsapp',

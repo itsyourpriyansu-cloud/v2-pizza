@@ -6,13 +6,13 @@ This repository contains the working specification and implementation foundation
 The Pizza Avenue, Sainikpuri, Hyderabad
 
 ## Product
-Pickup-first direct ordering + loyalty + repeat-customer platform.
+Direct Pickup + waiter-confirmed Dine-in ordering, service, loyalty and repeat-customer platform.
 
 ## Core surfaces
-- Customer PWA
+- Customer PWA for Pickup and table-QR Dine-in
 - Kitchen/KDS
 - Counter/Handover
-- Founder/Admin
+- Founder/Admin, including role-gated Waiter and Counter billing workspaces
 
 ## Frozen V1 technology
 - Frontend: React 19, Vite, TypeScript, React Router, TanStack Query, Zustand, React Hook Form, Zod, Tailwind CSS, Framer Motion and Lucide
@@ -21,7 +21,7 @@ Pickup-first direct ordering + loyalty + repeat-customer platform.
 - Reliability: transactional outbox, idempotent consumers, signed and deduplicated provider webhooks, Pino structured logs
 - Workspace: pnpm monorepo with Landing, Customer, KDS and Admin apps plus shared packages; Turborepo is optional
 
-The backend is a modular monolith with `auth`, `customers`, `stores`, `menu`, `cart`, `pricing`, `pickup`, `orders`, `payments`, `kitchen`, `loyalty`, `passport`, `promotions`, `referrals`, `notifications`, `analytics`, `audit` and `integrations` modules. Each module keeps controller/API, application service, domain rules and Prisma repository/data responsibilities separate.
+The future backend is a modular monolith with `auth`, `customers`, `stores`, `menu`, `cart`, `pricing`, `pickup`, `dine-in`, `tables`, `orders`, `payments`, `kitchen`, `loyalty`, `passport`, `promotions`, `referrals`, `notifications`, `analytics`, `audit` and `integrations` modules. Each module keeps controller/API, application service, domain rules and Prisma repository/data responsibilities separate.
 
 The product uses four frontend deployments in V1: root-domain Landing is `apps/landing`, Customer is `apps/customer`, Kitchen and the role-gated Counter/Handover view are `apps/kds`, and Founder/Admin is `apps/admin`. This preserves the required Counter workflow without adding an unnecessary fifth operational deployment.
 
@@ -31,9 +31,9 @@ The pnpm workspace currently provides architecture-only React applications and s
 
 ```text
 apps/landing       Root-domain landing architecture shell
-apps/customer      Customer route and feature foundation
-apps/kds           Kitchen route foundation
-apps/admin         Founder/Admin route foundation
+apps/customer      Pickup and table-session Dine-in route/feature foundation
+apps/kds           Unified Pickup/Dine-in Kitchen route foundation
+apps/admin         Founder/Admin, Waiter and billing route foundation
 packages/config    Public environment-derived surface/API URLs
 packages/types     Shared domain and API contract types
 packages/api-client Typed HTTP boundary for `/api/v1`
@@ -47,6 +47,15 @@ Stage 1 deliberately contains no final visual design system, backend service, da
 ## Local development
 
 Requirements: Node.js 24 LTS and pnpm 11.
+
+If `pnpm` is not installed globally, use the repository-pinned version through Corepack (included with the supported Node installation):
+
+```powershell
+corepack pnpm install
+corepack pnpm dev:customer
+```
+
+Otherwise:
 
 ```bash
 pnpm install
@@ -104,5 +113,8 @@ Every meaningful change must use a short-lived task branch, a matching entry in 
 - pickup wait
 - reward usage
 - payment failure rate
+- waiter-confirmation time and Ready-to-Serve wait
+- rounds, second-round rate and revenue per table session
+- bill-request-to-payment duration and unpaid/open bill count
 
-The project is intentionally single-brand, single-outlet operationally and pickup-only. Future external-order integrations are prepared through adapters and source fields but are not implemented in V1. Application development must follow the recorded decisions and cannot begin from outdated FastAPI or managed-platform assumptions.
+The project is intentionally single-brand and single-outlet, with two V1 service modes: payment-first Pickup and waiter-confirmed, end-of-session-billed Dine-in. Future external-order integrations are prepared through adapters and source fields but are not implemented in V1. Application development must follow the recorded decisions and cannot begin from outdated FastAPI, pickup-only, global payment-gate or managed-platform assumptions.

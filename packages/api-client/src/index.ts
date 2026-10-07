@@ -1,8 +1,10 @@
 export * from './admin';
 export * from './auth';
+export * from './billing';
 export * from './cart';
 export * from './client';
 export * from './errors';
+export * from './dine-in';
 export * from './kds';
 export * from './loyalty';
 export * from './menu';
@@ -10,3 +12,4 @@ export * from './orders';
 export * from './passport';
 export * from './payments';
 export * from './pickup';
+export * from './waiter';

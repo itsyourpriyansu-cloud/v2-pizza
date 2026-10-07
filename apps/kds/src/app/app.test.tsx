@@ -13,6 +13,6 @@ it('boots the KDS route shell', async () => {
   expect(await screen.findByRole('heading', { name: 'KDS home' })).toBeVisible();
 });
 
-it.each(['/', '/login', '/orders', '/orders/order-pa-1001'])('resolves KDS route %s', (path) => {
+it.each(['/', '/login', '/orders', '/orders/pickup', '/orders/dine-in', '/orders/order-pa-1001'])('resolves KDS route %s', (path) => {
   expect(matchRoutes(kdsRoutes, path)).not.toBeNull();
 });

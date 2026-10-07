@@ -1,6 +1,7 @@
 export * from '../features/auth/AuthPages';
 export * from '../features/cart/CartPage';
 export * from '../features/checkout/CheckoutPages';
+export * from '../features/dine-in/DineInPages';
 export * from '../features/home/HomePage';
 export * from '../features/loyalty/RewardsPage';
 export * from '../features/menu/MenuPage';

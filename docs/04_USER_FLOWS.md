@@ -1,7 +1,7 @@
 # 04 — User Flows
 
 ## A. Normal app → phone OTP
-Open → browse → product → customise → add cart → upsell → checkout → enter phone → request OTP → verify OTP → resolve/create PHONE identity → rotate/create secure HttpOnly session → backend quote → pickup slot → payment → verified provider webhook → CONFIRMED/KDS → Preparing → Ready → pickup → Completed → points.
+Open → choose Pickup → browse → product → customise → add cart → upsell → checkout → enter phone → request OTP → verify OTP → resolve/create PHONE identity → rotate/create secure HttpOnly session → backend quote → pickup slot → payment → verified provider webhook → CONFIRMED/KDS → Preparing → Ready for Pickup → pickup → Completed → points.
 
 Failure: invalid, expired or attempt-limited OTP does not create a session; resend follows cooldown and generic responses prevent account enumeration.
 
@@ -35,13 +35,20 @@ backend returns slots → user chooses → hold/revalidate → payment → consu
 Payment fails → no KDS → cart preserved → capacity released/expired → retry possible.
 
 ## G. KDS
-Verified payment webhook → payment `SUCCESS` + order `CONFIRMED` + outbox event in one transaction → KDS New bucket → `PREPARING` → `READY`. WebSocket delivery is fast-path only; reload/reconnect fetches authoritative API state.
+Pickup: verified payment webhook → payment `SUCCESS` + order `CONFIRMED` + outbox event in one transaction → KDS New → `PREPARING` → `READY_FOR_PICKUP`.
+
+Dine-in: customer submission remains outside KDS → waiter confirmation atomically creates order `CONFIRMED` + one KDS admission/outbox event → `PREPARING` → `READY_TO_SERVE`. WebSocket delivery is fast-path only; reload/reconnect fetches authoritative API state.
 
 ## H. Sold-out conflict
 Item changes availability while in cart → checkout blocks affected item → user edits → remaining cart survives.
 
 ## I. Handover
-READY → customer code → counter verifies → PICKED_UP → server completion workflow → COMPLETED + outbox event → loyalty/Passport idempotent consumers. Duplicate handover is blocked and audited.
+READY_FOR_PICKUP → customer code → counter verifies → PICKED_UP → server completion workflow → COMPLETED + outbox event → loyalty/Passport idempotent consumers. Duplicate handover is blocked and audited.
+
+## O. Dine-in table session
+Opaque table QR → server resolves active table/store/session → customer confirms visible table context → Dine-in menu/cart/review → optional verified identity attach → `CUSTOMER_SUBMITTED` → waiter review → `CONFIRMED` → KDS → `PREPARING` → `READY_TO_SERVE` → Waiter marks `SERVED`.
+
+Clarification preserves the request; rejection includes a reason. Each additional round repeats the waiter gate and joins one table bill. Customer bill request disables new rounds unless reopened before finalization. Admin/Counter finalizes only after unresolved orders/voids clear, records verified Cash/UPI/Card/approved payment, closes the paid session, and emits idempotent loyalty/Passport/mission work per authenticated order owner.
 
 ## J. Loyalty redemption
 Choose reward → server validates points/availability/stacking → reserve → checkout → complete → consume.

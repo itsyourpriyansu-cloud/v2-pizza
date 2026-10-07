@@ -6,6 +6,7 @@ Confirm:
 - modifiers
 - prices
 - pickup capacity
+- Dine-in table/session, waiter confirmation, bill/payment and service-mode capacity policies
 - refund/cancellation
 - payment
 - loyalty
@@ -43,6 +44,7 @@ critical prototype journey + staging skeleton.
 - order model
 - payment initiation
 - KDS base
+- table-session/order-request/Admin-billing contract and mock foundation
 - payment/provider idempotency and transactional outbox foundation
 
 ## Week 3 — operations + retention
@@ -56,6 +58,7 @@ critical prototype journey + staging skeleton.
 - upsells
 - notifications
 - founder control
+- waiter workspace, unified KDS mode filters, Ready-to-Serve, table bills and Admin/Counter settlement
 - Redis/BullMQ worker, idempotent outbox consumers and failure visibility
 - QR/WhatsApp funnel analytics and admin QR-source control
 

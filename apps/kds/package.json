@@ -13,6 +13,7 @@
     "@pizza-avenue/api-client": "workspace:*",
     "@pizza-avenue/config": "workspace:*",
     "@pizza-avenue/mocks": "workspace:*",
+    "@pizza-avenue/types": "workspace:*",
     "@pizza-avenue/ui": "workspace:*",
     "@pizza-avenue/utils": "workspace:*",
     "@tanstack/react-query": "5.104.1",

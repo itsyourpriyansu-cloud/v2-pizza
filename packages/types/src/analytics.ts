@@ -41,7 +41,28 @@ export type AnalyticsEventName =
   | 'passport_progress'
   | 'passport_completed'
   | 'reorder_clicked'
-  | 'reorder_completed';
+  | 'reorder_completed'
+  | 'service_mode_selected'
+  | 'table_qr_scanned'
+  | 'table_context_validated'
+  | 'table_context_failed'
+  | 'dine_in_menu_opened'
+  | 'dine_in_cart_created'
+  | 'dine_in_order_submitted'
+  | 'waiter_confirmation_wait_started'
+  | 'waiter_order_confirmed'
+  | 'waiter_order_rejected'
+  | 'dine_in_kitchen_started'
+  | 'dine_in_ready_to_serve'
+  | 'dine_in_served'
+  | 'order_more_clicked'
+  | 'second_round_started'
+  | 'second_round_completed'
+  | 'bill_requested'
+  | 'bill_finalized'
+  | 'dine_in_payment_started'
+  | 'dine_in_payment_completed'
+  | 'table_session_closed';
 
 export interface AnalyticsEvent {
   id: EntityId;

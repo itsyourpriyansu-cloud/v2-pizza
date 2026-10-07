@@ -63,6 +63,9 @@ AGENTS/README summary → 20 → 22 → 23 → 24 → 25 → 15 Hostinger/Docker
 ## Backend architecture reading sequence
 AGENTS → 02 transactional rules → 08 Prisma/PostgreSQL model → 09 canonical states/outbox → 10 REST/WebSocket recovery contracts → 11 adapters/BullMQ → 15 monorepo/deployment → 16 decisions.
 
+## Dual service / Dine-in operations reading sequence
+AGENTS → 00 context → 01 scope → 02 mode-specific rules → 03 RBAC → 04 Pickup/Dine-in flows → 05 routes → 07 components → 08 tables/sessions/bills/payment targets → 09 state machines → 10 Customer/Waiter/Admin/KDS APIs → 11 outbox/provider boundaries → 12 analytics → 13 fixtures → 14 tests → 16 DEC-026 → 18 acceptance → 21 deployment ownership.
+
 ## Founder meeting sequence
 00 → 01 → 02 → 19 → 16.
 

@@ -103,13 +103,19 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0005
+Next Change ID: CHG-0007 (CHG-0005 is reserved on the parallel Landing branch)
 
 Open:
-4
+5
 
 In Progress:
 0
+
+In Review:
+2
+
+Staging:
+3
 
 Blocked:
 0
@@ -906,6 +912,125 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 
 - CHG-0002
 - CHG-0003
+
+---
+
+## CHG-0006 — Dual Service Operations — Dine-In Waiter Confirmation + Admin Billing
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, API, UX, DECISION, TEST, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Support restaurant table ordering without weakening Pickup payment safety or duplicating the commerce, kitchen, payment and loyalty architecture.
+
+### Requested Outcome
+
+Keep Pickup payment-first; add opaque table-QR context, customer-to-waiter order submission, waiter-confirmed KDS entry, multiple Dine-in rounds, one table-session bill, Admin/Counter settlement, and post-payment per-order-owner loyalty. Complete frontend-first contracts, mocks, routes, tests and active documentation before Customer UI implementation resumes.
+
+### Scope
+
+Included:
+- unified `PICKUP` / `DINE_IN` order architecture and mode-specific kitchen gates,
+- table sessions, Dine-in bills, service requests and payment targets,
+- Customer Dine-in, Admin-hosted Waiter, Admin billing and unified KDS route shells,
+- typed API-client modules, MSW handlers/scenarios and state-machine helpers,
+- RBAC, analytics, seed, acceptance and migration specifications,
+- formal superseding decision and repository-wide contradiction audit.
+
+Excluded:
+- real backend/database/provider connections,
+- polished or final branded UI,
+- customer-side Dine-in payment, split/partial bills, seat-level billing, tips, reservations, course firing, advanced floor plans, table merge/split and delivery.
+
+### GitHub Tracking
+
+Issue:
+- [#16 — Dual service operations foundation](https://github.com/itsyourpriyansu-cloud/v2-pizza/issues/16)
+
+Branch:
+- `feature/dual-service-operations`
+
+Pull Request:
+- [#18 — feat: add dual service operations foundation](https://github.com/itsyourpriyansu-cloud/v2-pizza/pull/18) → `develop`
+
+### Affected Surfaces
+
+- Customer PWA service-mode and Dine-in flows
+- Waiter workspace inside Admin
+- Admin/Counter billing and table operations
+- Kitchen/KDS unified workload
+- Shared domain, API, mock and state-machine packages
+
+### Database Impact
+
+Migration required:
+- Yes, when the real backend exists: tables, table sessions, Dine-in bills/lines, service requests, order service fields and polymorphic/normalized payment targets.
+
+Migration implemented now:
+- No. This repository has no backend schema/runtime; fabricating one is explicitly excluded.
+
+### API Impact
+
+New contract groups:
+- `/dine-in/*`
+- `/staff/waiter/*`
+- `/admin/bills/*`, `/admin/payments/*`, `/admin/table-sessions/*`
+
+Changed contracts:
+- `/payments` accepts an `ORDER` or `TABLE_BILL` target.
+- `/kds/orders` supports service-mode filtering and enforces mode-specific eligibility.
+- `/orders/{id}/ready` resolves to Ready for Pickup or Ready to Serve by service mode.
+
+Breaking change:
+- Yes for the future backend contract; no production backend currently exists.
+
+### State Machine Impact
+
+- Pickup Order: payment-gated `CONFIRMED → PREPARING → READY_FOR_PICKUP → PICKED_UP → COMPLETED`.
+- Dine-in Order: `CUSTOMER_SUBMITTED → WAITER_REVIEW → CONFIRMED → PREPARING → READY_TO_SERVE → SERVED`, with clarification/rejection/cancellation branches.
+- Table Session, Dine-in Bill and Service Request state machines added.
+
+### Permission Impact
+
+- Add Waiter role and permissions.
+- Restrict Dine-in settlement/payment to Admin/Counter/Manager policy.
+- Waiter cannot record payment, mark paid, grant unrestricted discounts or edit loyalty.
+
+### Test Plan
+
+- mode-aware order transition and KDS admission unit tests,
+- bill-finalization and per-customer loyalty attribution unit tests,
+- opaque QR, waiter confirmation and table-bill payment API/MSW tests,
+- Customer, Waiter/Admin and KDS route-resolution tests,
+- full lint, typecheck, test and build validation.
+
+### Tests Required
+
+- [x] Lint — passed
+- [x] Typecheck — passed across all workspace projects
+- [x] Unit/component/route tests — 7 files, 86 tests passed
+- [x] API-client/MSW integration boundary — passed within the suite
+- [x] Production builds — Landing, Customer, KDS and Admin passed
+- [ ] Browser E2E/store dry-run — deferred until real UI/backend integration exists
+
+### Documentation Impact
+
+- `AGENTS.md`, `README.md`, active product/architecture docs `00`–`21`, `docs/24_CHANGE_QUEUE.md`, and relevant design-direction wording.
+
+### Known Risks
+
+- Real concurrency, RBAC, pricing, audit, transaction and idempotency enforcement remain future NestJS/PostgreSQL work.
+- Founder policy is still required for service charge/tax, supported payment methods, cancellation/timeout, table-session expiry, discounts/voids/refunds, capacity calibration and waiter assignment.
+- Customer production build reports a non-failing ~502 kB JavaScript chunk warning; route-level code splitting should be addressed during real UI implementation.
+
+### Current Result
+
+Frontend-first operating contracts, neutral route shells, mocks, tests and active documentation are complete and published on `feature/dual-service-operations`. Issue #16 and PR #18 are open; the latest combined validation passes lint, workspace typecheck, 103 tests and all implemented frontend builds. The change is `IN_REVIEW`; nothing has been merged, staged or deployed.
 
 ---
 

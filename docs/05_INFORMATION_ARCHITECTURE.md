@@ -9,6 +9,7 @@
 ## Customer entry points
 - Normal Customer app: browse first; phone OTP is requested when identity is required.
 - In-store QR: placement-attributed redirect opens the official WhatsApp join conversation.
+- Table QR: `/dine-in/start?t=<opaque_token>` resolves a trusted table session and bypasses the service-mode selector; it is not an identity credential.
 - WhatsApp magic link: `https://app.pizzaavenue.<domain>/auth/magic` consumes a short-lived one-time token, creates the normal web session and lands in the intended PWA context. The Landing host is never an authentication callback.
 
 After login, the product does not expose “PHONE” versus “WHATSAPP” as separate account types. Profile, orders, loyalty and sessions belong to one customer identity.
@@ -17,6 +18,14 @@ After login, the product does not expose “PHONE” versus “WHATSAPP” as se
 Home / Menu / Orders / Rewards / Profile
 
 Cart is contextual via persistent cart bar.
+
+## Customer service and Dine-in routes
+- `/` service-mode selector when no context exists
+- `/dine-in/start`, `/dine-in/table`, `/dine-in`
+- `/dine-in/menu`, `/dine-in/menu/:productId`, `/dine-in/cart`, `/dine-in/review`
+- `/dine-in/orders/:orderId` plus clarification/rejected/accepted/preparing/ready-to-serve/served states
+- `/dine-in/order-more`, `/dine-in/bill`, `/dine-in/bill/request`, `/dine-in/service`
+- `/dine-in/session-complete`, `/dine-in/expired`, `/dine-in/wrong-table`
 
 ## Home
 - store state + pickup ETA
@@ -61,20 +70,22 @@ Active / History / Detail / Reorder.
 ## Rewards
 Points / Rewards / Pizza Passport.
 
-## Founder
-Overview / Orders / Menu / Availability / Pickup Capacity / Loyalty / Promotions / Customer Growth / QR Sources / Staff / Analytics / Settings / Audit.
+## Founder/Admin
+Overview / Orders / Menu / Availability / Pickup Capacity / Loyalty / Promotions / Customer Growth / QR Sources / Staff / Analytics / Settings / Audit / Tables / Billing / Payments.
+
+Waiter uses role-protected, root-relative Admin-host routes: `/staff/waiter`, `/staff/waiter/requests`, `/staff/waiter/tables`, `/staff/waiter/ready`, `/staff/waiter/service-requests`, `/staff/waiter/bill-requests` and `/staff/waiter/assisted-order`. Billing uses `/billing`, `/billing/open`, `/billing/:billId`, `/billing/:billId/finalize`, `/billing/:billId/payment`, `/payments` and `/tables`. There is no separate Waiter app.
 
 Customer Growth contains the QR → WhatsApp → magic-link funnel and reorder/loyalty behavior. Auth Audit is permission-protected and redacts secrets and unnecessary phone data.
 
 ## KDS
-New / Preparing / Ready.
+Unified All / Pickup / Dine-in queue; New / Preparing / Ready for Pickup / Ready to Serve. Routes include `/orders`, `/orders/pickup`, `/orders/dine-in` and `/orders/:orderId`.
 
 ## Counter
 Ready orders / Search / Verify / Handover.
 
 ## UX hierarchy
 Customer:
-Can I order? → what do I want? → price? → ready when? → pay → reward.
+Which mode/table? → can I order? → what do I want? → price? → what confirms it? → fulfilment → mode-appropriate payment → reward.
 
 Operations:
 what needs action? → what is late? → what is blocked? → what is next?

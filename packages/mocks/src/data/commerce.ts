@@ -17,6 +17,11 @@ export const store: Store = {
   timezone: 'Asia/Kolkata',
   state: 'OPEN',
   currentPickupEstimateMinutes: 30,
+  serviceModes: {
+    pickupOrderingEnabled: true,
+    dineInOrderingEnabled: true,
+    dineInEstimatedWaitMinutes: { minimum: 20, maximum: 30 },
+  },
 };
 
 export const emptyCart: Cart = {
@@ -49,9 +54,9 @@ export const pickupOptions: PickupOptions = {
 
 export const payment: Payment = {
   id: 'payment-mock-1',
-  cartId: emptyCart.id,
-  orderId: 'order-pa-1001',
+  target: { type: 'ORDER', id: 'order-pa-1001' },
   status: 'SUCCESS',
+  method: 'UPI',
   amount: money(44900),
   providerReference: 'mock-provider-reference',
   createdAt: '2026-10-05T14:05:00.000Z',

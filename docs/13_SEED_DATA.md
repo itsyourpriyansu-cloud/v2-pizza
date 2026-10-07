@@ -73,9 +73,20 @@ Tiramisu example
 ## Orders
 PA-1001 CONFIRMED
 PA-1002 PREPARING
-PA-1003 READY
+PA-1003 READY_FOR_PICKUP
 PA-1004 PAYMENT_FAILED
 PA-1005 COMPLETED
+
+PA-2001 DINE_IN / TABLE 12 / ROUND 1 / CUSTOMER_SUBMITTED
+PA-2002 DINE_IN / TABLE 12 / ROUND 2 / READY_TO_SERVE
+
+## Dine-in operations
+- active opaque token `table-12-valid`; invalid/revoked/expired token fixtures
+- Table 12 session with assigned waiter Rahul, two authenticated customers and one guest order
+- one open consolidated bill with per-order line snapshots and per-owner eligible-spend summary
+- open `CALL_WAITER` and `REQUEST_BILL` service requests
+- finalized/payment-pending/failed/paid bill variants
+- simultaneous valid Pickup and Dine-in KDS tickets
 
 ## Edge cases
 - sold-out product
@@ -83,7 +94,7 @@ PA-1005 COMPLETED
 - full slot
 - duplicate payment webhook
 - payment retry
-- double READY
+- duplicate Ready transition and duplicate waiter confirmation
 - duplicate pickup
 - reward reserved + payment fail
 - reorder discontinued topping
@@ -97,6 +108,9 @@ PA-1005 COMPLETED
 - invalid WhatsApp signature
 - WhatsApp outbound reply outage/retry
 - stale PROCESSING and exhausted FAILED outbox events
+- customer submit replay, wrong table, expired session, waiter clarification/rejection and unavailable-before-confirmation
+- bill request during active preparation, duplicate finalization/payment/session close
+- payer differs from two authenticated order owners; guest earns no loyalty
 
 ## Infrastructure seed safety
 Development seed values are fictional and environment-scoped. Never seed production provider credentials, session secrets, real customer phone numbers, raw OTPs or reusable magic tokens. Payment and webhook fixtures must be clearly fake.

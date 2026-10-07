@@ -1,7 +1,7 @@
 # Pizza Avenue — Agent Operating Manual
 
 ## Mission
-Pizza Avenue V1 is a single-brand, pickup-first ordering, loyalty and repeat-customer system for The Pizza Avenue, Sainikpuri, Hyderabad.
+Pizza Avenue V1 is a single-brand Pickup and Dine-in ordering, service, loyalty and repeat-customer system for The Pizza Avenue, Sainikpuri, Hyderabad.
 
 Primary outcomes:
 - increase direct pickup orders
@@ -65,7 +65,8 @@ Surfaces:
 - Customer PWA
 - Kitchen/KDS
 - Counter/Handover
-- Founder/Admin
+- Waiter workspace inside Founder/Admin
+- Founder/Admin and Counter billing
 
 Architecture:
 - modular monolith
@@ -105,7 +106,8 @@ Do not build unless approved:
 
 ## Non-negotiable engineering rules
 - frontend never owns authoritative money/state
-- no KDS order before verified payment
+- Pickup reaches KDS only after verified payment; Dine-in reaches KDS only after waiter confirmation
+- Dine-in payment is recorded against the table bill by authorized Admin/Counter controls after service
 - payment/refund/loyalty actions must be idempotent
 - purchased order lines keep snapshots
 - important admin actions must be auditable

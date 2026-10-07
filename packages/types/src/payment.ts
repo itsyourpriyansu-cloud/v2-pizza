@@ -12,11 +12,19 @@ export type PaymentStatus =
   | 'REFUNDED'
   | 'REFUND_FAILED';
 
+export type PaymentTargetType = 'ORDER' | 'TABLE_BILL';
+export type PaymentMethod = 'CASH' | 'UPI' | 'CARD' | 'OTHER';
+
+export interface PaymentTarget {
+  type: PaymentTargetType;
+  id: EntityId;
+}
+
 export interface Payment {
   id: EntityId;
-  cartId: EntityId;
-  orderId: EntityId | null;
+  target: PaymentTarget;
   status: PaymentStatus;
+  method: PaymentMethod | null;
   amount: Money;
   providerReference: string | null;
   createdAt: ISODateTime;

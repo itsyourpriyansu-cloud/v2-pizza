@@ -92,13 +92,12 @@ Errors:
 
 ## Payments
 ### POST /payments
-Requires idempotency key.
-Server owns amount.
+Requires idempotency key and a typed target: `{ type: "ORDER" | "TABLE_BILL", id }`. Server owns amount and validates the selected approved payment method.
 
 ### POST /webhooks/payments/{provider}
 Signed/verified, deduplicated.
 
-On verified success, one transaction records payment success, confirms one order, consumes capacity and inserts the first order outbox event. Client “success” cannot confirm an operational order.
+For Pickup `ORDER`, verified success atomically records payment, confirms one order, consumes capacity and inserts the first order outbox event. For Dine-in `TABLE_BILL`, provider/terminal verification or authorized cash acknowledgement marks the finalized bill paid and starts session-close/downstream processing. Client “success” cannot confirm either outcome.
 
 ### POST /payments/{id}/refund
 RBAC protected.
@@ -115,10 +114,73 @@ Returns current-menu cart mapping.
 
 ## Kitchen
 ### GET /kds/orders
+Optional `serviceMode=PICKUP|DINE_IN`; default is the unified queue. The server returns only paid-confirmed Pickup or waiter-confirmed Dine-in orders.
 ### POST /orders/{id}/preparing
 ### POST /orders/{id}/ready
 
-The KDS New bucket maps to order `CONFIRMED`; there is no separate acceptance state. State-changing calls use conditional transition/version checks.
+The KDS New bucket maps to order `CONFIRMED`; there is no separate KDS acceptance state. `ready` becomes `READY_FOR_PICKUP` or `READY_TO_SERVE` from immutable service mode. State-changing calls use conditional transition/version checks.
+
+## Customer Dine-in
+### POST /dine-in/table-context/resolve
+Request: opaque token. Response: `VALID|INVALID|EXPIRED|REVOKED` plus server-owned table session only when valid.
+
+### GET /dine-in/session
+Returns the current joined session without other customers' private identity data.
+
+### GET /dine-in/session/bill
+Returns the current estimate/final bill projection. Customer cannot mark it paid.
+
+### POST /dine-in/orders
+Requires idempotency key, table-session precondition and current cart/quote reference. Creates `CUSTOMER_SUBMITTED`, never a KDS ticket.
+
+### GET /dine-in/orders/{id}
+### POST /dine-in/orders/{id}/cancel
+Cancellation is allowed only before waiter confirmation and when policy permits.
+
+### POST /dine-in/bill-request
+Idempotently records the request and disables new customer rounds; active orders may finish but block finalization.
+
+### POST /dine-in/service-requests
+Supports `CALL_WAITER` and `REQUEST_BILL`; duplicate active requests are coalesced/rejected safely.
+
+## Waiter
+All endpoints require staff authentication, store scope and Waiter permission.
+
+### GET /staff/waiter/order-requests
+### GET /staff/waiter/orders/{id}
+### POST /staff/waiter/orders/{id}/confirm
+Idempotently checks table, availability and current state; records waiter/audit and emits exactly one KDS/outbox event.
+
+### POST /staff/waiter/orders/{id}/reject
+### POST /staff/waiter/orders/{id}/clarification
+Both require a reason and preserve history.
+
+### GET /staff/waiter/tables
+### GET /staff/waiter/tables/{sessionId}
+### POST /staff/waiter/orders/{id}/served
+### GET /staff/waiter/service-requests
+### POST /staff/waiter/service-requests/{id}/acknowledge
+### POST /staff/waiter/service-requests/{id}/resolve
+
+Waiter endpoints never expose a mutation that records payment or marks a bill paid.
+
+## Admin/Counter billing
+All mutations require explicit billing permissions, optimistic version/precondition checks and audit metadata.
+
+### GET /admin/bills
+### GET /admin/bills/{billId}
+### POST /admin/bills/{billId}/finalize
+Requires idempotency key and no unresolved operational order/void work.
+
+### POST /admin/bills/{billId}/discount
+### POST /admin/bills/{billId}/reward
+### POST /admin/bills/{billId}/payments
+Creates a payment targeted to `TABLE_BILL`; cash requires explicit receipt acknowledgement, digital state stays pending until authoritative confirmation.
+
+### GET /admin/payments/{paymentId}
+### POST /admin/table-sessions/{sessionId}/close
+### POST /admin/bills/{billId}/void
+### POST /admin/payments/{paymentId}/refund
 
 ## Counter
 ### GET /counter/ready-orders

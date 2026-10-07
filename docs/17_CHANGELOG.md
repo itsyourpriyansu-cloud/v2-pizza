@@ -21,6 +21,35 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-06 — Dual Service Operations Foundation
+
+Added:
+- typed Service Context, Waiter role, table-session, Dine-in order/bill/service-request and payment-target contracts
+- Customer Dine-in, Admin-hosted Waiter, Admin billing and unified KDS route shells
+- Customer/Waiter/Admin API-client modules, MSW operations data/handlers and complete Dine-in scenario catalogue
+- mode-aware order, KDS admission, bill-finalization, table/session and loyalty-attribution helpers/tests
+
+Changed:
+- V1 from Pickup-only to explicit payment-first Pickup plus waiter-confirmed/end-of-session-billed Dine-in
+- one Order aggregate now carries immutable service context; KDS ready outcomes are `READY_FOR_PICKUP` and `READY_TO_SERVE`
+- payments target either Pickup Order or Dine-in Table Bill
+- Dine-in loyalty finalizes after bill payment by each authenticated order owner's eligible spend
+
+Fixed:
+- global “payment before kitchen” wording is now mode-specific across active contracts and docs
+- customer submission can no longer be mistaken for Dine-in kitchen confirmation
+- payer identity can no longer be mistaken for table-wide loyalty ownership
+
+Docs updated:
+- `AGENTS.md`, `README.md`, `docs/00`–`docs/21`, `docs/24_CHANGE_QUEUE.md`, `docs/27_DESIGN_SYSTEM_FOUNDATION.md`, `docs/28_UI_VISUAL_DIRECTION.md`
+
+Decision:
+- DEC-026
+
+Risk:
+- no production backend/schema exists; documented migrations, RBAC, transactions, audit, concurrency and provider verification remain future implementation work
+- founder policies for payment methods, service charge/tax, timeouts, discount/void/refund authority and kitchen capacity remain open
+
 ## Initial baseline
 Added:
 - pickup-first architecture

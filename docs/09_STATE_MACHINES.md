@@ -1,23 +1,20 @@
 # 09 — State Machines
 
-## Order
-DRAFT
-→ PAYMENT_PENDING
-→ CONFIRMED
-→ PREPARING
-→ READY
-→ PICKED_UP
-→ COMPLETED
+## Pickup Order
+`DRAFT → PAYMENT_PENDING → CONFIRMED → PREPARING → READY_FOR_PICKUP → PICKED_UP → COMPLETED`.
 
-Permitted exceptions:
-- DRAFT → CANCELLED
-- PAYMENT_PENDING → PAYMENT_FAILED / CANCELLED
-- CONFIRMED → CANCELLED according to policy
-- PREPARING → CANCELLED only restricted
+`PAYMENT_PENDING → PAYMENT_FAILED → PAYMENT_PENDING` supports retry. Draft/payment states may cancel; post-confirmation cancellation follows restricted policy. Verified payment and Pickup `CONFIRMED` commit atomically. Only paid `CONFIRMED`/`PREPARING`/`READY_FOR_PICKUP` orders are KDS-eligible.
 
-Payment `SUCCESS` and order `CONFIRMED` are committed together after a verified provider event. `CONFIRMED` is the first KDS-visible/New state; payment status remains a separate state machine. `PICKED_UP` records handover, then the server completion workflow reaches `COMPLETED` and emits the event used for loyalty and Passport. Refund state belongs to Payment/Refund rather than creating an ambiguous order state.
+## Dine-in Order
+`DRAFT → CUSTOMER_SUBMITTED → WAITER_REVIEW → CONFIRMED → PREPARING → READY_TO_SERVE → SERVED → COMPLETED`.
 
-No arbitrary skipping.
+Branches:
+- `CUSTOMER_SUBMITTED` or `WAITER_REVIEW → CANCELLED` when policy permits.
+- `WAITER_REVIEW → NEEDS_CLARIFICATION → CUSTOMER_SUBMITTED` after resolution.
+- `WAITER_REVIEW/NEEDS_CLARIFICATION → REJECTED` with reason.
+- post-confirmation cancellation is restricted and audited.
+
+Customer submission is never KDS admission. Waiter confirmation idempotently records `waiter_confirmed_at`, moves to `CONFIRMED` and emits exactly one KDS/outbox event without prior payment.
 
 ## Payment
 CREATED
@@ -27,6 +24,21 @@ CREATED
 SUCCESS
 → REFUND_PENDING
 → PARTIALLY_REFUNDED | REFUNDED | REFUND_FAILED
+
+The payment target is either one Pickup `ORDER` or one Dine-in `TABLE_BILL`. A failed Dine-in digital attempt leaves the same finalized bill unpaid and retryable.
+
+## Table session
+`OPEN → ACTIVE → BILL_REQUESTED → PAYMENT_PENDING → PAID → CLOSED`.
+
+Before bill finalization, `BILL_REQUESTED → ACTIVE` may reopen for another round. `OPEN/ACTIVE → EXPIRED/CANCELLED` applies only under policy. Paid closes exactly once and releases the table.
+
+## Dine-in bill
+`OPEN → BILL_REQUESTED → FINALIZED → PAYMENT_PENDING → PAID`.
+
+Cash may move `FINALIZED → PAID` only after authorized receipt acknowledgement. Digital/terminal uses `FINALIZED → PAYMENT_PENDING → PAID`; failure returns/stays retryable without creating another bill. `OPEN/BILL_REQUESTED → VOID` is permissioned and audited. Finalization is blocked while waiter review, preparation, Ready-to-Serve or unresolved void work remains.
+
+## Service request
+`OPEN → ACKNOWLEDGED → RESOLVED`, with `OPEN/ACKNOWLEDGED → CANCELLED` when permitted.
 
 ## Pickup reservation
 HELD
