@@ -109,10 +109,10 @@ Open:
 7
 
 In Progress:
-1
+0
 
 In Review:
-3
+4
 
 Staging:
 3
@@ -1234,7 +1234,7 @@ The first Customer UI batch and requested visual/startup refinement are implemen
 
 ## CHG-0008 — Customer Commerce Flow Completion
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** FEATURE, UX, TEST, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -1275,7 +1275,7 @@ Branch:
 - `feature/customer-commerce-flow` stacked from `feature/customer-ui-ux-v1` while prerequisite PRs #18 and #19 remain open and clean
 
 Pull Request:
-- Pending; must not target `develop` until prerequisite PRs are merged
+- #21 — targets `feature/customer-ui-ux-v1` while prerequisite PRs #18 and #19 remain open; must not target `develop` until they merge
 
 ### Affected Surfaces
 
@@ -1398,7 +1398,7 @@ Deployment date:
 ### Follow-Up
 
 - [x] Implement and validate the scoped Customer commerce batch.
-- [ ] Open a tracked Issue and correctly based PR after validation.
+- [x] Open a tracked Issue and correctly based PR after validation.
 - [ ] Retarget to `develop` only after prerequisite PRs merge.
 
 ### Current Result
