@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes, PropsWithChildren, ReactNode } from 'react';
+import type { AriaRole, ButtonHTMLAttributes, PropsWithChildren, ReactNode } from 'react';
 import { Link, type LinkProps } from 'react-router-dom';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost';
@@ -23,8 +23,9 @@ export function Surface({
   children,
   className = '',
   as: Component = 'section',
-}: PropsWithChildren<{ className?: string; as?: 'section' | 'div' | 'article' }>) {
-  return <Component className={`surface ${className}`.trim()}>{children}</Component>;
+  role,
+}: PropsWithChildren<{ className?: string; as?: 'section' | 'div' | 'article'; role?: AriaRole }>) {
+  return <Component className={`surface ${className}`.trim()} role={role}>{children}</Component>;
 }
 
 export function Badge({ children, tone = 'neutral' }: PropsWithChildren<{ tone?: 'neutral' | 'success' | 'warning' | 'danger' }>) {

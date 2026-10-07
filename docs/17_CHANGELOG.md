@@ -21,6 +21,59 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-07 — Complete Customer Pickup and Dine-in commerce flows
+
+Added:
+- service-mode-isolated Pickup and Dine-in carts with authoritative mock quotes, recovery notices, contextual optional upsells and edit/remove/quantity controls
+- phone OTP and verified WhatsApp continuation prototype states that preserve cart and service context
+- capacity-aware Pickup selection with ASAP/scheduled slots, reservation countdown, full-slot and expired-hold recovery
+- checkout review, payment pending/verified/failure handling, Pickup confirmation and fulfilment tracking
+- waiter-gated Dine-in submission, clarification/rejection/accepted/preparing/ready/served states, additional rounds and a read-only current bill
+- 14 focused commerce-flow tests and responsive browser evidence for the primary Pickup and Dine-in missions
+
+Changed:
+- Customer discovery links and product building now respect the active service mode
+- Customer routes use route-level lazy loading; the main entry bundle decreased from 533.25 kB / 164.56 kB gzip to 374.57 kB / 117.13 kB gzip
+- the floating cart is limited to discovery routes so it cannot overlap checkout, payment or tracking actions
+- shared cart, Pickup and analytics types plus API/MSW fixtures now represent the documented commerce recovery states
+
+Fixed:
+- Pickup and Dine-in carts no longer share one client cart identity
+- Customer-submitted Dine-in rounds cannot visually imply kitchen admission before waiter confirmation
+- payment success cannot visually confirm an order before the mock payment response is verified
+
+Docs updated:
+- `docs/12_ANALYTICS_EVENTS.md`, `docs/17_CHANGELOG.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- no architecture decision changed; these remain production-shaped frontend/MSW flows pending the documented NestJS and provider integrations
+
+Risk:
+- MSW proves client flow behavior, not production transaction locking, webhook authenticity, staff RBAC or outbox delivery
+
+## 2026-10-07 — Recover Customer menu from injected outage
+
+Added:
+- regression coverage proving the menu can recover from the deterministic `MENU_NETWORK_ERROR` UX scenario
+- standard ARIA `role` support on the shared `Surface` primitive used by the in-progress Auth and Checkout states
+
+Changed:
+- the Menu retry action now clears only the injected menu-outage scenario, removes its URL flag and refetches through the existing typed API/MSW boundary
+- Customer test setup now follows the separate commerce store introduced by CHG-0008 instead of writing removed cart fields into the prototype-scenario store
+
+Fixed:
+- a test/review URL containing `?scenario=MENU_NETWORK_ERROR` no longer traps the Customer Menu in a permanent 503 loop when “Try again” is pressed
+- current CHG-0008 Customer changes typecheck after the stale test-store fields and missing ARIA prop were corrected
+
+Docs updated:
+- `docs/17_CHANGELOG.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- no product or architecture decision changed; local UX continues to use MSW because no NestJS backend exists in this repository
+
+Risk:
+- `VITE_ENABLE_MOCKS=false` still requires a separately running backend at `VITE_API_BASE_URL`; no service is currently listening on local port 3000
+
 ## 2026-10-06 — Customer App UI — UX Implementation V1
 
 Added:

@@ -8,10 +8,13 @@ import { Badge, ButtonLink, ErrorState, PageSkeleton, SectionHeader } from '../.
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
 import { ProductCard } from '../menu/components/ProductCard';
 import { ProductMedia } from '../menu/components/ProductMedia';
+import { usePrototypeStore } from '../../shared/state/prototype-store';
 
 export function ProductPage() {
   useScenarioFromUrl();
   const { productId = '' } = useParams();
+  const serviceMode = usePrototypeStore((state) => state.serviceContext?.mode ?? 'PICKUP');
+  const menuBase = serviceMode === 'DINE_IN' ? '/dine-in/menu' : '/menu';
   const productQuery = useQuery({
     queryKey: queryKeys.product(productId),
     queryFn: () => getProduct(productId),
@@ -49,7 +52,7 @@ export function ProductPage() {
           <p className="muted">{product.description}</p>
           <strong>{firstAvailableVariant ? `From ${formatMoney(firstAvailableVariant.basePrice)}` : 'Currently unavailable'}</strong>
           {isAvailable ? (
-            <ButtonLink to={`/menu/${product.id}/customize`}>Customize</ButtonLink>
+            <ButtonLink to={`${menuBase}/${product.id}/customize`}>Customize</ButtonLink>
           ) : (
             <Badge tone="danger">Sold out today</Badge>
           )}
@@ -60,7 +63,7 @@ export function ProductPage() {
         <section className="page-stack" aria-labelledby="alternatives-title">
           <SectionHeader id="alternatives-title" title="Try one of these instead" />
           <div className="product-grid">
-            {alternatives.map((candidate) => <ProductCard key={candidate.id} product={candidate} />)}
+            {alternatives.map((candidate) => <ProductCard key={candidate.id} product={candidate} href={`${menuBase}/${candidate.id}`} />)}
           </div>
         </section>
       ) : null}

@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { RouterProvider } from 'react-router-dom';
 import { usePrototypeStore } from '../shared/state/prototype-store';
+import { resetCommerceStore } from '../shared/state/commerce-store';
 import { AppProviders } from './providers';
 import { createCustomerMemoryRouter } from './router';
 
@@ -17,12 +18,11 @@ function renderRoute(path: string) {
 
 describe('customer discovery and builder flows', () => {
   beforeEach(() => {
+    resetCommerceStore();
     usePrototypeStore.setState({
       selectedScenario: null,
       scenarioState: getScenarioState(),
       builderModifierIds: [],
-      cartId: null,
-      cartItemCount: 0,
       serviceContext: null,
     });
   });
@@ -46,8 +46,8 @@ describe('customer discovery and builder flows', () => {
     await user.click(await screen.findByRole('link', { name: 'Browse the menu' }));
     await user.click(await screen.findByRole('link', { name: 'View Margherita' }));
     await user.click(await screen.findByRole('link', { name: 'Customize' }));
-    expect(await screen.findByRole('heading', { name: 'Margherita' })).toBeVisible();
-    expect(screen.getByRole('group', { name: 'Crust' })).toBeVisible();
+    expect(await screen.findByRole('group', { name: 'Crust' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Margherita' })).toBeVisible();
   });
 
   it('prioritizes an active pickup order on Home', async () => {
@@ -119,10 +119,14 @@ describe('customer discovery and builder flows', () => {
     expect(screen.getByRole('heading', { name: 'Try one of these instead' })).toBeVisible();
   });
 
-  it('offers recovery when the menu request fails', async () => {
+  it('clears the injected menu outage and recovers when the customer retries', async () => {
+    const user = userEvent.setup();
     renderRoute('/menu?scenario=MENU_NETWORK_ERROR');
     expect(await screen.findByRole('heading', { name: 'The menu is taking a breather' }, { timeout: 4_000 })).toBeVisible();
-    expect(screen.getByRole('button', { name: 'Try again' })).toBeVisible();
+    await user.click(screen.getByRole('button', { name: 'Try again' }));
+
+    expect(await screen.findByRole('link', { name: 'View Margherita' })).toBeVisible();
+    expect(screen.queryByRole('heading', { name: 'The menu is taking a breather' })).not.toBeInTheDocument();
   });
 
   it('validates required builder options and adds a configured item', async () => {

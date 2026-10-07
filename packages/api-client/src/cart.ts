@@ -1,10 +1,10 @@
-import type { Cart, CartItem, CartQuote } from '@pizza-avenue/types';
+import type { Cart, CartItem, CartQuote, ServiceMode } from '@pizza-avenue/types';
 import { apiRequest } from './client';
 
-export function createCart(storeId: string): Promise<Cart> {
+export function createCart(storeId: string, serviceMode: ServiceMode = 'PICKUP'): Promise<Cart> {
   return apiRequest('carts', {
     method: 'POST',
-    body: JSON.stringify({ storeId }),
+    body: JSON.stringify({ storeId, serviceMode }),
   });
 }
 

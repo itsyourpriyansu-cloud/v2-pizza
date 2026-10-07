@@ -6,8 +6,11 @@ import { getScenarioState } from '../scenarios';
 function optionsForScenario(): PickupOptions {
   const response = structuredClone(pickupOptions);
   const scenario = getScenarioState().pickup;
+  if (scenario === 'PICKUP_NO_SLOTS' || scenario === 'PICKUP_UNAVAILABLE') {
+    return { asap: null, scheduled: [] };
+  }
   const state =
-    scenario === 'PICKUP_FULL'
+    scenario === 'PICKUP_FULL' || scenario === 'PICKUP_SLOT_FULL'
       ? 'FULL'
       : scenario === 'PICKUP_NEAR_FULL'
         ? 'NEARLY_FULL'
@@ -35,7 +38,7 @@ export const pickupHandlers = [
       pickupType: PickupReservation['pickupType'];
       reservedCapacityUnits: number;
     };
-    if (getScenarioState().pickup === 'PICKUP_FULL') {
+    if (getScenarioState().pickup === 'PICKUP_FULL' || getScenarioState().pickup === 'PICKUP_SLOT_FULL') {
       return HttpResponse.json(
         { error: { code: 'SLOT_FULL', message: 'This pickup slot is full.', details: {} } },
         { status: 409 },
@@ -48,7 +51,9 @@ export const pickupHandlers = [
       pickupType: input.pickupType,
       reservedCapacityUnits: input.reservedCapacityUnits,
       status: 'HELD',
-      expiresAt: '2026-10-05T14:12:00.000Z',
+      expiresAt: getScenarioState().pickup === 'PICKUP_HOLD_EXPIRED'
+        ? new Date(Date.now() - 60_000).toISOString()
+        : new Date(Date.now() + 5 * 60_000).toISOString(),
     };
     return HttpResponse.json(reservation, { status: 201 });
   }),

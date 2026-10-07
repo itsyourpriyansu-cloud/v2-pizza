@@ -6,6 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';
 import { Button, EmptyState, ErrorState, PageHeader, PageSkeleton, SectionHeader } from '../../shared/components/Primitives';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
+import { usePrototypeStore } from '../../shared/state/prototype-store';
 import { ProductCard } from '../menu/components/ProductCard';
 
 const recentSearches = ['Margherita', 'Garlic bread'];
@@ -13,6 +14,8 @@ const popularSearches = ['Signature pizza', 'Pasta', 'Dessert'];
 
 export function SearchPage() {
   useScenarioFromUrl();
+  const serviceMode = usePrototypeStore((state) => state.serviceContext?.mode ?? 'PICKUP');
+  const menuBase = serviceMode === 'DINE_IN' ? '/dine-in/menu' : '/menu';
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q')?.trim() ?? '';
   const [draft, setDraft] = useState(query);
@@ -56,7 +59,7 @@ export function SearchPage() {
 
   return (
     <div className="page-stack">
-      <PageHeader eyebrow="Find a favourite" title="Search" description="Search the live pickup menu." />
+      <PageHeader eyebrow="Find a favourite" title="Search" description={`Search the live ${serviceMode === 'DINE_IN' ? 'dine-in' : 'pickup'} menu.`} />
       <form className="search-form" role="search" onSubmit={submit}>
         <label className="sr-only" htmlFor="menu-search">Search menu</label>
         <input id="menu-search" className="input" type="search" autoFocus value={draft} onChange={(event) => setDraft(event.target.value)} placeholder="Try ‘Margherita’" />
@@ -80,7 +83,7 @@ export function SearchPage() {
       ) : results.length ? (
         <section className="page-stack" aria-live="polite">
           <SectionHeader title={`${results.length} result${results.length === 1 ? '' : 's'} for “${query}”`} />
-          <div className="product-grid">{results.map((product) => <ProductCard key={product.id} product={product} />)}</div>
+          <div className="product-grid">{results.map((product) => <ProductCard key={product.id} product={product} href={`${menuBase}/${product.id}`} />)}</div>
         </section>
       ) : (
         <EmptyState title={`No match for “${query}”`} body="Try a broader search, or browse every item on the menu." action={<Button type="button" variant="secondary" onClick={() => runSearch('')}>Clear search</Button>} />

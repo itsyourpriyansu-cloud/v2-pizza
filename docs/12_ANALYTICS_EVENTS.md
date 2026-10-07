@@ -11,7 +11,9 @@ magic_link_generated
 magic_link_opened
 whatsapp_login_completed
 otp_requested
+otp_sent
 otp_verified
+auth_started
 login_completed
 
 Required acquisition dimensions where relevant: `auth_method` (`PHONE_OTP` or `WHATSAPP_QR_MAGIC_LINK`), `qr_source`, `store_id`, `campaign`, session identifier and anonymous-to-customer attribution identifier. Do not send phone numbers, OTPs, raw magic tokens or WhatsApp provider payloads to analytics.
@@ -42,20 +44,30 @@ bundle_added
 ## Checkout
 service_mode_selected
 cart_viewed
+cart_item_edited
+cart_item_removed
 checkout_started
 pickup_options_viewed
+pickup_mode_selected
 pickup_slot_selected
+pickup_slot_expired
 quote_generated
 
 ## Payment
 payment_started
+payment_checking
+payment_verified
 payment_success
 payment_failed
 payment_abandoned
 
+`payment_started` and `payment_checking` are client journey events. `payment_verified` is emitted by the prototype only after the typed payment response is `SUCCESS`; production payment truth must still come from the backend/webhook processing path.
+
 ## Operations
 order_confirmed
+order_tracking_viewed
 preparing
+ready
 ready_for_pickup
 dine_in_ready_to_serve
 picked_up
@@ -73,8 +85,11 @@ dine_in_order_submitted
 waiter_confirmation_wait_started
 waiter_order_confirmed
 waiter_order_rejected
+waiter_confirmation_received
+dine_in_order_rejected
 dine_in_kitchen_started
 dine_in_ready_to_serve
+dine_in_order_served
 dine_in_served
 order_more_clicked
 second_round_started

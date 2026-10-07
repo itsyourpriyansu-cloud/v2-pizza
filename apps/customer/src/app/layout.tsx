@@ -1,13 +1,22 @@
 import { AppShell } from '@pizza-avenue/ui';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation } from '../shared/components/BottomNavigation';
+import { useCommerceStore } from '../shared/state/commerce-store';
 import { usePrototypeStore } from '../shared/state/prototype-store';
 
 export function CustomerLayout() {
   const location = useLocation();
-  const cartItemCount = usePrototypeStore((state) => state.cartItemCount);
   const serviceContext = usePrototypeStore((state) => state.serviceContext);
+  const serviceMode = serviceContext?.mode ?? 'PICKUP';
+  const cartItemCount = useCommerceStore((state) => state.carts[serviceMode].itemCount);
   const isDineInRoute = location.pathname.startsWith('/dine-in');
+  const isDiscoveryRoute = location.pathname === '/menu'
+    || location.pathname.startsWith('/menu/')
+    || location.pathname === '/search'
+    || location.pathname === '/dine-in'
+    || location.pathname === '/dine-in/menu'
+    || location.pathname.startsWith('/dine-in/menu/')
+    || location.pathname === '/dine-in/search';
   const showBottomNavigation = !isDineInRoute && (Boolean(serviceContext) || location.pathname !== '/');
   const contextLabel = serviceContext?.mode === 'DINE_IN'
     ? serviceContext.tableLabel ?? 'Dine-in'
@@ -34,8 +43,8 @@ export function CustomerLayout() {
       }
     >
       <Outlet />
-      {cartItemCount > 0 && !isDineInRoute ? (
-        <Link className="floating-cart" to="/cart" aria-label={`View cart with ${cartItemCount} item${cartItemCount === 1 ? '' : 's'}`}>
+      {cartItemCount > 0 && isDiscoveryRoute ? (
+        <Link className="floating-cart" to={serviceMode === 'DINE_IN' ? '/dine-in/cart' : '/cart'} aria-label={`View ${serviceMode === 'DINE_IN' ? 'dine-in ' : ''}cart with ${cartItemCount} item${cartItemCount === 1 ? '' : 's'}`}>
           <span>View cart</span>
           <strong>{cartItemCount}</strong>
         </Link>

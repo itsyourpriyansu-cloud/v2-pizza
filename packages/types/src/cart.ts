@@ -1,5 +1,6 @@
 import type { EntityId, ISODateTime } from './common';
 import type { Money } from './money';
+import type { ServiceMode } from './service';
 
 export type CartStatus = 'ACTIVE' | 'QUOTED' | 'CONVERTED' | 'EXPIRED';
 
@@ -26,6 +27,7 @@ export interface CartItem {
 export interface Cart {
   id: EntityId;
   storeId: EntityId;
+  serviceMode: ServiceMode;
   status: CartStatus;
   items: CartItem[];
   expiresAt: ISODateTime;
@@ -40,4 +42,9 @@ export interface CartQuote {
   payableTotal: Money;
   quotedAt: ISODateTime;
   expiresAt: ISODateTime;
+  changes?: Array<{
+    code: 'PRICE_CHANGED' | 'ITEM_UNAVAILABLE' | 'MODIFIER_UNAVAILABLE';
+    itemId: EntityId;
+    message: string;
+  }>;
 }
