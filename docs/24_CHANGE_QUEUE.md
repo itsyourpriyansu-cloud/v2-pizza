@@ -109,7 +109,13 @@ Open:
 5
 
 In Progress:
-1
+0
+
+In Review:
+2
+
+Staging:
+3
 
 Blocked:
 0
@@ -911,12 +917,12 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 
 ## CHG-0006 — Dual Service Operations — Dine-In Waiter Confirmation + Admin Billing
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** FEATURE, API, UX, DECISION, TEST, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-06
-- **Last Updated:** 2026-10-06
+- **Last Updated:** 2026-10-07
 
 ### Business Reason
 
@@ -944,13 +950,13 @@ Excluded:
 ### GitHub Tracking
 
 Issue:
-- Pending; local preparation was explicitly requested before push.
+- [#16 — Dual service operations foundation](https://github.com/itsyourpriyansu-cloud/v2-pizza/issues/16)
 
 Branch:
 - `feature/dual-service-operations`
 
 Pull Request:
-- Not created; user will authorize the later push/merge step.
+- [#18 — feat: add dual service operations foundation](https://github.com/itsyourpriyansu-cloud/v2-pizza/pull/18) → `develop`
 
 ### Affected Surfaces
 
@@ -1024,7 +1030,7 @@ Breaking change:
 
 ### Current Result
 
-Frontend-first operating contracts, neutral route shells, mocks, tests and active documentation are complete locally. Lint, typecheck, 86 tests and all four frontend builds pass. The change remains `IN_PROGRESS` only because the user explicitly deferred push/PR/merge; nothing has been pushed, merged, staged or deployed.
+Frontend-first operating contracts, neutral route shells, mocks, tests and active documentation are complete and published on `feature/dual-service-operations`. Issue #16 and PR #18 are open; the latest combined validation passes lint, workspace typecheck, 103 tests and all implemented frontend builds. The change is `IN_REVIEW`; nothing has been merged, staged or deployed.
 
 ---
 
