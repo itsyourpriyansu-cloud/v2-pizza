@@ -32,7 +32,7 @@ describe('customer retention end-to-end missions', () => {
     const user = userEvent.setup(); renderRoute('/rewards');
     await user.click(await screen.findByRole('button', { name: 'Use reward' }));
     expect(await screen.findByText(/has not been consumed/i)).toBeVisible();
-    expect(screen.getByText('RESERVED')).toBeVisible();
+    expect(screen.getByText('Reserved for this order')).toBeVisible();
     await user.click(screen.getByRole('button', { name: 'Release' }));
     expect(await screen.findByText(/available again/i)).toBeVisible();
   });
@@ -104,5 +104,12 @@ describe('customer retention end-to-end missions', () => {
     expect(screen.getByRole('link', { name: 'Order more' })).toHaveAttribute('href', '/dine-in/order-more');
     expect(screen.getByRole('link', { name: 'Current bill' })).toHaveAttribute('href', '/dine-in/bill');
     expect(screen.queryByLabelText('Your next loyalty action')).not.toBeInTheDocument();
+  });
+
+  it('10. shows ordinary Passport progress after higher-priority Home actions are absent', async () => {
+    const state = setScenarioState({ customer: 'LOYAL_CUSTOMER', savedBasket: 'SAVED_BASKETS_EMPTY', occasion: 'NO_OCCASIONS', rewards: 'REWARD_LOCKED', passport: 'PASSPORT_PROGRESS', missions: 'NO_ACTIVE_MISSIONS' });
+    usePrototypeStore.setState({ scenarioState: state }); setPickupContext(); renderRoute('/');
+    expect(await screen.findByText('Keep exploring the signature menu.')).toBeVisible();
+    expect(screen.getByText('4 of 6 discovered')).toBeVisible();
   });
 });

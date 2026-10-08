@@ -23,7 +23,7 @@ const basketItem = (id: string, productId: string, productName: string, quantity
 export const savedBaskets: SavedBasket[] = [
   {
     id: 'basket-family-friday', name: 'Family Friday', kind: 'FAMILY_FRIDAY', peopleCount: 4,
-    lastOrderedAt: '2026-09-16T14:30:00.000Z', estimatedCurrentPrice: money(204400),
+    lastOrderedAt: '2026-09-16T14:30:00.000Z', estimatedCurrentPrice: money(189200),
     items: [
       basketItem('family-1', 'pizza-chicken-pepperoni', 'Chicken Pepperoni Pizza', 1, 48900),
       basketItem('family-2', 'pizza-pesto', 'Pesto Pizza', 1, 42900),
@@ -34,22 +34,22 @@ export const savedBaskets: SavedBasket[] = [
   },
   {
     id: 'basket-my-usual', name: 'My Usual', kind: 'MY_USUAL', peopleCount: 1,
-    lastOrderedAt: '2026-10-01T13:00:00.000Z', estimatedCurrentPrice: money(56800),
+    lastOrderedAt: '2026-10-01T13:00:00.000Z', estimatedCurrentPrice: money(55800),
     items: [basketItem('usual-1', 'pizza-pesto', 'Pesto Pizza', 1, 42900), basketItem('usual-2', 'dip-viva-rosso', 'Viva Rosso', 1, 13900)],
   },
   {
     id: 'basket-movie-night', name: 'Movie Night', kind: 'MOVIE_NIGHT', peopleCount: 3,
-    lastOrderedAt: '2026-08-22T15:30:00.000Z', estimatedCurrentPrice: money(119600),
+    lastOrderedAt: '2026-08-22T15:30:00.000Z', estimatedCurrentPrice: money(114500),
     items: [basketItem('movie-1', 'pizza-farmhouse', 'Farmhouse Pizza', 1, 46900), basketItem('movie-2', 'side-garlic-bread', 'Garlic Bread', 1, 19900), basketItem('movie-3', 'drink-coke', 'Coke', 2, 9900), basketItem('movie-4', 'dessert-tiramisu', 'Tiramisu', 1, 29900)],
   },
   {
     id: 'basket-office-lunch', name: 'Office Lunch', kind: 'OFFICE_LUNCH', peopleCount: 6,
-    lastOrderedAt: null, estimatedCurrentPrice: money(283400),
+    lastOrderedAt: null, estimatedCurrentPrice: money(260800),
     items: [basketItem('office-1', 'pizza-margherita', 'Classic Margherita Pizza', 2, 34900), basketItem('office-2', 'pizza-chicken-pepperoni', 'Chicken Pepperoni Pizza', 2, 48900), basketItem('office-3', 'side-garlic-knots', 'Garlic Knots', 2, 21900), basketItem('office-4', 'drink-sprite', 'Sprite', 6, 9900)],
   },
   {
     id: 'basket-date-night', name: 'Date Night', kind: 'DATE_NIGHT', peopleCount: 2,
-    lastOrderedAt: '2026-09-28T14:00:00.000Z', estimatedCurrentPrice: money(84700),
+    lastOrderedAt: '2026-09-28T14:00:00.000Z', estimatedCurrentPrice: money(82700),
     items: [basketItem('date-1', 'pizza-mushroom-alfredo', 'Mushroom Alfredo Pizza', 1, 44900), basketItem('date-2', 'dessert-tiramisu', 'Tiramisu', 1, 29900), basketItem('date-3', 'drink-diet-coke', 'Diet Coke', 1, 9900)],
   },
 ];

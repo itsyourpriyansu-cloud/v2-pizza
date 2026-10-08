@@ -6,6 +6,7 @@ import { useEffect, type ReactNode } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';
 import { Badge, Button, ButtonLink, ErrorState, PageHeader, PageSkeleton, Surface } from '../../shared/components/Primitives';
+import { formatCustomerState } from '../../shared/copy/customer-copy';
 import { useCommerceStore } from '../../shared/state/commerce-store';
 import { usePrototypeStore } from '../../shared/state/prototype-store';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
@@ -68,7 +69,7 @@ export function DineInHomePage() {
   if (sessionQuery.isError) return <ErrorState title="Table session could not be loaded" body="Scan the current table QR again. A typed table number is never trusted." />;
   return (
     <div className="page-stack">
-      <TableContextBanner><Badge tone="success">{sessionQuery.data.status}</Badge></TableContextBanner>
+      <TableContextBanner><Badge tone="success">{sessionQuery.data.status === 'ACTIVE' ? 'Table connected' : formatCustomerState(sessionQuery.data.status)}</Badge></TableContextBanner>
       <PageHeader eyebrow="Your table" title="Order when you’re ready" description="Every round is sent to your waiter first, then enters the kitchen after confirmation." />
       <div className="service-action-grid">
         <ButtonLink to="/dine-in/menu">View Menu</ButtonLink>
@@ -123,7 +124,7 @@ type CustomerDineInState = { eyebrow: string; title: string; body: string; tone:
 function customerState(status: OrderStatus): CustomerDineInState {
   if (status === 'WAITER_REVIEW') return { eyebrow: 'Waiter reviewing', title: 'Waiting for waiter confirmation', body: 'This round is not in the kitchen yet.', tone: 'warning', step: 1 };
   if (status === 'NEEDS_CLARIFICATION') return { eyebrow: 'Needs clarification', title: 'Your waiter needs one detail', body: 'The full order is preserved. Please review it or call your waiter.', tone: 'warning', step: 1 };
-  if (status === 'REJECTED') return { eyebrow: 'Not accepted', title: 'One item is unavailable', body: 'Reason: ITEM_UNAVAILABLE. Review the preserved order or ask your waiter for help.', tone: 'danger', step: 1 };
+  if (status === 'REJECTED') return { eyebrow: 'Not accepted', title: 'One item is unavailable', body: 'One item is currently unavailable. Review the preserved order or ask your waiter for help.', tone: 'danger', step: 1 };
   if (status === 'CONFIRMED') return { eyebrow: 'Order accepted', title: 'Your waiter confirmed this round', body: 'It has now been sent to the kitchen.', tone: 'success', step: 2 };
   if (status === 'PREPARING') return { eyebrow: 'In the kitchen', title: 'Preparing', body: 'The kitchen is preparing this round for your table.', tone: 'neutral', step: 3 };
   if (status === 'READY_TO_SERVE') return { eyebrow: 'Kitchen complete', title: 'Ready to be served', body: 'A waiter or runner will bring it to your table.', tone: 'success', step: 4 };
@@ -144,7 +145,7 @@ export function DineInOrderPage() {
     if (orderQuery.data.status === 'SERVED') trackCustomerEvent('dine_in_order_served', { orderId });
   }, [orderId, orderQuery.data]);
   if (orderQuery.isPending) return <PageSkeleton label="dine-in order" />;
-  if (orderQuery.isError || !orderQuery.data) return <ErrorState title="Dine-in status could not be loaded" body="Your request is still preserved. Refresh to recover the latest server state." onRetry={() => void orderQuery.refetch()} />;
+  if (orderQuery.isError || !orderQuery.data) return <ErrorState title="Dine-in status could not be loaded" body="Your request is still preserved. Refresh to recover the latest confirmed status." onRetry={() => void orderQuery.refetch()} />;
   const order = orderQuery.data;
   const state = customerState(order.status);
   const steps = ['Requested', 'Waiter confirming', 'Accepted', 'Preparing', 'Ready to serve', 'Served'];
@@ -181,7 +182,7 @@ export function DineInBillPage() {
   const orderIds = [...new Set(bill.lines.map((line) => line.orderId))];
   return (
     <div className="page-stack">
-      <TableContextBanner><Badge tone={bill.status === 'BILL_REQUESTED' ? 'warning' : 'neutral'}>{bill.status.replace('_', ' ')}</Badge></TableContextBanner>
+      <TableContextBanner><Badge tone={bill.status === 'BILL_REQUESTED' ? 'warning' : 'neutral'}>{formatCustomerState(bill.status)}</Badge></TableContextBanner>
       <PageHeader eyebrow="Read-only estimate" title="Current table bill" description="Staff finalizes and records payment after service. This screen cannot mark the bill paid." />
       {orderIds.map((orderId, index) => <Surface key={orderId}><h2>Round {index + 1}</h2><ul className="review-list">{bill.lines.filter((line) => line.orderId === orderId).map((line) => <li key={line.id}><span>{line.quantity} × {line.snapshotName}</span><strong>{formatMoney(line.lineTotal)}</strong></li>)}</ul></Surface>)}
       <Surface className="commerce-summary"><h2>Current total</h2><dl><div><dt>Subtotal</dt><dd>{formatMoney(bill.subtotal)}</dd></div>{bill.tax.amount ? <div><dt>Tax</dt><dd>{formatMoney(bill.tax)}</dd></div> : null}{bill.serviceCharge.amount ? <div><dt>Service charge</dt><dd>{formatMoney(bill.serviceCharge)}</dd></div> : null}<div className="commerce-summary__total"><dt>Estimated total</dt><dd>{formatMoney(bill.grandTotal)}</dd></div></dl></Surface>

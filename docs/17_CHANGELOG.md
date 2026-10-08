@@ -21,6 +21,35 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-08 — Prepare Customer V1 for client review
+
+Added:
+- structured 27-step restaurant-owner walkthrough, 15 deterministic review personas, pending-decision register, scorecard and pre-freeze UX/contrarian audit
+- development-only `?review=` presets that reset all mock domains and apply complete Pickup or Dine-in context without exposing a production selector
+- focused regression coverage for persona isolation, ordinary Passport Home priority and single Home engagement presentation
+- four current mobile review screenshots for service choice, Returning Home, Menu and Product Builder
+
+Changed:
+- Home now shows generic reorder only when no contextual engagement module exists and includes ordinary Passport progress at its documented priority
+- customer status, payment, auth and recovery copy uses customer language instead of raw state/mock/server terminology
+- primary reward surfaces consistently name redeemable value “Pizza Points,” distinct from non-redeemable Avenue XP
+- a reusable Chrome/CDP audit script records rendered headings, overflow, visible image/control checks, console/network results and screenshots
+
+Fixed:
+- multi-domain Home and service-context personas can now be reproduced from one development-only URL
+- Saved Basket current-price totals, stale-price recovery copy and cart handoff now align with the current menu seed instead of historical or contradictory values
+- Returning Home no longer presents competing generic reorder and Saved Basket cards
+
+Docs updated:
+- `docs/CLIENT_REVIEW_FLOW.md`, `docs/CLIENT_DECISIONS_PENDING.md`, `docs/CLIENT_REVIEW_SCORECARD.md`, `docs/UX_AUDIT_PRE_FREEZE.md`, `docs/17_CHANGELOG.md`, `docs/20_MASTER_INDEX.md`, `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- no product or architecture decision changed; unresolved menu, economics, feature, brand, privacy and legal choices are explicitly reserved for the restaurant owner
+
+Risk:
+- visual/client readiness is not production readiness; MSW cannot prove future payment, capacity, session, permission, concurrency or persistence behavior
+- UX freeze remains blocked on client decisions, final menu/brand assets, legal approval and a later bounded correction pass
+
 ## 2026-10-07 — Complete Customer engagement prototype
 
 Added:

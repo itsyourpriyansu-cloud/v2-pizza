@@ -16,6 +16,9 @@ export const passportHandlers = [
     if (scenario === 'PASSPORT_ITEM_UNAVAILABLE') {
       return HttpResponse.json({ ...passportProgress.inProgress, program: { ...passportProgress.inProgress.program, items: passportProgress.inProgress.program.items.map((item) => item.id === 'passport-avenue' ? { ...item, availability: 'UNAVAILABLE' as const } : item) } });
     }
+    if (scenario === 'PASSPORT_IN_PROGRESS' || scenario === 'PASSPORT_PROGRESS') {
+      return HttpResponse.json({ ...passportProgress.inProgress, status: 'IN_PROGRESS' as const });
+    }
     return HttpResponse.json(passportProgress.inProgress);
   }),
 ];

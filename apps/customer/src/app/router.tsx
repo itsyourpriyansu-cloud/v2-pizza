@@ -67,7 +67,7 @@ export const customerRoutes: RouteObject[] = [
       { path: 'checkout', element: pending(<CheckoutPage />) },
       { path: 'checkout/pickup', element: pending(<CheckoutPickupPage />) },
       { path: 'dine-in/start', element: pending(<DineInStartPage />) },
-      { path: 'dine-in/table', element: pending(<DineInShellPage title="Confirm your table" guidance="Confirm the server-resolved table context before ordering." />) },
+      { path: 'dine-in/table', element: pending(<DineInShellPage title="Confirm your table" guidance="Confirm the table shown after scanning before ordering." />) },
       { path: 'dine-in', element: pending(<DineInHomePage />) },
       { path: 'dine-in/menu', element: pending(<MenuPage />) },
       { path: 'dine-in/search', element: pending(<SearchPage />) },

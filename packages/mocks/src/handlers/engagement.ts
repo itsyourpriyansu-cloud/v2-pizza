@@ -13,6 +13,8 @@ import type {
 } from '@pizza-avenue/types';
 import { HttpResponse, http } from 'msw';
 import { groupOrder as baseGroupOrder, householdMembers as baseHousehold, leagueOverview, occasions as baseOccasions, referral as baseReferral, savedBaskets as baseSavedBaskets, tasteCard } from '../data';
+import { menu } from '../data/menu';
+import { formatMoney } from '@pizza-avenue/utils';
 import { money } from '../factories';
 import { getScenarioState } from '../scenarios';
 import { seedCartData } from './cart';
@@ -40,6 +42,12 @@ function unavailable(message: string) {
 
 function basketCart(basket: SavedBasket, stale = false): SavedBasketValidationResult {
   const preserved = stale ? basket.items.filter((item) => item.productId !== 'pizza-chicken-pepperoni') : basket.items;
+  const currentPrice = (item: SavedBasket['items'][number]) => {
+    const product = menu.products.find((candidate) => candidate.id === item.productId);
+    return product?.variants.find((variant) => variant.id === item.variantId)?.basePrice
+      ?? product?.variants.find((variant) => variant.availability === 'AVAILABLE')?.basePrice
+      ?? item.historicalUnitPrice;
+  };
   const cart: Cart = {
     id: `cart-saved-${basket.id}`,
     storeId: 'sainikpuri',
@@ -55,7 +63,7 @@ function basketCart(basket: SavedBasket, stale = false): SavedBasketValidationRe
       selectedModifiers: item.modifiers,
       quantity: item.quantity,
       notes: null,
-      provisionalUnitPrice: item.historicalUnitPrice,
+      provisionalUnitPrice: currentPrice(item),
     })),
   };
   seedCartData(cart);
@@ -65,7 +73,7 @@ function basketCart(basket: SavedBasket, stale = false): SavedBasketValidationRe
     preservedItemCount: cart.items.length,
     differences: stale ? [
       { code: 'ITEM_UNAVAILABLE', itemId: 'family-1', message: 'Chicken Pepperoni is currently unavailable.', recoverable: true },
-      { code: 'PRICE_CHANGED', itemId: 'family-4', message: 'Garlic Knots now cost ₹229.', recoverable: true },
+      { code: 'PRICE_CHANGED', itemId: 'family-4', message: `Garlic Knots now cost ${formatMoney(currentPrice(basket.items.find((item) => item.id === 'family-4')!))}.`, recoverable: true },
       { code: 'MODIFIER_CHANGED', itemId: 'family-3', message: 'Your old extra-cheese option has changed.', recoverable: true },
     ] : [],
   };

@@ -14,7 +14,7 @@ export function MissionsPage() {
   if (query.isPending) return <PageSkeleton label="missions" />;
   if (query.isError) return <ErrorState title="Missions could not be loaded" body="Try again to recover your latest mission progress." onRetry={() => void query.refetch()} />;
   const { personal, common, avenueXp } = query.data;
-  return <div className="page-stack retention-page"><PageHeader eyebrow="Small challenges, more discovery" title="Missions" description="Earn Avenue XP for completing challenges. XP is progress—not money or redeemable Points." action={<XpBadge value={avenueXp} />} />
+  return <div className="page-stack retention-page"><PageHeader eyebrow="Small challenges, more discovery" title="Missions" description="Earn Avenue XP for completing challenges. XP is progress—not money or redeemable Pizza Points." action={<XpBadge value={avenueXp} />} />
     {!personal.length && !common.length ? <EmptyState title="No active missions right now" body="Fresh missions will appear here when they are assigned." /> : null}
     {personal.length ? <section className="page-stack" aria-labelledby="personal-missions"><SectionHeader id="personal-missions" title="Personal missions" /><p className="muted">Selected for your Pizza Avenue journey.</p><div className="mission-grid">{personal.map((mission) => <MissionCard mission={mission} key={mission.id} />)}</div></section> : null}
     {common.length ? <section className="page-stack" aria-labelledby="common-missions"><SectionHeader id="common-missions" title="Common missions" /><p className="muted">Open to every Pizza Avenue customer.</p><div className="mission-grid">{common.map((mission) => <MissionCard mission={mission} key={mission.id} />)}</div></section> : null}

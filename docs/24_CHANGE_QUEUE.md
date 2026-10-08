@@ -103,16 +103,16 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0011 (CHG-0005 is reserved on the parallel Landing branch)
+Next Change ID: CHG-0012 (CHG-0005 is reserved on the parallel Landing branch)
 
 Open:
-9
+10
 
 In Progress:
 0
 
 In Review:
-6
+7
 
 Staging:
 3
@@ -1777,6 +1777,186 @@ The Customer engagement prototype is complete locally through the existing typed
 
 - CHG-0008
 - CHG-0009
+
+---
+
+## CHG-0011 — Customer V1 Client Review and Pre-Freeze Audit
+
+- **Status:** IN_REVIEW
+- **Type:** DOCUMENTATION, UX, TEST
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-08
+
+### Business Reason
+
+Prepare the complete Customer V1 prototype for structured restaurant-owner review, feedback and an eventual UX freeze without requiring the reviewer to use Git, a terminal, developer tools, source edits or database access.
+
+### Requested Outcome
+
+Provide a repeatable, business-focused walkthrough of the complete Customer product; a deterministic development-only review-state mechanism; a comprehensive owner decision register; a contrarian feature and UX audit; a client scorecard; representative evidence; and truthful final validation. Only P0, clear P1, broken-link, contradiction, overflow, accessibility, state-presentation or review-scenario fixes are permitted before client decisions.
+
+### Scope
+
+Included:
+- numbered review flow from service selection through Returning Customer Home,
+- pending owner decision register across menu, Pickup, Dine-in, loyalty, retention, engagement, brand and legal policy,
+- deterministic review-persona/scenario verification and facilitator-friendly documentation,
+- Home priority, language, money/Points/XP and hardcoded-price audits,
+- contrarian feature assessment and P0–P3 pre-freeze UX register,
+- global UX-state, accessibility, responsive, console/network and regression validation,
+- concise representative screenshot pack using current artifacts where valid,
+- only safe pre-review fixes meeting the task's explicit severity rule.
+
+Excluded:
+- new Customer features or redesign,
+- the post-review correction pass or UX freeze itself,
+- NestJS, Prisma, PostgreSQL, Redis, BullMQ, POS, inventory, production billing, real payments/authentication, capacity engine, offline edge or Petpooja migration,
+- changes to production business values that require owner approval,
+- merge, staging or production deployment.
+
+### GitHub Tracking
+
+Issue:
+- [#26 — Customer V1 — Client Review & Pre-Freeze Audit](https://github.com/itsyourpriyansu-cloud/v2-pizza/issues/26)
+
+Branch:
+- `feature/customer-ux-review-prep`, stacked from `feature/customer-engagement-complete-v1` commit `184d2ed843fb6c5c690d1dad98aedba5ed23e761`
+
+Pull Request:
+- Pending branch push; target remains `feature/customer-engagement-complete-v1`
+
+### Affected Surfaces
+
+- Complete Customer PWA review surface
+- Customer frontend/MSW review scenarios
+- Client-review documentation and screenshot evidence
+
+### Affected Modules
+
+- Customer router/shell and review-state entry only if a reproducibility defect is found
+- existing scenario catalog and browser review paths
+- Home prioritization, customer-facing copy, pricing displays and UX states under audit
+- `docs/CLIENT_REVIEW_FLOW.md`
+- `docs/CLIENT_DECISIONS_PENDING.md`
+- `docs/CLIENT_REVIEW_SCORECARD.md`
+- `docs/UX_AUDIT_PRE_FREEZE.md`
+
+### Files / Areas Changed
+
+- four client-review/pre-freeze documents, queue/changelog/index truth and a 17-image curated pack using 13 current screenshots plus four new captures
+- development-only review-persona state, URL hook, focused tests and Chrome/CDP audit helper
+- Home priority/deduplication, customer-language normalization and Pizza Points naming
+- Saved Basket/current-menu price alignment and Passport progress scenario correction
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New production endpoints:
+- None
+
+Changed production endpoints:
+- None
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- None planned. Existing Pickup payment gate, Dine-in waiter gate, billing and retention finalization rules remain unchanged.
+
+### Permission Impact
+
+- None. Development-only scenarios do not grant production authority and must not become customer-visible controls.
+
+### Analytics Impact
+
+- No new events planned. Audit existing event/copy alignment only.
+
+### Environment / Secret Impact
+
+New env vars:
+- None planned
+
+Changed secrets:
+- None
+
+### Tests Required
+
+- [x] verify all 15 named review personas and reproducible scenario URLs
+- [x] audit all Customer routes for internal/developer language and concept clarity
+- [x] audit hardcoded rupee values, integer-paise formatting and duplicated price calculation
+- [x] audit Home priority and single contextual module
+- [x] validate loading, skeleton, empty, network error, offline, session-expired, disabled, conflict, retry and success states; offline/global session expiry remain documented P2 production gaps
+- [x] accessibility review for headings, labels, focus, keyboard, touch targets, progress, polls and announcements; no formal WCAG claim
+- [x] visual review at 390 and 1440 px plus 360/430/768 spot checks
+- [x] complete existing regression, lint, typecheck, all tests and all builds
+- [x] production dependency audit, secret-pattern scan and `git diff --check`
+- [x] browser smoke plus console/network review
+- [x] verify representative review screenshot pack
+
+### Edge Cases
+
+- Review scenarios remain development-only and cannot leak controls or assumptions into production Customer UI.
+- Existing screenshots must be rejected when stale rather than presented as current evidence.
+- No client-dependent price, policy, reward, League, family, referral, legal or brand choice may be silently decided.
+- Safe fixes must preserve the current stacked branch and existing commerce/retention behavior.
+- Home must render only one engagement prompt and keep active Dine-in/Pickup dominant.
+
+### Security Review
+
+- Auth/RBAC: audit prototype copy/states only; do not implement or weaken authentication or permissions.
+- PII: documents/screenshots must use fictional fixtures and avoid phone, OTP, token, provider payload and private Household details.
+- Money/state: audit clarity only; backend-authoritative price/payment/state rules remain frozen.
+- Replay/idempotency: no production mutation is introduced; existing mock scenarios remain deterministic.
+
+### Staging Result
+
+Status:
+- Not Tested — review preparation has just started and no deployment is authorized
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- The Customer stack remains intentionally unmerged through PR #25 and this task depends on that reviewable head.
+- Founder decisions may require a correction pass after review; this branch must not pre-empt those choices.
+- MSW/browser evidence cannot prove future production backend security, persistence, provider or concurrency behavior.
+- Final logo, production photography and several policy/economic values remain unavailable.
+
+### Follow-Up
+
+- [ ] Complete the review pack and truthful P0–P3 audit.
+- [ ] Open a stacked PR against `feature/customer-engagement-complete-v1` and wait for CI.
+- [ ] Stop at client-review readiness; do not start the correction pass or backend.
+
+### Current Result
+
+The complete client-review pack, deterministic development-only personas, safe P1 fixes and representative screenshots are implemented. Lint and typecheck pass; all 149 tests pass across 12 files; all four applications build; the production dependency audit reports no known vulnerabilities; the tracked-file secret scan and `git diff --check` pass. Chrome rendered the requested route matrix at 390/1440 plus 360/430/768 with no document overflow, in-viewport broken images, unlabeled controls, console errors or failed requests. A production preview confirmed `?review=` is ignored. Native in-app browser initialization failed because its kernel asset path was unavailable; installed Chrome/CDP supplied the browser evidence. Branch push, stacked PR creation and CI are pending.
+
+### Related Changes
+
+- CHG-0007
+- CHG-0008
+- CHG-0009
+- CHG-0010
 
 ---
 

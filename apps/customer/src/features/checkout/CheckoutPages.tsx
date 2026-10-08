@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';
 import { Badge, Button, ButtonLink, ErrorState, PageHeader, PageSkeleton, Surface } from '../../shared/components/Primitives';
+import { formatCustomerState } from '../../shared/copy/customer-copy';
 import { useCommerceStore } from '../../shared/state/commerce-store';
 import { usePrototypeStore } from '../../shared/state/prototype-store';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
@@ -93,7 +94,7 @@ export function CheckoutPickupPage() {
             <label className={'pickup-slot' + (selected?.slot.id === pickupQuery.data.asap.id ? ' is-selected' : '') + (pickupQuery.data.asap.state === 'FULL' ? ' is-unavailable' : '')}>
               <input type="radio" name="pickup-slot" checked={selected?.slot.id === pickupQuery.data.asap.id} disabled={pickupQuery.data.asap.state === 'FULL' || storeBlocked} onChange={() => choose(pickupQuery.data.asap!, 'ASAP')} />
               <span><strong>As soon as possible</strong><small>Ready around {slotTime(pickupQuery.data.asap)} · About 25–30 min</small></span>
-              <Badge tone={pickupQuery.data.asap.state === 'NEARLY_FULL' ? 'warning' : pickupQuery.data.asap.state === 'FULL' ? 'danger' : 'success'}>{pickupQuery.data.asap.state.replace('_', ' ')}</Badge>
+              <Badge tone={pickupQuery.data.asap.state === 'NEARLY_FULL' ? 'warning' : pickupQuery.data.asap.state === 'FULL' ? 'danger' : 'success'}>{formatCustomerState(pickupQuery.data.asap.state)}</Badge>
             </label>
           ) : null}
           <h2>Schedule for today</h2>
@@ -101,7 +102,7 @@ export function CheckoutPickupPage() {
             <label className={'pickup-slot' + (selected?.slot.id === slot.id ? ' is-selected' : '') + (slot.state === 'FULL' ? ' is-unavailable' : '')} key={slot.id}>
               <input type="radio" name="pickup-slot" checked={selected?.slot.id === slot.id} disabled={slot.state === 'FULL' || slot.state === 'UNAVAILABLE' || storeBlocked} onChange={() => choose(slot, 'SCHEDULED')} />
               <span><strong>Today · {slotTime(slot)}</strong><small>{slot.state === 'FULL' ? 'This time is full' : slot.state === 'NEARLY_FULL' ? 'Only a few spots left' : 'Available'}</small></span>
-              <Badge tone={slot.state === 'NEARLY_FULL' ? 'warning' : slot.state === 'FULL' ? 'danger' : 'success'}>{slot.state.replace('_', ' ')}</Badge>
+              <Badge tone={slot.state === 'NEARLY_FULL' ? 'warning' : slot.state === 'FULL' ? 'danger' : 'success'}>{formatCustomerState(slot.state)}</Badge>
             </label>
           ))}
         </section>
@@ -161,7 +162,7 @@ export function CheckoutPage() {
   if (cartQuery.isError || quoteQuery.isError || !cartQuery.data || !quoteQuery.data) return <ErrorState title="Review could not be loaded" body="Nothing was submitted. Your cart and pickup selection are unchanged." />;
   return (
     <div className="page-stack checkout-review">
-      <PageHeader eyebrow="Final review" title="Everything look right?" description="Payment will be verified by the server before anything reaches the kitchen." />
+      <PageHeader eyebrow="Final review" title="Everything look right?" description="Payment must be verified before anything reaches the kitchen." />
       <Surface>
         <h2>Order</h2>
         <ul className="review-list">

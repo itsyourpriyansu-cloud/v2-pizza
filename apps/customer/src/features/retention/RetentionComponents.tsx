@@ -3,17 +3,18 @@ import { ArrowRight, Check, LockKeyhole, Sparkles, Star } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Button, Surface } from '../../shared/components/Primitives';
+import { formatCustomerState, rewardStatusLabel } from '../../shared/copy/customer-copy';
 
 export function PointsBalanceCard({ account }: { account: LoyaltyAccount }) {
   const remaining = account.nextRewardAt === null ? 0 : Math.max(0, account.nextRewardAt - account.pointsBalance);
   const progress = account.nextRewardAt ? Math.min(100, account.pointsBalance / account.nextRewardAt * 100) : 100;
   return (
     <Surface className="points-balance-card">
-      <div><p className="eyebrow">Your Points</p><strong className="points-total">{account.pointsBalance.toLocaleString('en-IN')}</strong></div>
+      <div><p className="eyebrow">Your Pizza Points</p><strong className="points-total">{account.pointsBalance.toLocaleString('en-IN')}</strong></div>
       <div className="points-balance-card__detail">
-        <strong>{account.nextRewardAt === null ? 'Every current reward is within reach' : `${remaining} Points to your next reward`}</strong>
+        <strong>{account.nextRewardAt === null ? 'Every current reward is within reach' : `${remaining} Pizza Points to your next reward`}</strong>
         <div className="progress-track" role="progressbar" aria-label="Progress to the next reward" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)}><span style={{ width: `${progress}%` }} /></div>
-        {account.pendingPoints > 0 ? <p className="pending-copy">+{account.pendingPoints} Points pending until your table bill is paid</p> : null}
+        {account.pendingPoints > 0 ? <p className="pending-copy">+{account.pendingPoints} Pizza Points pending until your table bill is paid</p> : null}
       </div>
     </Surface>
   );
@@ -32,11 +33,11 @@ export function RewardCard({ reward, busy, onReserve, onRelease }: { reward: Rew
     <Surface as="article" className={`reward-card reward-card--${reward.status.toLowerCase()}`}>
       <div className="reward-card__top">
         <span className="reward-card__icon" aria-hidden="true">{locked ? <LockKeyhole /> : <Star />}</span>
-        <Badge tone={rewardTone(reward.status)}>{reward.status}</Badge>
+        <Badge tone={rewardTone(reward.status)}>{rewardStatusLabel(reward.status)}</Badge>
       </div>
       <div><h3>{reward.name}</h3><p className="muted">{reward.description}</p></div>
       <div className="reward-card__footer">
-        <strong>{reward.pointsCost} Points</strong>
+        <strong>{reward.pointsCost} Pizza Points</strong>
         {reward.status === 'AVAILABLE' && onReserve ? <Button type="button" disabled={busy} onClick={onReserve}>{busy ? 'Reserving…' : 'Use reward'}</Button> : null}
         {reward.status === 'RESERVED' && onRelease ? <Button type="button" variant="secondary" disabled={busy} onClick={onRelease}>{busy ? 'Releasing…' : 'Release'}</Button> : null}
         {locked ? <span className="muted">{reward.remainingPoints} more needed</span> : null}
@@ -72,7 +73,7 @@ export function MissionCard({ mission }: { mission: Mission }) {
       <div className="mission-card__heading"><Badge>{mission.scope === 'PERSONAL' ? 'For you' : 'For everyone'}</Badge><XpBadge value={mission.rewardXp} /></div>
       <div><h3>{mission.title}</h3><p className="muted">{mission.requirement}</p></div>
       <div className="progress-track" role="progressbar" aria-label={mission.progress.label} aria-valuemin={0} aria-valuemax={mission.progress.target} aria-valuenow={mission.progress.current}><span style={{ width: `${percent}%` }} /></div>
-      <div className="mission-card__footer"><strong>{mission.progress.label}</strong>{mission.ctaHref && mission.ctaLabel && mission.status !== 'EXPIRED' ? <Link className="text-link" to={mission.ctaHref}>{mission.ctaLabel} <ArrowRight aria-hidden="true" /></Link> : <Badge tone={mission.status === 'COMPLETED' ? 'success' : mission.status === 'EXPIRED' ? 'danger' : 'neutral'}>{mission.status}</Badge>}</div>
+      <div className="mission-card__footer"><strong>{mission.progress.label}</strong>{mission.ctaHref && mission.ctaLabel && mission.status !== 'EXPIRED' ? <Link className="text-link" to={mission.ctaHref}>{mission.ctaLabel} <ArrowRight aria-hidden="true" /></Link> : <Badge tone={mission.status === 'COMPLETED' ? 'success' : mission.status === 'EXPIRED' ? 'danger' : 'neutral'}>{formatCustomerState(mission.status)}</Badge>}</div>
     </Surface>
   );
 }
