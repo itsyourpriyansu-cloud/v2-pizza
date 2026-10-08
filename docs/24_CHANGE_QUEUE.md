@@ -1962,7 +1962,7 @@ The complete client-review pack, deterministic development-only personas, safe P
 
 ## CHG-0012 — Customer Home Ordering Architecture and Service-Entry UX
 
-  - **Status:** IN_REVIEW
+- **Status:** IN_REVIEW
 - **Type:** FEATURE, UX, TEST, DOCUMENTATION
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
@@ -1981,6 +1981,7 @@ Deliver a reviewable service-entry screen plus distinct new-customer, returning-
 
 Included:
 - improve the no-context Pickup/Dine-in entry while keeping Dine-in table-QR-only,
+- add an explicit-permission in-app QR camera path with safe unsupported, denied and retry recovery,
 - compose a new-customer Home around favourites, build-your-own, bestsellers and guided discovery,
 - compose a returning-customer Home around the usual order, current-menu review, meal completion and one adaptive Your Avenue cue,
 - preserve active Pickup tracking and active Dine-in table operations as the dominant Home state,
@@ -2013,6 +2014,7 @@ Pull Request:
 ### Affected Modules
 
 - `apps/customer/src/features/home`
+- `apps/customer/src/features/dine-in/TableQrScanner.tsx`
 - Customer responsive styles and shell context presentation
 - development-only review personas/tests
 - client-review documentation and screenshot index
@@ -2046,7 +2048,7 @@ Breaking change:
 
 ### Analytics Impact
 
-- Reuse documented discovery, builder, reorder, bundle/upsell and engagement events. Any added Home interaction hook must use an existing privacy-safe event name.
+- Reuse documented discovery, builder, reorder, bundle/upsell and engagement events. `table_qr_scanned` records `IN_APP_CAMERA` versus `DIRECT_LINK` only after a token is present; no camera frame or raw QR payload enters analytics.
 
 ### Environment / Secret Impact
 
@@ -2067,6 +2069,7 @@ Changed secrets:
   - [x] 360/390/430/768/1440 responsive browser review
   - [x] labels, headings, touch-target sizing, overflow, console and network review
   - [x] current review screenshots
+  - [x] in-app scanner permission, successful decode, invalid QR, cancellation and cleanup coverage
 
 ### Edge Cases
 
@@ -2103,6 +2106,7 @@ Deployment date:
 
 - Final menu, bundle economics, restaurant hours, production photography and logo remain founder/client decisions.
 - MSW browser evidence cannot prove production availability, pricing, persistence, capacity or order authority.
+- A final real-device pass is still required for iOS Safari and Android Chrome camera permission, focus and low-light behavior against the printed production QR.
 - The branch carries separate uncommitted local mock-startup changes that are outside this task and must not be included in its commits.
 
 ### Follow-Up
@@ -2112,7 +2116,7 @@ Deployment date:
 
 ### Current Result
 
-Implementation and local review evidence are complete on the dedicated feature branch. The Customer Home now has distinct service-entry, new-Pickup, returning, active-Pickup and active-Dine-in compositions; current-menu reorder seeds the normal cart; and the table-QR recovery path remains trusted-only. Workspace lint, typecheck, 154 tests, production builds, production dependency audit, diff checks and browser checks at 360/390/430/768/1440 passed. Eight current Home/entry screenshots are indexed in the client-review flow. GitHub Issue/PR creation remains pending because the GitHub CLI is unavailable. Awaiting client review; not merged, staged or released.
+The client-requested scanner correction is complete locally. Dine-in now has a permission-first in-app camera, local QR decoding, unrelated-code guidance, denied/unsupported recovery, internal token handoff, visible Table 12 confirmation and the existing server-owned resolver/waiter gate. Workspace lint, typecheck, 168 tests, all production builds and the production dependency audit pass. Mobile browser review confirms 47 px actions, no horizontal overflow, no console warnings/errors and a complete confirmed-table → Dine-in Home handoff. One full-suite test initially timed out while lint, typecheck, build and audit were competing in parallel; that test and the entire suite passed when rerun normally. A physical-device camera/printed-QR pass remains pending. GitHub Issue/PR creation remains pending because the GitHub CLI is unavailable. Not merged, staged or released.
 
 ### Related Changes
 

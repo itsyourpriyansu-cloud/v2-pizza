@@ -46,7 +46,9 @@ Item changes availability while in cart → checkout blocks affected item → us
 READY_FOR_PICKUP → customer code → counter verifies → PICKED_UP → server completion workflow → COMPLETED + outbox event → loyalty/Passport idempotent consumers. Duplicate handover is blocked and audited.
 
 ## O. Dine-in table session
-Opaque table QR → server resolves active table/store/session → customer confirms visible table context → Dine-in menu/cart/review → optional verified identity attach → `CUSTOMER_SUBMITTED` → waiter review → `CONFIRMED` → KDS → `PREPARING` → `READY_TO_SERVE` → Waiter marks `SERVED`.
+General service entry → choose Dine-in → explicit Start Camera action → browser permission → scan the physical table QR → extract only the opaque table token → server resolves active table/store/session → customer confirms visible table context → Dine-in menu/cart/review → optional verified identity attach → `CUSTOMER_SUBMITTED` → waiter review → `CONFIRMED` → KDS → `PREPARING` → `READY_TO_SERVE` → Waiter marks `SERVED`.
+
+A customer who scans the physical QR with the phone's native camera may deep-link directly to `/dine-in/start?t=<opaque_token>` and bypass the selector and in-app scanner. Unrelated QR content stays inside the scanner with corrective guidance; the client never follows a scanned external URL. Denied/unsupported camera access offers retry guidance and Pickup recovery. A typed table number, raw phone value or other unverified client value never establishes table context.
 
 Clarification preserves the request; rejection includes a reason. Each additional round repeats the waiter gate and joins one table bill. Customer bill request disables new rounds unless reopened before finalization. Admin/Counter finalizes only after unresolved orders/voids clear, records verified Cash/UPI/Card/approved payment, closes the paid session, and emits idempotent loyalty/Passport/mission work per authenticated order owner.
 

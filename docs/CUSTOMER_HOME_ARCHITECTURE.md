@@ -17,7 +17,7 @@ The composition uses salience, progressive disclosure, familiarity, social proof
 3. Dine-in as a table-QR card explaining waiter confirmation and one scan action.
 4. Sainikpuri location and “no delivery address needed” reassurance.
 
-Pickup selection creates only a local service context and emits `service_mode_selected`. Dine-in never accepts a typed table number; `/dine-in/start?t=<opaque_token>` must resolve the table server-side. A direct visit without a token teaches the scan path and offers Pickup as recovery.
+Pickup selection creates only a local service context and emits `service_mode_selected`. Dine-in never accepts a typed table number; `/dine-in/start?t=<opaque_token>` must resolve the table server-side. A direct visit without a token opens a permission-first scanner: the customer explicitly starts the environment-facing camera, scans the QR fixed to the table, sees the verified table and then chooses Start Ordering. Native-camera deep links remain the shortest path. Unsupported/denied camera states explain recovery and keep Pickup available.
 
 ## New Pickup customer
 

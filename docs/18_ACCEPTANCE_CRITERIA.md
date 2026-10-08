@@ -73,6 +73,8 @@
 
 ## Dine-in Customer
 - general entry offers Pickup/Dine-in; a valid table QR bypasses the selector
+- choosing Dine-in without a token presents an explicit Start Camera action; camera permission is never requested on route load
+- the scanner prefers the environment-facing camera, never follows arbitrary scanned URLs, stops media tracks on close/unmount/success and gives accessible retry/Pickup recovery for unsupported or denied camera access
 - only an opaque server-resolved token establishes table context; wrong/expired/revoked flows recover safely
 - visible table/status/next action persists across Dine-in screens
 - customer submit creates `CUSTOMER_SUBMITTED` and clearly waits for Waiter; it does not enter KDS

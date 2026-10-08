@@ -106,9 +106,10 @@ describe('customer discovery and builder flows', () => {
     expect(screen.queryByRole('heading', { name: 'Your Avenue' })).not.toBeInTheDocument();
   });
 
-  it('explains trusted table-QR entry without presenting an error', async () => {
+  it('offers permission-first trusted table scanning without presenting an error', async () => {
     renderRoute('/dine-in/start');
     expect(await screen.findByRole('heading', { name: 'Scan the QR on your table' })).toBeVisible();
+    expect(screen.getByRole('button', { name: /Start camera/ })).toBeVisible();
     expect(screen.getByRole('link', { name: 'Choose Pickup instead' })).toBeVisible();
     expect(screen.queryByText('Needs attention')).not.toBeInTheDocument();
   });

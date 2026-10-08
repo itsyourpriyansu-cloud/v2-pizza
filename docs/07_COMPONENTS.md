@@ -47,7 +47,9 @@ Required items + completed + milestones.
 Order no, service mode, promised Pickup time or Dine-in table/round/waiter, elapsed, items, modifiers and state action.
 
 ## Dine-in Customer
-`ServiceModeSelector`, `TableQrResolver`, `TableContextBanner`, `DineInOrderReview`, `WaiterConfirmationStatus`, `TableRoundList`, `CurrentTableBill`, `BillRequestAction`, `ServiceRequestAction`.
+`ServiceModeSelector`, `TableQrScanner`, `TableQrResolver`, `TableContextBanner`, `DineInOrderReview`, `WaiterConfirmationStatus`, `TableRoundList`, `CurrentTableBill`, `BillRequestAction`, `ServiceRequestAction`.
+
+`TableQrScanner` is permission-first and has Idle, Starting, Scanning, Invalid-content and Camera-error states. It requests the environment-facing camera only after an explicit customer action, decodes locally, accepts only a `/dine-in/start?t=<opaque_token>` link shape, never follows the scanned host, stops camera tracks on close/unmount/success and hands the token to `TableQrResolver`. It never accepts a typed table number.
 
 ## Waiter
 `WaiterDashboard`, `OrderRequestCard`, `OrderRequestDetail`, `ActiveTableCard`, `TableSessionDetail`, `ReadyToServeQueue`, `ServiceRequestQueue`, `BillRequestQueue`.

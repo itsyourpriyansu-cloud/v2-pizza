@@ -27,19 +27,21 @@ Added:
 - distinct reviewable service-entry, new-customer Pickup, returning-customer, active-Pickup and active-Dine-in Home compositions
 - guided craving routes, current-menu usual-order recovery, transparent meal-planning and optional meal-completion modules using the existing seed catalog
 - a deterministic `NEW_PICKUP` review persona and focused hierarchy, reorder and table-entry coverage
+- an explicit-permission in-app table-QR scanner with local decoding, environment-camera preference, invalid-code guidance and denied/unsupported recovery
 
 Changed:
 - Home now follows service context → immediate order path → familiar/social-proof choices → meal completion → at most one retention cue → discovery/trust
 - active Pickup and Dine-in operations suppress retention and engagement prompts; active table sessions expose only table-relevant actions
 - the customer shell communicates Pickup ETA or trusted table context instead of a generic location label
-- a direct table-entry visit without a QR now explains how to scan safely instead of presenting a generic error
+- a direct table-entry visit without a token now offers an in-app camera scan; native-camera table links still bypass directly to server resolution and visible table confirmation
 
 Fixed:
 - mock Order Again now rebuilds a real cart from current products, variants and prices before opening checkout
 - service selection and Home content stay usable across phone, tablet and desktop layouts without introducing delivery or manual table selection
+- camera streams stop on scan success, close and unmount; arbitrary scanned URLs are never followed and raw table numbers remain rejected
 
 Docs updated:
-- `docs/CUSTOMER_HOME_ARCHITECTURE.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/07_COMPONENTS.md`, `docs/17_CHANGELOG.md`, `docs/20_MASTER_INDEX.md`, `docs/24_CHANGE_QUEUE.md`, `docs/CLIENT_REVIEW_FLOW.md`
+- `docs/CUSTOMER_HOME_ARCHITECTURE.md`, `docs/04_USER_FLOWS.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/07_COMPONENTS.md`, `docs/12_ANALYTICS_EVENTS.md`, `docs/17_CHANGELOG.md`, `docs/18_ACCEPTANCE_CRITERIA.md`, `docs/20_MASTER_INDEX.md`, `docs/24_CHANGE_QUEUE.md`, `docs/CLIENT_REVIEW_FLOW.md`
 
 Decision:
 - no product or architecture decision changed; the UI applies documented operational priority and ethical choice architecture through existing typed frontend/MSW boundaries

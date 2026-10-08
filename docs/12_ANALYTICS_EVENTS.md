@@ -98,6 +98,8 @@ bill_requested
 bill_finalized
 dine_in_payment_started
 dine_in_payment_completed
+
+`table_qr_scanned` is emitted only when an opaque token is present, with `source=IN_APP_CAMERA|DIRECT_LINK`; a camera-open attempt or unrelated QR must not count as a successful table-QR scan. `table_context_validated` and `table_context_failed` remain the authoritative client-funnel outcomes after server resolution. No camera frame or raw QR payload is included in analytics.
 table_session_closed
 
 Staff/server events are authoritative for waiter confirmation, bill, payment and close outcomes. Include `service_mode`, store/table-session/order/bill identifiers, round, actor role and durations where relevant; exclude raw table tokens and unnecessary identity data.
