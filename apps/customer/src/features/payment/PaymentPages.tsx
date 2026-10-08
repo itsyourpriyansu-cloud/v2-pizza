@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';
 import { Badge, Button, ButtonLink, ErrorState, PageHeader, Surface } from '../../shared/components/Primitives';
+import { formatCustomerState } from '../../shared/copy/customer-copy';
 import { useCommerceStore } from '../../shared/state/commerce-store';
 import { usePrototypeStore } from '../../shared/state/prototype-store';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
@@ -30,19 +31,19 @@ export function PaymentPage() {
   if (!selection) return <ErrorState title="Pickup time required" body="Nothing has been charged. Return to checkout and hold a pickup time first." />;
   return (
     <div className="page-stack">
-      <PageHeader eyebrow="Secure mock payment" title="Choose how to pay" description="The server owns the amount and target. A client success screen can never send an order to the kitchen." />
+      <PageHeader eyebrow="Payment preview" title="Choose how to pay" description="The final amount is verified before your order is confirmed with the kitchen." />
       <Surface>
         <fieldset className="payment-methods">
           <legend>Payment method</legend>
           {(['UPI', 'CARD'] as PaymentMethod[]).map((value) => (
             <label className={'option-row' + (method === value ? ' is-selected' : '')} key={value}>
-              <span className="option-row__control"><input type="radio" name="payment-method" checked={method === value} onChange={() => setMethod(value)} />{value === 'UPI' ? 'UPI (mock)' : 'Card (mock)'}</span>
-              <Badge>{value === 'UPI' ? 'Recommended' : 'Test only'}</Badge>
+              <span className="option-row__control"><input type="radio" name="payment-method" checked={method === value} onChange={() => setMethod(value)} />{value === 'UPI' ? 'UPI' : 'Card'}</span>
+              <Badge>{value === 'UPI' ? 'Recommended' : 'Demo mode'}</Badge>
             </label>
           ))}
         </fieldset>
       </Surface>
-      {currentPayment ? <p className="muted">Previous mock attempt: {currentPayment.status}. Retrying uses a new action only when you choose it.</p> : null}
+      {currentPayment ? <p className="muted">Previous payment attempt: {formatCustomerState(currentPayment.status)}. A new attempt starts only when you choose it.</p> : null}
       {mutation.isError ? <p className="validation-message" role="alert">Payment could not start. Nothing was sent to the kitchen.</p> : null}
       <div className="sticky-action">
         <Button type="button" disabled={mutation.isPending} onClick={() => {
@@ -79,7 +80,7 @@ export function PaymentCheckingPage() {
     <Surface className="state-card payment-state">
       <Badge tone="warning">Verification pending</Badge>
       <h1>We’re checking your payment.</h1>
-      <p><strong>Don’t pay again yet.</strong> Nothing enters the kitchen until the mock server returns verified success.</p>
+      <p><strong>Don’t pay again yet.</strong> Nothing enters the kitchen until payment is verified.</p>
       {query.isError ? <p className="validation-message" role="alert">Status is temporarily unavailable. This did not create another payment.</p> : null}
       <Button type="button" disabled={query.isFetching} onClick={() => void checkAgain()}>{query.isFetching ? 'Checking…' : 'Check status again'}</Button>
       <ButtonLink variant="ghost" to="/orders">View orders</ButtonLink>
@@ -105,7 +106,7 @@ export function PaymentSuccessPage() {
     <div className="confirmation-page">
       <Badge tone="success">{scenario === 'PICKUP_PAYMENT_ALREADY_PAID' ? 'Already verified' : 'Payment verified'}</Badge>
       <h1>Order Confirmed</h1>
-      <p>Your order reached the kitchen only after authoritative mock verification.</p>
+      <p>Your order reached the kitchen only after payment verification.</p>
       <dl className="confirmation-details">
         <div><dt>Order</dt><dd>PA-1001</dd></div>
         <div><dt>Pickup</dt><dd>Ready around 7:45 PM</dd></div>

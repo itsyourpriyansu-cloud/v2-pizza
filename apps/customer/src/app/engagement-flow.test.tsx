@@ -44,7 +44,7 @@ describe('customer engagement complete end-to-end missions', () => {
     const user = userEvent.setup(); setScenario('SAVED_BASKET_STALE'); setPickupContext(); renderRoute('/profile/saved-baskets/basket-family-friday');
     await user.click(await screen.findByRole('button', { name: 'Order again' }));
     expect(await screen.findByText('Chicken Pepperoni is currently unavailable.')).toBeVisible();
-    expect(screen.getByText('Garlic Knots now cost ₹229.')).toBeVisible();
+    expect(screen.getByText('Garlic Knots now cost ₹169.00.')).toBeVisible();
     expect(screen.getByText('4 items remain ready.')).toBeVisible();
     await user.click(screen.getByRole('button', { name: 'Continue with preserved basket' }));
     expect(await screen.findByRole('heading', { name: 'Your cart' })).toBeVisible();

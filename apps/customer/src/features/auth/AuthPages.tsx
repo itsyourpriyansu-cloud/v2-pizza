@@ -46,7 +46,7 @@ export function AuthPage() {
       <Surface className="state-card">
         <p className="eyebrow">Session restored</p>
         <h1>Welcome back</h1>
-        <p>Your secure session is already active. Your cart and service context are unchanged.</p>
+        <p>Your secure session is already active. Your cart and Pickup or Dine-in choice are unchanged.</p>
         <ButtonLink to={returnTo}>Continue</ButtonLink>
       </Surface>
     );
@@ -114,7 +114,7 @@ export function AuthOtpPage() {
   const code = errorCode(verifyMutation.error);
   return (
     <div className="auth-layout">
-      <PageHeader eyebrow="Code sent" title="Enter the six-digit code" description={'Sent to ' + authPhone.replace(/.(?=.{4})/g, '•') + '. The mock success code is 123456.'} />
+      <PageHeader eyebrow="Code sent" title="Enter the six-digit code" description={'Sent to ' + authPhone.replace(/.(?=.{4})/g, '•') + '. For this prototype, use 123456.'} />
       <Surface>
         <form className="page-stack" onSubmit={form.handleSubmit((values) => verifyMutation.mutate(values))} noValidate>
           <label className="field" htmlFor="otp">
@@ -146,7 +146,7 @@ export function AuthWhatsAppPage() {
           <li>Tap “Continue to Pizza Avenue”.</li>
         </ol>
         <p className="muted">A QR or typed phone number never signs you in by itself. This prototype does not contact WhatsApp.</p>
-        <ButtonLink to="/auth/magic?token=valid-magic-token">Open mock continuation</ButtonLink>
+        <ButtonLink to="/auth/magic?token=valid-magic-token">Open demo continuation</ButtonLink>
         <ButtonLink variant="ghost" to="/auth">Use phone OTP instead</ButtonLink>
       </Surface>
     </div>
@@ -178,7 +178,7 @@ export function AuthMagicPage() {
     return <ErrorState title="This continuation link is incomplete" body="Restart from official WhatsApp or use phone OTP. No account information was exposed." />;
   }
   if (mutation.isPending || mutation.isIdle) {
-    return <Surface className="state-card" role="status"><p className="eyebrow">Secure continuation</p><h1>Checking your one-time link…</h1><p>We’ll continue only after the mock server accepts it.</p></Surface>;
+    return <Surface className="state-card" role="status"><p className="eyebrow">Secure continuation</p><h1>Checking your one-time link…</h1><p>We’ll continue only after the link is verified.</p></Surface>;
   }
   if (mutation.isError) {
     return (
@@ -193,7 +193,7 @@ export function AuthMagicPage() {
     <Surface className="state-card">
       <p className="eyebrow">Link verified</p>
       <h1>Welcome back</h1>
-      <p>Your secure mock session is active. Your cart and service context are unchanged.</p>
+      <p>Your secure demo session is active. Your cart and Pickup or Dine-in choice are unchanged.</p>
       <ButtonLink to="/checkout">Continue to checkout</ButtonLink>
     </Surface>
   );

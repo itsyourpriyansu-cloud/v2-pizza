@@ -56,7 +56,7 @@ export function ProductPage() {
           ) : (
             <Badge tone="danger">Sold out today</Badge>
           )}
-          <p className="muted">Final price and availability are confirmed by the server when you review your cart.</p>
+          <p className="muted">Final price and availability are confirmed when you review your cart.</p>
         </div>
       </section>
       {!isAvailable && alternatives.length ? (

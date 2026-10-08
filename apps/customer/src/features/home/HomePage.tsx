@@ -5,6 +5,7 @@ import { CakeSlice, CalendarHeart, CookingPot, Crown, CupSoda, Pizza, RotateCcw,
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Button, ButtonLink, ErrorState, PageSkeleton, SectionHeader, Surface } from '../../shared/components/Primitives';
+import { formatCustomerState } from '../../shared/copy/customer-copy';
 import { usePrototypeStore } from '../../shared/state/prototype-store';
 import { useScenarioFromUrl } from '../../shared/state/use-scenario-from-url';
 import { ProductCard } from '../menu/components/ProductCard';
@@ -115,17 +116,19 @@ export function HomePage() {
     : engagement?.occasion
       ? <RetentionLinkCard eyebrow={`${engagement.occasion.daysAway} days away`} title={engagement.occasion.title} body="Plan the family order." href="/profile/occasions" icon={<CalendarHeart />} />
       : availableReward
-    ? <RetentionLinkCard eyebrow="Reward ready" title={availableReward.name} body={`${loyaltyQuery.data?.pointsBalance ?? 0} Points available`} href="/rewards" icon={<Star />} />
+    ? <RetentionLinkCard eyebrow="Reward ready" title={availableReward.name} body={`${loyaltyQuery.data?.pointsBalance ?? 0} Pizza Points available`} href="/rewards" icon={<Star />} />
     : passportQuery.data?.status === 'NEAR_COMPLETE'
       ? <RetentionLinkCard eyebrow="Pizza Passport" title={`${passportQuery.data.completedItemIds.length} of ${passportQuery.data.program.items.length} discovered`} body="Your next signature is waiting." href="/rewards/passport" icon={<Pizza />} />
       : activeMission
         ? <RetentionLinkCard eyebrow="Personal mission" title={activeMission.title} body={activeMission.progress.label} href="/rewards/missions" icon={<Trophy />} />
+        : passportQuery.data?.status === 'IN_PROGRESS' && passportQuery.data.completedItemIds.length > 0
+          ? <RetentionLinkCard eyebrow="Pizza Passport" title={`${passportQuery.data.completedItemIds.length} of ${passportQuery.data.program.items.length} discovered`} body="Keep exploring the signature menu." href="/rewards/passport" icon={<Pizza />} />
         : engagement?.referral && engagement.referral.status !== 'REWARDED'
           ? <RetentionLinkCard eyebrow="Invite update" title={`${engagement.referral.inviteeDisplayName} joined Pizza Avenue`} body="A qualifying completed order unlocks your reward." href="/rewards/invite" icon={<UserPlus />} />
           : commonMission
             ? <RetentionLinkCard eyebrow="Common mission" title={commonMission.title} body={commonMission.progress.label} href="/rewards/missions" icon={<Trophy />} />
             : engagement?.league?.optedIn
-              ? <RetentionLinkCard eyebrow={`${engagement.league.currentTier.replaceAll('_', ' ')} League`} title={engagement.league.currentRank ? `#${engagement.league.currentRank} this month` : 'Season in progress'} body={engagement.league.progressMessage} href="/rewards/league" icon={<Crown />} />
+              ? <RetentionLinkCard eyebrow={`${formatCustomerState(engagement.league.currentTier)} League`} title={engagement.league.currentRank ? `#${engagement.league.currentRank} this month` : 'Season in progress'} body={engagement.league.progressMessage} href="/rewards/league" icon={<Crown />} />
               : engagement?.reactivation
                 ? <RetentionLinkCard eyebrow="Welcome back" title={engagement.reactivation.title} body={engagement.reactivation.body} href={engagement.reactivation.ctaHref} icon={<RotateCcw />} onClick={() => trackCustomerEvent('reactivation_cta_clicked', { href: engagement.reactivation?.ctaHref ?? '/menu' })} />
                 : null;
@@ -182,7 +185,7 @@ export function HomePage() {
           <div className="product-grid product-grid--compact"><ProductCard product={favourite} /></div>
         </section>
       ) : null}
-      {returning && pastOrder ? (
+      {returning && pastOrder && !retentionModule ? (
         <Surface>
           <SectionHeader title="Order again" action={<Link className="text-link" to={`/orders/${pastOrder.id}`}>View order</Link>} />
           <p className="muted">Your previous pickup order is ready to review before reordering.</p>

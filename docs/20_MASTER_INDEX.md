@@ -69,5 +69,12 @@ AGENTS → 00 context → 01 scope → 02 mode-specific rules → 03 RBAC → 04
 ## Founder meeting sequence
 00 → 01 → 02 → 19 → 16.
 
+## Customer V1 client-review pack
+
+- `CLIENT_REVIEW_FLOW.md` — facilitator setup, deterministic personas and the 27-step owner walkthrough
+- `CLIENT_DECISIONS_PENDING.md` — unresolved owner decisions that must not be guessed before freeze
+- `CLIENT_REVIEW_SCORECARD.md` — section-by-section approval/change/remove/defer record
+- `UX_AUDIT_PRE_FREEZE.md` — P0–P3, Home, language, price, global-state, accessibility, responsive and contrarian audits
+
 ## Every coding task sequence
 AGENTS → 20 Master Index → 22 Git/GitHub Workflow → 23 Coding Agent Guide → 24 existing queue state → 25 queue rules → task-relevant product/engineering docs → current code.

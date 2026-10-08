@@ -72,9 +72,7 @@ describe('customer discovery and builder flows', () => {
   });
 
   it('shows returning-customer reorder context', async () => {
-    const user = userEvent.setup();
-    renderRoute('/?scenario=RETURNING_CUSTOMER');
-    await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
+    renderRoute('/?review=RETURNING_CUSTOMER');
     expect(await screen.findByRole('heading', { name: 'Order again' })).toBeVisible();
   });
 
@@ -84,6 +82,7 @@ describe('customer discovery and builder flows', () => {
     await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
     expect(await screen.findByText('Saved basket')).toBeVisible();
     expect(screen.getByText('Family Friday')).toBeVisible();
+    expect(screen.queryByRole('heading', { name: 'Order again' })).not.toBeInTheDocument();
   });
 
   it('filters the menu by category', async () => {
