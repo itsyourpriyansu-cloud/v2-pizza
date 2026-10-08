@@ -222,7 +222,7 @@ describe('customer commerce missions', () => {
     await user.click(screen.getByRole('button', { name: 'Order More' }));
     expect(usePrototypeStore.getState().serviceContext?.mode).toBe('DINE_IN');
     expect(useCommerceStore.getState().carts.DINE_IN.itemCount).toBe(0);
-    expect(await screen.findByText('Table 12')).toBeVisible();
+    expect(await screen.findByText('Dine in · Table 12')).toBeVisible();
   });
 
   it('renders the read-only Dine-in bill and requests staff action', async () => {

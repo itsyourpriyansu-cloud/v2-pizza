@@ -1,4 +1,5 @@
 import { AppShell } from '@pizza-avenue/ui';
+import { ShoppingBag } from 'lucide-react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation } from '../shared/components/BottomNavigation';
 import { useCommerceStore } from '../shared/state/commerce-store';
@@ -8,6 +9,7 @@ export function CustomerLayout() {
   const location = useLocation();
   const serviceContext = usePrototypeStore((state) => state.serviceContext);
   const serviceMode = serviceContext?.mode ?? 'PICKUP';
+  const storeState = usePrototypeStore((state) => state.scenarioState.store);
   const cartItemCount = useCommerceStore((state) => state.carts[serviceMode].itemCount);
   const isDineInRoute = location.pathname.startsWith('/dine-in');
   const isDiscoveryRoute = location.pathname === '/menu'
@@ -19,10 +21,21 @@ export function CustomerLayout() {
     || location.pathname === '/dine-in/search';
   const showBottomNavigation = !isDineInRoute && (Boolean(serviceContext) || location.pathname !== '/');
   const contextLabel = serviceContext?.mode === 'DINE_IN'
-    ? serviceContext.tableLabel ?? 'Dine-in'
+    ? `${serviceContext.tableLabel ?? 'Dine-in'} · 20–30 min`
     : serviceContext?.mode === 'PICKUP'
-      ? 'Sainikpuri pickup'
+      ? storeState === 'STORE_BUSY'
+        ? 'Pickup · 45–60 min'
+        : storeState === 'STORE_PAUSED' || storeState === 'STORE_CLOSED'
+          ? 'Pickup · Browse only'
+          : 'Pickup · About 30 min'
       : 'Choose service';
+  const contextTone = !serviceContext
+    ? ' status-dot--neutral'
+    : storeState === 'STORE_BUSY' || storeState === 'STORE_PAUSED'
+      ? ' status-dot--warning'
+      : storeState === 'STORE_CLOSED'
+        ? ' status-dot--danger'
+        : '';
 
   return (
     <AppShell
@@ -35,9 +48,17 @@ export function CustomerLayout() {
           <Link className="brand-wordmark" to="/" aria-label="Pizza Avenue home">
             Pizza Avenue
           </Link>
-          <div className="customer-topbar__context">
-            <span className={`status-dot${serviceContext ? '' : ' status-dot--neutral'}`} aria-hidden="true" />
-            <span>{contextLabel}</span>
+          <div className="customer-topbar__actions">
+            <div className="customer-topbar__context">
+              <span className={`status-dot${contextTone}`} aria-hidden="true" />
+              <span>{contextLabel}</span>
+            </div>
+            {serviceContext ? (
+              <Link className="topbar-cart" to={serviceMode === 'DINE_IN' ? '/dine-in/cart' : '/cart'} aria-label={`Open ${serviceMode === 'DINE_IN' ? 'dine-in ' : ''}cart with ${cartItemCount} item${cartItemCount === 1 ? '' : 's'}`}>
+                <ShoppingBag aria-hidden="true" />
+                {cartItemCount > 0 ? <strong>{cartItemCount}</strong> : null}
+              </Link>
+            ) : null}
           </div>
         </header>
       }

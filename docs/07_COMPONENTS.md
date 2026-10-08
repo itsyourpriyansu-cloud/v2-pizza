@@ -17,6 +17,13 @@ Snapshot, variant, modifiers, quantity, price, edit/remove.
 Product + incremental price + explicit add.
 Never auto-add.
 
+## Customer Home compositions
+`ServiceEntry` presents Pickup and Dine-in as distinct service paths. Pickup shows current store state/ETA and Dine-in explains the required trusted table-QR handoff; it never accepts a typed table number.
+
+`StoreContextBar` keeps the selected store/mode promise visible. `NewCustomerHero`, `CravingRoutes`, `BestSellers` and `TasteDiscovery` reduce first-order choice load. `UsualOrderCard` revalidates a historical order against the current menu and price before rebuilding the cart. `CompleteMealCard` and `MealCompleters` make optional additions explicit and never preselect paid items.
+
+`ActivePickupHome` and `ActiveDineInHome` are operational compositions. They precede and suppress adaptive retention content. The Dine-in composition exposes only table-relevant actions such as Order More, Current Bill and Call Waiter.
+
 ## PickupSlot
 Available / selected / nearly full / unavailable.
 

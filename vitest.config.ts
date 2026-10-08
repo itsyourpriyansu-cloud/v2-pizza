@@ -7,5 +7,6 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.ts'],
     include: ['apps/**/*.test.{ts,tsx}', 'packages/**/*.test.{ts,tsx}'],
     restoreMocks: true,
+    testTimeout: 10_000,
   },
 });

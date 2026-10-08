@@ -11,7 +11,7 @@ describe('customer application foundation', () => {
         <RouterProvider router={createCustomerMemoryRouter(['/'])} />
       </AppProviders>,
     );
-    expect(await screen.findByRole('heading', { name: 'How would you like to order?' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'Pizza starts with one simple choice.' })).toBeVisible();
   });
 
   it.each([

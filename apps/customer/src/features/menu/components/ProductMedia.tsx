@@ -1,5 +1,5 @@
 import type { Product } from '@pizza-avenue/types';
-import { ImageOff } from 'lucide-react';
+import { Pizza } from 'lucide-react';
 import { useState } from 'react';
 
 export function ProductMedia({
@@ -30,7 +30,7 @@ export function ProductMedia({
 
   return (
     <div className={`${classes} product-media--fallback`} role="img" aria-label={`${product.name} image coming soon`}>
-      <ImageOff aria-hidden="true" />
+      <Pizza aria-hidden="true" />
       <span>{product.name}</span>
     </div>
   );

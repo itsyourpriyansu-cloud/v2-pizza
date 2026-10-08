@@ -21,6 +21,32 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-08 — Recompose Customer Home around ordering intent
+
+Added:
+- distinct reviewable service-entry, new-customer Pickup, returning-customer, active-Pickup and active-Dine-in Home compositions
+- guided craving routes, current-menu usual-order recovery, transparent meal-planning and optional meal-completion modules using the existing seed catalog
+- a deterministic `NEW_PICKUP` review persona and focused hierarchy, reorder and table-entry coverage
+
+Changed:
+- Home now follows service context → immediate order path → familiar/social-proof choices → meal completion → at most one retention cue → discovery/trust
+- active Pickup and Dine-in operations suppress retention and engagement prompts; active table sessions expose only table-relevant actions
+- the customer shell communicates Pickup ETA or trusted table context instead of a generic location label
+- a direct table-entry visit without a QR now explains how to scan safely instead of presenting a generic error
+
+Fixed:
+- mock Order Again now rebuilds a real cart from current products, variants and prices before opening checkout
+- service selection and Home content stay usable across phone, tablet and desktop layouts without introducing delivery or manual table selection
+
+Docs updated:
+- `docs/CUSTOMER_HOME_ARCHITECTURE.md`, `docs/05_INFORMATION_ARCHITECTURE.md`, `docs/07_COMPONENTS.md`, `docs/17_CHANGELOG.md`, `docs/20_MASTER_INDEX.md`, `docs/24_CHANGE_QUEUE.md`, `docs/CLIENT_REVIEW_FLOW.md`
+
+Decision:
+- no product or architecture decision changed; the UI applies documented operational priority and ethical choice architecture through existing typed frontend/MSW boundaries
+
+Risk:
+- item names, prices, photography, actual store hours and bundle economics remain mock or pending owner approval; browser evidence does not prove production backend authority
+
 ## 2026-10-08 — Prepare Customer V1 for client review
 
 Added:

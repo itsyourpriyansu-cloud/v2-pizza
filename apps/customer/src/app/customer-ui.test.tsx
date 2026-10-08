@@ -32,18 +32,28 @@ describe('customer discovery and builder flows', () => {
     renderRoute('/?scenario=NEW_CUSTOMER');
     expect(screen.queryByRole('navigation', { name: 'Customer navigation' })).not.toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
+    await user.click(screen.getByRole('button', { name: 'Order for Pickup' }));
 
-    expect(await screen.findByRole('heading', { name: 'Good pizza, without the queue.' })).toBeVisible();
-    expect(screen.getByRole('link', { name: 'Browse the menu' })).toHaveAttribute('href', '/menu');
+    expect(await screen.findByRole('heading', { name: 'Start with the pizzas Sainikpuri orders most.' })).toBeVisible();
+    expect(screen.getByRole('link', { name: 'Full menu' })).toHaveAttribute('href', '/menu');
     expect(screen.getByRole('navigation', { name: 'Customer navigation' })).toBeVisible();
+  });
+
+  it('provides a deterministic service-entry review screen', async () => {
+    renderRoute('/?review=NEW_CUSTOMER');
+    expect(await screen.findByRole('heading', { name: 'Pizza starts with one simple choice.' })).toBeVisible();
+  });
+
+  it('provides a deterministic new-Pickup Home review screen', async () => {
+    renderRoute('/?review=NEW_PICKUP');
+    expect(await screen.findByRole('heading', { name: 'Start with the pizzas Sainikpuri orders most.' })).toBeVisible();
   });
 
   it('completes the first-batch Home to builder route flow', async () => {
     const user = userEvent.setup();
     renderRoute('/?scenario=NEW_CUSTOMER');
-    await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
-    await user.click(await screen.findByRole('link', { name: 'Browse the menu' }));
+    await user.click(screen.getByRole('button', { name: 'Order for Pickup' }));
+    await user.click(await screen.findByRole('link', { name: 'Full menu' }));
     await user.click(await screen.findByRole('link', { name: 'View Classic Margherita Pizza' }));
     await user.click(await screen.findByRole('link', { name: 'Customize' }));
     expect(await screen.findByRole('group', { name: 'Crust' })).toBeVisible();
@@ -54,10 +64,10 @@ describe('customer discovery and builder flows', () => {
     const user = userEvent.setup();
     renderRoute('/?scenario=ACTIVE_ORDER');
 
-    await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
+    await user.click(screen.getByRole('button', { name: 'Order for Pickup' }));
 
     expect(await screen.findByRole('link', { name: 'Track order' })).toBeVisible();
-    expect(screen.getByText(/Active pickup/)).toBeVisible();
+    expect(screen.getByText(/Active Pickup/)).toBeVisible();
   });
 
   it.each([
@@ -67,22 +77,49 @@ describe('customer discovery and builder flows', () => {
   ])('shows the %s pickup-capacity state', async (scenario, message) => {
     const user = userEvent.setup();
     renderRoute(`/?scenario=${scenario}`);
-    await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
+    await user.click(screen.getByRole('button', { name: /Pickup/ }));
     expect(await screen.findByText(message)).toBeVisible();
   });
 
   it('shows returning-customer reorder context', async () => {
     renderRoute('/?review=RETURNING_CUSTOMER');
-    expect(await screen.findByRole('heading', { name: 'Order again' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'Your usual, ready when you are.' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Order Again' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Your Avenue' })).toBeVisible();
+  });
+
+  it('rebuilds a returning customer order with current menu data', async () => {
+    const user = userEvent.setup();
+    renderRoute('/?review=RETURNING_CUSTOMER');
+    await user.click(await screen.findByRole('button', { name: 'Order Again' }));
+
+    expect(await screen.findByRole('heading', { name: 'Your cart' })).toBeVisible();
+    expect(screen.getByText('Chicken Pepperoni Pizza')).toBeVisible();
+    expect(screen.getAllByText('₹459.00').length).toBeGreaterThan(0);
+  });
+
+  it('keeps active Dine-in operations above discovery and retention', async () => {
+    renderRoute('/?review=ACTIVE_DINE_IN');
+    expect(await screen.findByRole('heading', { name: 'Everything for Table 12, in one place.' })).toBeVisible();
+    expect(screen.getByRole('link', { name: 'Order more' })).toBeVisible();
+    expect(screen.getByRole('heading', { name: 'Quick add for the table' })).toBeVisible();
+    expect(screen.queryByRole('heading', { name: 'Your Avenue' })).not.toBeInTheDocument();
+  });
+
+  it('explains trusted table-QR entry without presenting an error', async () => {
+    renderRoute('/dine-in/start');
+    expect(await screen.findByRole('heading', { name: 'Scan the QR on your table' })).toBeVisible();
+    expect(screen.getByRole('link', { name: 'Choose Pickup instead' })).toBeVisible();
+    expect(screen.queryByText('Needs attention')).not.toBeInTheDocument();
   });
 
   it('shows the highest-priority loyal-customer retention action', async () => {
     const user = userEvent.setup();
     renderRoute('/?scenario=LOYAL_CUSTOMER');
-    await user.click(screen.getByRole('button', { name: 'Choose Pickup' }));
+    await user.click(screen.getByRole('button', { name: 'Order for Pickup' }));
     expect(await screen.findByText('Saved basket')).toBeVisible();
     expect(screen.getByText('Family Friday')).toBeVisible();
-    expect(screen.queryByRole('heading', { name: 'Order again' })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('heading', { name: 'Your Avenue' })).toHaveLength(1);
   });
 
   it('filters the menu by category', async () => {
@@ -144,7 +181,7 @@ describe('customer discovery and builder flows', () => {
     await user.click(addButton);
 
     expect(await screen.findByText('Classic Margherita Pizza added to your pickup cart.')).toBeVisible();
-    expect(screen.getByRole('link', { name: 'View cart with 1 item' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'Your cart' })).toBeVisible();
   });
 
   it('disables an unavailable modifier without hiding it', async () => {

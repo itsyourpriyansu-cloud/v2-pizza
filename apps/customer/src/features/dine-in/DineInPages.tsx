@@ -2,6 +2,7 @@ import { createServiceRequest, getCart, getCartQuote, getDineInBill, getDineInOr
 import type { OrderStatus } from '@pizza-avenue/types';
 import { formatMoney, queryKeys } from '@pizza-avenue/utils';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { QrCode } from 'lucide-react';
 import { useEffect, type ReactNode } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';
@@ -41,7 +42,18 @@ export function DineInStartPage() {
       trackCustomerEvent('table_context_failed', { status: resolution.data?.status ?? 'NETWORK_ERROR' });
     }
   }, [resolution.data, resolution.isError, resolution.isPending, token]);
-  if (!token) return <ErrorState title="Scan your table QR" body="A trusted table cannot be selected manually. Scan the opaque QR token at your table." />;
+  if (!token) return <div className="page-stack dine-in-scan-guide">
+    <PageHeader eyebrow="Dine In" title="Scan the QR on your table" description="Each table has its own secure QR. Scanning it connects your order to the right table—typing a table number is never enough." />
+    <Surface className="dine-in-scan-card">
+      <span className="dine-in-scan-card__icon" aria-hidden="true"><QrCode /></span>
+      <ol>
+        <li><strong>Open your camera</strong><span>Point it at the QR on your current table.</span></li>
+        <li><strong>Confirm the table</strong><span>We’ll show the table before you start ordering.</span></li>
+        <li><strong>Send each round</strong><span>Your waiter confirms it before the kitchen receives it.</span></li>
+      </ol>
+      <ButtonLink to="/" variant="secondary">Choose Pickup instead</ButtonLink>
+    </Surface>
+  </div>;
   if (resolution.isPending) return <p role="status">Checking table QR…</p>;
   if (resolution.isError || resolution.data.status !== 'VALID' || !resolution.data.session) {
     return <DineInWrongTablePage />;

@@ -103,16 +103,16 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0012 (CHG-0005 is reserved on the parallel Landing branch)
+Next Change ID: CHG-0013 (CHG-0005 is reserved on the parallel Landing branch)
 
 Open:
-10
+11
 
 In Progress:
 0
 
 In Review:
-7
+8
 
 Staging:
 3
@@ -1957,6 +1957,170 @@ The complete client-review pack, deterministic development-only personas, safe P
 - CHG-0008
 - CHG-0009
 - CHG-0010
+
+---
+
+## CHG-0012 — Customer Home Ordering Architecture and Service-Entry UX
+
+  - **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-08
+- **Last Updated:** 2026-10-08
+
+### Business Reason
+
+Make the Customer entry and Home experience the fastest, clearest path from service context and appetite to a confident food choice, larger but appropriate basket and repeat-order habit without copying another brand or allowing loyalty/game systems to compete with ordering.
+
+### Requested Outcome
+
+Deliver a reviewable service-entry screen plus distinct new-customer, returning-customer, active-Pickup and active-Dine-in Home compositions. The hierarchy must answer what can be ordered now, reduce choice, and introduce relevant meal completion while preserving operational priority and at most one adaptive retention module.
+
+### Scope
+
+Included:
+- improve the no-context Pickup/Dine-in entry while keeping Dine-in table-QR-only,
+- compose a new-customer Home around favourites, build-your-own, bestsellers and guided discovery,
+- compose a returning-customer Home around the usual order, current-menu review, meal completion and one adaptive Your Avenue cue,
+- preserve active Pickup tracking and active Dine-in table operations as the dominant Home state,
+- reuse the current typed queries, preliminary 29-item seed menu and Pizza Avenue design system,
+- add focused logic/UI tests, responsive browser review and current screenshot evidence.
+
+Excluded:
+- backend, database, production pricing, authentication, payment, capacity-engine or state-machine changes,
+- automatic paid add-ons, fake scarcity, hidden fees or other dark patterns,
+- delivery, marketplace, multi-brand or other V1 exclusions,
+- merge, staging, production deployment or UX freeze.
+
+### GitHub Tracking
+
+Issue:
+- Pending — GitHub CLI is unavailable in the local environment
+
+Branch:
+- `feature/customer-home-experience-v1`, stacked from `feature/customer-ux-review-prep` commit `7905909eb73f1b4065978fdfbb6acc0b5e29606a`
+
+Pull Request:
+- Pending
+
+### Affected Surfaces
+
+- Customer PWA service entry
+- Customer Home for new, returning, active Pickup and active Dine-in states
+- Customer review personas, tests and screenshot evidence
+
+### Affected Modules
+
+- `apps/customer/src/features/home`
+- Customer responsive styles and shell context presentation
+- development-only review personas/tests
+- client-review documentation and screenshot index
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New production endpoints:
+- None
+
+Changed production endpoints:
+- None
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- None. Pickup remains payment-first; Dine-in remains table-QR and waiter-gated. Home renders existing state without creating authority.
+
+### Permission Impact
+
+- None. Customer actions remain within existing public/customer routes and server-authoritative boundaries.
+
+### Analytics Impact
+
+- Reuse documented discovery, builder, reorder, bundle/upsell and engagement events. Any added Home interaction hook must use an existing privacy-safe event name.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed secrets:
+- None
+
+### Tests Required
+
+  - [x] new-customer entry and Home hierarchy
+  - [x] returning-customer usual-order and adaptive-module hierarchy
+  - [x] active Pickup and active Dine-in dominance
+  - [x] busy, paused, closed, no-order and unavailable-product recovery
+  - [x] one adaptive retention module maximum
+  - [x] workspace lint, typecheck, tests and builds
+  - [x] 360/390/430/768/1440 responsive browser review
+  - [x] labels, headings, touch-target sizing, overflow, console and network review
+  - [x] current review screenshots
+
+### Edge Cases
+
+- Dine-in cannot be chosen by trusting a typed table number; the table QR remains the only entry.
+- Paused/closed store state allows browsing but must not promise that an order can be started.
+- A missing previous order falls back to guided discovery rather than an empty returning state.
+- Sold-out or unavailable seed products must not become dead-end Home actions.
+- Saved Basket revalidation and historical order price rules remain unchanged.
+
+### Security Review
+
+- Auth/RBAC: no authentication or permission path changes.
+- Money/state: all displayed prices remain provisional typed integer-paise values; current-menu/order APIs remain authoritative.
+- Secret/PII: no new collection, logging or analytics payload.
+- Replay/idempotency: no production mutation is introduced.
+
+### Staging Result
+
+Status:
+- Not Tested — local review work only
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- Final menu, bundle economics, restaurant hours, production photography and logo remain founder/client decisions.
+- MSW browser evidence cannot prove production availability, pricing, persistence, capacity or order authority.
+- The branch carries separate uncommitted local mock-startup changes that are outside this task and must not be included in its commits.
+
+### Follow-Up
+
+- [x] Complete implementation and review evidence.
+- [ ] Obtain client review before starting the broader Home → Menu → Product → Builder → Cart correction pass.
+
+### Current Result
+
+Implementation and local review evidence are complete on the dedicated feature branch. The Customer Home now has distinct service-entry, new-Pickup, returning, active-Pickup and active-Dine-in compositions; current-menu reorder seeds the normal cart; and the table-QR recovery path remains trusted-only. Workspace lint, typecheck, 154 tests, production builds, production dependency audit, diff checks and browser checks at 360/390/430/768/1440 passed. Eight current Home/entry screenshots are indexed in the client-review flow. GitHub Issue/PR creation remains pending because the GitHub CLI is unavailable. Awaiting client review; not merged, staged or released.
+
+### Related Changes
+
+- CHG-0007
+- CHG-0008
+- CHG-0009
+- CHG-0010
+- CHG-0011
 
 ---
 

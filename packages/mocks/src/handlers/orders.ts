@@ -1,8 +1,10 @@
 import { HttpResponse, http } from 'msw';
-import type { Order, OrderStatus, PaginatedResult } from '@pizza-avenue/types';
+import type { Cart, Order, OrderStatus, PaginatedResult } from '@pizza-avenue/types';
 import { assertOrderTransition, isKitchenEligible } from '@pizza-avenue/utils';
 import { orders } from '../data';
+import { menu } from '../data/menu';
 import { getScenarioState } from '../scenarios';
+import { seedCartData } from './cart';
 
 const scenarioStatus = (): OrderStatus => {
   const scenario = getScenarioState().order;
@@ -51,9 +53,41 @@ export const orderHandlers = [
           { status: 404 },
         );
   }),
-  http.post('*/api/v1/orders/:orderId/reorder', () =>
-    HttpResponse.json({ cartId: 'cart-reorder-1' }),
-  ),
+  http.post('*/api/v1/orders/:orderId/reorder', ({ params }) => {
+    const order = scenarioOrders().find((candidate) => candidate.id === params.orderId);
+    if (!order || order.serviceMode !== 'PICKUP' || order.status !== 'COMPLETED') {
+      return HttpResponse.json(
+        { error: { code: 'REORDER_NOT_AVAILABLE', message: 'This order cannot be reordered.', details: {} } },
+        { status: 409 },
+      );
+    }
+    const cart: Cart = {
+      id: 'cart-reorder-1',
+      storeId: order.storeId,
+      serviceMode: 'PICKUP',
+      status: 'ACTIVE',
+      expiresAt: new Date(Date.now() + 120 * 60_000).toISOString(),
+      items: order.items.flatMap((item, index) => {
+        const product = menu.products.find((candidate) => candidate.id === item.productId);
+        const variant = product?.variants.find((candidate) => candidate.name === item.variantNameSnapshot)
+          ?? product?.variants.find((candidate) => candidate.availability === 'AVAILABLE');
+        if (!product || product.availability !== 'AVAILABLE' || !variant) return [];
+        return [{
+          id: `cart-reorder-item-${index + 1}`,
+          productId: product.id,
+          productNameSnapshot: product.name,
+          variantId: variant.id,
+          variantNameSnapshot: variant.name,
+          selectedModifiers: [],
+          quantity: item.quantity,
+          notes: null,
+          provisionalUnitPrice: variant.basePrice,
+        }];
+      }),
+    };
+    seedCartData(cart);
+    return HttpResponse.json({ cartId: cart.id });
+  }),
   http.get('*/api/v1/kds/orders', ({ request }) => {
     const serviceMode = new URL(request.url).searchParams.get('serviceMode');
     return HttpResponse.json(

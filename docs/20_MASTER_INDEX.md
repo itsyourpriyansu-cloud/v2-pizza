@@ -72,6 +72,7 @@ AGENTS → 00 context → 01 scope → 02 mode-specific rules → 03 RBAC → 04
 ## Customer V1 client-review pack
 
 - `CLIENT_REVIEW_FLOW.md` — facilitator setup, deterministic personas and the 27-step owner walkthrough
+- `CUSTOMER_HOME_ARCHITECTURE.md` — state-by-state service-entry and Home module map, ethical choice architecture and review criteria
 - `CLIENT_DECISIONS_PENDING.md` — unresolved owner decisions that must not be guessed before freeze
 - `CLIENT_REVIEW_SCORECARD.md` — section-by-section approval/change/remove/defer record
 - `UX_AUDIT_PRE_FREEZE.md` — P0–P3, Home, language, price, global-state, accessibility, responsive and contrarian audits

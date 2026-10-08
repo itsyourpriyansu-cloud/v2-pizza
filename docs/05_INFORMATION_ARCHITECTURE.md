@@ -28,15 +28,15 @@ Cart is contextual via persistent cart bar.
 - `/dine-in/session-complete`, `/dine-in/expired`, `/dine-in/wrong-table`
 
 ## Home
-- store state + pickup ETA
-- Order Again
-- favourites
-- signature
-- bestsellers
-- combos
-- new/limited
-- rewards progress
-- passport preview
+Home answers three questions in order: what can I order now, what should I probably order, and what would complete the meal. The service/operational context always precedes discovery or retention.
+
+- No service context: store identity and state → Pickup card with current ETA → Dine-in table-QR path → location and no-delivery assurance.
+- New Pickup customer: store context → proven-favourite hero → four craving routes → transparent meal plan → bestsellers → taste-led discovery → optional sides/drinks/dessert → brand reassurance.
+- Returning Pickup customer: store context → current-menu revalidated usual order → transparent meal plan → bestsellers → one adaptive `Your Avenue` action → taste-led discovery → optional sides/drinks/dessert → brand reassurance.
+- Active Pickup: store context → live order state and tracking CTA → food discovery only. Retention and engagement prompts are suppressed until the operational task is complete.
+- Active Dine-in: trusted table/session context → Order More / Current Bill / Call Waiter → quick additions → menu search. Pickup and retention modules are suppressed.
+
+Only one adaptive Home module may appear. Its priority remains Saved Basket → upcoming Occasion → available Reward → near-complete Passport → Personal Mission → ordinary Passport progress → Referral → Common Mission → League → reactivation → Points progress. It appears only when no active Pickup or Dine-in operation requires attention.
 
 ## Menu
 - Signature

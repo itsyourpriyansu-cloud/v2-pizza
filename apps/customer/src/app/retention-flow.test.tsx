@@ -94,13 +94,13 @@ describe('customer retention end-to-end missions', () => {
     const state = setScenarioState({ customer: 'ACTIVE_ORDER', rewards: 'REWARD_AVAILABLE' });
     usePrototypeStore.setState({ scenarioState: state }); setPickupContext(); renderRoute('/');
     const track = await screen.findByRole('link', { name: 'Track order' });
-    const retention = screen.getByLabelText('Your next loyalty action');
-    expect(track.compareDocumentPosition(retention) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(track).toBeVisible();
+    expect(screen.queryByLabelText('Your next loyalty action')).not.toBeInTheDocument();
   });
 
   it('09. keeps active Table context, Order More and Current Bill above retention', async () => {
     setDineInContext(); renderRoute('/');
-    expect(await screen.findByRole('heading', { name: 'Table 12 is active.' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'Everything for Table 12, in one place.' })).toBeVisible();
     expect(screen.getByRole('link', { name: 'Order more' })).toHaveAttribute('href', '/dine-in/order-more');
     expect(screen.getByRole('link', { name: 'Current bill' })).toHaveAttribute('href', '/dine-in/bill');
     expect(screen.queryByLabelText('Your next loyalty action')).not.toBeInTheDocument();

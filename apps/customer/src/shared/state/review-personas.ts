@@ -3,6 +3,7 @@ import type { ServiceContext } from '@pizza-avenue/types';
 
 export const reviewPersonaNames = [
   'NEW_CUSTOMER',
+  'NEW_PICKUP',
   'RETURNING_CUSTOMER',
   'ACTIVE_PICKUP',
   'ACTIVE_DINE_IN',
@@ -58,6 +59,10 @@ export const reviewPersonaPresets: Record<ReviewPersonaName, ReviewPersonaPreset
   NEW_CUSTOMER: {
     scenario: { customer: 'NEW_CUSTOMER' },
     serviceContext: null,
+  },
+  NEW_PICKUP: {
+    scenario: { ...quietHome, customer: 'NEW_CUSTOMER' },
+    serviceContext: pickupContext,
   },
   RETURNING_CUSTOMER: {
     scenario: { ...quietHome, customer: 'RETURNING_CUSTOMER' },

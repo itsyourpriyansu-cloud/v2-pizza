@@ -137,13 +137,13 @@ describe('customer engagement complete end-to-end missions', () => {
     const state = setScenarioState({ customer: 'ACTIVE_ORDER', savedBasket: 'SAVED_BASKETS_EMPTY', occasion: 'UPCOMING_OCCASION', rewards: 'REWARD_LOCKED', passport: 'PASSPORT_NEW', missions: 'NO_ACTIVE_MISSIONS' });
     usePrototypeStore.setState({ scenarioState: state }); setPickupContext(); renderRoute('/');
     const track = await screen.findByRole('link', { name: 'Track order' });
-    const occasion = screen.getByText("Mom's birthday").closest('a')!;
-    expect(track.compareDocumentPosition(occasion) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(track).toBeVisible();
+    expect(screen.queryByText("Mom's birthday")).not.toBeInTheDocument();
   });
 
   it('13. keeps active Dine-in above League progress and hides engagement modules', async () => {
     setScenario('LEAGUE_ACTIVE'); setDineInContext(); renderRoute('/');
-    expect(await screen.findByRole('heading', { name: 'Table 12 is active.' })).toBeVisible();
+    expect(await screen.findByRole('heading', { name: 'Everything for Table 12, in one place.' })).toBeVisible();
     expect(screen.getByRole('link', { name: 'Order more' })).toBeVisible();
     expect(screen.queryByText(/Gold League/i)).not.toBeInTheDocument();
   });

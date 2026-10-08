@@ -19,7 +19,8 @@ The `?review=` parameter works only in a Vite development session. Production bu
 | Persona | Review link | Expected review state |
 |---|---|---|
 | `NEW_CUSTOMER` | `http://localhost:5174/?review=NEW_CUSTOMER` | No service selected; first-visit service choice |
-| `RETURNING_CUSTOMER` | `http://localhost:5174/?review=RETURNING_CUSTOMER` | Pickup context with a single generic reorder prompt |
+| `NEW_PICKUP` | `http://localhost:5174/?review=NEW_PICKUP` | First-time Pickup Home after service selection |
+| `RETURNING_CUSTOMER` | `http://localhost:5174/?review=RETURNING_CUSTOMER` | Pickup context with current-menu usual order and one adaptive prompt |
 | `ACTIVE_PICKUP` | `http://localhost:5174/?review=ACTIVE_PICKUP` | Active Pickup status dominates Home |
 | `ACTIVE_DINE_IN` | `http://localhost:5174/?review=ACTIVE_DINE_IN` | Verified Table 12 context dominates Home |
 | `REWARD_AVAILABLE` | `http://localhost:5174/?review=REWARD_AVAILABLE` | Reward-ready Home prompt without higher-priority engagement prompts |
@@ -41,7 +42,7 @@ Use the final two columns during the meeting. Choose one of **Keep / Change / Re
 | # | Screen / route | What customer does | What client should look at | Business question | Keep / Change / Remove / Later | Client notes |
 |---:|---|---|---|---|---|---|
 | 01 | Service selection — `/?review=NEW_CUSTOMER` | Chooses Pickup or starts the table-QR path. | Whether the two service modes are immediately distinct and whether the time promise is credible. | Should every new visit begin with this explicit choice? | ☐ Keep ☐ Change ☐ Remove ☐ Later | |
-| 02 | New-customer Pickup — choose Pickup from step 01 | Enters Pickup Home and browses the first-time discovery content. | First impression, food emphasis, Sainikpuri context and clarity of the primary menu CTA. | Does this explain direct Pickup strongly enough to reduce marketplace/manual ordering? | ☐ Keep ☐ Change ☐ Remove ☐ Later | |
+| 02 | New-customer Pickup — `/?review=NEW_PICKUP` | Enters Pickup Home and browses the first-time discovery content. | First impression, food emphasis, Sainikpuri context and clarity of the primary menu CTA. | Does this explain direct Pickup strongly enough to reduce marketplace/manual ordering? | ☐ Keep ☐ Change ☐ Remove ☐ Later | |
 | 03 | Menu discovery — `/menu?review=RETURNING_CUSTOMER` | Searches, scrolls categories and opens an item. | Category names, product order, dietary badges, seed photos, descriptions and starting prices. | Does the preliminary menu match how Pizza Avenue actually sells and groups food? | ☐ Keep ☐ Change ☐ Remove ☐ Later | |
 | 04 | Product customization — `/menu/pizza-margherita/customize?review=RETURNING_CUSTOMER` | Selects size, required crust and optional cheese/toppings, then adds to Pickup cart. | Modifier language, required/optional rules, provisional total and one-handed usability. | Are the real modifier groups, limits and price deltas correct? | ☐ Keep ☐ Change ☐ Remove ☐ Later | |
 | 05 | Cart — `/cart` after step 04 | Changes quantity, edits/removes an item and reviews a current quote. | Recovery copy, current-price confirmation, upsell restraint and Pickup/Dine-in isolation. | Which add-ons are operationally useful without harming checkout completion? | ☐ Keep ☐ Change ☐ Remove ☐ Later | |
@@ -76,22 +77,28 @@ These links are review aids, not production controls or proof of backend behavio
 
 ## Curated screenshot pack
 
-Use these 17 current images when live review is unavailable. They are deliberately representative rather than an exhaustive state library.
+Use these 23 current images when live review is unavailable. They are deliberately representative rather than an exhaustive state library. The `customer-home-*-v2-*` images are the current Home and entry review set.
 
-1. `docs/assets/screenshots/customer-review-service-selector-mobile.png`
-2. `docs/assets/screenshots/customer-review-returning-home-mobile.png`
-3. `docs/assets/screenshots/customer-review-menu-mobile.png`
-4. `docs/assets/screenshots/customer-review-builder-mobile.png`
-5. `docs/assets/screenshots/customer-commerce-pickup-review-mobile.png`
-6. `docs/assets/screenshots/customer-commerce-pickup-tracking-desktop.png`
-7. `docs/assets/screenshots/customer-commerce-dine-in-waiter-mobile.png`
-8. `docs/assets/screenshots/customer-rewards-mobile.png`
-9. `docs/assets/screenshots/customer-passport-mobile.png`
-10. `docs/assets/screenshots/customer-missions-mobile.png`
-11. `docs/assets/screenshots/customer-saved-basket-mobile.png`
-12. `docs/assets/screenshots/customer-family-mobile.png`
-13. `docs/assets/screenshots/customer-occasion-mobile.png`
-14. `docs/assets/screenshots/customer-referral-mobile.png`
-15. `docs/assets/screenshots/customer-league-desktop.png`
-16. `docs/assets/screenshots/customer-group-order-desktop.png`
-17. `docs/assets/screenshots/customer-profile-mobile.png`
+1. `docs/assets/screenshots/customer-home-service-entry-v2-mobile.png`
+2. `docs/assets/screenshots/customer-home-new-v2-mobile.png`
+3. `docs/assets/screenshots/customer-home-new-v2-desktop.png`
+4. `docs/assets/screenshots/customer-home-returning-v2-mobile.png`
+5. `docs/assets/screenshots/customer-home-returning-v2-desktop.png`
+6. `docs/assets/screenshots/customer-home-active-pickup-v2-mobile.png`
+7. `docs/assets/screenshots/customer-home-active-dine-in-v2-mobile.png`
+8. `docs/assets/screenshots/customer-home-dine-in-scan-v2-mobile.png`
+9. `docs/assets/screenshots/customer-review-menu-mobile.png`
+10. `docs/assets/screenshots/customer-review-builder-mobile.png`
+11. `docs/assets/screenshots/customer-commerce-pickup-review-mobile.png`
+12. `docs/assets/screenshots/customer-commerce-pickup-tracking-desktop.png`
+13. `docs/assets/screenshots/customer-commerce-dine-in-waiter-mobile.png`
+14. `docs/assets/screenshots/customer-rewards-mobile.png`
+15. `docs/assets/screenshots/customer-passport-mobile.png`
+16. `docs/assets/screenshots/customer-missions-mobile.png`
+17. `docs/assets/screenshots/customer-saved-basket-mobile.png`
+18. `docs/assets/screenshots/customer-family-mobile.png`
+19. `docs/assets/screenshots/customer-occasion-mobile.png`
+20. `docs/assets/screenshots/customer-referral-mobile.png`
+21. `docs/assets/screenshots/customer-league-desktop.png`
+22. `docs/assets/screenshots/customer-group-order-desktop.png`
+23. `docs/assets/screenshots/customer-profile-mobile.png`
