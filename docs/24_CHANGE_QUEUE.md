@@ -103,10 +103,10 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0005
+Next Change ID: CHG-0020
 
 Open:
-4
+19
 
 In Progress:
 0
@@ -126,6 +126,8 @@ Production:
 # 6. Active Queue
 
 > Keep only non-final items here.
+
+Landing handoff (2026-10-09): CHG-0005 through CHG-0019 are bundled on `feature/landing-initial-ui` in Pull Request #13 against `develop`. Their `IN_REVIEW` status means code review is pending; no staging deployment or production release is claimed. Current local validation passed lint, typecheck, 44 tests across 6 files and all four frontend builds. Earlier test counts within individual entries record their historical runs. The pickup-only V1 rules conflict with dine-in work in the separate customer PR chain; resolve that product decision before combining the branches.
 
 Final statuses are:
 - PRODUCTION
@@ -906,6 +908,1245 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 
 - CHG-0002
 - CHG-0003
+
+---
+
+## CHG-0005 — Build initial Pizza Avenue landing experience
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-06
+- **Last Updated:** 2026-10-09
+
+### Business Reason
+
+Turn the root-domain Landing shell into a clear, appetising direct-order entry point that explains what Pizza Avenue offers, where pickup happens and how a customer starts an order, while preserving the separate Customer PWA boundary.
+
+### Requested Outcome
+
+Implement the first approved Landing batch: utility strip, responsive header, editorial hero, compact proof strip and a signature-pizza section. Use the frozen Pizza Avenue palette and Phudu/Poppins typography plus the curated Pizza Wave food candidates, without inventing a logo or treating exploratory menu content as production truth. Harden every assembled Landing section for narrow mobile, tablet and desktop layouts without changing product content or Customer-app destinations.
+
+### Scope
+
+Included:
+- utility strip with Sainikpuri and pickup context,
+- responsive header with functional navigation and one primary ordering action,
+- food-led hero with configured Customer-app CTAs,
+- compact proof strip,
+- four-item signature pizza selection aligned to available curated imagery,
+- responsive and reduced-motion behaviour,
+- responsive hardening for the Story, Highlights, Customer Flow, menu, best sellers, promotional, combo, catering, reviews, FAQ, app-download and footer sections,
+- focused component and link tests,
+- documentation and handoff updates.
+
+Excluded:
+- backend-connected final release content,
+- an invented or legacy Pizza Wave logo,
+- backend, database, real authentication, WhatsApp, payment or analytics-provider integration,
+- production deployment,
+- founder approval of final menu prices, imagery provenance or final product photography.
+
+### GitHub Tracking
+
+Issue:
+- #12
+
+Branch:
+- `feature/landing-initial-ui`
+
+Pull Request:
+- #13 — open against `develop`
+
+### Affected Surfaces
+
+- Landing / Marketing
+- Customer PWA entry links only
+
+### Affected Modules
+
+- `apps/landing`
+- `packages/config` local loopback detection
+
+### Files / Areas Changed
+
+- Landing React composition, content model and styles
+- Hero viewport-height and pickup-note adjustment
+- Landing-wide responsive containment, adaptive grids and narrow-device sizing safeguards
+- Landing public food assets copied from the curated Pizza Wave candidates
+- Landing tests and metadata
+- dependency lockfile for approved Fontsource packages
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Database Impact
+
+Migration required:
+- No
+
+Data migration required:
+- No
+
+### API Impact
+
+New endpoints:
+- None
+
+Changed endpoints:
+- None
+
+Breaking change:
+- No
+
+### State Machine Impact
+
+- None
+
+### Permission Impact
+
+- None; the Landing remains public and does not implement authentication.
+
+### Analytics Impact
+
+- No analytics provider is connected. Existing discovery and ordering event names remain unchanged for later implementation.
+
+### Environment / Secret Impact
+
+New env vars:
+- None
+
+Changed secrets:
+- None
+
+The Landing continues to resolve the Customer app through `VITE_CUSTOMER_APP_URL` and local safe defaults.
+
+### Documentation Updated
+
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Landing component and destination-link tests — 4 passed after the hero viewport-height and pickup-note adjustment
+- [x] Responsive visual check at 390×844 mobile and 1440×900 desktop
+- [x] Keyboard/focus and reduced-motion implementation review
+- [x] Repository lint — passed
+- [x] Repository typecheck — passed
+- [x] Repository tests — 6 files, 40 tests passed
+- [x] Repository builds — Landing, Customer, KDS and Admin passed
+- [x] Responsive layout audit — no horizontal overflow at 320×900, 360×900, 390×900, 480×900, 768×900, 1024×900 and 1440×900; mobile visual check at 390×844
+- [x] Current repository verification — ESLint passed, workspace typecheck passed, Vitest passed (6 files, 54 tests) and all four frontend production builds passed
+- [x] GitHub Actions `frontend-foundation` for Pull Request #13 — passed
+- [ ] Staging smoke test — not part of this task unless staging is deployed
+- [ ] Production smoke test — not released
+
+### Edge Cases
+
+- production/staging Customer URLs must remain environment-configured rather than hardcoded,
+- navigation must not expose dead links to deferred Landing sections,
+- provisional menu prices must be visibly qualified and must not become authoritative checkout values,
+- food candidates must be matched honestly to visible product names and remain pending provenance/founder review,
+- mobile must recompose rather than shrink the desktop layout,
+- narrow phones, tablets and desktops must not gain a horizontal scroll from section cards, the phone mockup, footer artwork or header actions,
+- the supplied Pizza Avenue logo must remain the only logo used in this Landing work.
+
+### Security Review
+
+- Auth implications: none.
+- RBAC implications: none.
+- Secret/PII implications: none; public non-secret URL configuration only.
+- Replay/idempotency implications: none.
+
+### Staging Result
+
+Status:
+- Not Tested
+
+### Production Result
+
+Status:
+- Not Released
+
+Release:
+- Not Released
+
+Deployment date:
+- Not applicable
+
+### Known Risks
+
+- Candidate Pizza Wave imagery remains prototype-only until provenance, usage rights and founder approval are confirmed.
+- Menu names, descriptions and photographed prices remain exploratory until founder validation.
+- The local landing branch now includes the supplied Pizza Avenue logo; its provenance and production usage still require founder confirmation.
+
+### Follow-Up
+
+- [ ] Obtain founder confirmation for image provenance and production use.
+- [ ] Replace provisional menu details with backend-authoritative menu data when available.
+- [ ] Continue later Landing chapters only through a separate tracked task after this batch is audited.
+
+### Final Result
+
+Implementation remains on `feature/landing-initial-ui` under GitHub Issue #12 and Pull Request #13. The follow-up hero adjustments are complete: the hero section fills 100vh/100dvh viewport height across mobile and tablet with balanced spacing, the hero title explicitly splits into two lines ("CRAVE IT." on line 1 and "TAP IT. PICK IT UP." on line 2), an accessible collapsible mobile menu bar with animated hamburger toggle is implemented, hero actions maintain row flex-direction across both mobile and desktop, and category cards remain fully visible above the fold without clipping. The 2026-10-08 responsiveness pass adds grid/flex containment across every Landing chapter; removes the Brand Highlights tablet/narrow-phone overflow; makes the phone mockup and footer display artwork shrink safely; and tightens the smallest header. Local browser inspection confirms document-width parity with no horizontal scroll from 320×900 through 1440×900, including 390×844 mobile. On 2026-10-09, local verification passed: ESLint, workspace typecheck, Vitest (6 files, 44 tests), and all four frontend production builds. Earlier test totals above are historical snapshots, not the current suite count. No staging or production deployment has been performed.
+
+### Related Changes
+
+- CHG-0003
+- CHG-0004
+
+---
+
+## CHG-0006 — Integrate Faq05 component and Radix accordion into Landing and components/ui
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Provide answers to high-frequency customer questions regarding Sainikpuri store pickup, 72h sourdough dough, pizza customization and the Pizza Passport loyalty program directly on the marketing landing page, reducing customer hesitation before ordering.
+
+### Requested Outcome
+
+Integrate the `faq-05.tsx` component and `@radix-ui/react-accordion` primitive into `components/ui`, adapt `Faq05` to accept external questions via props with single-collapsible state, render it as the last section of the landing page with dedicated styling matching the Pizza Avenue brand palette, and provide automated test coverage.
+
+### Scope
+
+Included:
+- copy `accordion.tsx`, `faq-05.tsx` and `demo.tsx` into `components/ui` and `apps/landing/src/components/ui`,
+- install `@radix-ui/react-accordion` and `lucide-react`,
+- adapt `Faq05` to accept `items` as external props with single-collapsible mode,
+- provide brand-specific FAQ data for Sainikpuri pickup, dough, customization, loyalty and kitchen hygiene,
+- style the accordion expand/collapse transitions using vanilla CSS tokens,
+- add `Faq05` as the final content section in `LandingPage.tsx` with navigation anchor,
+- add automated test in `app.test.tsx`,
+- update documentation in `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- backend FAQ CMS or dynamic API endpoints,
+- changes to customer ordering flow or cart state machines.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+- UI Primitives (`components/ui`)
+
+### Files / Areas Changed
+
+- `components/ui/accordion.tsx`
+- `components/ui/faq-05.tsx`
+- `components/ui/demo.tsx`
+- `apps/landing/src/components/ui/accordion.tsx`
+- `apps/landing/src/components/ui/faq-05.tsx`
+- `apps/landing/src/components/ui/demo.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `apps/landing/package.json`
+- `lib/utils.ts`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — 11 packages clean with 0 errors
+- [x] Workspace test suite — 6 files, 42 tests passed
+- [x] Single-collapsible behavior verified in tests
+
+### Staging Result
+
+Status:
+- Not Tested
+
+### Production Result
+
+Status:
+- Not Released
+
+### Final Result
+
+`Faq05` and `@radix-ui/react-accordion` primitive successfully integrated. `Faq05` accepts external props, enforces single-collapsible mode, and renders brand-specific Sainikpuri pickup FAQs as the final section of `LandingPage.tsx`. All 42 vitest tests pass.
+
+### Related Changes
+
+- CHG-0005
+
+---
+
+## CHG-0007 — Implement brand footer using project styling and color palette
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Provide a complete, premium, brand-aligned footer on the Pizza Avenue landing page that delivers store location context, opening hours, contact details, map navigation to the Sainikpuri counter, newsletter subscription, quick links to customer app ordering & policies, app download badges, and an impactful display wordmark.
+
+### Requested Outcome
+
+Recreate the reference footer design within the Pizza Avenue design system using only the official 7-color project palette (`Cream`, `Sand Beige`, `Maroon`, `Italian Brown`, `Olive Green`, `Sage Green`, `Espresso`), with responsive layout, accessible forms and links, clean Sainikpuri map preview card, and a bold Phudu "PIZZA AVENUE" display banner.
+
+### Scope
+
+Included:
+- Create `Footer.tsx` (or `SiteFooter.tsx`) component with:
+  - Quick Links (Menu, Our Pizzas, Pizza Passport, FAQs)
+  - Legal links (Privacy Policy, Terms of Service, Refund Policy)
+  - Get the App store buttons (App Store and Google Play badges)
+  - Deal subscription newsletter form with email input and Subscribe CTA
+  - Sainikpuri store map preview card with interactive Open in Maps link
+  - Contact section ("COME SAY HI") with Sainikpuri address, phone number, opening hours (11 AM - 11 PM) and social links
+  - Giant full-width "PIZZA AVENUE" display typography banner with centered warm circle graphic
+- Add comprehensive CSS styles in `styles.css` adhering strictly to project tokens
+- Integrate into `LandingPage.tsx`
+- Add automated tests in `app.test.tsx`
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`
+
+Excluded:
+- Real email marketing newsletter backend ingestion or third-party CRM webhook
+- Real App Store / Play Store binary submissions
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/components/Footer.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `components/ui/faq-05.tsx`
+- `apps/landing/src/components/ui/faq-05.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — 11 packages pass cleanly with 0 errors
+- [x] Landing component and footer tests — all 7 landing tests pass
+- [x] Workspace test suite — 6 files, 43 tests passed
+- [x] Workspace production build — all 4 applications build with 0 errors
+- [x] Workspace ESLint — 0 errors, 0 warnings
+- [x] Visual inspection across desktop and mobile in browser subagent
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+Footer faithfully recreates the reference design using only the official 7-color Pizza Avenue palette: `--maroon` canvas, `--sand` headings/borders, `--brown` interactive elements/badges/central disc, and `--cream` primary typography. Includes Quick Links, Legal, App Store/Google Play badges, interactive newsletter subscribe form, Sainikpuri vector map preview with pulsating pin and "OPEN IN MAPS" button, "COME SAY HI" contact section with 42 Sainikpuri address, phone number, opening hours (11AM–11PM), social buttons, and full-width "PIZZA AVENUE" display banner with unclipped circular dome. All 43 workspace tests, typecheck, lint, and production builds pass.
+
+### Related Changes
+
+- CHG-0005
+- CHG-0006
+
+---
+
+## CHG-0008 — Integrate InfiniteMovingCards Google Reviews marquee above FAQ
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Showcase genuine local customer praise and high Google Maps rating (4.9★) for The Pizza Avenue in Sainikpuri directly on the landing page, boosting social proof, trust, and pickup order conversion before users reach FAQs and the footer.
+
+### Requested Outcome
+
+Integrate the `InfiniteMovingCards` component on `LandingPage.tsx` directly above the FAQ section. The marquee must animate right-to-left at normal speed, pause on hover, link directly to the Sainikpuri Google Maps page (`https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`), and adhere strictly to the project's official 7-color palette.
+
+### Scope
+
+Included:
+- Add Google Reviews customer testimonial data to `landing-content.ts` with authentic Sainikpuri references, ratings, and tags.
+- Integrate `InfiniteMovingCards` into `LandingPage.tsx` above the FAQ section.
+- Add Google Maps 4.9★ rating badge with direct link to `https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`.
+- Add responsive CSS styles in `styles.css` using only official project color tokens (`Cream`, `Sand Beige`, `Maroon`, `Italian Brown`, `Olive Green`, `Sage Green`, `Espresso`).
+- Add automated test coverage in `app.test.tsx`.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Live dynamic Google Places API polling (V1 static curated authentic reviews avoids unnecessary billing/API complexity).
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 packages pass cleanly with 0 errors
+- [x] Landing tests — 8 of 8 tests pass including reviews marquee and Google Maps link
+- [x] Vitest workspace suite — 44 of 44 tests pass across all 6 test files
+- [x] Production build — all 4 applications build successfully
+- [x] ESLint — 0 warnings, 0 errors
+- [x] Browser visual verification — marquee motion, pause on hover, Google Maps button, and color tokens confirmed
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+Integrated `InfiniteMovingCards` Google Reviews marquee directly above the FAQ section on `LandingPage.tsx`. The marquee animates smoothly right-to-left at normal speed with `pauseOnHover` enabled. Features high-res pizza imagery, 5-star ratings, tags, reviewer names, and local community testimonials from Sainikpuri customers. Includes direct link badge to The Pizza Avenue Sainikpuri on Google Maps (`https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`) with 4.9★ rating badge. Fixed image height constraints and flex track layout across the Vanilla CSS system; implemented responsive mobile breakpoints ensuring cards scale to viewport width without horizontal page overflow, and the Google Maps pill badge aligns cleanly. Styled strictly using the project's official 7-color palette (`Cream`, `Sand Beige`, `Maroon`, `Italian Brown`, `Olive Green`, `Sage Green`, `Espresso`). All 44 unit and integration tests, TypeScript typechecks across all 11 packages, ESLint checks, and production builds pass cleanly.
+
+### Related Changes
+
+- CHG-0005
+- CHG-0006
+- CHG-0007
+
+---
+
+## CHG-0009 — Customer Flow Process section added after the story section
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Provide clear, customer-friendly 3-step ordering education ("BROWSE THEN ORDER") directly after the brand story section on the landing page, illustrating the seamless journey from browsing to ordering and enjoying craft pizza.
+
+### Requested Outcome
+
+Add the customer flow process section directly after the brand story scroll reveal section on `LandingPage.tsx` using project styling and color palette (`Phudu`, `Poppins`, `Cream`, `Maroon`, `Espresso`). It features a "Process" pill badge, display heading "BROWSE THEN ORDER", subtitle "Scroll through everything we've got cooking.", and three photographic lifestyle cards with step pills ("STEP 1", "STEP 2", "STEP 3"), bold headlines ("PICK WHAT HITS", "WAIT FOR THE KNOCK", "EAT LIKE YOU MEAN IT"), descriptions, and large action links ("BROWSE", "ORDER", "ENJOY").
+
+### Scope
+
+Included:
+- Add `CustomerFlowStep` and `customerFlowSteps` dataset to `apps/landing/src/landing-content.ts`.
+- Create component `apps/landing/src/components/CustomerFlow.tsx`.
+- Add lifestyle photography assets in `apps/landing/public/assets/customer-flow/`.
+- Insert `<CustomerFlow customerAppUrl={customerAppUrl} />` into `LandingPage.tsx` immediately after the story section.
+- Add CSS styles in `styles.css` matching project typography and color system, with smooth hover interactions and responsive layout.
+- Add automated unit test in `apps/landing/src/app.test.tsx`.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Dynamic step state persistence (static marketing flow).
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/components/CustomerFlow.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `apps/landing/public/assets/customer-flow/step-1-browse.jpg`
+- `apps/landing/public/assets/customer-flow/step-2-order.jpg`
+- `apps/landing/public/assets/customer-flow/step-3-enjoy.jpg`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 packages pass cleanly with 0 errors
+- [x] Landing tests — 10 of 10 tests pass including customer flow process section
+- [x] Vitest workspace suite — 46 of 46 tests pass across all 6 test files
+- [x] Production build — `@pizza-avenue/landing` builds cleanly in 2.29s
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+Created `CustomerFlow.tsx` component and integrated it directly after the story reveal section on `LandingPage.tsx`. Styled using the project's font hierarchy (`Phudu` for display titles and action keywords, `Poppins` for body text and pills) and color tokens. Configured high-resolution photography assets depicting browsing on phone, opening pizza box, and eating fresh artisan pizza. All 46 tests across the repository pass, workspace typechecks pass cleanly, and the production bundle compiles with 0 errors.
+
+### Related Changes
+
+- CHG-0005
+- CHG-0007
+- CHG-0008
+
+---
+
+## CHG-0010 — Fix Category Best Sellers section and make it 100vh
+
+- **Status:** IN_REVIEW
+- **Type:** FIX, UX, DESIGN
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Ensure the Category Best Sellers section seamlessly fills the full desktop viewport height (100vh / 100dvh) without overflowing or clipping the cards and descriptions, providing a high-impact, cohesive visual showcase of crowd favourites directly between the Customer Flow process section and the signatures grid.
+
+### Requested Outcome
+
+Fix `.bestsellers-section` by making it full viewport height (`min-height: 100vh; min-height: 100dvh`) with flex column centering, fixing the oversized container/shell aspect-ratio and heights that caused viewport overflow on laptops (e.g. 1536x730), fixing the left-side chip vertical reel alignment and equal-width centering, fixing the right-side stage and card aspect-ratio sizing so cards and captions never clip, and ensuring responsive mobile/tablet behaviour.
+
+### Scope
+
+Included:
+- Update `.bestsellers-section`, `.bestsellers-header`, `.feature-carousel-container`, `.feature-carousel-shell`, `.feature-carousel-left`, `.feature-carousel-reel`, `.feature-carousel-right`, `.feature-carousel-stage`, `.feature-carousel-card`, `.feature-carousel-caption` in `apps/landing/src/styles.css`.
+- Update carousel reel sizing constants (`ITEM_HEIGHT`, `ITEM_GAP`, `REEL_HEIGHT`, `CENTER_Y`) and shortest circular click delta logic in `apps/landing/src/components/ui/feature-carousel.tsx` and `components/ui/feature-carousel.tsx`.
+- Add responsive media queries for screens `<= 1023px` and `<= 480px`.
+- Verify full test suite and typechecks pass.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Modifications to ordering or payment workflows.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/styles.css`
+- `apps/landing/src/components/ui/feature-carousel.tsx`
+- `components/ui/feature-carousel.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all packages pass cleanly with 0 errors
+- [x] Landing tests — 10 of 10 tests pass
+- [x] Vitest workspace suite — 46 of 46 tests pass across all 6 test files
+- [x] Production build verification — `@pizza-avenue/landing` builds cleanly in 1.71s
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Made `.bestsellers-section` full viewport height (`min-height: 100vh; min-height: 100dvh;`) with flex column centering and compact header spacing.
+- Replaced rigid desktop `aspect-ratio: 16 / 9; min-height: 600px;` on `.feature-carousel-shell` with adaptive height `clamp(430px, 58vh, 560px)` to fit comfortably within 100vh on desktop/laptop screens without overflowing.
+- Fixed `.feature-carousel-left` centering by removing asymmetric `padding-left` and `align-items: flex-start`, ensuring equal-width pill chips are centered.
+- Coordinated reel constants (`REEL_HEIGHT = 380`, `ITEM_HEIGHT = 54`, `ITEM_GAP = 12`, `CENTER_Y = 163`) and implemented shortest angular delta click stepping.
+- Fixed `.feature-carousel-stage` to auto-fit container height (`height: 100%; aspect-ratio: 4 / 5; max-width: 380px;`) so the 3D cards and captions never clip.
+- Added responsive media queries for mobile/tablet (`<= 1023px` and `<= 480px`).
+- All 46 tests pass and production build succeeds.
+
+### Related Changes
+
+- CHG-0008
+- CHG-0009
+
+---
+
+## CHG-0011 — Build Pick Your Craving 100vh Menu section with authentic category filters and carousel after the story section
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UX, DESIGN, TEST
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Enable customers to quickly explore Pizza Avenue's authentic culinary offerings—Veggie Haven, Non-Veg Paradise, Pastas, Breads & Sides, and Desserts & Dips—right after the brand story on the landing page, driving direct pickup orders with prominent prices, mouth-watering imagery, and direct add-to-order actions.
+
+### Requested Outcome
+
+Create a dedicated "PICK YOUR CRAVING" section positioned directly after the story section (`story-reveal-container`) that fills the full desktop viewport height (100vh / 100dvh). Follow the design mockup precisely:
+- Centered "Menu" pill badge
+- Prominent display headline "PICK YOUR CRAVING" in brand typography (`Phudu`)
+- Subtitle: "Every bite hits different. Choose your category and feast."
+- Interactive category filter pills row (HOT SELLING, VEG PIZZAS, NON-VEG PIZZAS, PASTAS, BREADS & SIDES, DESSERT & DIPS)
+- Smooth horizontal 3-card carousel showcasing dishes from the authentic Pizza Avenue menu card
+- Bold prices, crisp descriptions, and dark circular plus buttons linking to the Customer App ordering menu
+- Centered bottom navigation arrows (`←` / `→`) to paginate cards smoothly
+- Adherence to project 7-color palette and typography rules
+- Responsive layout for tablet and mobile screens
+
+### Scope
+
+Included:
+- Add craving menu data and types to `apps/landing/src/landing-content.ts` reflecting items from the uploaded Pizza Avenue menu card.
+- Provide curated food photography assets in `apps/landing/public/assets/menu/`.
+- Build `CravingMenu.tsx` component with category filter state, horizontal carousel sliding, and responsive layout.
+- Add CSS styles to `apps/landing/src/styles.css` adhering strictly to 100vh viewport height constraints (`min-height: 100vh; min-height: 100dvh`).
+- Integrate into `LandingPage.tsx` directly after `story-reveal-container`.
+- Add comprehensive automated tests in `app.test.tsx`.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Modifications to authoritative backend pricing or checkout calculations.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/components/CravingMenu.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `apps/landing/src/components/ui/feature-carousel.tsx`
+- `components/ui/feature-carousel.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Database Impact
+
+- None
+
+### API Impact
+
+- None
+
+### State Machine Impact
+
+- None
+
+### Permission Impact
+
+- None
+
+### Analytics Impact
+
+- None
+
+### Environment / Secret Impact
+
+- None
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 11 tests pass
+- [x] Vitest workspace suite — all 47 tests pass across 6 test files
+- [x] Workspace ESLint — 0 errors, 0 warnings
+- [x] Production build — all 4 applications build successfully
+- [x] Browser visual verification — verified in browser subagent on desktop (1440x900, 1920x1080) and mobile (390x844)
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Created `CravingMenu.tsx` and placed it directly after the story section on `LandingPage.tsx`.
+- Built the section to fill 100vh (`min-height: 100vh; min-height: 100dvh;`) with flex column centering, balanced padding, and zero viewport overflow on desktop.
+- Implemented category filter tabs (`HOT SELLING`, `VEG PIZZAS`, `NON-VEG PIZZAS`, `PASTAS`, `BREADS & SIDES`, `DESSERT & DIPS`) with items, prices, and descriptions matching Pizza Avenue's uploaded menu card.
+- Implemented smooth horizontal carousel sliding with `←` and `→` navigation buttons, active boundary detection, and responsive touch-swipe support.
+- Configured authentic food photography in `apps/landing/public/assets/menu/`.
+- All tests, typechecks, lint, and production builds pass cleanly.
+
+---
+
+## CHG-0012 — Remove redundant legacy Signatures section from landing page
+
+- **Status:** IN_REVIEW
+- **Type:** REFACTOR, UX, CLEANUP
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+With the new, complete "PICK YOUR CRAVING" interactive 100vh menu section now live showcasing all authentic categories and dishes, the legacy prototype-only static 4-item "Start with the favourites" signatures grid (`.signatures`) is redundant. Removing it declutters the landing experience and streamlines the customer journey directly from browsing cravings to best sellers and reviews.
+
+### Requested Outcome
+
+Remove `<section className="signatures" ...>` from `LandingPage.tsx`, update navigation links and Hero CTA to point to `#menu` instead of `#signatures`, adjust test suite to reflect removal, and verify full workspace suite passes.
+
+### Scope
+
+Included:
+- Remove `<section className="signatures" ...>` in `LandingPage.tsx`.
+- Update Hero secondary button target to `#menu` (`href="#menu"`).
+- Update navigation links in `LandingPage.tsx` and `Footer.tsx` from `#signatures` to `#menu`.
+- Update tests in `app.test.tsx`.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Deleting `signaturePizzas` content dataset in case it is reused for other mockups.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/components/Footer.tsx`
+- `apps/landing/src/components/CravingMenu.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 12 tests pass
+- [x] Vitest workspace suite — all 48 tests pass across 6 test files
+- [x] Workspace ESLint — 0 errors, 0 warnings
+- [x] Production build — all 4 applications build successfully
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Removed legacy `<section className="signatures" ...>` from `LandingPage.tsx`.
+- Updated header navigation and Hero secondary button to point to `#menu` ("Explore the menu" / "Our Menu").
+- Updated footer navigation link from `#signatures` to `#menu` ("DEALS").
+- Added prototype pricing qualification note in `CravingMenu.tsx` to maintain checkout transparency rule.
+- All 48 vitest tests, typechecks, lint, and production builds pass cleanly.
+
+---
+
+## CHG-0013 — Add Combo Madness promotional banner strip after Customer Flow section
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UI, MARKETING
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Drive pickup combo conversions and average order value (AOV) by showcasing a bold, high-impact promotional strip banner ("COMBO MADNESS — Save up to 30% on meal combos") strategically situated between the 3-step customer flow and category best sellers, visually highlighting signature pizzas, sides, and craft creations.
+
+### Requested Outcome
+
+Generate a dedicated promotional strip component placed directly after `<CustomerFlow />` and before `<FeatureCarousel />` (Category Best Sellers), utilizing authentic project assets (`/assets/pizza-wave/*`), adhering to Pizza Avenue brand aesthetics and typography, fully responsive across desktop and mobile, with automated test coverage and documentation updates.
+
+### Scope
+
+Included:
+- Create `apps/landing/src/components/ComboStrip.tsx`.
+- Add dedicated CSS styles in `apps/landing/src/styles.css` for the strip layout, typography, responsive scaling, and floating imagery.
+- Integrate `ComboStrip` into `LandingPage.tsx` directly after `CustomerFlow`.
+- Add unit tests in `apps/landing/src/app.test.tsx` verifying render, headline, subtitle, image presence, and customer app menu link.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Modifying backend pricing or checkout calculations (pure frontend landing marketing strip).
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/components/ComboStrip.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 13 tests pass
+- [x] Full Vitest workspace suite — all 49 tests pass across 6 test files
+- [x] Workspace ESLint check — 0 errors, 0 warnings
+- [x] Production build — all 4 applications build successfully
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Built `ComboStrip.tsx` component placed immediately after `<CustomerFlow />` and before `<FeatureCarousel />` on the landing page.
+- Rendered bold, punchy display headline "COMBO MADNESS" in `Phudu` (900 weight, deep espresso) and subtitle "Save up to 30% on meal combos".
+- Integrated 5 authentic project cutout dishes (`paneer-cheese-pizza.png`, `chicken-tikka-pizza.png`, `cheesy-garlic-bread.png`, `chocolate-brownie.png`, and `hero-main-pizza.png`) echoing the composition and framing of the reference mockup.
+- Wrapped in an interactive accessible link to the customer app menu with hover micro-animations and drop-shadow depth.
+- Verified responsive layout and fallbacks for tablet and mobile screens.
+- All 49 vitest tests, typechecks, lint, and production builds pass cleanly.
+
+---
+
+## CHG-0014 — Replicate Combos Section with brand styling and reorder sections after menu and combo banner
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UI, MARKETING
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Drive combo sales and basket size by introducing an appetizing 4-card deals showcase ("COMBOS THAT MAKE SENSE") directly following the combo promotional strip and menu, giving customers curated, clear savings packages (Feast Combo, Pizza Party Deal, Wrap & Wings Bundle, Date Night Special) with straightforward pricing and immediate pickup actions.
+
+### Requested Outcome
+
+Replicate the uploaded reference mockup using Pizza Avenue design system foundation (`Phudu` headlines, `Poppins` body/badges, warm project colors, ₹ pricing), place Best Sellers after the Menu and Combo Banner, and preserve seamless landing narrative flow.
+
+### Scope
+
+Included:
+- Create `apps/landing/src/components/CombosSection.tsx` with 4 vibrant combo deal cards, save badges, bulleted item lists, strikethrough/deal prices, and CTA buttons.
+- Create assets in `apps/landing/public/assets/combos/` (`the-feast-combo.jpg`, `pizza-party-deal.jpg`, `wrap-wings-bundle.jpg`, `date-night-special.jpg`).
+- Define `ComboOffer` and `comboOffers` in `apps/landing/src/landing-content.ts`.
+- Reorder landing page sections: Story -> Customer Flow -> Menu -> Combo Banner -> Combos Deals Section -> Category Best Sellers.
+- Add CSS in `apps/landing/src/styles.css` for 2x2 grid, card styles, and mobile responsiveness.
+- Add unit test coverage in `apps/landing/src/app.test.tsx`.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Backend cart calculation modifications (marketing landing prototype).
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/components/CombosSection.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `apps/landing/public/assets/combos/*`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 workspace packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 14 tests pass
+- [x] Full Vitest workspace suite — all 50 tests pass across 6 test files
+- [x] Workspace ESLint check — 0 errors, 0 warnings
+- [x] Production build — all 4 applications build successfully
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Built `CombosSection.tsx` component faithfully replicating the reference layout with Pizza Avenue branding.
+- Configured 4 cards in a 2x2 responsive grid: The Feast Combo (coral), Pizza Party Deal (golden yellow), Wrap & Wings Bundle (cyan), and Date Night Special (pastel rose pink).
+- Included prominent save badges, bullet item lists, strikethrough original prices, bold bright white discounted prices, and "GRAB DEAL" pill buttons.
+- Reordered landing page so that Category Best Sellers is situated after the Menu and Combo Banner, preceded directly by the new Combos section.
+---
+
+## CHG-0015 — Add Mobile App Showcase section before footer with brand styling
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UI, MARKETING
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Drive mobile app adoption and repeat pickup orders by introducing a high-converting, realistic mobile app showcase section directly above the footer, demonstrating the 3-tap checkout speed, instant cart review, and store download incentives with Pizza Avenue brand styling.
+
+### Requested Outcome
+
+Replicate the uploaded application mockup reference in a dedicated section (`AppDownloadSection`) situated before the footer on the landing page, adhering to Pizza Avenue design tokens (`Phudu`, `Poppins`, `--cream`, `--espresso`, `--maroon`, brand orange accent), featuring a responsive smartphone frame with cart items and sticky checkout, clear call-to-action app download buttons, and trust metrics.
+
+### Scope
+
+Included:
+- Create `apps/landing/src/components/AppDownloadSection.tsx`.
+- Add styling in `apps/landing/src/styles.css` for the phone chassis, dynamic island, cart list, sticky checkout pill, bottom navigation, display typography, store buttons, and trust badges.
+- Insert `AppDownloadSection` into `LandingPage.tsx` directly before the `<Footer />`.
+- Add unit tests in `apps/landing/src/app.test.tsx` verifying render, headline, highlight span, badges, store download buttons, and trust metrics.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Native iOS/Android app binaries (targets web app / PWA pickup URL).
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/components/AppDownloadSection.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 workspace packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 15 tests pass
+- [x] Full Vitest workspace suite — all 51 tests pass across 6 test files
+- [x] Workspace ESLint check — 0 errors, 0 warnings
+- [x] Production build — all 4 applications build successfully
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Built `AppDownloadSection.tsx` component situated directly before the footer section on the landing page, faithfully reproducing the reference mobile mockup design with Pizza Avenue branding.
+- Created a realistic smartphone frame on the left featuring metallic copper/orange titanium chassis, Dynamic Island with camera lens, status bar, in-app cart items list with dish images (`paneer-cheese-pizza.png`, `chicken-tikka-pizza.png`, `cheesy-garlic-bread.png`, `chocolate-brownie.png`), stepper controls, sticky checkout summary pill, and bottom navigation tabs.
+- Rendered display typography on the right with "Download the App" badge, uppercase headline "ORDER IN 3 TAPS. SERIOUSLY." with "3 TAPS." in brand flame orange, marketing subtitle, and Apple App Store + Google Play pill buttons.
+- Integrated trust metrics with matching orange icons (★ 4.9 Rating, 📥 500K+ Downloads, ⚡ Under 3s Load).
+- All 51 vitest tests, typecheck, lint, and production builds pass cleanly.
+
+---
+
+## CHG-0016 — Add Feed the Crowd Catering & Events Section after Combos Section with brand styling
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UI, MARKETING
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Expand average order value and attract group, corporate, and event orders by introducing a dedicated "FEED THE CROWD" catering and group package section placed directly after the Combos section, presenting curated packages (Office Party, Game Night Feast, Wedding Rehearsal) and a custom event catering builder callout with Pizza Avenue brand styling.
+
+### Requested Outcome
+
+Faithfully replicate the uploaded Catering & Events reference mockup directly after the Combos section on the landing page, using Pizza Avenue design system foundation (`Phudu` headlines, `Poppins` typography, rich brand color palette, warm background, responsive 3-column card layout, interactive deal buttons, and custom event catering banner).
+
+### Scope
+
+Included:
+- Define `cateringPackages` in `apps/landing/src/landing-content.ts`.
+- Create `apps/landing/src/components/CateringSection.tsx` component with:
+  - Header pill badge ("Catering & Events"), display headline ("FEED THE CROWD."), and descriptive subtitle.
+  - 3 group package cards (Office Party in coral orange, Game Night Feast in warm golden yellow, Wedding Rehearsal in dusty rose with "PREMIUM" badge).
+  - High-res generated authentic food/gathering imagery in `apps/landing/public/assets/catering/`.
+  - Servings indicator, included item tag pills, bold prices, and dark burgundy "GRAB DEAL" pill buttons.
+  - Wide "CUSTOM EVENT CATERING" banner below cards with subtitle and "BUILD CUSTOM ORDER" button.
+- Insert `<CateringSection customerAppUrl={customerAppUrl} />` into `LandingPage.tsx` immediately after `<CombosSection customerAppUrl={customerAppUrl} />`.
+- Add comprehensive styling and responsive layout rules in `apps/landing/src/styles.css`.
+- Add test coverage in `apps/landing/src/app.test.tsx`.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Backend multi-tier enterprise contract billing systems.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/components/CateringSection.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `apps/landing/public/assets/catering/*`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 workspace packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 16 tests pass
+- [x] Full Vitest workspace suite — all 52 tests pass across 6 test files
+- [x] Workspace ESLint check — 0 errors, 0 warnings
+- [x] Production build — all 4 applications build successfully
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Built `CateringSection.tsx` component situated directly after the `<CombosSection />` on the landing page, replicating the reference Catering & Events design with Pizza Avenue branding.
+- Created section header with "Catering & Events" pill badge, bold display headline "FEED THE CROWD." in `Phudu` (900 weight, deep espresso `#2D1208`), and subtitle "Stack your favorites and save big. Limited time offers that actually matter."
+- Constructed 3 group catering cards in a responsive grid featuring authentic high-resolution gathering and dining photography:
+  - **OFFICE PARTY**: Warm terracotta card body (`#EB5E28`), "Serves 10-15 people", tags (`10 Burgers`, `5 Large Pizzas`, `20 Wings`, `Dips & Sides`), price `$149`, and dark burgundy pill `GRAB DEAL`.
+  - **GAME NIGHT FEAST**: Golden yellow card body (`#F5BA31`), "Serves 6-8 people", tags (`8 Burgers`, `3 Large Pizzas`, `12 Wings`, `Loaded Fries`), price `$99`, and dark burgundy pill `GRAB DEAL`.
+  - **WEDDING REHEARSAL**: Rose pink card body (`#E57399`), "PREMIUM" dark pill badge, "Serves 25-30 people", tags (`25 Burgers`, `8 Large Pizzas`, `40 Wings`, `Salad Bowls`, `Desserts`), price `$299`, and dark burgundy pill `GRAB DEAL`.
+- Created wide "CUSTOM EVENT CATERING" banner below the cards with title, descriptive subtitle ("Birthdays, corporate lunches, graduations, we build it your way."), and vibrant orange pill button ("BUILD CUSTOM ORDER").
+- All 52 Vitest tests, workspace typecheck, lint, and production builds pass cleanly.
+
+---
+
+## CHG-0017 — Add Brand Highlights & Proof Cards Section after Story Section with brand styling
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UI, MARKETING
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Replicate the uploaded design reference directly after the brand story scroll-reveal section to boost social proof, highlight quality metrics (50K+ Happy Foodies, 0 Artificial Additives, FRESH Hot in minutes, 100% Certified safe), and showcase authentic, mouth-watering sourdough pizza enjoyment photography with Pizza Avenue brand styling and typography.
+
+### Requested Outcome
+
+Faithfully replicate the uploaded section layout:
+- 4 top vibrant, rounded stat cards in a responsive grid (`50K+ Happy Foodies`, `0 Artificial Additives`, `FRESH Hot in minutes`, `100% Certified safe`) using brand color harmony (terracotta/coral orange, sky blue, warm yellow, soft rose pink) and espresso display typography.
+- 2 bottom high-impact lifestyle photo cards (`FLAVORS MADE FOR YOU`, `HOT, FRESH, PERFECT`) featuring authentic, unbranded pizza enjoyment photography, dark gradient overlays, and bold `Phudu` typography.
+- Positioned immediately after the Story section (`.story-reveal-container`) and before the Customer Flow section (`<CustomerFlow />`).
+
+### Scope
+
+Included:
+- Add `brandStatCards` and `brandPhotoCards` datasets in `apps/landing/src/landing-content.ts`.
+- Create `apps/landing/src/components/BrandHighlights.tsx` component.
+- Generate and place high-resolution photography assets in `apps/landing/public/assets/highlights/`.
+- Add responsive styling rules in `apps/landing/src/styles.css`.
+- Insert `<BrandHighlights />` into `LandingPage.tsx` directly after the Story section.
+- Add unit/integration tests in `apps/landing/src/app.test.tsx`.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Modifying backend APIs or database schemas.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/components/BrandHighlights.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `apps/landing/public/assets/highlights/*`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 workspace packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 17 tests pass
+- [x] Full Vitest workspace suite — all 53 tests pass across 6 test files
+- [x] Workspace ESLint check — 0 errors, 0 warnings
+- [x] Production build — all 4 applications build successfully
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Built `BrandHighlights.tsx` component placed immediately after the story section (`.story-reveal-container`) and before the customer flow section (`<CustomerFlow />`) on the landing page, replicating the reference design layout with Pizza Avenue branding.
+- Created top 4 rounded metric cards in a responsive grid using the brand palette (`#FF6E40`, `#7BD5F5`, `#F9C74F`, `#F7A8D8`) with bold espresso typography in `Phudu` and `Poppins` (`50K+ Happy Foodies`, `0 Artificial Additives`, `FRESH Hot in minutes`, `100% Certified safe`).
+- Created bottom 2 high-impact photo cards in a responsive grid featuring high-resolution photography assets (`flavors-made-for-you.jpg` and `hot-fresh-perfect.jpg`) with dark bottom gradient overlays and bold white uppercase headlines (`FLAVORS MADE FOR YOU` and `HOT, FRESH, PERFECT`).
+- Added responsive styling rules and media queries in `apps/landing/src/styles.css`.
+---
+
+## CHG-0018 — Integrate authentic Pizza Avenue brand logo across landing page surfaces
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UI, BRANDING
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-07
+
+### Business Reason
+
+Incorporate the authentic, newly added circular Pizza Avenue brand logo badge into all key landing page surfaces (browser tab icon, header navigation wordmark, footer brand lockup, footer rising display disc, and mobile app mockup) to establish consistent, high-trust brand identity across customer touchpoints.
+
+### Requested Outcome
+
+- Add browser tab favicon and Apple touch icon references in `index.html`.
+- Add the circular brand badge in the site header navigation wordmark (`.wordmark`) with responsive scaling and hover micro-interaction.
+- Add a dedicated brand lockup (`.footer-brand-lockup`) in the footer top section featuring the logo, title, and tagline ("The Only Route to Real Flavor · Sainikpuri").
+- Embed the authentic brand badge inside the giant rising footer display circle (`.footer-banner-disc-img`).
+- Add the logo badge inside the smartphone mockup cart header and the right-column "Download the App" badge in the Mobile App Showcase section.
+- Clip the logo image cleanly (`border-radius: 50%`, `object-fit: cover`) to highlight the circular seal and dough art.
+
+### Scope
+
+Included:
+- Update `apps/landing/index.html` with favicon and apple-touch-icon links.
+- Update `apps/landing/src/LandingPage.tsx` header wordmark.
+- Update `apps/landing/src/components/Footer.tsx` with brand lockup and banner disc image.
+- Update `apps/landing/src/components/AppDownloadSection.tsx` with app header and download badge icons.
+- Add responsive styling in `apps/landing/src/styles.css`.
+- Add integration tests in `apps/landing/src/app.test.tsx`.
+- Update `docs/17_CHANGELOG.md` and `docs/24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Backend or database modifications.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/index.html`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/components/Footer.tsx`
+- `apps/landing/src/components/AppDownloadSection.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 workspace packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 18 tests pass
+- [x] Full Vitest workspace suite — all 54 tests pass across 6 test files
+- [x] Workspace ESLint check — 0 errors, 0 warnings
+- [x] Production build — `@pizza-avenue/landing` builds successfully in 2.15s
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Brand logo integrated seamlessly in HTML favicon, header wordmark, footer brand block, footer rising circle disc, and mobile app mockup.
+- Full test suite, lint, typecheck, and production builds pass cleanly.
+
+---
+
+## CHG-0019 — Replicate Reference Hero Carousel Layout Structure & Responsive Device Scaling
+
+- **Status:** IN_REVIEW
+- **Type:** FEATURE, UI, RESPONSIVE
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-08
+- **Last Updated:** 2026-10-09
+- **Pull Request:** #13 against `develop` (shared Landing branch; staging and production not deployed)
+
+### Business Reason
+
+Replicate the exact design structure and responsive layout shown in the user's reference mockup images (Stack n Snack hero reference) on Pizza Avenue's hero carousel:
+1. Card structure: Each card features an outer solid colored container matching the category theme, an inset photo with rounded corners and uniform framing padding, and bold, centered uppercase display typography directly on the card background.
+2. Category colors: Palette aligned with reference (Crimson Red for PIZZAS, Sky Cyan for PANEER CRAFT, Terracotta Orange for CHICKEN TIKKA, Basil Green for TRUFFLE MUSHROOM, Golden Yellow for GARLIC BREAD, Rose Pink for SWEET BITES).
+3. Buttons: Fully rounded pill buttons (`border-radius: 9999px`) for both primary and secondary hero CTAs.
+4. Responsive viewports:
+   - Mobile: 1 prominent centered card (~74vw) with left and right adjacent cards peeking in (~13vw) at the viewport edges, replicating Reference Image 1.
+   - Desktop: 5 cards visible across the screen (4 centered full cards + left/right edge peeks), replicating Reference Image 2.
+   - Monotonic scaling across all device viewports.
+
+### Requested Outcome
+
+- Outer solid colored card container with `border-radius: 1.45rem - 1.65rem` and inset square photo (`border-radius: 1rem - 1.2rem`).
+- Bold uppercase display labels (`Phudu`, 800 weight) centered in the bottom color band.
+- Fully rounded pill buttons (`border-radius: 9999px`) for hero CTAs.
+- Seamless 4K marquee scroll with 24 cards (4x clones) and accessible ARIA hiding on clone cards.
+
+### Scope
+
+Included:
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 workspace packages pass cleanly with 0 errors
+- [x] Landing unit and integration tests — all 19 tests pass
+- [x] Full Vitest workspace suite — all 55 tests pass across 6 test files
+- [x] Workspace ESLint check — 0 errors, 0 warnings
+- [x] Production build — `@pizza-avenue/landing` builds successfully in 1.63s
+- [x] Responsive layout audit verifying mobile 1-card centered peek and desktop 5-card layout
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Hero section and carousel fully replicated to match the supplied reference structure across desktop and mobile.
+- The recorded 55-test run was an earlier snapshot. The current 2026-10-09 run passed 44/44 workspace tests, typecheck, ESLint and all four frontend production builds.
 
 ---
 
