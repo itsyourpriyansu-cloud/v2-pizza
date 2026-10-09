@@ -1,22 +1,23 @@
-@import '@pizza-avenue/ui/foundation.css';
+@import './design-system/tokens.css';
+@import './design-system/foundation.css';
 
-body { background: var(--pa-espresso); }
-.app-shell--kds { --content-width: 88rem; min-height: 100vh; color: var(--pa-cream); background: radial-gradient(circle at 90% 0%, rgb(140 74 47 / 30%), transparent 28rem), var(--pa-espresso); }
-.app-shell--kds .app-shell__header { border-color: rgb(253 246 233 / 16%); color: var(--pa-cream); background: rgb(59 47 42 / 94%); }
-.app-shell--kds .app-shell__wordmark { color: var(--pa-cream); font-size: clamp(1.35rem, 2vw, 1.8rem); }
-.app-shell--kds .app-shell__product { color: var(--pa-sage); }
+body { background: var(--kds-pa-espresso); }
+.app-shell--kds { --kds-content-width: 88rem; min-height: 100vh; color: var(--kds-pa-cream); background: radial-gradient(circle at 90% 0%, rgb(140 74 47 / 30%), transparent 28rem), var(--kds-pa-espresso); }
+.app-shell--kds .app-shell__header { border-color: rgb(253 246 233 / 16%); color: var(--kds-pa-cream); background: rgb(59 47 42 / 94%); }
+.app-shell--kds .app-shell__wordmark { color: var(--kds-pa-cream); font-size: clamp(1.35rem, 2vw, 1.8rem); }
+.app-shell--kds .app-shell__product { color: var(--kds-pa-sage); }
 .app-shell--kds .app-shell__nav a { min-height: 3rem; color: rgb(253 246 233 / 74%); font-size: 0.95rem; }
-.app-shell--kds .app-shell__nav a:hover { color: var(--pa-cream); background: rgb(253 246 233 / 10%); }
-.app-shell--kds .app-shell__nav a[aria-current="page"] { color: var(--pa-espresso); background: var(--pa-cream); }
-.app-shell--kds .app-shell__main { width: min(calc(100% - 2rem), var(--content-width)); }
-.app-shell--kds .route-placeholder { border-color: rgb(253 246 233 / 16%); color: var(--pa-espresso); background: var(--pa-cream); box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 20%); }
-.app-shell--kds .route-placeholder__eyebrow { color: var(--pa-olive); }
+.app-shell--kds .app-shell__nav a:hover { color: var(--kds-pa-cream); background: rgb(253 246 233 / 10%); }
+.app-shell--kds .app-shell__nav a[aria-current="page"] { color: var(--kds-pa-espresso); background: var(--kds-pa-cream); }
+.app-shell--kds .app-shell__main { width: min(calc(100% - 2rem), var(--kds-content-width)); }
+.app-shell--kds .route-placeholder { border-color: rgb(253 246 233 / 16%); color: var(--kds-pa-espresso); background: var(--kds-pa-cream); box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 20%); }
+.app-shell--kds .route-placeholder__eyebrow { color: var(--kds-pa-olive); }
 .app-shell--kds .route-placeholder__content { max-width: none; }
 .app-shell--kds .route-placeholder__content ul { margin: 0; padding: 0; list-style: none; }
-.app-shell--kds .route-placeholder__content li { display: flex; min-height: 3.5rem; align-items: center; padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
-.app-shell--kds .route-placeholder__content li a { flex: 0 0 auto; color: var(--color-brand); font-weight: 800; text-underline-offset: 0.2rem; white-space: nowrap; }
+.app-shell--kds .route-placeholder__content li { display: flex; min-height: 3.5rem; align-items: center; padding: var(--kds-space-3) var(--kds-space-4); border: 1px solid var(--kds-color-border); border-radius: var(--kds-radius-sm); background: var(--kds-color-surface); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.app-shell--kds .route-placeholder__content li a { flex: 0 0 auto; color: var(--kds-color-brand); font-weight: 800; text-underline-offset: 0.2rem; white-space: nowrap; }
 
 @media (max-width: 48rem) {
-  .app-shell--kds .app-shell__header { background: var(--pa-espresso); }
-  .app-shell--kds .route-placeholder { padding: var(--space-5); }
+  .app-shell--kds .app-shell__header { background: var(--kds-pa-espresso); }
+  .app-shell--kds .route-placeholder { padding: var(--kds-space-5); }
 }

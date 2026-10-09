@@ -1,14 +1,15 @@
 # 06 — Design System
 
-> **Current design sources:** The implemented Landing is the canonical visual reference. `packages/ui/src/foundation.css` is the cross-application token and primitive contract. Read `27_DESIGN_SYSTEM_FOUNDATION.md` for exact implementation rules and `28_UI_VISUAL_DIRECTION.md` for surface adaptation, imagery and composition. Product and architecture source-of-truth priority remains unchanged.
+> **Current design sources:** The implemented Landing remains a visual reference, not a runtime stylesheet dependency. Landing, Customer, Admin and KDS each own an isolated design system under their application directory. `packages/ui/src/index.tsx` shares semantic React structure only. Read `27_DESIGN_SYSTEM_FOUNDATION.md` for exact ownership rules and `28_UI_VISUAL_DIRECTION.md` for surface adaptation, imagery and composition. Product and architecture source-of-truth priority remains unchanged.
 
 ## Foundation contract
 
 - The official palette is Cream `#FDF6E9`, Sand `#EADCC8`, Maroon `#6B1F1F`, Italian Brown `#8C4A2F`, Olive `#556B2F`, Sage `#A7B58B` and Espresso `#3B2F2A`.
 - Phudu 600/700 is the display face. Poppins 400/500/600/700 is the body and functional face.
-- Applications consume shared semantic tokens from `@pizza-avenue/ui/foundation.css`; they do not duplicate brand hex values or create surface-local brand palettes.
-- Landing is expressive, Customer is direct and food-led, KDS is high-contrast and glanceable, and Admin is dense and calm. Shared identity does not mean identical composition.
-- The official logo asset may be used only from the governed Landing asset set; do not redraw, approximate or invent a mark.
+- Every application owns its tokens and foundations locally: `--landing-*`, `--customer-*`, `--admin-*` and `--kds-*`. An app must never import another app's token file or public assets.
+- Equal approved brand values may be intentionally repeated, but the variable contracts remain independent so one surface cannot override another.
+- Landing is expressive, Customer is direct and food-led, KDS is high-contrast and glanceable, and Admin is dense and calm. Related identity does not require a shared runtime theme.
+- Each application uses only its own approved logo copy under `apps/<app>/public/assets/`; do not redraw, approximate, hotlink or reach into another app's asset tree.
 
 ## Interaction principles
 - Food first
@@ -25,10 +26,10 @@
 - Pickup and Dine-in share foundations, but cart, service and fulfilment context is never hidden or silently converted.
 
 ## Spacing
-Use the shared 4px base scale (`--space-1` through `--space-16`). Default mobile horizontal padding is 16px; operational layouts may increase density without reducing tap targets.
+Each app owns a 4px-based spacing scale using its prefix, for example `--customer-space-1` through `--customer-space-16`. Default mobile horizontal padding is 16px; operational layouts may increase density without reducing tap targets.
 
 ## Semantic color tokens
-Use `--color-canvas`, `--color-surface`, `--color-surface-strong`, `--color-ink`, `--color-muted`, `--color-brand`, `--color-success`, `--color-warning`, `--color-danger`, `--color-border` and `--color-focus`. Raw palette tokens are available only when a deliberate brand composition needs them.
+Use the owning app's prefixed semantic roles, such as `--customer-color-canvas`, `--admin-color-surface`, `--kds-color-ink` or `--landing-maroon`. Unprefixed application variables and cross-app variable references are prohibited. Raw palette tokens remain limited to deliberate brand compositions.
 
 Order state must never rely on color alone.
 

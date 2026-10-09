@@ -83,7 +83,7 @@ Recommended character:
 
 The Landing page must still load quickly, remain keyboard accessible and recompose deliberately on mobile.
 
-The current Landing implementation—not an external reference—is the application baseline for colour balance, Phudu/Poppins pairing, warm dividers, controlled elevation and confident action styling. Other surfaces should inherit these ingredients without copying Landing chapter layouts, oversized display type or decorative motion into operational tasks.
+The current Landing implementation—not an external reference—is a visual reference for colour balance, Phudu/Poppins pairing, warm dividers, controlled elevation and confident action styling. Other surfaces may adapt these ingredients through their own tokens and assets; they do not import the Landing stylesheet, variables or public files.
 
 ## 9. Customer App Visual Language
 
@@ -116,9 +116,16 @@ Pickup/Dine-in selection remains explicit. A Dine-in choice still leads to the p
 
 KDS uses an Espresso environment with Cream tickets, 48px-or-larger primary targets, Poppins-first metadata and tabular timers/order identifiers. Brand expression must never slow kitchen scanning.
 
-Admin uses the same Cream/Espresso foundation with a responsive navigation rail, compact surfaces and explicit action hierarchy. Phudu is limited to page-level headings; forms, tables, permissions and audit data remain Poppins-first.
+Admin uses its own Cream/Espresso-oriented foundation with a responsive navigation rail, compact surfaces and explicit action hierarchy. Phudu is limited to page-level headings; forms, tables, permissions and audit data remain Poppins-first.
 
-Both surfaces use the same semantic focus, status and motion rules as Customer. Neither introduces a separate back-office palette.
+KDS and Admin follow the same accessibility principles for focus, status and motion, but implement them through `--kds-*` and `--admin-*` tokens. Their palettes are independently owned even when approved values currently match Customer.
+
+## 9B. Runtime and asset separation
+
+- Landing variables use `--landing-*`; Customer uses `--customer-*`; Admin uses `--admin-*`; KDS uses `--kds-*`.
+- App source imports only its own design-system files.
+- Every app serves images, logos and other static media only from its own `public/assets/` directory.
+- Visual alignment is maintained through this document and review, not through global CSS aliases or cross-app asset URLs.
 
 ## 10. Image Direction
 

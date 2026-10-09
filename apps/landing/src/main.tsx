@@ -8,6 +8,7 @@ import '@fontsource/poppins/latin-500.css';
 import '@fontsource/poppins/latin-600.css';
 import '@fontsource/poppins/latin-700.css';
 import { LandingPage } from './LandingPage';
+import './design-system/tokens.css';
 import './styles.css';
 import './reference.css';
 

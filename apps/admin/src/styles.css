@@ -1,21 +1,22 @@
-@import '@pizza-avenue/ui/foundation.css';
+@import './design-system/tokens.css';
+@import './design-system/foundation.css';
 
-.app-shell--admin { --content-width: 88rem; }
+.app-shell--admin { --admin-content-width: 88rem; }
 .app-shell--admin .app-shell__main { min-width: 0; }
 .app-shell--admin .route-placeholder { min-height: min(34rem, calc(100vh - 11rem)); }
-.app-shell--admin .route-placeholder__content > p { padding: 0.85rem 1rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: rgb(253 246 233 / 72%); font-variant-numeric: tabular-nums; }
-.app-shell--admin .route-placeholder__content > a { display: inline-flex; min-height: var(--touch-target); align-items: center; padding: 0.65rem 0.9rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); text-decoration: none; }
+.app-shell--admin .route-placeholder__content > p { padding: 0.85rem 1rem; border: 1px solid var(--admin-color-border); border-radius: var(--admin-radius-sm); background: rgb(253 246 233 / 72%); font-variant-numeric: tabular-nums; }
+.app-shell--admin .route-placeholder__content > a { display: inline-flex; min-height: var(--admin-touch-target); align-items: center; padding: 0.65rem 0.9rem; border: 1px solid var(--admin-color-border); border-radius: var(--admin-radius-sm); background: var(--admin-color-surface); text-decoration: none; }
 
 @media (min-width: 64rem) {
   .app-shell--admin { display: grid; min-height: 100vh; grid-template-columns: 17.5rem minmax(0, 1fr); }
-  .app-shell--admin .app-shell__header { position: sticky; top: 0; height: 100vh; align-self: start; align-items: stretch; justify-content: flex-start; flex-direction: column; gap: var(--space-8); padding: var(--space-8) var(--space-5); border-right: 1px solid rgb(253 246 233 / 14%); border-bottom: 0; color: var(--color-on-brand); background: var(--pa-espresso); backdrop-filter: none; }
-  .app-shell--admin .app-shell__wordmark { color: var(--pa-cream); font-size: 1.6rem; }
+  .app-shell--admin .app-shell__header { position: sticky; top: 0; height: 100vh; align-self: start; align-items: stretch; justify-content: flex-start; flex-direction: column; gap: var(--admin-space-8); padding: var(--admin-space-8) var(--admin-space-5); border-right: 1px solid rgb(253 246 233 / 14%); border-bottom: 0; color: var(--admin-color-on-brand); background: var(--admin-pa-espresso); backdrop-filter: none; }
+  .app-shell--admin .app-shell__wordmark { color: var(--admin-pa-cream); font-size: 1.6rem; }
   .app-shell--admin .app-shell__product { color: rgb(253 246 233 / 64%); }
-  .app-shell--admin .app-shell__nav { align-items: stretch; flex-direction: column; gap: var(--space-1); overflow-y: auto; }
-  .app-shell--admin .app-shell__nav a { justify-content: flex-start; color: rgb(253 246 233 / 74%); border-radius: var(--radius-sm); }
-  .app-shell--admin .app-shell__nav a:hover { color: var(--pa-cream); background: rgb(253 246 233 / 10%); }
-  .app-shell--admin .app-shell__nav a[aria-current="page"] { color: var(--pa-espresso); background: var(--pa-cream); }
-  .app-shell--admin .app-shell__main { width: min(calc(100% - 3rem), var(--content-width)); padding-block: var(--space-10); }
+  .app-shell--admin .app-shell__nav { align-items: stretch; flex-direction: column; gap: var(--admin-space-1); overflow-y: auto; }
+  .app-shell--admin .app-shell__nav a { justify-content: flex-start; color: rgb(253 246 233 / 74%); border-radius: var(--admin-radius-sm); }
+  .app-shell--admin .app-shell__nav a:hover { color: var(--admin-pa-cream); background: rgb(253 246 233 / 10%); }
+  .app-shell--admin .app-shell__nav a[aria-current="page"] { color: var(--admin-pa-espresso); background: var(--admin-pa-cream); }
+  .app-shell--admin .app-shell__main { width: min(calc(100% - 3rem), var(--admin-content-width)); padding-block: var(--admin-space-10); }
 }
 
 @media (max-width: 63.99rem) {

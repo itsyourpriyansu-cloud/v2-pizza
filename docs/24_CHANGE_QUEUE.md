@@ -103,13 +103,13 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0030
+Next Change ID: CHG-0031
 
 Open:
-29
+30
 
 In Progress:
-1
+2
 
 In Review:
 25
@@ -3577,7 +3577,7 @@ Pull Request:
 
 ### Current Result
 
-The Landing palette, typography and interaction language now form a shared application foundation. Customer consumes the shared tokens and primitives without changing flows; Admin has a responsive operations rail; KDS has a high-contrast, large-target kitchen shell. Lint, typecheck, all 175 tests and all four production builds pass. Browser review confirms correct fonts, active navigation, touch targets and no document overflow or console errors at the tested mobile and desktop sizes. Implementation commit `748432eb0a295d766aa700930fad11d89364d0dd` is pushed to `origin/feature/unified-landing-design-system`; the change remains unmerged/unreleased pending Pull Request creation and required review.
+The Landing palette, typography and interaction language were initially extracted into a shared application foundation. Customer consumed the shared tokens and primitives without changing flows; Admin gained a responsive operations rail; KDS gained a high-contrast, large-target kitchen shell. Lint, typecheck, all 175 tests and all four production builds passed. Browser review confirmed correct fonts, active navigation, touch targets and no document overflow or console errors at the tested mobile and desktop sizes. Implementation commit `748432eb0a295d766aa700930fad11d89364d0dd` was pushed to `origin/feature/unified-landing-design-system`. CHG-0030 supersedes only the shared runtime CSS ownership by isolating tokens/assets per app; the visual treatments remain. The change remains unmerged/unreleased pending required review.
 
 ### Related Changes
 
@@ -3664,6 +3664,83 @@ The service selector and every existing Home priority state now use the combined
 - CHG-0007
 - CHG-0012
 - CHG-0028
+
+---
+
+## CHG-0030 — Isolate design-system and asset ownership per frontend app
+
+- **Status:** IN_PROGRESS
+- **Type:** REFACTOR, UX, DOCUMENTATION, TEST
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-09
+- **Last Updated:** 2026-10-09
+
+### Business Reason
+
+The shared global CSS foundation causes Customer, Landing, Admin and KDS to inherit the same unscoped variables even though each surface has different visual and operational needs. Their assets are already stored mostly per app, but ownership is not governed strongly enough to prevent cross-surface reuse.
+
+### Requested Outcome
+
+Give every frontend app an independently owned, uniquely prefixed token and foundation contract; keep assets app-local; and leave `@pizza-avenue/ui` responsible only for structural React primitives so one app cannot silently override another app's design system.
+
+### Scope
+
+Included:
+- app-local Customer, Landing, Admin and KDS token contracts,
+- app-local Customer, Admin and KDS foundations,
+- uniquely namespaced CSS custom properties for every app,
+- removal of the shared CSS foundation export and imports,
+- explicit per-app asset ownership rules,
+- static isolation tests, documentation and build verification.
+
+Excluded:
+- application behavior, routes, API contracts, analytics or backend state,
+- changing service-mode, pricing, payment, loyalty or authentication rules,
+- replacing the existing approved imagery or visual composition,
+- staging or production deployment.
+
+### GitHub Tracking
+
+Issue:
+- Pending
+
+Branch:
+- `feature/customer-reference-home-ui` (corrective follow-up before review)
+
+Pull Request:
+- Pending
+
+### Database / API / State / Permission Impact
+
+- None. This is a frontend styling and asset-boundary refactor only.
+
+### Analytics Impact
+
+- None.
+
+### Tests Required
+
+- [x] design-system isolation tests — 10 passed
+- [x] tracked-source repository lint — passed with zero warnings
+- [x] repository typecheck — passed
+- [x] repository tests — 15 files, 185 tests passed with one worker
+- [x] Landing, Customer, KDS and Admin production builds — passed
+- [x] browser smoke review for all four applications — passed at desktop width with no console warnings/errors
+
+### Known Risks
+
+- Mechanical token renaming must not alter CSS modifier class names or third-party-owned custom properties.
+- Visually equivalent starting values may exist in more than one app, but no variable or public asset path may be shared across app boundaries.
+
+### Current Result
+
+Implementation and local verification are complete. Each app now owns a uniquely prefixed token contract and its own asset boundary; Customer, Admin and KDS own independent foundations; Landing owns its local tokens; and `@pizza-avenue/ui` exports React structure only. The architecture test rejects unprefixed/foreign custom properties, cross-app source/asset imports and any return of the shared foundation export. Lint, typecheck, 185 tests, all four builds and browser smoke checks pass. No product behavior changed.
+
+### Related Changes
+
+- CHG-0028
+- CHG-0029
 
 ---
 

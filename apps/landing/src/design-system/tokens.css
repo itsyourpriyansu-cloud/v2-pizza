@@ -1,0 +1,13 @@
+/* Landing-owned tokens. Do not import from another application. */
+:root {
+  --landing-cream: #fdf6e9;
+  --landing-sand: #eadcc8;
+  --landing-maroon: #6b1f1f;
+  --landing-brown: #8c4a2f;
+  --landing-olive: #556b2f;
+  --landing-sage: #a7b58b;
+  --landing-espresso: #3b2f2a;
+  --landing-content-width: 88rem;
+  --landing-utility-height: 2.25rem;
+  --landing-header-height: 5rem;
+}

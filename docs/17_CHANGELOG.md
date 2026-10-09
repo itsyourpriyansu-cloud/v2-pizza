@@ -21,6 +21,32 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-09 — Isolate design systems and assets per frontend app
+
+Added:
+- independently owned `--landing-*`, `--customer-*`, `--admin-*` and `--kds-*` token contracts,
+- app-local Customer, Admin and KDS foundations,
+- explicit asset-boundary documentation in every app's `public/assets/` directory,
+- automated checks for token namespaces, CSS-free shared UI ownership and cross-app source imports.
+
+Changed:
+- `@pizza-avenue/ui` is now a CSS-free structural React package,
+- each frontend imports only its local design-system files,
+- the shared visual guidelines now govern relationships without creating runtime stylesheet or asset coupling.
+
+Unchanged:
+- screen composition, application behavior, routes, seed data, APIs, analytics, pricing, payment and service-mode rules.
+
+Docs updated:
+- `docs/06_DESIGN_SYSTEM.md`
+- `docs/07_COMPONENTS.md`
+- `docs/27_DESIGN_SYSTEM_FOUNDATION.md`
+- `docs/28_UI_VISUAL_DIRECTION.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+Risk:
+- matching initial brand values are intentionally duplicated per app; future changes must be reviewed separately per surface.
+
 ## 2026-10-09 — Refine Customer service entry and Home composition
 
 Added:

@@ -1,19 +1,19 @@
 # 27 — Design System Foundation
 
-> **Status:** Implemented cross-application foundation. Brand palette, typography, tokens, interaction primitives and surface separation are frozen; feature compositions remain governed by their product documents.
+> **Status:** Implemented application-isolated foundations. Brand palette, typography, interaction semantics and surface separation are governed; runtime tokens and assets are owned independently by each application.
 >
-> **Scope:** The canonical implementation is `packages/ui/src/foundation.css` and `packages/ui/src/index.tsx`. Landing remains the visual reference; Customer, KDS and Admin consume the same foundation with purpose-specific layouts.
+> **Scope:** `apps/landing`, `apps/customer`, `apps/admin` and `apps/kds` each own `src/design-system/tokens.css` and their public asset tree. Customer, Admin and KDS also own local structural foundations. `packages/ui/src/index.tsx` is a CSS-free semantic React layer.
 
 ## 1. Purpose
 
-This document defines a shared Pizza Avenue design language for four distinct product surfaces:
+This document defines a related Pizza Avenue design language for four independently styled product surfaces:
 
 - Landing / Marketing,
 - Customer ordering PWA,
 - Kitchen/KDS,
 - Founder/Admin.
 
-The system should make those surfaces feel related without making them structurally identical. Brand consistency comes from colour roles, typography, imagery principles, primitive behaviour, spacing logic and a restrained shape language. Composition remains specific to each surface.
+The system should make those surfaces feel related without coupling their runtime variables or assets. Brand consistency comes from governed colour roles, typography, imagery principles, primitive behaviour, spacing logic and a restrained shape language. Token names, foundations, composition and assets remain application-specific.
 
 `docs/06_DESIGN_SYSTEM.md` remains the high-level interaction baseline. This document is the current source for brand foundations, semantic visual guidance and component-layering rules. `docs/28_UI_VISUAL_DIRECTION.md` owns mood, references, Landing rhythm, imagery direction and preliminary content.
 
@@ -48,7 +48,7 @@ The experience is premium-casual rather than luxury-stiff. Food leads. Technolog
 - Poppins is the secondary body/functional UI typeface.
 - The identity direction is Italian editorial, warm craft and modern neighbourhood pizzeria.
 - Landing and application composition layers remain separate.
-- Customer, KDS and Admin share primitives and tokens without being forced into identical cards or layouts.
+- Customer, KDS and Admin may share semantic React structure, but their CSS tokens and foundations are independently owned and uniquely prefixed.
 - The supplied Pizza Avenue logo used by Landing is the only governed logo candidate. It must not be redrawn or replaced; production use still requires the existing provenance/founder approval.
 - Reference screenshots guide principles; they are not screens to reproduce.
 
@@ -72,7 +72,7 @@ The experience is premium-casual rather than luxury-stiff. Food leads. Technolog
 - Exact image aspect ratios and responsive art direction.
 - Exact card compositions and surface proportions.
 - Motion choreography.
-- Additional branded primitives beyond the implemented `packages/ui` foundation.
+- Additional branded React primitives beyond the CSS-free `packages/ui` structural layer.
 
 ## 4. Official Colour Palette
 
@@ -504,8 +504,8 @@ The current repository and legacy `pizza_wave_v1` implementation were audited. �
 
 | Component/pattern | Current location | Reusable logic? | Reusable visual style? | Future action |
 |---|---|---:|---:|---|
-| `AppShell` | `packages/ui/src/index.tsx` | Yes | Yes | Keep shared structure; adapt through documented surface classes |
-| `RoutePending` / `RouteError` | `packages/ui/src/index.tsx` | Yes | Yes | Keep shared semantics and presentation; extend only through semantic variants |
+| `AppShell` | `packages/ui/src/index.tsx` | Yes | Partial | Keep shared semantic structure; every app owns the CSS for its surface classes |
+| `RoutePending` / `RouteError` | `packages/ui/src/index.tsx` | Yes | Partial | Keep shared semantics; every app owns presentation and state styling |
 | Buttons / `IconButton` | legacy `src/shared/components/index.tsx` | Yes | No | Reuse prop/semantic approach; apply new brand |
 | `QuantityStepper` | legacy shared components | Yes | Partial | Reuse accessible labelled behaviour; restyle |
 | `TextInput` / `OTPInput` | legacy shared components | Yes | No | Reuse label/id/input behaviour after auth review |
@@ -564,15 +564,14 @@ The next design review should answer these questions using implemented screens a
 
 ## 26. Implemented Token and Surface Contract
 
-The Landing implementation established the production visual grammar. CHG-0028 extracted that grammar into `@pizza-avenue/ui/foundation.css` so the applications no longer maintain separate brand foundations.
+The Landing implementation established the initial visual grammar. CHG-0028 temporarily extracted it into a shared CSS foundation; CHG-0030 corrects that coupling by restoring independent runtime design systems while retaining the reviewed visual relationships.
 
 ### Token ownership
 
-- `--pa-*` variables expose only the seven frozen brand colours.
-- `--color-*` variables provide semantic roles and are the default choice in feature CSS.
-- `--space-*`, `--radius-*`, `--shadow-*`, `--duration-*` and `--touch-target` define the common dimensional and interaction system.
-- `--mobile-gutter`, `--app-grid-gap`, `--icon-size-*`, `--shadow-card` and the inverse/overlay semantic colours support the Customer discovery profile without screen-local palette values.
-- Feature styles may compose tokens but must not redefine the official palette or typography families.
+- Landing uses `--landing-*`, Customer uses `--customer-*`, Admin uses `--admin-*` and KDS uses `--kds-*`.
+- Each app defines its own palette, semantic colour, spacing, radius, elevation, motion, focus and sizing contracts under `apps/<app>/src/design-system/`.
+- Equal starting values do not make the variables shared; every application can evolve without changing another surface implicitly.
+- Feature styles may compose only their owning app's tokens. Unprefixed variables and cross-app namespace references are prohibited.
 
 ### Surface profiles
 
@@ -592,9 +591,19 @@ The Landing implementation established the production visual grammar. CHG-0028 e
 - Small feedback uses 140–220ms transitions. Reduced-motion preferences collapse all non-essential motion.
 - Status, availability and order state always include text or another non-colour signal.
 
-### Migration rule
+### Isolation and migration rule
 
-All new frontend work imports the shared foundation first, then adds only surface or feature-specific CSS. Duplicated token files are not permitted. Any new token must solve a cross-surface need and be documented here before adoption.
+All new frontend work imports only its app-local token and foundation files before feature CSS. Cross-app CSS imports are prohibited. Brand values may be intentionally repeated so ownership remains independent; a change to one app's token must never alter another app implicitly. New tokens use the owning surface prefix and are documented in that surface's design-system files.
+
+`packages/ui` may provide feature-neutral React structure and accessibility semantics, but it must not export CSS, design tokens, images or fonts.
+
+### Asset ownership
+
+- Landing owns marketing, story, catering, combo and campaign imagery in `apps/landing/public/assets/`.
+- Customer owns operational menu, seed, offer and Customer logo assets in `apps/customer/public/assets/`.
+- Admin owns Admin/Counter/Waiter imagery and logo assets in `apps/admin/public/assets/`.
+- KDS owns kitchen imagery and logo assets in `apps/kds/public/assets/`.
+- Source code never reaches into another app's `src` or `public` tree. If an approved visual is genuinely needed in two apps, each app stores its own optimized derivative with provenance; shared public paths are not used.
 
 ### Customer icon contract
 

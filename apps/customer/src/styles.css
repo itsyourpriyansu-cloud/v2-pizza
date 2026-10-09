@@ -1,2 +1,3 @@
-@import '@pizza-avenue/ui/foundation.css';
+@import './design-system/tokens.css';
+@import './design-system/foundation.css';
 @import './styles/customer.css';

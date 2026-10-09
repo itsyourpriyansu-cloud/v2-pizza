@@ -1,14 +1,14 @@
 # 07 — Components
 
-## Shared application foundation
+## Application-owned foundations
 
-`@pizza-avenue/ui/foundation.css` is the single implemented source for brand tokens, type roles, spacing, radii, focus, motion, buttons, surfaces, badges, fields, loading skeletons and shared route states.
+Landing, Customer, Admin and KDS each own their token and CSS foundation inside `apps/<app>/src/design-system/`. Every custom property carries that app's prefix. No application imports design-system CSS or public assets from another application.
 
-`AppShell` provides the semantic application frame: Pizza Avenue wordmark treatment, surface label, primary navigation and constrained main landmark. Customer may supply its own compact commerce header and bottom navigation; Admin adapts the shell into a desktop sidebar; KDS adapts it into a high-contrast kitchen header. Active navigation uses `aria-current="page"`.
+`@pizza-avenue/ui` remains a CSS-free structural package. `AppShell` provides the semantic application frame: Pizza Avenue wordmark content, surface label, primary navigation and main landmark. Each app's local foundation owns its presentation. Customer may supply its own compact commerce header and bottom navigation; Admin presents the shell as a desktop sidebar; KDS presents it as a high-contrast kitchen header. Active navigation uses `aria-current="page"`.
 
 `RoutePlaceholder`, `RoutePending` and `RouteError` provide consistent headings and state semantics for incomplete modules. They must not contain domain decisions or mask unavailable backend behavior.
 
-Shared primitives own stable interaction and visual behavior. Feature components own pricing, service mode, permissions and state-machine meaning.
+Shared React primitives own stable semantics and interaction structure. App-local foundations own visual behavior. Feature components own pricing, service mode, permissions and state-machine meaning.
 
 ## ProductCard
 Variants: default, bestseller, unavailable, passport, favourite, previous-order.

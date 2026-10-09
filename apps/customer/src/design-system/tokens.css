@@ -1,0 +1,86 @@
+/* Customer-owned tokens. Do not import from another application. */
+:root {
+  color-scheme: light;
+  font-family: Poppins, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+
+  /* Customer palette. Values may evolve without changing another surface. */
+  --customer-pa-cream: #fdf6e9;
+  --customer-pa-sand: #eadcc8;
+  --customer-pa-maroon: #6b1f1f;
+  --customer-pa-italian-brown: #8c4a2f;
+  --customer-pa-olive: #556b2f;
+  --customer-pa-sage: #a7b58b;
+  --customer-pa-espresso: #3b2f2a;
+
+  /* Customer semantic color contract. */
+  --customer-color-ink: var(--customer-pa-espresso);
+  --customer-color-muted: rgb(59 47 42 / 72%);
+  --customer-color-canvas: var(--customer-pa-cream);
+  --customer-color-surface: #fffaf1;
+  --customer-color-surface-strong: var(--customer-pa-sand);
+  --customer-color-border: rgb(59 47 42 / 18%);
+  --customer-color-border-strong: rgb(59 47 42 / 32%);
+  --customer-color-brand: var(--customer-pa-maroon);
+  --customer-color-brand-hover: var(--customer-pa-italian-brown);
+  --customer-color-brand-soft: rgb(107 31 31 / 10%);
+  --customer-color-warm: var(--customer-pa-italian-brown);
+  --customer-color-success: var(--customer-pa-olive);
+  --customer-color-success-soft: var(--customer-pa-sage);
+  --customer-color-warning: #8a5718;
+  --customer-color-warning-soft: #f7e8c9;
+  --customer-color-danger: #8c2f2f;
+  --customer-color-danger-soft: #f5ded9;
+  --customer-color-focus: var(--customer-pa-maroon);
+  --customer-color-on-brand: #fffaf1;
+  --customer-color-inverse-muted: rgb(253 246 233 / 78%);
+  --customer-color-inverse-border: rgb(253 246 233 / 24%);
+  --customer-color-overlay-strong: rgb(59 47 42 / 92%);
+  --customer-color-overlay-medium: rgb(59 47 42 / 52%);
+  --customer-color-overlay-soft: rgb(59 47 42 / 18%);
+  --customer-color-overlay-subtle: rgb(59 47 42 / 8%);
+
+  --customer-font-body: Poppins, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --customer-font-display: Phudu, "Arial Narrow", sans-serif;
+  --customer-font-size-xs: 0.75rem;
+  --customer-font-size-sm: 0.875rem;
+  --customer-font-size-md: 1rem;
+  --customer-font-size-lg: 1.125rem;
+  --customer-font-size-xl: clamp(1.35rem, 2.5vw, 1.75rem);
+  --customer-font-size-display: clamp(2.35rem, 7vw, 4.5rem);
+
+  --customer-space-1: 0.25rem;
+  --customer-space-2: 0.5rem;
+  --customer-space-3: 0.75rem;
+  --customer-space-4: 1rem;
+  --customer-space-5: 1.25rem;
+  --customer-space-6: 1.5rem;
+  --customer-space-8: 2rem;
+  --customer-space-10: 2.5rem;
+  --customer-space-12: 3rem;
+  --customer-space-16: 4rem;
+
+  --customer-radius-xs: 0.375rem;
+  --customer-radius-sm: 0.5rem;
+  --customer-radius-md: 0.875rem;
+  --customer-radius-lg: 1.25rem;
+  --customer-radius-xl: 1.75rem;
+  --customer-radius-pill: 999px;
+
+  --customer-shadow-soft: 0 0.75rem 2rem rgb(63 45 20 / 10%);
+  --customer-shadow-lifted: 0 1.25rem 3.5rem rgb(59 47 42 / 14%);
+  --customer-shadow-card: 0 0.4rem 1.2rem rgb(59 47 42 / 8%), 0 1.4rem 3rem rgb(59 47 42 / 7%);
+  --customer-shadow-focus: 0 0 0 0.25rem rgb(107 31 31 / 18%);
+  --customer-duration-fast: 140ms;
+  --customer-duration-standard: 220ms;
+  --customer-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --customer-touch-target: 2.75rem;
+  --customer-icon-size-sm: 1rem;
+  --customer-icon-size-md: 1.25rem;
+  --customer-icon-size-lg: 1.5rem;
+  --customer-mobile-gutter: 1.25rem;
+  --customer-app-grid-gap: 1.5rem;
+  --customer-content-width: 72rem;
+  --customer-content-width-wide: 88rem;
+}
