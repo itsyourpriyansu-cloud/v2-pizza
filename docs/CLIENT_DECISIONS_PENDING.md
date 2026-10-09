@@ -4,6 +4,12 @@
 
 These are owner decisions required before UX freeze or production implementation. The prototype values are examples, not silent approvals. Record one decision owner and a dated answer for every row; use **Keep / Change / Remove / Later** where the feature itself remains optional.
 
+## Product scope
+
+| ID | Owner decision required | Current prototype position | Decision / owner / date |
+|---|---|---|---|
+| SCOPE-01 | Resolve the governance conflict: should V1 remain Pickup plus Dine-in under DEC-026, or return to pickup-only as one stale sentence in `00_PROJECT_CONTEXT.md` states? | PR #13 remains pickup-first; the integrated Customer branch retains Dine-in table-QR entry, waiter confirmation and end-of-session billing. Neither implementation is discarded by the integration. | |
+
 ## Menu
 
 | ID | Owner decision required | Current prototype position | Decision / owner / date |

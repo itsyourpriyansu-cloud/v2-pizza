@@ -5,6 +5,14 @@ import { resetScenarioState, server } from '@pizza-avenue/mocks/server';
 
 configure({ asyncUtilTimeout: 4_000 });
 
+if (typeof globalThis.ResizeObserver === 'undefined') {
+  globalThis.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}
+
 beforeAll(() => server.listen({ onUnhandledFrame: 'error' }));
 
 afterEach(() => {
