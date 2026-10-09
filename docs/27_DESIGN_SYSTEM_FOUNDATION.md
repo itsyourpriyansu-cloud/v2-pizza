@@ -571,6 +571,7 @@ The Landing implementation established the production visual grammar. CHG-0028 e
 - `--pa-*` variables expose only the seven frozen brand colours.
 - `--color-*` variables provide semantic roles and are the default choice in feature CSS.
 - `--space-*`, `--radius-*`, `--shadow-*`, `--duration-*` and `--touch-target` define the common dimensional and interaction system.
+- `--mobile-gutter`, `--app-grid-gap`, `--icon-size-*`, `--shadow-card` and the inverse/overlay semantic colours support the Customer discovery profile without screen-local palette values.
 - Feature styles may compose tokens but must not redefine the official palette or typography families.
 
 ### Surface profiles
@@ -594,3 +595,7 @@ The Landing implementation established the production visual grammar. CHG-0028 e
 ### Migration rule
 
 All new frontend work imports the shared foundation first, then adds only surface or feature-specific CSS. Duplicated token files are not permitted. Any new token must solve a cross-surface need and be documented here before adoption.
+
+### Customer icon contract
+
+Customer service entry, Home and its visible navigation chrome use `@phosphor-icons/react` at the pinned workspace version. Icons beside visible labels are decorative and hidden from the accessibility tree; standalone icon controls keep an accessible name. Regular icons are the default and duotone is reserved for prominent illustrative circles. Do not mix Phosphor and Lucide within the same Customer visual layer.

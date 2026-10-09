@@ -11,7 +11,16 @@ import {
 import type { Product } from '@pizza-avenue/types';
 import { queryKeys } from '@pizza-avenue/utils';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { CalendarHeart, Crown, Pizza, RotateCcw, ShoppingBasket, Star, Trophy, UserPlus } from 'lucide-react';
+import {
+  ArrowsClockwise as RotateCcw,
+  Basket as ShoppingBasket,
+  CalendarHeart,
+  Crown,
+  Pizza,
+  Star,
+  Trophy,
+  UserPlus,
+} from '@phosphor-icons/react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { trackCustomerEvent } from '../../shared/analytics/analytics';

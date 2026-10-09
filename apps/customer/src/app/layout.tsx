@@ -1,5 +1,5 @@
 import { AppShell } from '@pizza-avenue/ui';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag } from '@phosphor-icons/react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { BottomNavigation } from '../shared/components/BottomNavigation';
 import { useCommerceStore } from '../shared/state/commerce-store';
@@ -19,7 +19,9 @@ export function CustomerLayout() {
     || location.pathname === '/dine-in/menu'
     || location.pathname.startsWith('/dine-in/menu/')
     || location.pathname === '/dine-in/search';
-  const showBottomNavigation = !isDineInRoute && (Boolean(serviceContext) || location.pathname !== '/');
+  const showBottomNavigation = serviceContext?.mode !== 'DINE_IN'
+    && !isDineInRoute
+    && (Boolean(serviceContext) || location.pathname !== '/');
   const contextLabel = serviceContext?.mode === 'DINE_IN'
     ? `${serviceContext.tableLabel ?? 'Dine-in'} · 20–30 min`
     : serviceContext?.mode === 'PICKUP'
@@ -41,7 +43,7 @@ export function CustomerLayout() {
     <AppShell
       title="Pizza Avenue"
       className="customer-shell"
-      navigation={showBottomNavigation ? <BottomNavigation /> : undefined}
+      navigation={showBottomNavigation ? <BottomNavigation floating={location.pathname === '/'} /> : undefined}
       navigationPosition="footer"
       header={
         <header className="customer-topbar">

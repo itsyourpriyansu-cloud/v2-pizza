@@ -35,6 +35,7 @@ describe('customer discovery and builder flows', () => {
     await user.click(screen.getByRole('button', { name: 'Order for Pickup' }));
 
     expect(await screen.findByRole('heading', { name: 'Start with the pizzas Sainikpuri orders most.' })).toBeVisible();
+    expect(screen.getByRole('link', { name: 'Search the Pizza Avenue menu' })).toHaveAttribute('href', '/search');
     expect(screen.getByRole('link', { name: 'Full menu' })).toHaveAttribute('href', '/menu');
     expect(screen.getByRole('navigation', { name: 'Customer navigation' })).toBeVisible();
   });
@@ -104,6 +105,7 @@ describe('customer discovery and builder flows', () => {
     expect(screen.getByRole('link', { name: 'Order more' })).toBeVisible();
     expect(screen.getByRole('heading', { name: 'Quick add for the table' })).toBeVisible();
     expect(screen.queryByRole('heading', { name: 'Your Avenue' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('navigation', { name: 'Customer navigation' })).not.toBeInTheDocument();
   });
 
   it('offers permission-first trusted table scanning without presenting an error', async () => {

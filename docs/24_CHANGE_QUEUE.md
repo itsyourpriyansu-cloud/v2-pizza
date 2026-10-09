@@ -103,13 +103,13 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0029
+Next Change ID: CHG-0030
 
 Open:
-28
+29
 
 In Progress:
-0
+1
 
 In Review:
 25
@@ -3584,6 +3584,86 @@ The Landing palette, typography and interaction language now form a shared appli
 - CHG-0004
 - CHG-0005
 - CHG-0027
+
+---
+
+## CHG-0029 — Refine Customer service entry and Home from the approved reference study
+
+- **Status:** IN_PROGRESS
+- **Type:** UX, REFACTOR, DOCUMENTATION, TEST
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-09
+- **Last Updated:** 2026-10-09
+
+### Business Reason
+
+The service-entry and Home screens need a more decisive, image-led mobile hierarchy while retaining Pizza Avenue's governed identity, deterministic seed menu and dual-service operating rules.
+
+### Requested Outcome
+
+Study the supplied food-ordering case study, combine its strongest mobile composition patterns with the existing Pizza Avenue foundation, and implement the resulting system only on the service selector and Home experience.
+
+### Scope
+
+Included:
+- Pickup/Dine-in service selector composition and responsive behavior,
+- Pickup Home states and shared Home modules,
+- active Dine-in and active Pickup Home priority states,
+- Phosphor icons on the affected screens and navigation chrome,
+- tokenized grid, surface, image, motion and icon rules,
+- deterministic seed-data rendering, tests and visual verification.
+
+Excluded:
+- delivery, address, map or marketplace behavior from the reference,
+- pricing, payment, order, loyalty, authentication or API changes,
+- copying the reference brand, copy or proprietary artwork,
+- redesigning routes beyond the service selector and Home.
+
+### GitHub Tracking
+
+Issue:
+- Pending
+
+Branch:
+- `feature/customer-reference-home-ui`
+
+Pull Request:
+- Pending
+
+### Database / API / State / Permission Impact
+
+- None. Existing typed API boundaries, state priority and service-mode rules remain unchanged.
+
+### Analytics Impact
+
+- Existing `service_mode_selected`, discovery, reorder and engagement events remain unchanged.
+
+### Tests Required
+
+- [x] Customer component/flow tests — 2 files, 67 tests passed
+- [x] repository typecheck — passed
+- [x] repository lint excluding local ignored `.claude/**` tooling — passed with zero warnings
+- [x] repository test suite — 14 files, 175 tests passed with one worker
+- [x] all four frontend production builds — passed
+- [x] mobile visual review at 375px and 390px — passed
+- [x] desktop at 1440px and phone landscape — passed without document overflow
+- [x] keyboard/focus, reduced-motion, contrast, touch-target and console checks — token and browser audit passed; no console warnings/errors
+
+### Known Risks
+
+- The reference uses an orange/black/white palette that conflicts with the frozen Pizza Avenue palette; visual roles are mapped to Maroon/Italian Brown, Espresso and Cream/Sand instead of introducing raw reference colors.
+- Product imagery remains the current provisional Landing/seed asset set until the owner supplies production-approved photography.
+
+### Current Result
+
+The service selector and every existing Home priority state now use the combined Pizza Avenue/reference composition. The affected layers use pinned Phosphor icons, current typed seed menu data and the existing analytics and operational flows. Active Dine-in no longer exposes Pickup-oriented bottom navigation. Customer tests, repository typecheck, the full 175-test suite and all four builds pass; responsive browser review passes at phone, landscape and desktop sizes with no console errors. The default repository lint command remains affected only by unrelated local `.claude/security-audit` tooling; the complete tracked source tree passes when that ignored directory is excluded.
+
+### Related Changes
+
+- CHG-0007
+- CHG-0012
+- CHG-0028
 
 ---
 

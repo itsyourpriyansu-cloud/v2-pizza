@@ -21,6 +21,32 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-09 — Refine Customer service entry and Home composition
+
+Added:
+- a reference-adapted Customer discovery profile built from the supplied food-ordering case study and the frozen Pizza Avenue foundation,
+- pinned Phosphor icons for the service selector, Home modules and Home navigation chrome,
+- shared grid, overlay, icon-size and card-elevation tokens.
+
+Changed:
+- service entry is now an image-led split composition with a raised, explicit Pickup/Dine-in chooser and trusted QR explanation,
+- new-customer Home now uses a compact operational context, food-led hero, labelled search, category rail and higher-clarity seed-backed product presentation,
+- active Dine-in on Home suppresses Pickup-oriented bottom navigation,
+- reference orange/black/white roles are translated to Maroon/Italian Brown, Espresso and Cream/Sand rather than changing the frozen palette.
+
+Unchanged:
+- typed menu and seed-data authority, prices, cart behavior, service-mode analytics, waiter confirmation, payment, loyalty, APIs and state machines.
+
+Docs updated:
+- `docs/06_DESIGN_SYSTEM.md`
+- `docs/07_COMPONENTS.md`
+- `docs/27_DESIGN_SYSTEM_FOUNDATION.md`
+- `docs/28_UI_VISUAL_DIRECTION.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+Risk:
+- existing food images remain subject to their recorded production provenance and founder-review requirements; no third-party case-study artwork is copied.
+
 ## 2026-10-09 — Unify application design with the Landing visual language
 
 Added:

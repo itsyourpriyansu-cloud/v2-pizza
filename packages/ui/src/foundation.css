@@ -33,6 +33,12 @@
   --color-danger-soft: #f5ded9;
   --color-focus: var(--pa-maroon);
   --color-on-brand: #fffaf1;
+  --color-inverse-muted: rgb(253 246 233 / 78%);
+  --color-inverse-border: rgb(253 246 233 / 24%);
+  --color-overlay-strong: rgb(59 47 42 / 92%);
+  --color-overlay-medium: rgb(59 47 42 / 52%);
+  --color-overlay-soft: rgb(59 47 42 / 18%);
+  --color-overlay-subtle: rgb(59 47 42 / 8%);
 
   --font-body: Poppins, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-display: Phudu, "Arial Narrow", sans-serif;
@@ -63,11 +69,17 @@
 
   --shadow-soft: 0 0.75rem 2rem rgb(63 45 20 / 10%);
   --shadow-lifted: 0 1.25rem 3.5rem rgb(59 47 42 / 14%);
+  --shadow-card: 0 0.4rem 1.2rem rgb(59 47 42 / 8%), 0 1.4rem 3rem rgb(59 47 42 / 7%);
   --shadow-focus: 0 0 0 0.25rem rgb(107 31 31 / 18%);
   --duration-fast: 140ms;
   --duration-standard: 220ms;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --touch-target: 2.75rem;
+  --icon-size-sm: 1rem;
+  --icon-size-md: 1.25rem;
+  --icon-size-lg: 1.5rem;
+  --mobile-gutter: 1.25rem;
+  --app-grid-gap: 1.5rem;
   --content-width: 72rem;
   --content-width-wide: 88rem;
 }

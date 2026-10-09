@@ -35,6 +35,19 @@ Order state must never rely on color alone.
 ## Typography roles
 Display / H1 / H2 / H3 use Phudu selectively. Body / Small / Caption / Price / Metadata / form and navigation text use Poppins. Prices, timers and operational identifiers use tabular numerals.
 
+## Customer discovery profile
+
+The service-entry and Home surfaces use a reference-adapted mobile composition while retaining the frozen Pizza Avenue foundation:
+
+- a four-column mental grid with 20px mobile gutters and 24px major rhythm,
+- image-led appetite moments followed by quiet Cream/Sand decision surfaces,
+- one dominant operational or ordering action before lower-priority discovery,
+- compact horizontal category discovery, two-column food cards and no hidden paid additions,
+- Espresso for high-contrast framing, Maroon/Italian Brown for primary warmth, and Cream/Sand for the light layers; no external orange/black/white palette is introduced,
+- Phosphor icons on Customer entry, Home and its navigation chrome, with one weight family per visual layer and text labels retained for navigation.
+
+The supplied reference contributes hierarchy and interaction patterns only. Delivery, maps, addresses, marketplace branding, proprietary copy and artwork are excluded.
+
 ## Component families
 Buttons, inputs, OTP, search, stepper, radio, checkbox, cards, sheets, tabs, badges, price blocks, skeletons, status, timers.
 

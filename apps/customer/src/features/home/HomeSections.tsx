@@ -2,19 +2,19 @@ import type { Order, Product } from '@pizza-avenue/types';
 import { formatMoney } from '@pizza-avenue/utils';
 import {
   ArrowRight,
-  BellRing,
-  Clock3,
-  Flame,
+  BellRinging as BellRing,
+  Clock as Clock3,
+  Fire as Flame,
+  ForkKnife,
   Leaf,
   MapPin,
   Pizza,
   QrCode,
-  Search,
+  MagnifyingGlass as Search,
   ShieldCheck,
   ShoppingBag,
-  Sparkles,
-  UtensilsCrossed,
-} from 'lucide-react';
+  Sparkle as Sparkles,
+} from '@phosphor-icons/react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { Badge, Button, ButtonLink, SectionHeader, Surface } from '../../shared/components/Primitives';
@@ -76,44 +76,57 @@ export function ServiceEntry({
   const store = storePresentation[storeState];
   return (
     <div className="service-entry">
-      <header className="service-entry__intro">
-        <p className="eyebrow">The Pizza Avenue · Sainikpuri</p>
-        <h1>Pizza starts with one simple choice.</h1>
-        <p>Order ahead for Pickup, or connect your table when you’re dining with us.</p>
+      <header className="service-entry__visual">
+        <img src="/assets/seed/hero-main-pizza.png" alt="Fresh Pizza Avenue pizza ready to serve" />
+        <div className="service-entry__scrim" aria-hidden="true" />
+        <div className="service-entry__intro">
+          <p className="eyebrow">The Pizza Avenue · Sainikpuri</p>
+          <h1>Pizza starts with one simple choice.</h1>
+          <p>Order ahead for Pickup, or connect your table when you’re dining with us.</p>
+        </div>
       </header>
 
-      <div className="service-entry__grid">
-        <section className="service-entry-card service-entry-card--pickup" aria-labelledby="pickup-mode">
-          <div className="service-entry-card__top">
-            <span className="service-entry-card__icon" aria-hidden="true"><ShoppingBag /></span>
-            <Badge tone={store.tone}>{store.badge}</Badge>
-          </div>
+      <section className="service-entry__chooser" aria-labelledby="service-choice-title">
+        <div className="service-entry__chooser-heading">
+          <span className="service-entry__step">01</span>
           <div>
-            <p className="eyebrow">Order ahead</p>
-            <h2 id="pickup-mode">Pickup</h2>
-            <p>{store.detail}. Pay securely, then collect from our Sainikpuri restaurant.</p>
+            <p className="eyebrow">Choose how you’re ordering</p>
+            <h2 id="service-choice-title">Where will you enjoy it?</h2>
           </div>
-          <Button type="button" onClick={onChoosePickup}>{store.pickupLabel}<ArrowRight aria-hidden="true" /></Button>
-        </section>
+        </div>
+        <div className="service-entry__grid">
+          <section className="service-entry-card service-entry-card--pickup" aria-labelledby="pickup-mode">
+            <div className="service-entry-card__top">
+              <span className="service-entry-card__icon" aria-hidden="true"><ShoppingBag weight="duotone" /></span>
+              <Badge tone={store.tone}>{store.badge}</Badge>
+            </div>
+            <div>
+              <p className="eyebrow">Order ahead</p>
+              <h2 id="pickup-mode">Pickup</h2>
+              <p>{store.detail}. Pay securely, then collect from Sainikpuri.</p>
+            </div>
+            <Button type="button" onClick={onChoosePickup}>{store.pickupLabel}<ArrowRight aria-hidden="true" /></Button>
+          </section>
 
-        <section className="service-entry-card service-entry-card--dine-in" aria-labelledby="dine-in-mode">
-          <div className="service-entry-card__top">
-            <span className="service-entry-card__icon" aria-hidden="true"><QrCode /></span>
-            <Badge>At your table</Badge>
-          </div>
-          <div>
-            <p className="eyebrow">Dining with us</p>
-            <h2 id="dine-in-mode">Dine In</h2>
-            <p>Scan the QR on your table. It securely connects each round to the right table before your waiter confirms it.</p>
-          </div>
-          <ButtonLink to="/dine-in/start" variant="secondary">Scan your table QR<ArrowRight aria-hidden="true" /></ButtonLink>
-        </section>
-      </div>
+          <section className="service-entry-card service-entry-card--dine-in" aria-labelledby="dine-in-mode">
+            <div className="service-entry-card__top">
+              <span className="service-entry-card__icon" aria-hidden="true"><QrCode weight="duotone" /></span>
+              <Badge>At your table</Badge>
+            </div>
+            <div>
+              <p className="eyebrow">Dining with us</p>
+              <h2 id="dine-in-mode">Dine In</h2>
+              <p>Scan the QR on your table to connect securely before your waiter confirms each round.</p>
+            </div>
+            <ButtonLink to="/dine-in/start" variant="secondary">Scan your table QR<ArrowRight aria-hidden="true" /></ButtonLink>
+          </section>
+        </div>
 
-      <div className="service-entry__assurance" aria-label="Service information">
-        <span><MapPin aria-hidden="true" /> Sainikpuri, Hyderabad</span>
-        <span><ShieldCheck aria-hidden="true" /> No delivery address needed</span>
-      </div>
+        <div className="service-entry__assurance" aria-label="Service information">
+          <span><MapPin aria-hidden="true" /> Sainikpuri, Hyderabad</span>
+          <span><ShieldCheck aria-hidden="true" /> No delivery address needed</span>
+        </div>
+      </section>
     </div>
   );
 }
@@ -141,7 +154,10 @@ export function NewCustomerHero() {
       <img src="/assets/seed/hero-main-pizza.png" alt="Fresh vegetable pizza ready to share" />
       <div className="home-order-hero__scrim" aria-hidden="true" />
       <div className="home-order-hero__content">
-        <p className="eyebrow">First time here?</p>
+        <div className="home-order-hero__kicker">
+          <span className="home-order-hero__number">01</span>
+          <p className="eyebrow">First time here?</p>
+        </div>
         <h1 id="home-new-title">Start with the pizzas Sainikpuri orders most.</h1>
         <p>Choose a proven favourite, or make one your own. No deal maze and no hidden add-ons.</p>
         <div className="home-button-row">
@@ -162,7 +178,13 @@ export function CravingRoutes() {
   ];
   return (
     <section className="home-section" aria-labelledby="craving-routes-title">
-      <SectionHeader id="craving-routes-title" title="What are you craving?" action={<Link className="text-link" to="/menu">Full menu</Link>} />
+      <div className="home-discovery-heading">
+        <div>
+          <p className="eyebrow">Quick discovery</p>
+          <SectionHeader id="craving-routes-title" title="What are you craving today?" action={<Link className="text-link" to="/menu">Full menu</Link>} />
+        </div>
+        <Link className="home-search-control" to="/search" aria-label="Search the Pizza Avenue menu"><Search aria-hidden="true" /><span>Search menu</span></Link>
+      </div>
       <div className="home-route-grid">
         {routes.map((route) => (
           <Link className="home-route-card" to={route.href} key={route.label}>
@@ -223,7 +245,7 @@ export function UsualOrderCard({
 export function CompleteMealCard({ returning }: { returning: boolean }) {
   return (
     <Surface className="meal-plan-card">
-      <div className="meal-plan-card__icon" aria-hidden="true"><UtensilsCrossed /></div>
+      <div className="meal-plan-card__icon" aria-hidden="true"><ForkKnife weight="duotone" /></div>
       <div>
         <p className="eyebrow">Complete the meal</p>
         <h2>Dinner for two, without the guesswork.</h2>

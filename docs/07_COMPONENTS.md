@@ -28,11 +28,11 @@ Product + incremental price + explicit add.
 Never auto-add.
 
 ## Customer Home compositions
-`ServiceEntry` presents Pickup and Dine-in as distinct service paths. Pickup shows current store state/ETA and Dine-in explains the required trusted table-QR handoff; it never accepts a typed table number.
+`ServiceEntry` presents Pickup and Dine-in as distinct service paths inside an image-led entry composition. Its visual chapter establishes appetite; the raised choice surface then shows both service paths, current Pickup state/ETA, the trusted table-QR handoff and location reassurance. It never accepts a typed table number.
 
-`StoreContextBar` keeps the selected store/mode promise visible. `NewCustomerHero`, `CravingRoutes`, `BestSellers` and `TasteDiscovery` reduce first-order choice load. `UsualOrderCard` revalidates a historical order against the current menu and price before rebuilding the cart. `CompleteMealCard` and `MealCompleters` make optional additions explicit and never preselect paid items.
+`StoreContextBar` keeps the selected store/mode promise visible. `NewCustomerHero`, `CravingRoutes`, `BestSellers` and `TasteDiscovery` reduce first-order choice load through an image-led hero, labelled menu search, compact category rail and current seed-backed products. `UsualOrderCard` revalidates a historical order against the current menu and price before rebuilding the cart. `CompleteMealCard` and `MealCompleters` make optional additions explicit and never preselect paid items.
 
-`ActivePickupHome` and `ActiveDineInHome` are operational compositions. They precede and suppress adaptive retention content. The Dine-in composition exposes only table-relevant actions such as Order More, Current Bill and Call Waiter.
+`ActivePickupHome` and `ActiveDineInHome` are operational compositions. They precede and suppress adaptive retention content. The Dine-in composition exposes only table-relevant actions such as Order More, Current Bill and Call Waiter, and suppresses Pickup-oriented bottom navigation while the trusted table context is active.
 
 ## PickupSlot
 Available / selected / nearly full / unavailable.

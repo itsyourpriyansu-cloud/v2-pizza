@@ -24,6 +24,7 @@ The visual balance is:
 | 02 — Landing hero | Immediate product focus and bold headline scale | Cropped food at frame edges and one clear action | **RECOMMENDED** principle | Brand, wording, navigation, colours, fonts and page geometry |
 | 03 — Preliminary menu | Initial category/item inventory | Concise item descriptions and add-on grouping | **EXPLORATORY** until founder validation | Prices as authoritative data or photographed menu styling |
 | 04 — Section rhythm | Alternating dense and quiet chapters | Product grids, editorial moments and varied image scale | **RECOMMENDED** principle | Bakery identity, orange/black palette, typography, card styling or exact section order |
+| 05 — Food ordering mobile case study | Four-column mobile rhythm, appetite-led hierarchy, search/category discovery, compact product comparison and floating navigation | Clear offer and checkout emphasis | **RECOMMENDED** for Customer composition only | Cravk identity, orange/black/white palette, proprietary art/copy, delivery/map/address flows or exact screen geometry |
 
 Local reference copies are stored under `docs/assets/design-references/` so future design work can trace the decisions to the supplied material.
 
@@ -97,6 +98,19 @@ The Customer application should feel related but more direct:
 - mobile-first navigation with safe areas and accessible touch targets.
 
 The application must never present client-calculated pricing or state as authoritative.
+
+### Service entry and Home adaptation
+
+The Customer entry and Home implementation applies Reference 05 as a composition study, not a visual clone:
+
+- 20px mobile outer gutters, a four-column mental grid and a 24px major spacing cadence,
+- one image-led appetite moment, followed by quiet decision surfaces and compact category discovery,
+- strong Espresso framing and floating Home navigation translated through Pizza Avenue tokens,
+- the reference orange role mapped to Maroon/Italian Brown, black mapped to Espresso, white mapped to Cream and pale grey mapped to Sand,
+- existing Phudu/Poppins typography, current typed menu data and current service/operational priority retained,
+- Phosphor iconography used consistently on the affected Customer layers.
+
+Pickup/Dine-in selection remains explicit. A Dine-in choice still leads to the permission-first trusted table scanner; no map, delivery address, typed table number or unverified QR shortcut is introduced.
 
 ## 9A. KDS and Admin Adaptation
 
