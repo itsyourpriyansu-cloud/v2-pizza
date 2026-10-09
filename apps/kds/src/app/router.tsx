@@ -7,6 +7,7 @@ import {
   createBrowserRouter,
   createMemoryRouter,
   Link,
+  NavLink,
   Outlet,
   useParams,
   type RouteObject,
@@ -15,14 +16,15 @@ import {
 function KdsLayout() {
   return (
     <AppShell
-      title="Pizza Avenue — KDS Foundation"
+      title="Kitchen display"
+      className="app-shell--kds"
       navigation={
         <>
-          <Link to="/">KDS</Link>
-          <Link to="/orders">Orders</Link>
-          <Link to="/orders/pickup">Pickup</Link>
-          <Link to="/orders/dine-in">Dine In</Link>
-          <Link to="/login">Login</Link>
+          <NavLink to="/" end>Overview</NavLink>
+          <NavLink to="/orders" end>Orders</NavLink>
+          <NavLink to="/orders/pickup" end>Pickup</NavLink>
+          <NavLink to="/orders/dine-in" end>Dine In</NavLink>
+          <NavLink to="/login">Login</NavLink>
         </>
       }
     >

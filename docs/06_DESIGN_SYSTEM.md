@@ -1,6 +1,14 @@
 # 06 — Design System
 
-> **Current design sources:** This document remains the high-level interaction baseline. Read `27_DESIGN_SYSTEM_FOUNDATION.md` for the approved brand foundation and component-layering rules, and `28_UI_VISUAL_DIRECTION.md` for reference interpretation, imagery, Landing rhythm and preliminary visual direction. Where visual guidance differs, Documents 27–28 are current; product and architecture source-of-truth priority remains unchanged.
+> **Current design sources:** The implemented Landing is the canonical visual reference. `packages/ui/src/foundation.css` is the cross-application token and primitive contract. Read `27_DESIGN_SYSTEM_FOUNDATION.md` for exact implementation rules and `28_UI_VISUAL_DIRECTION.md` for surface adaptation, imagery and composition. Product and architecture source-of-truth priority remains unchanged.
+
+## Foundation contract
+
+- The official palette is Cream `#FDF6E9`, Sand `#EADCC8`, Maroon `#6B1F1F`, Italian Brown `#8C4A2F`, Olive `#556B2F`, Sage `#A7B58B` and Espresso `#3B2F2A`.
+- Phudu 600/700 is the display face. Poppins 400/500/600/700 is the body and functional face.
+- Applications consume shared semantic tokens from `@pizza-avenue/ui/foundation.css`; they do not duplicate brand hex values or create surface-local brand palettes.
+- Landing is expressive, Customer is direct and food-led, KDS is high-contrast and glanceable, and Admin is dense and calm. Shared identity does not mean identical composition.
+- The official logo asset may be used only from the governed Landing asset set; do not redraw, approximate or invent a mark.
 
 ## Interaction principles
 - Food first
@@ -17,16 +25,15 @@
 - Pickup and Dine-in share foundations, but cart, service and fulfilment context is never hidden or silently converted.
 
 ## Spacing
-Use a consistent 4/8pt scale.
-Default mobile horizontal padding: ~16px.
+Use the shared 4px base scale (`--space-1` through `--space-16`). Default mobile horizontal padding is 16px; operational layouts may increase density without reducing tap targets.
 
 ## Semantic color tokens
-bg-primary, bg-surface, text-primary, text-secondary, brand-primary, success, warning, danger, info, disabled.
+Use `--color-canvas`, `--color-surface`, `--color-surface-strong`, `--color-ink`, `--color-muted`, `--color-brand`, `--color-success`, `--color-warning`, `--color-danger`, `--color-border` and `--color-focus`. Raw palette tokens are available only when a deliberate brand composition needs them.
 
 Order state must never rely on color alone.
 
 ## Typography roles
-Display / H1 / H2 / H3 / Body / Small / Caption / Price / Metadata.
+Display / H1 / H2 / H3 use Phudu selectively. Body / Small / Caption / Price / Metadata / form and navigation text use Poppins. Prices, timers and operational identifiers use tabular numerals.
 
 ## Component families
 Buttons, inputs, OTP, search, stepper, radio, checkbox, cards, sheets, tabs, badges, price blocks, skeletons, status, timers.
@@ -39,6 +46,8 @@ Use for:
 - subtle transitions
 
 Avoid blocking intro animation.
+
+Interaction feedback should complete in roughly 140–220ms. Motion must stop or collapse under `prefers-reduced-motion`; no critical state may depend on animation.
 
 ## Error design
 Every error answers:
@@ -64,12 +73,13 @@ WhatsApp unavailable → keep the QR context where safe and offer normal phone l
 `AuthContinueCard` explains: send the prefilled message → wait for the official reply → tap “Continue to Pizza Avenue”. Loading states must not claim login before the token is consumed. Expired/used links use neutral language, do not reveal account existence and keep phone OTP available as fallback.
 
 ## Accessibility
-- touch target
-- keyboard support admin
-- contrast
-- focus states
-- semantic labels
-- no color-only state
+- 44px minimum interaction target; KDS primary actions should be larger where practical
+- full keyboard support on every surface
+- visible 3px focus treatment with separation from the component edge
+- WCAG AA text and state contrast
+- semantic landmarks and labels
+- no hover-only action and no color-only state
+- horizontal scrolling only for intentional rails or narrow navigation, never the document
 
 ## Performance UX
 - lazy images

@@ -1,6 +1,22 @@
-:root { font-family: system-ui, sans-serif; }
-body { margin: 0; }
-.app-shell { max-width: 72rem; margin: 0 auto; padding: 1rem; }
-header, nav { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
-header { justify-content: space-between; border-bottom: 1px solid currentColor; padding-bottom: 1rem; }
-main { padding-block: 1rem; }
+@import '@pizza-avenue/ui/foundation.css';
+
+body { background: var(--pa-espresso); }
+.app-shell--kds { --content-width: 88rem; min-height: 100vh; color: var(--pa-cream); background: radial-gradient(circle at 90% 0%, rgb(140 74 47 / 30%), transparent 28rem), var(--pa-espresso); }
+.app-shell--kds .app-shell__header { border-color: rgb(253 246 233 / 16%); color: var(--pa-cream); background: rgb(59 47 42 / 94%); }
+.app-shell--kds .app-shell__wordmark { color: var(--pa-cream); font-size: clamp(1.35rem, 2vw, 1.8rem); }
+.app-shell--kds .app-shell__product { color: var(--pa-sage); }
+.app-shell--kds .app-shell__nav a { min-height: 3rem; color: rgb(253 246 233 / 74%); font-size: 0.95rem; }
+.app-shell--kds .app-shell__nav a:hover { color: var(--pa-cream); background: rgb(253 246 233 / 10%); }
+.app-shell--kds .app-shell__nav a[aria-current="page"] { color: var(--pa-espresso); background: var(--pa-cream); }
+.app-shell--kds .app-shell__main { width: min(calc(100% - 2rem), var(--content-width)); }
+.app-shell--kds .route-placeholder { border-color: rgb(253 246 233 / 16%); color: var(--pa-espresso); background: var(--pa-cream); box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 20%); }
+.app-shell--kds .route-placeholder__eyebrow { color: var(--pa-olive); }
+.app-shell--kds .route-placeholder__content { max-width: none; }
+.app-shell--kds .route-placeholder__content ul { margin: 0; padding: 0; list-style: none; }
+.app-shell--kds .route-placeholder__content li { display: flex; min-height: 3.5rem; align-items: center; padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+.app-shell--kds .route-placeholder__content li a { flex: 0 0 auto; color: var(--color-brand); font-weight: 800; text-underline-offset: 0.2rem; white-space: nowrap; }
+
+@media (max-width: 48rem) {
+  .app-shell--kds .app-shell__header { background: var(--pa-espresso); }
+  .app-shell--kds .route-placeholder { padding: var(--space-5); }
+}

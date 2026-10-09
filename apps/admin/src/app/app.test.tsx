@@ -5,12 +5,15 @@ import { AdminProviders } from './providers';
 import { adminRoutes, createAdminMemoryRouter } from './router';
 
 it('boots the Admin route shell', async () => {
-  render(
+  const { container } = render(
     <AdminProviders>
       <RouterProvider router={createAdminMemoryRouter(['/'])} />
     </AdminProviders>,
   );
   expect(await screen.findByRole('heading', { name: 'Admin overview' })).toBeVisible();
+  expect(screen.getByText('Pizza Avenue')).toBeVisible();
+  expect(screen.getByRole('link', { name: 'Overview' })).toHaveAttribute('aria-current', 'page');
+  expect(container.querySelector('.app-shell--admin')).toBeInTheDocument();
 });
 
 it.each([

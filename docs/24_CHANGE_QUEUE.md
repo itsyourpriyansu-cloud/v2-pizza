@@ -103,16 +103,16 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0028
+Next Change ID: CHG-0029
 
 Open:
-27
+28
 
 In Progress:
 0
 
 In Review:
-24
+25
 
 Staging:
 3
@@ -3465,6 +3465,125 @@ The verified PR #13 source commit is integrated with the complete Customer branc
 - CHG-0005
 - CHG-0012
 - CHG-0013 through CHG-0026 (renumbered Landing child entries)
+
+---
+
+## CHG-0028 — Unify all application surfaces with the Landing visual language
+
+- **Status:** IN_REVIEW
+- **Type:** UX, REFACTOR, DOCUMENTATION, TEST
+- **Priority:** P1
+- **Owner:** Codex / Priyansu
+- **Created:** 2026-10-09
+- **Last Updated:** 2026-10-09
+
+### Business Reason
+
+The integrated Landing experience now expresses the approved Pizza Avenue character, but the Customer, KDS and Admin surfaces still use partially duplicated or generic foundations. A single governed system is required so every surface feels like one product without reducing operational readability or changing domain behavior.
+
+### Requested Outcome
+
+Extract the Landing's approved palette, typography, spacing, shape, motion and accessibility rules into a reusable application foundation; apply that foundation to Customer, KDS and Admin with surface-specific density; and update the design-system documentation so the implemented contract is clear and testable.
+
+### Scope
+
+Included:
+- shared brand and semantic design tokens,
+- shared application shell and common route/state primitives,
+- Customer token/primitives migration without flow or state changes,
+- responsive, touch-safe Admin and KDS visual treatments,
+- active navigation, focus, reduced-motion and status presentation,
+- design-system documentation, changelog and automated verification.
+
+Excluded:
+- changes to ordering, pricing, payment, loyalty, authentication or service-mode rules,
+- new product scope, API contracts or backend state,
+- declaring provisional Landing copy, prices, reviews, metrics or imagery production-approved,
+- staging, production deployment or bypassing required review.
+
+### GitHub Tracking
+
+Issue:
+- Pending
+
+Branch:
+- `feature/unified-landing-design-system`
+
+Pull Request:
+- Pending branch push / creation
+
+### Affected Surfaces
+
+- Landing (canonical visual reference; no flow changes)
+- Customer
+- KDS
+- Admin / Counter / Waiter workspace
+
+### Affected Modules
+
+- `packages/ui`
+- frontend application shells and styles
+- governed design-system documentation
+
+### Files / Areas Changed
+
+- `packages/ui/src/*`
+- `apps/customer/src/styles/*`
+- `apps/admin/src/*`
+- `apps/kds/src/*`
+- `docs/06_DESIGN_SYSTEM.md`
+- `docs/07_COMPONENTS.md`
+- `docs/27_DESIGN_SYSTEM_FOUNDATION.md`
+- `docs/28_UI_VISUAL_DIRECTION.md`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Database / API / State / Permission Impact
+
+- None. This change is visual and presentational only.
+
+### Analytics Impact
+
+- No event names or payloads change.
+
+### Tests Required
+
+- [x] repository lint — passed
+- [x] repository typecheck — passed
+- [x] repository test suite — 14 files, 175 tests passed with one worker
+- [x] Landing, Customer, KDS and Admin production builds — passed
+- [x] responsive visual smoke tests for Customer, KDS and Admin — passed at 390px and 1440px
+- [x] keyboard focus, touch target and reduced-motion audit — shared contract verified; Customer/Admin 44px and KDS 48px navigation targets
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Known Risks
+
+- Landing imagery and content remain provisional until their existing approvals are complete.
+- Operational surfaces must share brand tokens without inheriting decorative Landing composition that would reduce scan speed.
+- Existing uncommitted user tooling files are preserved separately and are outside this change.
+- The first default multi-worker test run passed 171 tests but four cases exceeded their 10-second timeout under local resource pressure; all four passed in focused reruns and the full suite passed 175/175 with one worker.
+
+### Follow-Up
+
+- [ ] Obtain client visual review after local verification.
+- [ ] Create/update the review Pull Request after validation.
+
+### Current Result
+
+The Landing palette, typography and interaction language now form a shared application foundation. Customer consumes the shared tokens and primitives without changing flows; Admin has a responsive operations rail; KDS has a high-contrast, large-target kitchen shell. Lint, typecheck, all 175 tests and all four production builds pass. Browser review confirms correct fonts, active navigation, touch targets and no document overflow or console errors at the tested mobile and desktop sizes. The change is review-ready and remains unmerged/unreleased.
+
+### Related Changes
+
+- CHG-0004
+- CHG-0005
+- CHG-0027
 
 ---
 

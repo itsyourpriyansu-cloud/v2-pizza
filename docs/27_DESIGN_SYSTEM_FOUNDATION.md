@@ -1,8 +1,8 @@
 # 27 — Design System Foundation
 
-> **Status:** Design foundation for review. Brand palette, typography families, identity direction and surface separation are frozen; implementation details remain recommended or exploratory as labelled.
+> **Status:** Implemented cross-application foundation. Brand palette, typography, tokens, interaction primitives and surface separation are frozen; feature compositions remain governed by their product documents.
 >
-> **Scope:** Documentation only. This document does not create production tokens, components, layouts, motion or a logo.
+> **Scope:** The canonical implementation is `packages/ui/src/foundation.css` and `packages/ui/src/index.tsx`. Landing remains the visual reference; Customer, KDS and Admin consume the same foundation with purpose-specific layouts.
 
 ## 1. Purpose
 
@@ -49,7 +49,7 @@ The experience is premium-casual rather than luxury-stiff. Food leads. Technolog
 - The identity direction is Italian editorial, warm craft and modern neighbourhood pizzeria.
 - Landing and application composition layers remain separate.
 - Customer, KDS and Admin share primitives and tokens without being forced into identical cards or layouts.
-- No logo or logo mark is assumed until an actual approved logo asset is supplied.
+- The supplied Pizza Avenue logo used by Landing is the only governed logo candidate. It must not be redrawn or replaced; production use still requires the existing provenance/founder approval.
 - Reference screenshots guide principles; they are not screens to reproduce.
 
 ### RECOMMENDED
@@ -72,7 +72,7 @@ The experience is premium-casual rather than luxury-stiff. Food leads. Technolog
 - Exact image aspect ratios and responsive art direction.
 - Exact card compositions and surface proportions.
 - Motion choreography.
-- Whether a future `ui-brand` package is needed in addition to the existing neutral `packages/ui`.
+- Additional branded primitives beyond the implemented `packages/ui` foundation.
 
 ## 4. Official Colour Palette
 
@@ -504,8 +504,8 @@ The current repository and legacy `pizza_wave_v1` implementation were audited. �
 
 | Component/pattern | Current location | Reusable logic? | Reusable visual style? | Future action |
 |---|---|---:|---:|---|
-| `AppShell` | `packages/ui/src/index.tsx` | Yes | Partial | Keep neutral shell; extend deliberately |
-| `RoutePending` / `RouteError` | `packages/ui/src/index.tsx` | Yes | No | Keep semantics; redesign presentation later |
+| `AppShell` | `packages/ui/src/index.tsx` | Yes | Yes | Keep shared structure; adapt through documented surface classes |
+| `RoutePending` / `RouteError` | `packages/ui/src/index.tsx` | Yes | Yes | Keep shared semantics and presentation; extend only through semantic variants |
 | Buttons / `IconButton` | legacy `src/shared/components/index.tsx` | Yes | No | Reuse prop/semantic approach; apply new brand |
 | `QuantityStepper` | legacy shared components | Yes | Partial | Reuse accessible labelled behaviour; restyle |
 | `TextInput` / `OTPInput` | legacy shared components | Yes | No | Reuse label/id/input behaviour after auth review |
@@ -549,15 +549,48 @@ Avoid:
 
 ## 25. Open Design Questions
 
-- What is the approved Pizza Avenue logo/wordmark asset?
+- Has the supplied Pizza Avenue logo completed founder and provenance approval for production use?
 - Should production self-host the verified Fontsource files, and which script subsets/preload strategy will minimize layout shift?
 - Which Pizza Wave candidate images have acceptable provenance and founder approval?
 - Which menu items and prices from Reference 03 are accurate production truth?
 - What real store photography, staff photography and Sainikpuri exterior/interior imagery is available?
-- Which semantic utility colours will represent success, warning, danger and information while preserving accessibility?
+- Do the implemented semantic success, warning and danger utilities need adjustment after real-device contrast testing?
 - How much handwritten accent or line art survives the first high-fidelity exploration?
 - Which Landing sections are essential for the first release versus later content?
-- Does a separate `ui-brand` package reduce duplication after the first two branded surfaces exist?
+- Are additional shared feature-neutral primitives justified after the first high-fidelity Admin and KDS modules exist?
 - What image CDN/derivative pipeline will generate AVIF/WebP and responsive sizes?
 
-The next design task should answer these questions through a limited high-fidelity exploration rather than freezing them abstractly.
+The next design review should answer these questions using implemented screens and real content rather than freezing them abstractly.
+
+## 26. Implemented Token and Surface Contract
+
+The Landing implementation established the production visual grammar. CHG-0028 extracted that grammar into `@pizza-avenue/ui/foundation.css` so the applications no longer maintain separate brand foundations.
+
+### Token ownership
+
+- `--pa-*` variables expose only the seven frozen brand colours.
+- `--color-*` variables provide semantic roles and are the default choice in feature CSS.
+- `--space-*`, `--radius-*`, `--shadow-*`, `--duration-*` and `--touch-target` define the common dimensional and interaction system.
+- Feature styles may compose tokens but must not redefine the official palette or typography families.
+
+### Surface profiles
+
+| Surface | Composition | Density | Brand expression |
+|---|---|---|---|
+| Landing | editorial chapters and large food crops | low to medium | most expressive |
+| Customer | mobile-first commerce, food and next action | medium | warm and direct |
+| KDS | high-contrast tickets and large actions | medium to high | restrained, glanceable |
+| Admin | responsive navigation and data workspaces | high | calm, controlled |
+
+### Interaction baseline
+
+- Every actionable target is at least 44px; KDS uses 48px navigation targets.
+- Focus is visible on keyboard navigation.
+- Active routes expose `aria-current="page"`.
+- Hover is enhancement only; active, disabled, loading and error states remain explicit.
+- Small feedback uses 140–220ms transitions. Reduced-motion preferences collapse all non-essential motion.
+- Status, availability and order state always include text or another non-colour signal.
+
+### Migration rule
+
+All new frontend work imports the shared foundation first, then adds only surface or feature-specific CSS. Duplicated token files are not permitted. Any new token must solve a cross-surface need and be documented here before adoption.

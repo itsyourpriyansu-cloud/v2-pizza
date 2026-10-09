@@ -1,6 +1,6 @@
 # 28 — UI Visual Direction
 
-> **Status:** Visual direction for review. This document interprets the supplied references; it does not implement UI, approve a logo or make legacy assets production-ready.
+> **Status:** Implemented visual direction. The integrated Landing is the canonical brand expression; this document governs how its language adapts across Customer, KDS and Admin. Logo and image provenance approvals remain separate.
 >
 > **Scope:** Landing and product-surface art direction, preliminary content extraction, and legacy-asset reuse guidance. Component and token foundations live in `docs/27_DESIGN_SYSTEM_FOUNDATION.md`.
 
@@ -82,6 +82,8 @@ Recommended character:
 
 The Landing page must still load quickly, remain keyboard accessible and recompose deliberately on mobile.
 
+The current Landing implementation—not an external reference—is the application baseline for colour balance, Phudu/Poppins pairing, warm dividers, controlled elevation and confident action styling. Other surfaces should inherit these ingredients without copying Landing chapter layouts, oversized display type or decorative motion into operational tasks.
+
 ## 9. Customer App Visual Language
 
 The Customer application should feel related but more direct:
@@ -95,6 +97,14 @@ The Customer application should feel related but more direct:
 - mobile-first navigation with safe areas and accessible touch targets.
 
 The application must never present client-calculated pricing or state as authoritative.
+
+## 9A. KDS and Admin Adaptation
+
+KDS uses an Espresso environment with Cream tickets, 48px-or-larger primary targets, Poppins-first metadata and tabular timers/order identifiers. Brand expression must never slow kitchen scanning.
+
+Admin uses the same Cream/Espresso foundation with a responsive navigation rail, compact surfaces and explicit action hierarchy. Phudu is limited to page-level headings; forms, tables, permissions and audit data remain Poppins-first.
+
+Both surfaces use the same semantic focus, status and motion rules as Customer. Neither introduces a separate back-office palette.
 
 ## 10. Image Direction
 

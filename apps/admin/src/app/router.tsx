@@ -2,7 +2,7 @@ import { AppShell, RouteError, RoutePlaceholder } from '@pizza-avenue/ui';
 import {
   createBrowserRouter,
   createMemoryRouter,
-  Link,
+  NavLink,
   Outlet,
   type RouteObject,
 } from 'react-router-dom';
@@ -23,6 +23,7 @@ import {
 
 function AdminLayout() {
   const links = [
+    ['Overview', '/'],
     ['Orders', '/orders'],
     ['Menu', '/menu'],
     ['Availability', '/availability'],
@@ -38,9 +39,10 @@ function AdminLayout() {
   ] as const;
   return (
     <AppShell
-      title="Pizza Avenue — Admin Foundation"
+      title="Admin & service"
+      className="app-shell--admin"
       navigation={links.map(([label, href]) => (
-        <Link key={href} to={href}>{label}</Link>
+        <NavLink key={href} to={href} end>{label}</NavLink>
       ))}
     >
       <Outlet />

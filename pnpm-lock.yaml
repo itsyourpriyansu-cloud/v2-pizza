@@ -71,6 +71,12 @@ importers:
 
   apps/admin:
     dependencies:
+      '@fontsource/phudu':
+        specifier: 5.3.0
+        version: 5.3.0
+      '@fontsource/poppins':
+        specifier: 5.3.0
+        version: 5.3.0
       '@pizza-avenue/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
@@ -155,6 +161,12 @@ importers:
 
   apps/kds:
     dependencies:
+      '@fontsource/phudu':
+        specifier: 5.3.0
+        version: 5.3.0
+      '@fontsource/poppins':
+        specifier: 5.3.0
+        version: 5.3.0
       '@pizza-avenue/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client

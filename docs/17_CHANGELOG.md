@@ -21,6 +21,31 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-09 — Unify application design with the Landing visual language
+
+Added:
+- a shared `@pizza-avenue/ui/foundation.css` contract for the official palette, Phudu/Poppins typography, spacing, radii, motion, focus and common primitives,
+- branded responsive application-shell and route-state primitives,
+- dedicated Admin and KDS surface profiles derived from the Landing foundation.
+
+Changed:
+- Customer now consumes the shared foundation instead of maintaining duplicate token and primitive files,
+- Admin now uses a responsive Espresso navigation rail on desktop and touch-safe horizontal navigation on smaller screens,
+- KDS now uses a high-contrast kitchen surface with larger navigation and glanceable ticket rows,
+- design-system documentation now identifies the implemented Landing as the canonical visual reference while preserving surface-specific density.
+
+Unchanged:
+- ordering, pricing, payments, loyalty, authentication, service-mode rules, APIs and state machines.
+
+Validation:
+- repository lint and typecheck pass,
+- all 14 test files and 175 tests pass,
+- Landing, Customer, KDS and Admin production builds pass,
+- browser smoke checks pass at 390px mobile and 1440px desktop with no document overflow or console errors.
+
+Risk:
+- Landing content and imagery retain their existing founder/provenance review requirements; this change does not approve them for production.
+
 ## 2026-10-09 — Publish assembled Landing chapters for review
 
 Changed:
