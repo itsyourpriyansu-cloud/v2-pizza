@@ -26,7 +26,8 @@ Risk:
 Added:
 - a shared `@pizza-avenue/ui/foundation.css` contract for the official palette, Phudu/Poppins typography, spacing, radii, motion, focus and common primitives,
 - branded responsive application-shell and route-state primitives,
-- dedicated Admin and KDS surface profiles derived from the Landing foundation.
+- dedicated Admin and KDS surface profiles derived from the Landing foundation,
+- the governed Landing logo asset as the browser icon for Customer, KDS and Admin.
 
 Changed:
 - Customer now consumes the shared foundation instead of maintaining duplicate token and primitive files,
