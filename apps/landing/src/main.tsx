@@ -9,6 +9,7 @@ import '@fontsource/poppins/latin-600.css';
 import '@fontsource/poppins/latin-700.css';
 import { LandingPage } from './LandingPage';
 import './styles.css';
+import './reference.css';
 
 const surfaceConfig = createSurfaceConfig(import.meta.env, window.location.origin);
 const root = document.getElementById('root');
