@@ -21,6 +21,31 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-10 — Add backend requirements and developer reference
+
+Added:
+- `docs/BACKEND.md` as a 16-section, linked reference for V1 backend requirements, current typed-client/MSW behavior, data model, workflows, permissions, integration boundaries and operational gaps.
+- A uniform inventory of all 27 mock routes, nine additional explicitly specified paths, requirement-to-test traceability and needed backend acceptance cases.
+
+Changed:
+- Reserved CHG-0020 for this documentation task because CHG-0005 through CHG-0019 are already used on unmerged feature branches.
+
+Docs updated:
+- `docs/BACKEND.md`
+- `docs/20_MASTER_INDEX.md`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+Decision:
+- No product or architecture decision changed.
+
+Verification:
+- Endpoint inventory matched 27 MSW handlers; all local file links resolved and all 16 numbered sections were present.
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` (6 files, 37 tests) and `pnpm build` passed on `docs/backend-reference`.
+
+Risk:
+- The repository has no NestJS runtime, Prisma schema, provider integration or worker. Specified behavior and needed tests in the reference must be rechecked when those services are implemented.
+
 ## Initial baseline
 Added:
 - pickup-first architecture
