@@ -6,10 +6,11 @@
 - **Branch:** `feature/customer-reference-home-ui`
 - **Status:** `IN_PROGRESS`
 - **Last updated:** 2026-10-10
-- **Current milestone:** User-review fidelity correction implemented and locally verified; correction commit/push is the next step.
+- **Current milestone:** User-review fidelity correction committed, pushed and verified across the responsive matrix; Pull Request submission remains pending.
 - **Pull request:** Pending
 - **Implementation commit:** `3922602` (`feat(customer): refine entry and home experience`)
-- **Last completed step:** Corrected 430px entry and returning-Home captures reviewed; focused tests, Customer TypeScript, Customer build, changed-file ESLint and `git diff --check` pass.
+- **Correction commit:** `b8a4bed` (`fix(customer): align home with visual references`), pushed to `origin/feature/customer-reference-home-ui`
+- **Last completed step:** Corrected entry/returning-Home captures reviewed at 360, 390, 430, 768 and 1440px; focused tests, Customer TypeScript, Customer build, changed-file ESLint and `git diff --check` pass.
 
 This document is the resumable source of truth for the Customer-only visual redesign. Update it whenever implementation status, test truth, screenshots, risks or the next action changes.
 
@@ -77,7 +78,7 @@ Current status: `VERIFIED` locally. The Pull Request remains paused until the co
 | Service entry / open | Verified | Verified | Verified | Verified | Verified | `VERIFIED` |
 | Busy / paused / closed Pickup | Verified | Responsive rules shared | Responsive rules shared | Responsive rules shared | Responsive rules shared | `VERIFIED` at 430 |
 | New Pickup Home | Verified | Verified | Verified | Verified | Verified | `VERIFIED` |
-| Returning Pickup Home | Verified | Responsive rules shared | Responsive rules shared | Responsive rules shared | Responsive rules shared | `VERIFIED` at 430 |
+| Returning Pickup Home | Verified | Verified | Verified | Verified | Verified | `VERIFIED` after owner-review correction |
 | Active Pickup Home | Verified | Responsive rules shared | Responsive rules shared | Responsive rules shared | Responsive rules shared | `VERIFIED` at 430 |
 | Active Dine-in Home | Verified | Responsive rules shared | Responsive rules shared | Responsive rules shared | Responsive rules shared | `VERIFIED` at 430 |
 | Loading / recoverable failure | Verified | Responsive rules shared | Responsive rules shared | Responsive rules shared | Responsive rules shared | `VERIFIED` at 430 |
@@ -151,7 +152,7 @@ Current status: `VERIFIED` locally. The Pull Request remains paused until the co
 | 2026-10-10 | owner-review correction focused Customer suite | 2 files, 70 tests passed |
 | 2026-10-10 | owner-review correction Customer TypeScript + production build | Passed |
 | 2026-10-10 | owner-review correction changed-file ESLint + `git diff --check` | Passed |
-| 2026-10-10 | corrected 430px Chrome/CDP review | No document overflow, broken images, unlabeled controls, console errors or failed requests |
+| 2026-10-10 | corrected 360/390/430/768/1440px Chrome/CDP review | No document overflow, broken images, unlabeled controls, console errors or failed requests |
 
 ## Screenshot evidence
 
@@ -178,7 +179,11 @@ Chrome/CDP checks reported no document overflow, visible broken images or unlabe
 | Closed Pickup | 430×932 | `docs/assets/screenshots/customer-home-closed-reference-430.png` |
 | Recoverable menu failure | 430×932 | `docs/assets/screenshots/customer-home-failure-reference-430.png` |
 | Corrected service entry | 430×932 | `docs/assets/screenshots/customer-entry-corrected-430.png` |
+| Corrected returning Pickup Home | 360×800 | `docs/assets/screenshots/customer-home-returning-corrected-360.png` |
+| Corrected returning Pickup Home | 390×844 | `docs/assets/screenshots/customer-home-returning-corrected-390.png` |
 | Corrected returning Pickup Home | 430×932 | `docs/assets/screenshots/customer-home-returning-corrected-430.png` |
+| Corrected returning Pickup Home | 768×1024 | `docs/assets/screenshots/customer-home-returning-corrected-768.png` |
+| Corrected returning Pickup Home | 1440×1000 | `docs/assets/screenshots/customer-home-returning-corrected-1440.png` |
 
 ## Known risks
 
@@ -191,8 +196,8 @@ Chrome/CDP checks reported no document overflow, visible broken images or unlabe
 
 ## Next action
 
-Commit and push the owner-review fidelity correction on `feature/customer-reference-home-ui`. Then capture 360/390/768/1440 correction evidence before creating the required Pull Request. Keep the unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` work out of every commit.
+Create the required Pull Request from `feature/customer-reference-home-ui` into `develop` after explicit user confirmation for the GitHub submission. Keep the unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` work out of every commit.
 
 ## Continuation prompt
 
-> Continue Pizza Avenue `CHG-0029` on branch `feature/customer-reference-home-ui`. Read `AGENTS.md`, the mandatory frontend documents, and `docs/CUSTOMER_UI_REDESIGN_HANDOFF.md`. Preserve unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` changes. The first visual pass (`3922602`) was rejected by owner review; the subsequent correction restores the craving/search/category/image-led rail above the returning-user usual order and adds corrected 430px screenshots. Verify the latest branch commit, capture the remaining 360/390/768/1440 correction matrix, update this handoff/queue truth, and only then create the PR. Keep backend-authoritative behavior unchanged.
+> Continue Pizza Avenue `CHG-0029` on branch `feature/customer-reference-home-ui`. Read `AGENTS.md`, the mandatory frontend documents, and `docs/CUSTOMER_UI_REDESIGN_HANDOFF.md`. Preserve unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` changes. The first visual pass (`3922602`) was rejected by owner review; correction commit `b8a4bed` restores the craving/search/category/image-led rail above the returning-user usual order and is pushed with verified 360/390/430/768/1440 evidence. Confirm the latest documentation commit is pushed, then create the PR into `develop` only after the user authorizes the external GitHub submission. Keep backend-authoritative behavior unchanged.

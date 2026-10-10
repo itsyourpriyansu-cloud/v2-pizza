@@ -3635,6 +3635,7 @@ Branch:
 
 Implementation commit:
 - `3922602` — `feat(customer): refine entry and home experience`
+- `b8a4bed` — `fix(customer): align home with visual references`
 
 Pull Request:
 - Pending
@@ -3665,7 +3666,7 @@ Pull Request:
 
 ### Current Result
 
-The first implementation and validation were completed in commits `3922602` and `9395f7a`, but the 2026-10-10 owner review rejected the returning Home as insufficiently faithful to references 3–4. The local correction now restores reference-style search/category/image-led discovery above the fold, moves the usual-order module below that first food moment, and tightens food-card and dock geometry. Corrected 430px entry/returning captures show no document overflow, broken images, unlabeled controls, console errors or failed requests; 70 focused tests, Customer TypeScript/build, changed-file ESLint and `git diff --check` pass. The correction still requires commit/push and the remaining responsive capture matrix before PR creation.
+The first implementation and validation were completed in commits `3922602` and `9395f7a`, but the 2026-10-10 owner review rejected the returning Home as insufficiently faithful to references 3–4. Correction commit `b8a4bed` is pushed and restores reference-style search/category/image-led discovery above the fold, moves the usual-order module below that first food moment, and tightens food-card and dock geometry. Corrected 360/390/430/768/1440px captures show no document overflow, broken images, unlabeled controls, console errors or failed requests; 70 focused tests, Customer TypeScript/build, changed-file ESLint and `git diff --check` pass. Pull Request submission is the remaining workflow step.
 
 ### Related Changes
 
