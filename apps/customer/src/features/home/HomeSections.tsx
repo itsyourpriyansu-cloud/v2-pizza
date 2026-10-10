@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   ShoppingBag,
   Sparkle as Sparkles,
+  SquaresFour,
 } from '@phosphor-icons/react';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
@@ -66,6 +67,39 @@ function currentStartingPrice(product: Product | undefined) {
     .sort((a, b) => a.basePrice.amount - b.basePrice.amount)[0]?.basePrice;
 }
 
+export function CustomerHomeHeader({
+  serviceMode,
+  contextLabel,
+  contextTone = '',
+  cartItemCount,
+  onChangeService,
+}: {
+  serviceMode: 'PICKUP' | 'DINE_IN';
+  contextLabel: string;
+  contextTone?: string;
+  cartItemCount: number;
+  onChangeService: () => void;
+}) {
+  const cartHref = serviceMode === 'DINE_IN' ? '/dine-in/cart' : '/cart';
+  return (
+    <header className="customer-home-header">
+      <Link className="customer-home-header__brand" to="/" aria-label="Pizza Avenue home">
+        <span className="customer-home-header__mark" aria-hidden="true"><Pizza weight="fill" /></span>
+        <span><strong>Pizza Avenue</strong><small>Sainikpuri, Hyderabad</small></span>
+      </Link>
+      <div className="customer-home-header__context">
+        <span className={`status-dot${contextTone}`} aria-hidden="true" />
+        <span>{contextLabel}</span>
+        <button type="button" className="customer-home-header__change" onClick={onChangeService}>Change service</button>
+      </div>
+      <Link className="customer-home-header__cart" to={cartHref} aria-label={`Open ${serviceMode === 'DINE_IN' ? 'dine-in ' : ''}cart with ${cartItemCount} item${cartItemCount === 1 ? '' : 's'}`}>
+        <ShoppingBag aria-hidden="true" weight="bold" />
+        {cartItemCount > 0 ? <strong>{cartItemCount}</strong> : null}
+      </Link>
+    </header>
+  );
+}
+
 export function ServiceEntry({
   storeState,
   onChoosePickup,
@@ -95,7 +129,7 @@ export function ServiceEntry({
           </div>
         </div>
         <div className="service-entry__grid">
-          <section className="service-entry-card service-entry-card--pickup" aria-labelledby="pickup-mode">
+          <button className="service-entry-card service-entry-card--pickup" type="button" onClick={onChoosePickup} aria-label={store.pickupLabel}>
             <div className="service-entry-card__top">
               <span className="service-entry-card__icon" aria-hidden="true"><ShoppingBag weight="duotone" /></span>
               <Badge tone={store.tone}>{store.badge}</Badge>
@@ -105,10 +139,10 @@ export function ServiceEntry({
               <h2 id="pickup-mode">Pickup</h2>
               <p>{store.detail}. Pay securely, then collect from Sainikpuri.</p>
             </div>
-            <Button type="button" onClick={onChoosePickup}>{store.pickupLabel}<ArrowRight aria-hidden="true" /></Button>
-          </section>
+            <span className="service-entry-card__action">{store.pickupLabel}<ArrowRight aria-hidden="true" /></span>
+          </button>
 
-          <section className="service-entry-card service-entry-card--dine-in" aria-labelledby="dine-in-mode">
+          <Link className="service-entry-card service-entry-card--dine-in" to="/dine-in/start" aria-label="Scan your table QR">
             <div className="service-entry-card__top">
               <span className="service-entry-card__icon" aria-hidden="true"><QrCode weight="duotone" /></span>
               <Badge>At your table</Badge>
@@ -118,8 +152,8 @@ export function ServiceEntry({
               <h2 id="dine-in-mode">Dine In</h2>
               <p>Scan the QR on your table to connect securely before your waiter confirms each round.</p>
             </div>
-            <ButtonLink to="/dine-in/start" variant="secondary">Scan your table QR<ArrowRight aria-hidden="true" /></ButtonLink>
-          </section>
+            <span className="service-entry-card__action">Scan your table QR<ArrowRight aria-hidden="true" /></span>
+          </Link>
         </div>
 
         <div className="service-entry__assurance" aria-label="Service information">
@@ -148,21 +182,71 @@ export function StoreContextBar({
   );
 }
 
+export function OperationalStatusCard({ storeState }: { storeState: Exclude<StoreScenario, 'STORE_OPEN'> }) {
+  const store = storePresentation[storeState];
+  return (
+    <section className={`operational-status-card operational-status-card--${store.tone}`} role="status" aria-labelledby="operational-status-title">
+      <span className="operational-status-card__icon" aria-hidden="true"><Clock3 weight="duotone" /></span>
+      <div>
+        <Badge tone={store.tone}>{store.badge}</Badge>
+        <h2 id="operational-status-title">{store.title}</h2>
+        <p>{store.detail}. Prices and availability shown below remain current.</p>
+      </div>
+      <ButtonLink to="/menu" variant="secondary">Browse current menu<ArrowRight aria-hidden="true" /></ButtonLink>
+    </section>
+  );
+}
+
+export function HomeSearchRow({ secondary = false }: { secondary?: boolean }) {
+  return (
+    <section className="home-search-row" aria-labelledby="home-craving-title">
+      <div>
+        <p className="eyebrow">Handcrafted in Sainikpuri</p>
+        {secondary ? <h2 id="home-craving-title">What’s your craving today?</h2> : <h1 id="home-craving-title">What’s your craving today?</h1>}
+      </div>
+      <div className="home-search-row__controls">
+        <Link className="home-search-control" to="/search" aria-label="Search the Pizza Avenue menu"><Search aria-hidden="true" /><span>Search pizzas, sides and drinks</span></Link>
+        <Link className="home-filter-control" to="/menu" aria-label="Browse menu categories"><SquaresFour aria-hidden="true" /></Link>
+      </div>
+    </section>
+  );
+}
+
+export function HomeCategoryRail() {
+  const routes: Array<{ label: string; href: string; icon: ReactNode }> = [
+    { label: 'Bestsellers', href: '#best-sellers', icon: <Sparkles /> },
+    { label: 'Build yours', href: '/menu/pizza-margherita', icon: <Pizza /> },
+    { label: 'Vegetarian', href: '/menu?category=veggie-haven', icon: <Leaf /> },
+    { label: 'Non-Veg', href: '/menu?category=non-veg-paradise', icon: <Flame /> },
+  ];
+  return (
+    <section className="home-category" aria-labelledby="home-category-title">
+      <div className="home-category__heading"><h2 id="home-category-title">Choose a lane</h2><Link to="/menu">See all</Link></div>
+      <div className="home-category__rail">
+        {routes.map((route, index) => (
+          <Link className={`home-category-pill${index === 0 ? ' is-active' : ''}`} to={route.href} key={route.label}>
+            <span aria-hidden="true">{route.icon}</span>{route.label}
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function NewCustomerHero() {
   return (
     <section className="home-order-hero home-order-hero--new" aria-labelledby="home-new-title">
-      <img src="/assets/seed/hero-main-pizza.png" alt="Fresh vegetable pizza ready to share" />
+      <img src="/assets/seed/hero-main-pizza.png" alt="Fresh vegetable pizza ready to share" width="1024" height="1024" loading="eager" fetchPriority="high" decoding="async" />
       <div className="home-order-hero__scrim" aria-hidden="true" />
       <div className="home-order-hero__content">
         <div className="home-order-hero__kicker">
           <span className="home-order-hero__number">01</span>
           <p className="eyebrow">First time here?</p>
         </div>
-        <h1 id="home-new-title">Start with the pizzas Sainikpuri orders most.</h1>
+        <h2 id="home-new-title">Start with the pizzas Sainikpuri orders most.</h2>
         <p>Choose a proven favourite, or make one your own. No deal maze and no hidden add-ons.</p>
         <div className="home-button-row">
           <a className="button button--primary" href="#best-sellers">See Bestsellers</a>
-          <ButtonLink to="/menu/pizza-margherita" variant="secondary">Customize a favourite</ButtonLink>
         </div>
       </div>
     </section>
@@ -198,7 +282,7 @@ export function CravingRoutes() {
   );
 }
 
-export function UsualOrderCard({
+export function UsualOrderFeature({
   order,
   product,
   isPending,
@@ -242,6 +326,8 @@ export function UsualOrderCard({
   );
 }
 
+export const UsualOrderCard = UsualOrderFeature;
+
 export function CompleteMealCard({ returning }: { returning: boolean }) {
   return (
     <Surface className="meal-plan-card">
@@ -261,13 +347,44 @@ export function CompleteMealCard({ returning }: { returning: boolean }) {
   );
 }
 
+export function HomeProductCard({ product, dineIn = false }: { product: Product; dineIn?: boolean }) {
+  const startingPrice = currentStartingPrice(product);
+  const available = product.availability === 'AVAILABLE' && Boolean(startingPrice);
+  const href = `${dineIn ? '/dine-in' : ''}/menu/${product.id}`;
+  return (
+    <article className={`home-feature-card${available ? '' : ' is-unavailable'}`}>
+      <Link to={href} aria-label={`View ${product.name}`}>
+        <div className="home-feature-card__media">
+          <ProductMedia product={product} />
+          {product.flags.includes('BESTSELLER') ? <Badge>Bestseller</Badge> : null}
+        </div>
+        <div className="home-feature-card__body">
+          <div><h3>{product.name}</h3><p>{product.description}</p></div>
+          <div className="home-feature-card__footer">
+            <strong>{startingPrice ? `From ${formatMoney(startingPrice)}` : 'Unavailable'}</strong>
+            <span className="home-feature-card__action" aria-hidden="true"><ArrowRight weight="bold" /></span>
+          </div>
+        </div>
+      </Link>
+    </article>
+  );
+}
+
+export function FeaturedFoodRail({ products, title = 'Most ordered at Pizza Avenue', dineIn = false }: { products: Product[]; title?: string; dineIn?: boolean }) {
+  return (
+    <section className="home-section featured-food" id="best-sellers" aria-labelledby="best-sellers-title">
+      <SectionHeader id="best-sellers-title" title={title} action={<Link className="text-link" to={dineIn ? '/dine-in/menu' : '/menu'}>See all</Link>} />
+      <p className="home-section__intro">Current menu favourites, with today’s availability and prices.</p>
+      <div className="featured-food__rail" tabIndex={0} aria-label={`${title} products`}>
+        {products.map((product) => <HomeProductCard key={product.id} product={product} dineIn={dineIn} />)}
+      </div>
+    </section>
+  );
+}
+
 export function BestSellers({ products }: { products: Product[] }) {
   return (
-    <section className="home-section" id="best-sellers" aria-labelledby="best-sellers-title">
-      <SectionHeader id="best-sellers-title" title="Most ordered at Pizza Avenue" action={<Link className="text-link" to="/menu">See all</Link>} />
-      <p className="home-section__intro">Four confident choices when you don’t want to study the whole menu.</p>
-      <div className="product-grid home-product-grid">{products.map((product) => <ProductCard key={product.id} product={product} />)}</div>
-    </section>
+    <FeaturedFoodRail products={products} />
   );
 }
 
@@ -320,7 +437,7 @@ export function ActivePickupHome({ order }: { order: Order }) {
   const ready = order.status === 'READY_FOR_PICKUP';
   const preparing = order.status === 'PREPARING';
   return (
-    <Surface className="active-service-card active-service-card--pickup">
+    <Surface className="active-service-card active-service-card--pickup operational-status-card">
       <div className="active-service-card__heading"><Badge tone="success">Active Pickup · {order.publicNumber}</Badge><span><BellRing aria-hidden="true" /> Live status</span></div>
       <h1>{ready ? 'Your order is ready.' : preparing ? 'Your pizza is in the oven.' : 'The kitchen has your order.'}</h1>
       <p>{ready ? 'Head to Pizza Avenue and use your pickup code at the counter.' : 'Stay here for the latest confirmed status. We’ll tell you when it is time to leave.'}</p>
@@ -338,7 +455,7 @@ export function ActiveDineInHome({
 }) {
   return (
     <div className="page-stack dine-in-home">
-      <section className="active-service-card active-service-card--dine-in" aria-labelledby="dine-in-home-title">
+      <section className="active-service-card active-service-card--dine-in operational-status-card" aria-labelledby="dine-in-home-title">
         <div className="active-service-card__heading"><Badge tone="success">Table connected</Badge><span><Clock3 aria-hidden="true" /> Kitchen about 20–30 min</span></div>
         <p className="eyebrow">Dine In · {tableLabel}</p>
         <h1 id="dine-in-home-title">Everything for {tableLabel}, in one place.</h1>
@@ -353,7 +470,7 @@ export function ActiveDineInHome({
         <section className="home-section" aria-labelledby="table-quick-add-title">
           <SectionHeader id="table-quick-add-title" title="Quick add for the table" action={<Link className="text-link" to="/dine-in/menu">Full menu</Link>} />
           <p className="home-section__intro">Sides, drinks and dessert for the table. Nothing is added until you choose it.</p>
-          <div className="product-grid home-product-grid">{quickAdds.map((product) => <ProductCard key={product.id} product={product} href={`/dine-in/menu/${product.id}`} />)}</div>
+          <div className="featured-food__rail" tabIndex={0} aria-label="Quick add products">{quickAdds.map((product) => <HomeProductCard key={product.id} product={product} dineIn />)}</div>
         </section>
       ) : null}
       <Link className="search-entry" to="/dine-in/search"><Search aria-hidden="true" /><span>Search the dine-in menu</span></Link>

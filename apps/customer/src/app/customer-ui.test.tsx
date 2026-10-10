@@ -35,9 +35,38 @@ describe('customer discovery and builder flows', () => {
     await user.click(screen.getByRole('button', { name: 'Order for Pickup' }));
 
     expect(await screen.findByRole('heading', { name: 'Start with the pizzas Sainikpuri orders most.' })).toBeVisible();
+    expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
     expect(screen.getByRole('link', { name: 'Search the Pizza Avenue menu' })).toHaveAttribute('href', '/search');
-    expect(screen.getByRole('link', { name: 'Full menu' })).toHaveAttribute('href', '/menu');
+    expect(screen.getByRole('link', { name: 'Browse menu categories' })).toHaveAttribute('href', '/menu');
     expect(screen.getByRole('navigation', { name: 'Customer navigation' })).toBeVisible();
+  });
+
+  it('selects Pickup from the whole card with keyboard activation and records analytics', async () => {
+    const user = userEvent.setup();
+    const events: Array<{ name: string; properties: Record<string, unknown> }> = [];
+    const listener = (event: Event) => events.push((event as CustomEvent).detail);
+    window.addEventListener('pizza-avenue:analytics', listener);
+    renderRoute('/?scenario=NEW_CUSTOMER');
+
+    const pickupChoice = screen.getByRole('button', { name: 'Order for Pickup' });
+    pickupChoice.focus();
+    await user.keyboard('{Enter}');
+
+    expect(await screen.findByRole('heading', { name: 'What’s your craving today?' })).toBeVisible();
+    expect(events).toContainEqual({ name: 'service_mode_selected', properties: { serviceMode: 'PICKUP', storeId: 'sainikpuri' } });
+    window.removeEventListener('pizza-avenue:analytics', listener);
+  });
+
+  it('keeps the floating five-destination dock on eligible Pickup routes', async () => {
+    const user = userEvent.setup();
+    renderRoute('/?scenario=NEW_CUSTOMER');
+    await user.click(screen.getByRole('button', { name: 'Order for Pickup' }));
+    await user.click(await screen.findByRole('link', { name: 'Menu' }));
+
+    const dock = screen.getByRole('navigation', { name: 'Customer navigation' });
+    expect(dock).toHaveClass('customer-dock');
+    expect(within(dock).getAllByRole('link')).toHaveLength(5);
+    expect(within(dock).getByRole('link', { name: 'Menu' })).toHaveAttribute('aria-current', 'page');
   });
 
   it('provides a deterministic service-entry review screen', async () => {
@@ -54,7 +83,7 @@ describe('customer discovery and builder flows', () => {
     const user = userEvent.setup();
     renderRoute('/?scenario=NEW_CUSTOMER');
     await user.click(screen.getByRole('button', { name: 'Order for Pickup' }));
-    await user.click(await screen.findByRole('link', { name: 'Full menu' }));
+    await user.click(await screen.findByRole('link', { name: 'Browse menu categories' }));
     await user.click(await screen.findByRole('link', { name: 'View Classic Margherita Pizza' }));
     await user.click(await screen.findByRole('link', { name: 'Customize' }));
     expect(await screen.findByRole('group', { name: 'Crust' })).toBeVisible();
@@ -106,6 +135,18 @@ describe('customer discovery and builder flows', () => {
     expect(screen.getByRole('heading', { name: 'Quick add for the table' })).toBeVisible();
     expect(screen.queryByRole('heading', { name: 'Your Avenue' })).not.toBeInTheDocument();
     expect(screen.queryByRole('navigation', { name: 'Customer navigation' })).not.toBeInTheDocument();
+  });
+
+  it('shows a recoverable Home failure without losing the Pickup context', async () => {
+    const user = userEvent.setup();
+    renderRoute('/?review=MENU_FAILURE_PICKUP');
+
+    expect(await screen.findByRole('heading', { name: 'We couldn’t load today’s menu' }, { timeout: 8_000 })).toBeVisible();
+    expect(screen.getByText('Your service choice is saved. Try again to see current availability.')).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Try again' })).toBeVisible();
+    expect(screen.getByRole('navigation', { name: 'Customer navigation' })).toBeVisible();
+    await user.click(screen.getByRole('button', { name: 'Change service' }));
+    expect(await screen.findByRole('heading', { name: 'Pizza starts with one simple choice.' })).toBeVisible();
   });
 
   it('offers permission-first trusted table scanning without presenting an error', async () => {

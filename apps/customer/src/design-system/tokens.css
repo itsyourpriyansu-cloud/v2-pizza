@@ -81,6 +81,10 @@
   --customer-icon-size-lg: 1.5rem;
   --customer-mobile-gutter: 1.25rem;
   --customer-app-grid-gap: 1.5rem;
+  --customer-home-section-gap: 1.5rem;
+  --customer-home-card-radius: 1.25rem;
+  --customer-home-hero-radius: 1.75rem;
+  --customer-dock-height: 4.25rem;
   --customer-content-width: 72rem;
   --customer-content-width-wide: 88rem;
 }

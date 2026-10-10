@@ -9,9 +9,9 @@ const items = [
   { to: '/profile', label: 'Profile', icon: UserCircle },
 ] as const;
 
-export function BottomNavigation({ floating = false }: { floating?: boolean }) {
+export function CustomerDock() {
   return (
-    <nav className={`bottom-navigation${floating ? ' bottom-navigation--floating' : ''}`} aria-label="Customer navigation">
+    <nav className="bottom-navigation bottom-navigation--floating customer-dock" aria-label="Customer navigation">
       {items.map((item) => {
         const Icon = item.icon;
         return (
@@ -29,3 +29,6 @@ export function BottomNavigation({ floating = false }: { floating?: boolean }) {
     </nav>
   );
 }
+
+// Kept as a compatibility export while routes migrate to the Customer-owned name.
+export const BottomNavigation = CustomerDock;

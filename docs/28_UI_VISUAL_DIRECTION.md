@@ -101,7 +101,7 @@ The application must never present client-calculated pricing or state as authori
 
 ### Service entry and Home adaptation
 
-The Customer entry and Home implementation applies Reference 05 as a composition study, not a visual clone:
+The Customer entry and Home implementation applies the ten supplied food-ordering references as a combined composition study, not a visual clone:
 
 - 20px mobile outer gutters, a four-column mental grid and a 24px major spacing cadence,
 - one image-led appetite moment, followed by quiet decision surfaces and compact category discovery,
@@ -109,6 +109,10 @@ The Customer entry and Home implementation applies Reference 05 as a composition
 - the reference orange role mapped to Maroon/Italian Brown, black mapped to Espresso, white mapped to Cream and pale grey mapped to Sand,
 - existing Phudu/Poppins typography, current typed menu data and current service/operational priority retained,
 - Phosphor iconography used consistently on the affected Customer layers.
+
+The 2026-10-10 Phase-one refinement implements this direction with a direct whole-card Pickup/Dine-in selector, a compact root-only service/cart header, a craving/search/category opening hierarchy, a scroll-snap typed-menu food rail, an image-led usual-order feature, prominent operational recovery cards and a five-destination Espresso dock. At 768px rails become grids; at 1440px the service selector becomes a photo/options split and Home becomes a wider editorial composition rather than a phone mockup. Loading and failure preserve the selected service context, while active Dine-in continues to suppress Pickup navigation and retention.
+
+Only the existing Customer-local hero and seed product assets are used. A product without approved imagery receives the Phosphor pizza fallback; it never receives unrelated lifestyle photography. Above-fold hero imagery is eager with explicit intrinsic dimensions, while product imagery below the fold remains lazy.
 
 Pickup/Dine-in selection remains explicit. A Dine-in choice still leads to the permission-first trusted table scanner; no map, delivery address, typed table number or unverified QR shortcut is introduced.
 

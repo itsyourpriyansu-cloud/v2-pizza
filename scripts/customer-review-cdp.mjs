@@ -1,8 +1,8 @@
 /* global process, fetch, WebSocket, setTimeout, Buffer, console */
 import { writeFile } from 'node:fs/promises';
 
-const [url, outputPath, width = '390', height = '844'] = process.argv.slice(2);
-if (!url || !outputPath) throw new Error('Usage: node scripts/customer-review-cdp.mjs <url> <output> [width] [height]');
+const [url, outputPath, width = '390', height = '844', wait = '3000', reducedMotion = 'no-preference'] = process.argv.slice(2);
+if (!url || !outputPath) throw new Error('Usage: node scripts/customer-review-cdp.mjs <url> <output> [width] [height] [waitMs] [reducedMotion]');
 
 const targets = await fetch('http://127.0.0.1:9223/json/list').then((response) => response.json());
 const target = targets.find((candidate) => candidate.type === 'page');
@@ -58,8 +58,13 @@ await send('Emulation.setDeviceMetricsOverride', {
   deviceScaleFactor: 1,
   mobile: Number(width) < 600,
 });
+await send('Emulation.setEmulatedMedia', {
+  features: [{ name: 'prefers-reduced-motion', value: reducedMotion }],
+});
 await send('Page.navigate', { url });
-await new Promise((resolve) => setTimeout(resolve, 3000));
+await new Promise((resolve) => setTimeout(resolve, Number(wait)));
+await send('Runtime.evaluate', { expression: 'window.scrollTo(0, 0)' });
+await new Promise((resolve) => setTimeout(resolve, 100));
 
 const result = await send('Runtime.evaluate', {
   expression: `JSON.stringify((() => {
@@ -77,9 +82,21 @@ const result = await send('Runtime.evaluate', {
       path: location.pathname + location.search,
       rootTextLength: root?.innerText.length ?? 0,
       h1: [...document.querySelectorAll('h1')].map((item) => item.innerText),
+      scrollY: Math.round(window.scrollY),
+      homeHeaderTop: Math.round(document.querySelector('.customer-home-header')?.getBoundingClientRect().top ?? -1),
+      reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
       horizontalOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
+      overflowingElements: [...document.querySelectorAll('body *')].filter((element) => {
+        const rect = element.getBoundingClientRect();
+        return rect.right > document.documentElement.clientWidth + 1 || rect.left < -1;
+      }).slice(0, 12).map((element) => ({
+        tag: element.tagName.toLowerCase(),
+        className: typeof element.className === 'string' ? element.className : '',
+        left: Math.round(element.getBoundingClientRect().left),
+        right: Math.round(element.getBoundingClientRect().right),
+      })),
       brokenImages: images.filter((image) => {
         const visibleSoon = image.getBoundingClientRect().top < window.innerHeight + 200;
         return visibleSoon && (!image.complete || image.naturalWidth === 0);

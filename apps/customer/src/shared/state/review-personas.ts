@@ -7,6 +7,10 @@ export const reviewPersonaNames = [
   'RETURNING_CUSTOMER',
   'ACTIVE_PICKUP',
   'ACTIVE_DINE_IN',
+  'BUSY_PICKUP',
+  'PAUSED_PICKUP',
+  'CLOSED_PICKUP',
+  'MENU_FAILURE_PICKUP',
   'REWARD_AVAILABLE',
   'PASSPORT_ONE_LEFT',
   'PERSONAL_MISSION_ACTIVE',
@@ -75,6 +79,22 @@ export const reviewPersonaPresets: Record<ReviewPersonaName, ReviewPersonaPreset
   ACTIVE_DINE_IN: {
     scenario: { ...quietHome, customer: 'RETURNING_CUSTOMER', operations: 'DINE_IN_WAITER_CONFIRMED', cart: 'DINE_IN_CART' },
     serviceContext: dineInContext,
+  },
+  BUSY_PICKUP: {
+    scenario: { ...quietHome, customer: 'NEW_CUSTOMER', store: 'STORE_BUSY' },
+    serviceContext: pickupContext,
+  },
+  PAUSED_PICKUP: {
+    scenario: { ...quietHome, customer: 'NEW_CUSTOMER', store: 'STORE_PAUSED' },
+    serviceContext: pickupContext,
+  },
+  CLOSED_PICKUP: {
+    scenario: { ...quietHome, customer: 'NEW_CUSTOMER', store: 'STORE_CLOSED' },
+    serviceContext: pickupContext,
+  },
+  MENU_FAILURE_PICKUP: {
+    scenario: { ...quietHome, customer: 'NEW_CUSTOMER', menu: 'MENU_NETWORK_ERROR' },
+    serviceContext: pickupContext,
   },
   REWARD_AVAILABLE: {
     scenario: { ...quietHome, customer: 'LOYAL_CUSTOMER', rewards: 'REWARD_AVAILABLE' },

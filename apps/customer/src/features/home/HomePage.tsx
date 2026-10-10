@@ -36,13 +36,14 @@ import {
   BestSellers,
   BrandReassurance,
   CompleteMealCard,
-  CravingRoutes,
+  HomeCategoryRail,
+  HomeSearchRow,
   MealCompleters,
   NewCustomerHero,
+  OperationalStatusCard,
   ServiceEntry,
-  StoreContextBar,
   TasteDiscovery,
-  UsualOrderCard,
+  UsualOrderFeature,
   type StoreScenario,
 } from './HomeSections';
 
@@ -106,12 +107,6 @@ export function HomePage() {
     document.body.scrollTop = 0;
   }
 
-  function changeService() {
-    setServiceContext(null);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  }
-
   if (!serviceContext) return <ServiceEntry storeState={storeState} onChoosePickup={choosePickup} />;
   if (menuQuery.isPending) return <PageSkeleton label="home" />;
   if (menuQuery.isError) {
@@ -135,6 +130,7 @@ export function HomePage() {
     : undefined;
   const bestSellers = menuQuery.data.products
     .filter((product) => product.availability === 'AVAILABLE' && (product.flags.includes('BESTSELLER') || product.flags.includes('SIGNATURE')))
+    .sort((a, b) => Number(Boolean(b.imageUrl)) - Number(Boolean(a.imageUrl)))
     .slice(0, 4);
   const mealCompleters = ['side-garlic-knots', 'dip-viva-rosso', 'dessert-tiramisu', 'drink-coke']
     .map((id) => menuQuery.data.products.find((product) => product.id === id))
@@ -173,21 +169,27 @@ export function HomePage() {
 
   return (
     <div className="page-stack home-page">
-      <StoreContextBar storeState={storeState} onChangeService={changeService} />
+      {storeState !== 'STORE_OPEN' ? <OperationalStatusCard storeState={storeState} /> : null}
 
       {activeOrder ? <ActivePickupHome order={activeOrder} /> : returning && pastOrder ? (
-        <UsualOrderCard
+        <UsualOrderFeature
           order={pastOrder}
           product={usualProduct}
           isPending={reorderMutation.isPending}
           isError={reorderMutation.isError}
           onOrderAgain={() => reorderMutation.mutate()}
         />
-      ) : <NewCustomerHero />}
+      ) : (
+        <>
+          <HomeSearchRow />
+          <HomeCategoryRail />
+          <NewCustomerHero />
+        </>
+      )}
 
-      {!activeOrder && !returning ? <CravingRoutes /> : null}
+      {!activeOrder && !returning ? <BestSellers products={bestSellers} /> : null}
       {!activeOrder ? <CompleteMealCard returning={returning} /> : null}
-      <BestSellers products={bestSellers} />
+      {activeOrder || returning ? <BestSellers products={bestSellers} /> : null}
 
       {!activeOrder && returning && adaptiveModule ? (
         <section className="home-section" aria-labelledby="your-avenue-title">
@@ -196,6 +198,8 @@ export function HomePage() {
         </section>
       ) : null}
 
+      {!activeOrder && returning ? <HomeSearchRow secondary /> : null}
+      {!activeOrder && returning ? <HomeCategoryRail /> : null}
       {!activeOrder ? <TasteDiscovery /> : null}
       <MealCompleters products={mealCompleters} />
       <BrandReassurance />

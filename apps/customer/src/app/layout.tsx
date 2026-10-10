@@ -1,7 +1,8 @@
 import { AppShell } from '@pizza-avenue/ui';
 import { ShoppingBag } from '@phosphor-icons/react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { BottomNavigation } from '../shared/components/BottomNavigation';
+import { CustomerHomeHeader } from '../features/home/HomeSections';
+import { CustomerDock } from '../shared/components/BottomNavigation';
 import { useCommerceStore } from '../shared/state/commerce-store';
 import { usePrototypeStore } from '../shared/state/prototype-store';
 
@@ -19,9 +20,9 @@ export function CustomerLayout() {
     || location.pathname === '/dine-in/menu'
     || location.pathname.startsWith('/dine-in/menu/')
     || location.pathname === '/dine-in/search';
-  const showBottomNavigation = serviceContext?.mode !== 'DINE_IN'
+  const showBottomNavigation = serviceContext?.mode === 'PICKUP'
     && !isDineInRoute
-    && (Boolean(serviceContext) || location.pathname !== '/');
+    && Boolean(serviceContext);
   const contextLabel = serviceContext?.mode === 'DINE_IN'
     ? `${serviceContext.tableLabel ?? 'Dine-in'} · 20–30 min`
     : serviceContext?.mode === 'PICKUP'
@@ -39,17 +40,28 @@ export function CustomerLayout() {
         ? ' status-dot--danger'
         : '';
 
-  return (
-    <AppShell
-      title="Pizza Avenue"
-      className="customer-shell"
-      navigation={showBottomNavigation ? <BottomNavigation floating={location.pathname === '/'} /> : undefined}
-      navigationPosition="footer"
-      header={
+  function changeService() {
+    usePrototypeStore.getState().setServiceContext(null);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
+
+  const isHome = location.pathname === '/';
+  const header = isHome && !serviceContext
+    ? <></>
+    : isHome && serviceContext
+      ? (
+        <CustomerHomeHeader
+          serviceMode={serviceContext.mode}
+          contextLabel={contextLabel}
+          contextTone={contextTone}
+          cartItemCount={cartItemCount}
+          onChangeService={changeService}
+        />
+      )
+      : (
         <header className="customer-topbar">
-          <Link className="brand-wordmark" to="/" aria-label="Pizza Avenue home">
-            Pizza Avenue
-          </Link>
+          <Link className="brand-wordmark" to="/" aria-label="Pizza Avenue home">Pizza Avenue</Link>
           <div className="customer-topbar__actions">
             <div className="customer-topbar__context">
               <span className={`status-dot${contextTone}`} aria-hidden="true" />
@@ -63,7 +75,15 @@ export function CustomerLayout() {
             ) : null}
           </div>
         </header>
-      }
+      );
+
+  return (
+    <AppShell
+      title="Pizza Avenue"
+      className="customer-shell"
+      navigation={showBottomNavigation ? <CustomerDock /> : undefined}
+      navigationPosition="footer"
+      header={header}
     >
       <Outlet />
       {cartItemCount > 0 && isDiscoveryRoute ? (

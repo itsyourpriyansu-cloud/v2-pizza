@@ -924,7 +924,7 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-06
-- **Last Updated:** 2026-10-09
+- **Last Updated:** 2026-10-10
 - **Integration:** Source commit `7870848bb7015e72c3a612765d00e0bd35fa3f5b` is merged into `feature/customer-home-experience-v1` for review; validation and the final `develop` PR remain pending.
 
 ### Business Reason
@@ -2116,7 +2116,7 @@ Excluded:
 - **Priority:** P2
 - **Owner:** Antigravity / Priyansu
 - **Created:** 2026-10-08
-- **Last Updated:** 2026-10-09
+- **Last Updated:** 2026-10-10
 - **Pull Request:** #13 against `develop` (shared Landing branch; staging and production not deployed)
 
 ### Business Reason
@@ -3391,7 +3391,7 @@ The client-requested scanner correction is complete locally. Dine-in now has a p
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-09
-- **Last Updated:** 2026-10-09
+- **Last Updated:** 2026-10-10
 
 ### Business Reason
 
@@ -3604,12 +3604,17 @@ The service-entry and Home screens need a more decisive, image-led mobile hierar
 
 Study the supplied food-ordering case study, combine its strongest mobile composition patterns with the existing Pizza Avenue foundation, and implement the resulting system only on the service selector and Home experience.
 
+The 2026-10-10 refinement pass increases structural fidelity without copying the source identity: direct one-tap service cards, a root-specific compact header, craving/search/category hierarchy, typed-menu featured food cards, a five-item floating dock across eligible Customer routes and a durable implementation handoff are required.
+
 ### Scope
 
 Included:
 - Pickup/Dine-in service selector composition and responsive behavior,
 - Pickup Home states and shared Home modules,
 - active Dine-in and active Pickup Home priority states,
+- busy, paused, closed, loading and recoverable error presentation,
+- root-specific entry/Home header and the five-destination floating Customer dock,
+- a maintained `docs/CUSTOMER_UI_REDESIGN_HANDOFF.md` continuation record,
 - Phosphor icons on the affected screens and navigation chrome,
 - tokenized grid, surface, image, motion and icon rules,
 - deterministic seed-data rendering, tests and visual verification.
@@ -3641,14 +3646,14 @@ Pull Request:
 
 ### Tests Required
 
-- [x] Customer component/flow tests — 2 files, 67 tests passed
-- [x] repository typecheck — passed
-- [x] repository lint excluding local ignored `.claude/**` tooling — passed with zero warnings
-- [x] repository test suite — 14 files, 175 tests passed with one worker
-- [x] all four frontend production builds — passed
-- [x] mobile visual review at 375px and 390px — passed
-- [x] desktop at 1440px and phone landscape — passed without document overflow
-- [x] keyboard/focus, reduced-motion, contrast, touch-target and console checks — token and browser audit passed; no console warnings/errors
+- [x] pre-refinement Customer baseline — 2 files, 67 tests passed
+- [x] pre-refinement Customer TypeScript check — passed
+- [x] refinement component/flow tests — 2 files, 70 tests passed
+- [x] canonical repository lint and TypeScript — passed; ESLint now mirrors the existing `.claude/**` ignore
+- [x] repository test suite with one worker — 15 files, 188 tests passed
+- [x] all four frontend production builds
+- [x] visual review at 360px, 390px, canonical 430px, 768px and 1440px
+- [x] keyboard/focus, reflow, reduced-motion, landscape, contrast, touch-target, console and network checks within automated/browser scope; real-device safe-area review remains
 
 ### Known Risks
 
@@ -3657,7 +3662,7 @@ Pull Request:
 
 ### Current Result
 
-The service selector and every existing Home priority state now use the combined Pizza Avenue/reference composition. The affected layers use pinned Phosphor icons, current typed seed menu data and the existing analytics and operational flows. Active Dine-in no longer exposes Pickup-oriented bottom navigation. Customer tests, repository typecheck, the full 175-test suite and all four builds pass; responsive browser review passes at phone, landscape and desktop sizes with no console errors. The default repository lint command remains affected only by unrelated local `.claude/security-audit` tooling; the complete tracked source tree passes when that ignored directory is excluded. Implementation commit `a920bc0` is pushed to `origin/feature/customer-reference-home-ui`; required Pull Request review is still pending.
+The higher-fidelity entry/Home refinement is implemented and locally validated on `feature/customer-reference-home-ui`: direct semantic service cards, the root-specific Home header, state-prioritized new/returning/active compositions, typed-menu featured cards, operational recovery states and the five-item floating dock are present. Current evidence includes canonical lint, 70 focused Customer tests, 188/188 repository tests, repository TypeScript, all four builds, dependency/secret/diff checks and responsive Chrome/CDP captures without document overflow, visible broken images or unlabeled controls. The ignored local `.claude/**` directory is now also ignored by ESLint, so the canonical lint gate passes without changing those artifacts. Commit, push and Pull Request creation remain pending; GitHub CLI is unavailable in this environment.
 
 ### Related Changes
 

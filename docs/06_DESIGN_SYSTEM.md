@@ -46,6 +46,9 @@ The service-entry and Home surfaces use a reference-adapted mobile composition w
 - compact horizontal category discovery, two-column food cards and no hidden paid additions,
 - Espresso for high-contrast framing, Maroon/Italian Brown for primary warmth, and Cream/Sand for the light layers; no external orange/black/white palette is introduced,
 - Phosphor icons on Customer entry, Home and its navigation chrome, with one weight family per visual layer and text labels retained for navigation.
+- a root-owned compact service/cart header after selection, while the unselected entry owns its photo-led header and other routes retain their current shell until their redesign phase,
+- a five-destination Espresso floating dock on eligible Pickup routes, with a Maroon active destination, text labels, safe-area clearance and no dock before service selection or during active Dine-in,
+- typed-menu featured rails that reserve image space and route to the product/customizer instead of bypassing required choices.
 
 The supplied reference contributes hierarchy and interaction patterns only. Delivery, maps, addresses, marketplace branding, proprietary copy and artwork are excluded.
 

@@ -1,5 +1,5 @@
 import type { Product } from '@pizza-avenue/types';
-import { Pizza } from 'lucide-react';
+import { Pizza } from '@phosphor-icons/react';
 import { useState } from 'react';
 
 export function ProductMedia({
@@ -21,6 +21,7 @@ export function ProductMedia({
           src={product.imageUrl}
           alt={product.name}
           loading={eager ? 'eager' : 'lazy'}
+          fetchPriority={eager ? 'high' : 'auto'}
           decoding="async"
           onError={() => setFailed(true)}
         />

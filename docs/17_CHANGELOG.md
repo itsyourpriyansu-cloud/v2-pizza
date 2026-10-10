@@ -21,6 +21,34 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-10 — Refine Customer entry and Home against the approved reference set
+
+Added:
+- direct whole-card Pickup and Dine-in service choices with existing analytics and trusted table-scanner routing,
+- a root-owned Customer Home header, craving/search row, category rail, typed-menu featured-food rail, usual-order feature and operational recovery card,
+- deterministic busy, paused, closed and menu-failure review personas plus a resumable Customer redesign handoff,
+- current responsive screenshot evidence at 360, 390, 430, 768 and 1440px.
+
+Changed:
+- the five existing Customer destinations now use one Espresso floating dock with a Maroon active state on eligible Pickup routes,
+- new, returning, active Pickup and active Dine-in Home hierarchy now follows the approved state priority,
+- redesigned entry/Home/menu fallback imagery uses Phosphor icons only, explicit hero sizing and lazy lower imagery,
+- the Chrome/CDP review helper now resets scroll, supports a configurable wait and reports overflowing elements.
+
+Unchanged:
+- APIs, backend-authoritative pricing and availability, payment, loyalty, analytics names, order state machines, table-token trust and waiter confirmation.
+
+Validation:
+- 70 focused Customer tests and all 188 repository tests pass with one worker,
+- repository TypeScript and all four production builds pass,
+- canonical repository lint passes after the flat ESLint config was aligned with the existing `.claude/**` ignore,
+- responsive browser evidence, including 844×390 landscape with reduced motion enabled, reports no document overflow, visible broken images or unlabeled controls,
+- `pnpm audit --prod`, the high-confidence secret-pattern scan and `git diff --check` pass.
+
+Risk:
+- final photography/provenance and real-device iOS/Android safe-area review remain owner follow-ups,
+- GitHub CLI is unavailable in this environment, so PR creation remains a follow-up after the validated source commit is pushed.
+
 ## 2026-10-09 — Isolate design systems and assets per frontend app
 
 Added:
