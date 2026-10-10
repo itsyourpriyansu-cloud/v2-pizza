@@ -8,6 +8,7 @@
 - **Last updated:** 2026-10-10
 - **Current milestone:** Phase-one implementation and local validation complete; commit/push/PR pending
 - **Pull request:** Pending
+- **Implementation commit:** `3922602` (`feat(customer): refine entry and home experience`)
 - **Last completed step:** Code, focused/full tests, TypeScript, four builds, audit/diff checks and responsive Chrome/CDP review completed.
 
 This document is the resumable source of truth for the Customer-only visual redesign. Update it whenever implementation status, test truth, screenshots, risks or the next action changes.
@@ -156,8 +157,8 @@ Chrome/CDP checks reported no document overflow, visible broken images or unlabe
 
 ## Next action
 
-Commit only the CHG-0029 files, push `feature/customer-reference-home-ui`, and create/update the required Pull Request. Keep the unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` work out of the commit.
+Push `feature/customer-reference-home-ui` and create/update the required Pull Request. Keep the unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` work out of any follow-up commit.
 
 ## Continuation prompt
 
-> Continue Pizza Avenue `CHG-0029` on branch `feature/customer-reference-home-ui`. Read `AGENTS.md`, the mandatory frontend documents, and `docs/CUSTOMER_UI_REDESIGN_HANDOFF.md`. Preserve unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` changes. Phase-one code, screenshots and local validation are complete. Commit only the recorded CHG-0029 files, push the feature branch, create/update the required Pull Request, record its URL/status here and in the queue, and keep all backend-authoritative behavior unchanged.
+> Continue Pizza Avenue `CHG-0029` on branch `feature/customer-reference-home-ui`. Read `AGENTS.md`, the mandatory frontend documents, and `docs/CUSTOMER_UI_REDESIGN_HANDOFF.md`. Preserve unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` changes. Phase-one code, screenshots and local validation are complete in commit `3922602`. Push the feature branch, create/update the required Pull Request, record its URL/status here and in the queue, and keep all backend-authoritative behavior unchanged.

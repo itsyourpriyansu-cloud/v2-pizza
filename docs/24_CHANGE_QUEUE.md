@@ -3633,6 +3633,9 @@ Issue:
 Branch:
 - `feature/customer-reference-home-ui`
 
+Implementation commit:
+- `3922602` — `feat(customer): refine entry and home experience`
+
 Pull Request:
 - Pending
 
@@ -3662,7 +3665,7 @@ Pull Request:
 
 ### Current Result
 
-The higher-fidelity entry/Home refinement is implemented and locally validated on `feature/customer-reference-home-ui`: direct semantic service cards, the root-specific Home header, state-prioritized new/returning/active compositions, typed-menu featured cards, operational recovery states and the five-item floating dock are present. Current evidence includes canonical lint, 70 focused Customer tests, 188/188 repository tests, repository TypeScript, all four builds, dependency/secret/diff checks and responsive Chrome/CDP captures without document overflow, visible broken images or unlabeled controls. The ignored local `.claude/**` directory is now also ignored by ESLint, so the canonical lint gate passes without changing those artifacts. Commit, push and Pull Request creation remain pending; GitHub CLI is unavailable in this environment.
+The higher-fidelity entry/Home refinement is implemented and locally validated in commit `3922602` on `feature/customer-reference-home-ui`: direct semantic service cards, the root-specific Home header, state-prioritized new/returning/active compositions, typed-menu featured cards, operational recovery states and the five-item floating dock are present. Current evidence includes canonical lint, 70 focused Customer tests, 188/188 repository tests, repository TypeScript, all four builds, dependency/secret/diff checks and responsive Chrome/CDP captures without document overflow, visible broken images or unlabeled controls. The ignored local `.claude/**` directory is now also ignored by ESLint, so the canonical lint gate passes without changing those artifacts. Branch push and Pull Request creation remain pending; GitHub CLI is unavailable in this environment.
 
 ### Related Changes
 
