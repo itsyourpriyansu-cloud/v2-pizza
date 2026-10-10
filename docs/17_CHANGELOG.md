@@ -29,6 +29,7 @@ Added:
 
 Changed:
 - Reserved CHG-0020 for this documentation task because CHG-0005 through CHG-0019 are already used on unmerged feature branches.
+- Opened GitHub Issue #28 and Pull Request #29 against `develop` for review.
 
 Docs updated:
 - `docs/BACKEND.md`

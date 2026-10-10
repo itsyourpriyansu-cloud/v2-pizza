@@ -111,7 +111,7 @@ Open:
 5
 
 In Progress:
-1
+0
 
 Blocked:
 0
@@ -913,7 +913,7 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 
 ## CHG-0020 — Publish scannable backend requirements and developer reference
 
-- **Status:** IN_PROGRESS
+- **Status:** IN_REVIEW
 - **Type:** DOCUMENTATION
 - **Priority:** P2
 - **Owner:** Codex
@@ -948,7 +948,7 @@ Branch:
 - `docs/backend-reference`
 
 Pull Request:
-- Pending
+- #29 against `develop`
 
 ### Affected Surfaces
 
@@ -1032,7 +1032,7 @@ No new, changed or breaking endpoints; existing mock routes and specified future
 
 ### Final Result
 
-Reference completed locally and verified; review and merge are pending. No staging or production action occurred.
+Reference completed locally and verified. Pull Request #29 is open against `develop` for peer review; no staging or production action occurred.
 
 ### Related Changes
 
