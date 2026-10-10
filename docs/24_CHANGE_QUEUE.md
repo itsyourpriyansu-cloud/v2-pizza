@@ -926,13 +926,14 @@ Developers need one searchable reference that distinguishes the backend requirem
 
 ### Requested Outcome
 
-`docs/BACKEND.md` covers the requested 16 topics in order, traces V1 requirements to source documents and test cases, and gives a uniform reference for every implemented mock route without presenting planned infrastructure as running code.
+`docs/BACKEND.md` covers the requested 16 topics in order, traces V1 requirements to source documents and test cases, and gives a uniform reference for every implemented mock route without presenting planned infrastructure as running code. A companion PDF explains the end-to-end flow and provides a printable schema, API and test-case reference.
 
 ### Scope
 
 Included:
 - Audit the backend-related code, contracts, fixtures, tests, environment examples, CI and deployment configuration.
 - Document requirements, implementation status, endpoint examples, verification cases and gaps.
+- Publish and visually verify `output/pdf/pizza-avenue-backend-guide.pdf` from the checked-in reference and source documents.
 - Update this queue entry and `docs/17_CHANGELOG.md`.
 
 Excluded:
@@ -961,6 +962,8 @@ Pull Request:
 ### Files / Areas Changed
 
 - `docs/BACKEND.md`: 16-section reference with 27 mock routes, nine specified-only paths, 15 requirement IDs and 33 test cases.
+- `output/pdf/pizza-avenue-backend-guide.pdf`: flow-first printable reference with the same endpoint and test inventories.
+- `.gitignore`: keep local PDF render previews out of Git.
 - `docs/20_MASTER_INDEX.md`: reference discovery entry.
 - `docs/17_CHANGELOG.md`: documentation and verification record.
 - `docs/24_CHANGE_QUEUE.md`: this task's scope and current review state.
@@ -991,7 +994,7 @@ No new, changed or breaking endpoints; existing mock routes and specified future
 
 ### Documentation Updated
 
-- `docs/BACKEND.md`, `docs/20_MASTER_INDEX.md`, `docs/17_CHANGELOG.md`, `docs/24_CHANGE_QUEUE.md`.
+- `.gitignore`, `docs/BACKEND.md`, `docs/20_MASTER_INDEX.md`, `docs/17_CHANGELOG.md`, `docs/24_CHANGE_QUEUE.md`, `output/pdf/pizza-avenue-backend-guide.pdf`.
 
 ### Tests Required
 
@@ -999,6 +1002,7 @@ No new, changed or breaking endpoints; existing mock routes and specified future
 - [x] Validated 16 numbered sections, local file links, anchors and requirement IDs for all 33 test cases.
 - [x] Reviewed the three small Mermaid diagrams and example shapes against source contracts/fixtures.
 - [x] `pnpm lint`, `pnpm typecheck`, `pnpm test` (6 files, 37 passed) and `pnpm build` passed locally.
+- [x] Generated and rendered the 10-page PDF; verified its 27/9/15/33 inventory and page layout.
 
 ### Edge Cases
 
@@ -1032,7 +1036,7 @@ No new, changed or breaking endpoints; existing mock routes and specified future
 
 ### Final Result
 
-Reference completed locally and verified. Pull Request #29 is open against `develop` for peer review; no staging or production action occurred.
+Markdown reference and 10-page PDF completed locally and verified. Pull Request #29 is open against `develop` for peer review; no staging or production action occurred.
 
 ### Related Changes
 

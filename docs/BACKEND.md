@@ -13,6 +13,8 @@ pnpm build
 
 ⚠️ Gotcha: These commands run four frontend apps and MSW mocks. This checkout has no backend process or database. See [package.json](../package.json), [apps/customer/src/app/start-mocks.ts](../apps/customer/src/app/start-mocks.ts) and [README.md](../README.md).
 
+Printable flow-first companion: [Pizza Avenue backend guide](../output/pdf/pizza-avenue-backend-guide.pdf).
+
 ## Contents
 
 | Section | Section | Section | Section |

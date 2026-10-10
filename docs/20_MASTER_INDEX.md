@@ -22,6 +22,7 @@
 10 API Contracts
 11 Integrations
 BACKEND Backend requirements and developer reference (current status, routes, tests)
+output/pdf/pizza-avenue-backend-guide.pdf Printable end-to-end backend, data model, API and test guide
 
 Backend stack and deployment decisions are frozen in 16; execution/topology lives in 15.
 
