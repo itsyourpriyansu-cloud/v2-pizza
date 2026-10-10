@@ -103,10 +103,12 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0005
+Next Change ID: CHG-0021
+
+CHG-0005 through CHG-0019 are already used on unmerged feature branches. CHG-0020 is reserved here to avoid a duplicate ID when those branches merge.
 
 Open:
-4
+5
 
 In Progress:
 0
@@ -901,6 +903,140 @@ Deployment date:
 ### Final Result
 
 Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce38f23d94b38`. The design-system foundation, visual direction, curated reference assets and Phudu/Poppins correction are complete. The merge preserves the other developer's CHG-0003 / DEC-024 domain-routing work and records this design work as CHG-0004 / DEC-025. No UI implementation, staging deployment or production release occurred.
+
+### Related Changes
+
+- CHG-0002
+- CHG-0003
+
+---
+
+## CHG-0020 — Publish scannable backend requirements and developer reference
+
+- **Status:** IN_REVIEW
+- **Type:** DOCUMENTATION
+- **Priority:** P2
+- **Owner:** Codex
+- **Created:** 2026-10-10
+- **Last Updated:** 2026-10-10
+
+### Business Reason
+
+Developers need one searchable reference that distinguishes the backend requirements from the current typed client and mock implementation, and identifies the tests still required before backend acceptance.
+
+### Requested Outcome
+
+`docs/BACKEND.md` covers the requested 16 topics in order, traces V1 requirements to source documents and test cases, and gives a uniform reference for every implemented mock route without presenting planned infrastructure as running code. A companion PDF explains the end-to-end flow and provides a printable schema, API and test-case reference.
+
+### Scope
+
+Included:
+- Audit the backend-related code, contracts, fixtures, tests, environment examples, CI and deployment configuration.
+- Document requirements, implementation status, endpoint examples, verification cases and gaps.
+- Publish and visually verify `output/pdf/pizza-avenue-backend-guide.pdf` from the checked-in reference and source documents.
+- Update this queue entry and `docs/17_CHANGELOG.md`.
+
+Excluded:
+- Backend implementation, schema migrations, API behavior changes or deployment.
+- Phase 2 features.
+
+### GitHub Tracking
+
+Issue:
+- #28
+
+Branch:
+- `docs/backend-reference`
+
+Pull Request:
+- #29 against `develop`
+
+### Affected Surfaces
+
+- Developer documentation for Customer, KDS, Counter, Admin and the specified backend.
+
+### Affected Modules
+
+- No runtime module changes; reference covers auth, menu, cart, pickup, payments, orders, kitchen, loyalty, Passport, admin, integration and deployment boundaries.
+
+### Files / Areas Changed
+
+- `docs/BACKEND.md`: 16-section reference with 27 mock routes, nine specified-only paths, 15 requirement IDs and 33 test cases.
+- `output/pdf/pizza-avenue-backend-guide.pdf`: flow-first printable reference with the same endpoint and test inventories.
+- `.gitignore`: keep local PDF render previews out of Git.
+- `docs/20_MASTER_INDEX.md`: reference discovery entry.
+- `docs/17_CHANGELOG.md`: documentation and verification record.
+- `docs/24_CHANGE_QUEUE.md`: this task's scope and current review state.
+
+### Database Impact
+
+Migration required: No. Data migration required: No.
+
+### API Impact
+
+No new, changed or breaking endpoints; existing mock routes and specified future contracts are documented separately.
+
+### State Machine Impact
+
+- None; existing code and specified transitions are described with status labels.
+
+### Permission Impact
+
+- None; specified roles and the absence of server enforcement are documented.
+
+### Analytics Impact
+
+- No events added or changed; KPI definitions and unset targets are documented.
+
+### Environment / Secret Impact
+
+- No variables or secrets added or changed; checked-in variable names and purposes are documented without real values.
+
+### Documentation Updated
+
+- `.gitignore`, `docs/BACKEND.md`, `docs/20_MASTER_INDEX.md`, `docs/17_CHANGELOG.md`, `docs/24_CHANGE_QUEUE.md`, `output/pdf/pizza-avenue-backend-guide.pdf`.
+
+### Tests Required
+
+- [x] Matched all 27 mock route rows to the MSW handlers with no missing or extra route.
+- [x] Validated 16 numbered sections, local file links, anchors and requirement IDs for all 33 test cases.
+- [x] Reviewed the three small Mermaid diagrams and example shapes against source contracts/fixtures.
+- [x] `pnpm lint`, `pnpm typecheck`, `pnpm test` (6 files, 37 passed) and `pnpm build` passed locally.
+- [x] Generated and rendered the 10-page PDF; verified its 27/9/15/33 inventory and page layout.
+
+### Edge Cases
+
+- Distinguish immediate mock payment success from the specified verified-webhook path.
+- Show absent database, server auth, workers and provider integrations without inventing implementation.
+- Keep undocumented request/response details as `TODO: confirm`.
+
+### Security Review
+
+- Auth/RBAC: documented as specified, not enforced by current mocks.
+- Secret/PII: examples use placeholders; no real credentials or OTPs.
+- Replay/idempotency: requirements and missing tests are visible.
+
+### Staging Result
+
+- Not Tested; documentation has not been deployed.
+
+### Production Result
+
+- Not Released.
+
+### Known Risks
+
+- Backend requirements are specified ahead of implementation, so status labels must be rechecked as code lands.
+- No server acceptance test can run until the NestJS/data/provider layers exist.
+- `docs/10_API_CONTRACTS.md` contains `PICKUP_SLOT_FULL` in its standard-error example but `SLOT_FULL` in its pickup section and the mock; the reference flags this without choosing a new contract.
+
+### Follow-Up
+
+- [ ] Reconcile reference with the first real backend implementation.
+
+### Final Result
+
+Markdown reference and 10-page PDF completed locally and verified. Pull Request #29 is open against `develop` for peer review; no staging or production action occurred.
 
 ### Related Changes
 
