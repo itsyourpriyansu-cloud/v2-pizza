@@ -198,11 +198,14 @@ export function OperationalStatusCard({ storeState }: { storeState: Exclude<Stor
 }
 
 export function HomeSearchRow({ secondary = false }: { secondary?: boolean }) {
+  const heading = (
+    <>What’s <span>your craving</span> today?<Sparkles aria-hidden="true" weight="bold" /></>
+  );
   return (
     <section className="home-search-row" aria-labelledby="home-craving-title">
       <div>
         <p className="eyebrow">Handcrafted in Sainikpuri</p>
-        {secondary ? <h2 id="home-craving-title">What’s your craving today?</h2> : <h1 id="home-craving-title">What’s your craving today?</h1>}
+        {secondary ? <h2 id="home-craving-title">{heading}</h2> : <h1 id="home-craving-title">{heading}</h1>}
       </div>
       <div className="home-search-row__controls">
         <Link className="home-search-control" to="/search" aria-label="Search the Pizza Avenue menu"><Search aria-hidden="true" /><span>Search pizzas, sides and drinks</span></Link>
@@ -214,14 +217,14 @@ export function HomeSearchRow({ secondary = false }: { secondary?: boolean }) {
 
 export function HomeCategoryRail() {
   const routes: Array<{ label: string; href: string; icon: ReactNode }> = [
-    { label: 'Bestsellers', href: '#best-sellers', icon: <Sparkles /> },
-    { label: 'Build yours', href: '/menu/pizza-margherita', icon: <Pizza /> },
-    { label: 'Vegetarian', href: '/menu?category=veggie-haven', icon: <Leaf /> },
-    { label: 'Non-Veg', href: '/menu?category=non-veg-paradise', icon: <Flame /> },
+    { label: 'Pizzas', href: '/menu?category=veggie-haven', icon: <Pizza /> },
+    { label: 'Sides', href: '/menu?category=breads-sides', icon: <ForkKnife /> },
+    { label: 'Pasta', href: '/menu?category=pasta', icon: <Sparkles /> },
+    { label: 'Drinks', href: '/menu?category=canned-classics', icon: <SquaresFour /> },
   ];
   return (
     <section className="home-category" aria-labelledby="home-category-title">
-      <div className="home-category__heading"><h2 id="home-category-title">Choose a lane</h2><Link to="/menu">See all</Link></div>
+      <div className="home-category__heading"><h2 id="home-category-title">Category</h2><Link to="/menu">See all</Link></div>
       <div className="home-category__rail">
         {routes.map((route, index) => (
           <Link className={`home-category-pill${index === 0 ? ' is-active' : ''}`} to={route.href} key={route.label}>
@@ -359,9 +362,10 @@ export function HomeProductCard({ product, dineIn = false }: { product: Product;
           {product.flags.includes('BESTSELLER') ? <Badge>Bestseller</Badge> : null}
         </div>
         <div className="home-feature-card__body">
-          <div><h3>{product.name}</h3><p>{product.description}</p></div>
+          <div className="home-feature-card__timing"><Clock3 weight="fill" aria-hidden="true" /><strong>About 30 min</strong><span>Pickup</span></div>
+          <div className="home-feature-card__copy"><h3>{product.name}</h3><p>{product.description}</p></div>
           <div className="home-feature-card__footer">
-            <strong>{startingPrice ? `From ${formatMoney(startingPrice)}` : 'Unavailable'}</strong>
+            <span><small>From</small><strong>{startingPrice ? formatMoney(startingPrice) : 'Unavailable'}</strong></span>
             <span className="home-feature-card__action" aria-hidden="true"><ArrowRight weight="bold" /></span>
           </div>
         </div>
@@ -370,11 +374,11 @@ export function HomeProductCard({ product, dineIn = false }: { product: Product;
   );
 }
 
-export function FeaturedFoodRail({ products, title = 'Most ordered at Pizza Avenue', dineIn = false }: { products: Product[]; title?: string; dineIn?: boolean }) {
+export function FeaturedFoodRail({ products, title = 'Popular at Pizza Avenue', dineIn = false }: { products: Product[]; title?: string; dineIn?: boolean }) {
   return (
     <section className="home-section featured-food" id="best-sellers" aria-labelledby="best-sellers-title">
       <SectionHeader id="best-sellers-title" title={title} action={<Link className="text-link" to={dineIn ? '/dine-in/menu' : '/menu'}>See all</Link>} />
-      <p className="home-section__intro">Current menu favourites, with today’s availability and prices.</p>
+      <p className="home-section__intro">Current menu favourites with today’s prices and availability.</p>
       <div className="featured-food__rail" tabIndex={0} aria-label={`${title} products`}>
         {products.map((product) => <HomeProductCard key={product.id} product={product} dineIn={dineIn} />)}
       </div>

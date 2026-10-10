@@ -6,10 +6,10 @@
 - **Branch:** `feature/customer-reference-home-ui`
 - **Status:** `IN_PROGRESS`
 - **Last updated:** 2026-10-10
-- **Current milestone:** Phase-one implementation and local validation complete; commit/push/PR pending
+- **Current milestone:** User-review fidelity correction implemented and locally verified; correction commit/push is the next step.
 - **Pull request:** Pending
 - **Implementation commit:** `3922602` (`feat(customer): refine entry and home experience`)
-- **Last completed step:** Code, focused/full tests, TypeScript, four builds, audit/diff checks and responsive Chrome/CDP review completed.
+- **Last completed step:** Corrected 430px entry and returning-Home captures reviewed; focused tests, Customer TypeScript, Customer build, changed-file ESLint and `git diff --check` pass.
 
 This document is the resumable source of truth for the Customer-only visual redesign. Update it whenever implementation status, test truth, screenshots, risks or the next action changes.
 
@@ -26,6 +26,34 @@ This document is the resumable source of truth for the Customer-only visual rede
 - Treat 430px portrait as the canonical fidelity target; also verify 360, 390, 768 and 1440px.
 - Use only current Customer-owned local imagery. No remote or generated assets.
 - Preserve all backend-authoritative money, availability, service, payment and state boundaries.
+
+## 2026-10-10 user-review correction
+
+The first Phase-one implementation is **not accepted as final visual fidelity**. The supplied review screenshot showed a returning-user Home where an oversized, text-only `UsualOrderFeature` filled the first viewport. That result omitted the defining reference composition above the fold: craving headline, pill search, category rail and image-led featured food card. The floating dock also read as a broad navigation bar rather than the compact circular dock rhythm in references 3–4.
+
+Root causes:
+
+- `HomePage` routed returning customers directly to `UsualOrderFeature`, bypassing `HomeSearchRow`, `HomeCategoryRail` and `NewCustomerHero`.
+- The deterministic completed order is `pizza-diavola`, which has no approved Customer-owned product image, so the usual card rendered a large text/fallback surface.
+- Featured products were restricted to `BESTSELLER`/`SIGNATURE`; the only approved pizza product photograph (`pizza-mushroom-alfredo`) was therefore excluded from the first rail.
+- The prior typography and card geometry followed the Pizza Avenue editorial system more strongly than the compact food-ordering reference.
+
+Correction now in progress:
+
+- all non-active Pickup homes open with the craving headline, search pill and four pizzeria category shortcuts;
+- the featured rail includes available image-bearing products before flagged products, without inventing prices or claims;
+- returning-customer usual order moves below the first image-led discovery rail while remaining prominent and fully functional;
+- the Home headline, featured card geometry and dock are being tightened against references 3–4 at 430px first;
+- active Pickup/Dine-in and busy/paused/closed priority rules remain unchanged.
+
+Working files:
+
+- `apps/customer/src/features/home/HomePage.tsx`
+- `apps/customer/src/features/home/HomeSections.tsx`
+- `apps/customer/src/styles/customer.css`
+- `apps/customer/src/app/customer-ui.test.tsx`
+
+Current status: `VERIFIED` locally. The Pull Request remains paused until the correction commit is pushed and this handoff records that commit.
 
 ## Reference extraction map
 
@@ -120,6 +148,10 @@ This document is the resumable source of truth for the Customer-only visual rede
 | 2026-10-10 | `pnpm audit --prod` | No known vulnerabilities |
 | 2026-10-10 | high-confidence secret-pattern scan of text diff | Passed |
 | 2026-10-10 | `git diff --check` | Passed |
+| 2026-10-10 | owner-review correction focused Customer suite | 2 files, 70 tests passed |
+| 2026-10-10 | owner-review correction Customer TypeScript + production build | Passed |
+| 2026-10-10 | owner-review correction changed-file ESLint + `git diff --check` | Passed |
+| 2026-10-10 | corrected 430px Chrome/CDP review | No document overflow, broken images, unlabeled controls, console errors or failed requests |
 
 ## Screenshot evidence
 
@@ -145,6 +177,8 @@ Chrome/CDP checks reported no document overflow, visible broken images or unlabe
 | Paused Pickup | 430×932 | `docs/assets/screenshots/customer-home-paused-reference-430.png` |
 | Closed Pickup | 430×932 | `docs/assets/screenshots/customer-home-closed-reference-430.png` |
 | Recoverable menu failure | 430×932 | `docs/assets/screenshots/customer-home-failure-reference-430.png` |
+| Corrected service entry | 430×932 | `docs/assets/screenshots/customer-entry-corrected-430.png` |
+| Corrected returning Pickup Home | 430×932 | `docs/assets/screenshots/customer-home-returning-corrected-430.png` |
 
 ## Known risks
 
@@ -157,8 +191,8 @@ Chrome/CDP checks reported no document overflow, visible broken images or unlabe
 
 ## Next action
 
-Push `feature/customer-reference-home-ui` and create/update the required Pull Request. Keep the unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` work out of any follow-up commit.
+Commit and push the owner-review fidelity correction on `feature/customer-reference-home-ui`. Then capture 360/390/768/1440 correction evidence before creating the required Pull Request. Keep the unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` work out of every commit.
 
 ## Continuation prompt
 
-> Continue Pizza Avenue `CHG-0029` on branch `feature/customer-reference-home-ui`. Read `AGENTS.md`, the mandatory frontend documents, and `docs/CUSTOMER_UI_REDESIGN_HANDOFF.md`. Preserve unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` changes. Phase-one code, screenshots and local validation are complete in commit `3922602`. Push the feature branch, create/update the required Pull Request, record its URL/status here and in the queue, and keep all backend-authoritative behavior unchanged.
+> Continue Pizza Avenue `CHG-0029` on branch `feature/customer-reference-home-ui`. Read `AGENTS.md`, the mandatory frontend documents, and `docs/CUSTOMER_UI_REDESIGN_HANDOFF.md`. Preserve unrelated `.dockerignore`, `.gitignore` and `docs/assets/brag/` changes. The first visual pass (`3922602`) was rejected by owner review; the subsequent correction restores the craving/search/category/image-led rail above the returning-user usual order and adds corrected 430px screenshots. Verify the latest branch commit, capture the remaining 360/390/768/1440 correction matrix, update this handoff/queue truth, and only then create the PR. Keep backend-authoritative behavior unchanged.

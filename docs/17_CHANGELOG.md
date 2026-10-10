@@ -35,6 +35,12 @@ Changed:
 - redesigned entry/Home/menu fallback imagery uses Phosphor icons only, explicit hero sizing and lazy lower imagery,
 - the Chrome/CDP review helper now resets scroll, supports a configurable wait and reports overflowing elements.
 
+Owner-review correction:
+- returning Pickup now opens with the compact craving headline, pill search, pizzeria category rail and image-led product continuation used by references 3–4 instead of an oversized text-only usual-order panel,
+- image-bearing current-menu products lead the featured rail before flagged text-only fallbacks; authoritative price and availability rules are unchanged,
+- the usual-order feature remains functional but moves below the first food-led discovery moment,
+- Home card typography, image crop, timing pill, circular action and five-item dock geometry were tightened at the canonical 430px viewport.
+
 Unchanged:
 - APIs, backend-authoritative pricing and availability, payment, loyalty, analytics names, order state machines, table-token trust and waiter confirmation.
 

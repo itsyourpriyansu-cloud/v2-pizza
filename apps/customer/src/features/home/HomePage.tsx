@@ -129,7 +129,11 @@ export function HomePage() {
     ? menuQuery.data.products.find((product) => product.id === pastOrder.items[0]?.productId)
     : undefined;
   const bestSellers = menuQuery.data.products
-    .filter((product) => product.availability === 'AVAILABLE' && (product.flags.includes('BESTSELLER') || product.flags.includes('SIGNATURE')))
+    .filter((product) => product.availability === 'AVAILABLE' && (
+      Boolean(product.imageUrl)
+      || product.flags.includes('BESTSELLER')
+      || product.flags.includes('SIGNATURE')
+    ))
     .sort((a, b) => Number(Boolean(b.imageUrl)) - Number(Boolean(a.imageUrl)))
     .slice(0, 4);
   const mealCompleters = ['side-garlic-knots', 'dip-viva-rosso', 'dessert-tiramisu', 'drink-coke']
@@ -171,7 +175,17 @@ export function HomePage() {
     <div className="page-stack home-page">
       {storeState !== 'STORE_OPEN' ? <OperationalStatusCard storeState={storeState} /> : null}
 
-      {activeOrder ? <ActivePickupHome order={activeOrder} /> : returning && pastOrder ? (
+      {activeOrder ? <ActivePickupHome order={activeOrder} /> : (
+        <>
+          <HomeSearchRow />
+          <HomeCategoryRail />
+          {returning && pastOrder ? null : <NewCustomerHero />}
+        </>
+      )}
+
+      <BestSellers products={bestSellers} />
+
+      {!activeOrder && returning && pastOrder ? (
         <UsualOrderFeature
           order={pastOrder}
           product={usualProduct}
@@ -179,17 +193,9 @@ export function HomePage() {
           isError={reorderMutation.isError}
           onOrderAgain={() => reorderMutation.mutate()}
         />
-      ) : (
-        <>
-          <HomeSearchRow />
-          <HomeCategoryRail />
-          <NewCustomerHero />
-        </>
-      )}
+      ) : null}
 
-      {!activeOrder && !returning ? <BestSellers products={bestSellers} /> : null}
       {!activeOrder ? <CompleteMealCard returning={returning} /> : null}
-      {activeOrder || returning ? <BestSellers products={bestSellers} /> : null}
 
       {!activeOrder && returning && adaptiveModule ? (
         <section className="home-section" aria-labelledby="your-avenue-title">
@@ -198,8 +204,6 @@ export function HomePage() {
         </section>
       ) : null}
 
-      {!activeOrder && returning ? <HomeSearchRow secondary /> : null}
-      {!activeOrder && returning ? <HomeCategoryRail /> : null}
       {!activeOrder ? <TasteDiscovery /> : null}
       <MealCompleters products={mealCompleters} />
       <BrandReassurance />

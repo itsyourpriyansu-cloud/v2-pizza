@@ -113,7 +113,12 @@ describe('customer discovery and builder flows', () => {
 
   it('shows returning-customer reorder context', async () => {
     renderRoute('/?review=RETURNING_CUSTOMER');
-    expect(await screen.findByRole('heading', { name: 'Your usual, ready when you are.' })).toBeVisible();
+    const cravingHeading = await screen.findByRole('heading', { name: 'What’s your craving today?' });
+    const usualHeading = screen.getByRole('heading', { name: 'Your usual, ready when you are.' });
+    expect(cravingHeading.compareDocumentPosition(usualHeading) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Popular at Pizza Avenue' })).toBeVisible();
+    expect(screen.getByRole('link', { name: 'View Mushroom Alfredo Pizza' })).toBeVisible();
+    expect(usualHeading).toBeVisible();
     expect(screen.getByRole('button', { name: 'Order Again' })).toBeVisible();
     expect(screen.getByRole('heading', { name: 'Your Avenue' })).toBeVisible();
   });

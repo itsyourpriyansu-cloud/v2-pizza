@@ -3475,7 +3475,7 @@ The verified PR #13 source commit is integrated with the complete Customer branc
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-09
-- **Last Updated:** 2026-10-09
+- **Last Updated:** 2026-10-10
 
 ### Business Reason
 
@@ -3665,7 +3665,7 @@ Pull Request:
 
 ### Current Result
 
-The higher-fidelity entry/Home refinement is implemented and locally validated in commit `3922602` on `feature/customer-reference-home-ui`: direct semantic service cards, the root-specific Home header, state-prioritized new/returning/active compositions, typed-menu featured cards, operational recovery states and the five-item floating dock are present. Current evidence includes canonical lint, 70 focused Customer tests, 188/188 repository tests, repository TypeScript, all four builds, dependency/secret/diff checks and responsive Chrome/CDP captures without document overflow, visible broken images or unlabeled controls. The ignored local `.claude/**` directory is now also ignored by ESLint, so the canonical lint gate passes without changing those artifacts. Branch push and Pull Request creation remain pending; GitHub CLI is unavailable in this environment.
+The first implementation and validation were completed in commits `3922602` and `9395f7a`, but the 2026-10-10 owner review rejected the returning Home as insufficiently faithful to references 3–4. The local correction now restores reference-style search/category/image-led discovery above the fold, moves the usual-order module below that first food moment, and tightens food-card and dock geometry. Corrected 430px entry/returning captures show no document overflow, broken images, unlabeled controls, console errors or failed requests; 70 focused tests, Customer TypeScript/build, changed-file ESLint and `git diff --check` pass. The correction still requires commit/push and the remaining responsive capture matrix before PR creation.
 
 ### Related Changes
 
