@@ -106,7 +106,7 @@ Keep this section updated.
 Next Change ID: CHG-0020
 
 Open:
-19
+16
 
 In Progress:
 0
@@ -127,7 +127,7 @@ Production:
 
 > Keep only non-final items here.
 
-Landing handoff (2026-10-09): CHG-0005 through CHG-0019 are bundled on `feature/landing-initial-ui` in Pull Request #13 against `develop`. Their `IN_REVIEW` status means code review is pending; no staging deployment or production release is claimed. Current local validation passed lint, typecheck, 44 tests across 6 files and all four frontend builds. Earlier test counts within individual entries record their historical runs. The pickup-only V1 rules conflict with dine-in work in the separate customer PR chain; resolve that product decision before combining the branches.
+Landing handoff (2026-10-13): The complete page shown in the local preview is the sole Landing entry on `feature/landing-initial-ui` in Pull Request #13 against `develop`. CHG-0006, CHG-0008 and CHG-0010 were prototype chapters superseded before merge and are recorded as CANCELLED in Completed History. The remaining Landing entries are pending review; no staging or production deployment is claimed. Current validation passed lint, workspace typecheck, 44 tests across 6 files and all four frontend builds. Earlier test counts within individual entries record their historical runs. The pickup-only V1 rules conflict with dine-in work in the separate customer PR chain; resolve that product decision before combining the branches.
 
 Final statuses are:
 - PRODUCTION
@@ -918,7 +918,7 @@ Merged into `develop` through Pull Request #10 at `85e106f73d6c346084157713cdfce
 - **Priority:** P1
 - **Owner:** Codex / Priyansu
 - **Created:** 2026-10-06
-- **Last Updated:** 2026-10-09
+- **Last Updated:** 2026-10-13
 
 ### Business Reason
 
@@ -926,11 +926,14 @@ Turn the root-domain Landing shell into a clear, appetising direct-order entry p
 
 ### Requested Outcome
 
-Implement the first approved Landing batch: utility strip, responsive header, editorial hero, compact proof strip and a signature-pizza section. Use the frozen Pizza Avenue palette and Phudu/Poppins typography plus the curated Pizza Wave food candidates, without inventing a logo or treating exploratory menu content as production truth. Harden every assembled Landing section for narrow mobile, tablet and desktop layouts without changing product content or Customer-app destinations.
+Make the complete, responsive Landing page in the local preview the only root-domain marketing page. Remove unused earlier Landing demos and duplicate UI copies while preserving its appearance and working Customer-app links. Treat menu content and prices as prototype data until founder validation.
 
 ### Scope
 
 Included:
+- make the complete page currently shown in the local preview the sole Landing entry,
+- remove unused Landing demo components and duplicate root-level copies of Landing-only UI,
+- keep Customer, KDS and Admin source untouched,
 - utility strip with Sainikpuri and pickup context,
 - responsive header with functional navigation and one primary ordering action,
 - food-led hero with configured Customer-app CTAs,
@@ -972,6 +975,8 @@ Pull Request:
 ### Files / Areas Changed
 
 - Landing React composition, content model and styles
+- Unused Landing demo components, duplicate root-level UI copies and obsolete draft content removed
+- Unused Landing-only dependencies removed from package manifests and lockfile
 - Hero viewport-height and pickup-note adjustment
 - Landing-wide responsive containment, adaptive grids and narrow-device sizing safeguards
 - Landing public food assets copied from the curated Pizza Wave candidates
@@ -979,6 +984,7 @@ Pull Request:
 - dependency lockfile for approved Fontsource packages
 - `docs/17_CHANGELOG.md`
 - `docs/24_CHANGE_QUEUE.md`
+- `README.md`
 
 ### Database Impact
 
@@ -1023,6 +1029,7 @@ The Landing continues to resolve the Customer app through `VITE_CUSTOMER_APP_URL
 
 ### Documentation Updated
 
+- `README.md`
 - `docs/17_CHANGELOG.md`
 - `docs/24_CHANGE_QUEUE.md`
 
@@ -1038,6 +1045,7 @@ The Landing continues to resolve the Customer app through `VITE_CUSTOMER_APP_URL
 - [x] Responsive layout audit — no horizontal overflow at 320×900, 360×900, 390×900, 480×900, 768×900, 1024×900 and 1440×900; mobile visual check at 390×844
 - [x] Current repository verification — ESLint passed, workspace typecheck passed, Vitest passed (6 files, 54 tests) and all four frontend production builds passed
 - [x] GitHub Actions `frontend-foundation` for Pull Request #13 — passed
+- [x] 2026-10-13 consolidation — lint, workspace typecheck, 44 tests in 6 files, all four builds and visible Landing browser check passed locally
 - [ ] Staging smoke test — not part of this task unless staging is deployed
 - [ ] Production smoke test — not released
 
@@ -1090,91 +1098,12 @@ Deployment date:
 
 Implementation remains on `feature/landing-initial-ui` under GitHub Issue #12 and Pull Request #13. The follow-up hero adjustments are complete: the hero section fills 100vh/100dvh viewport height across mobile and tablet with balanced spacing, the hero title explicitly splits into two lines ("CRAVE IT." on line 1 and "TAP IT. PICK IT UP." on line 2), an accessible collapsible mobile menu bar with animated hamburger toggle is implemented, hero actions maintain row flex-direction across both mobile and desktop, and category cards remain fully visible above the fold without clipping. The 2026-10-08 responsiveness pass adds grid/flex containment across every Landing chapter; removes the Brand Highlights tablet/narrow-phone overflow; makes the phone mockup and footer display artwork shrink safely; and tightens the smallest header. Local browser inspection confirms document-width parity with no horizontal scroll from 320×900 through 1440×900, including 390×844 mobile. On 2026-10-09, local verification passed: ESLint, workspace typecheck, Vitest (6 files, 44 tests), and all four frontend production builds. Earlier test totals above are historical snapshots, not the current suite count. No staging or production deployment has been performed.
 
+On 2026-10-13, the chosen complete page remained visually unchanged while unused Landing demos, duplicate root-level copies, obsolete draft content and their unused dependencies were removed. `apps/customer`, `apps/kds` and `apps/admin` source was not changed. Landing lint, typecheck, 8 component tests, production build and local browser rendering passed. This is still a review preview; menu claims and images require founder validation before release.
+
 ### Related Changes
 
 - CHG-0003
 - CHG-0004
-
----
-
-## CHG-0006 — Integrate Faq05 component and Radix accordion into Landing and components/ui
-
-- **Status:** IN_REVIEW
-- **Type:** FEATURE, UX, TEST, DOCUMENTATION
-- **Priority:** P2
-- **Owner:** Antigravity / Priyansu
-- **Created:** 2026-10-07
-- **Last Updated:** 2026-10-07
-
-### Business Reason
-
-Provide answers to high-frequency customer questions regarding Sainikpuri store pickup, 72h sourdough dough, pizza customization and the Pizza Passport loyalty program directly on the marketing landing page, reducing customer hesitation before ordering.
-
-### Requested Outcome
-
-Integrate the `faq-05.tsx` component and `@radix-ui/react-accordion` primitive into `components/ui`, adapt `Faq05` to accept external questions via props with single-collapsible state, render it as the last section of the landing page with dedicated styling matching the Pizza Avenue brand palette, and provide automated test coverage.
-
-### Scope
-
-Included:
-- copy `accordion.tsx`, `faq-05.tsx` and `demo.tsx` into `components/ui` and `apps/landing/src/components/ui`,
-- install `@radix-ui/react-accordion` and `lucide-react`,
-- adapt `Faq05` to accept `items` as external props with single-collapsible mode,
-- provide brand-specific FAQ data for Sainikpuri pickup, dough, customization, loyalty and kitchen hygiene,
-- style the accordion expand/collapse transitions using vanilla CSS tokens,
-- add `Faq05` as the final content section in `LandingPage.tsx` with navigation anchor,
-- add automated test in `app.test.tsx`,
-- update documentation in `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
-
-Excluded:
-- backend FAQ CMS or dynamic API endpoints,
-- changes to customer ordering flow or cart state machines.
-
-### Affected Surfaces
-
-- Landing Page (`apps/landing`)
-- UI Primitives (`components/ui`)
-
-### Files / Areas Changed
-
-- `components/ui/accordion.tsx`
-- `components/ui/faq-05.tsx`
-- `components/ui/demo.tsx`
-- `apps/landing/src/components/ui/accordion.tsx`
-- `apps/landing/src/components/ui/faq-05.tsx`
-- `apps/landing/src/components/ui/demo.tsx`
-- `apps/landing/src/LandingPage.tsx`
-- `apps/landing/src/landing-content.ts`
-- `apps/landing/src/styles.css`
-- `apps/landing/src/app.test.tsx`
-- `apps/landing/package.json`
-- `lib/utils.ts`
-- `docs/17_CHANGELOG.md`
-- `docs/24_CHANGE_QUEUE.md`
-
-### Tests Required
-
-- [x] Workspace typecheck — 11 packages clean with 0 errors
-- [x] Workspace test suite — 6 files, 42 tests passed
-- [x] Single-collapsible behavior verified in tests
-
-### Staging Result
-
-Status:
-- Not Tested
-
-### Production Result
-
-Status:
-- Not Released
-
-### Final Result
-
-`Faq05` and `@radix-ui/react-accordion` primitive successfully integrated. `Faq05` accepts external props, enforces single-collapsible mode, and renders brand-specific Sainikpuri pickup FAQs as the final section of `LandingPage.tsx`. All 42 vitest tests pass.
-
-### Related Changes
-
-- CHG-0005
 
 ---
 
@@ -1258,78 +1187,6 @@ Footer faithfully recreates the reference design using only the official 7-color
 
 ---
 
-## CHG-0008 — Integrate InfiniteMovingCards Google Reviews marquee above FAQ
-
-- **Status:** IN_REVIEW
-- **Type:** FEATURE, UX, TEST, DOCUMENTATION
-- **Priority:** P2
-- **Owner:** Antigravity / Priyansu
-- **Created:** 2026-10-07
-- **Last Updated:** 2026-10-07
-
-### Business Reason
-
-Showcase genuine local customer praise and high Google Maps rating (4.9★) for The Pizza Avenue in Sainikpuri directly on the landing page, boosting social proof, trust, and pickup order conversion before users reach FAQs and the footer.
-
-### Requested Outcome
-
-Integrate the `InfiniteMovingCards` component on `LandingPage.tsx` directly above the FAQ section. The marquee must animate right-to-left at normal speed, pause on hover, link directly to the Sainikpuri Google Maps page (`https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`), and adhere strictly to the project's official 7-color palette.
-
-### Scope
-
-Included:
-- Add Google Reviews customer testimonial data to `landing-content.ts` with authentic Sainikpuri references, ratings, and tags.
-- Integrate `InfiniteMovingCards` into `LandingPage.tsx` above the FAQ section.
-- Add Google Maps 4.9★ rating badge with direct link to `https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`.
-- Add responsive CSS styles in `styles.css` using only official project color tokens (`Cream`, `Sand Beige`, `Maroon`, `Italian Brown`, `Olive Green`, `Sage Green`, `Espresso`).
-- Add automated test coverage in `app.test.tsx`.
-- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
-
-Excluded:
-- Live dynamic Google Places API polling (V1 static curated authentic reviews avoids unnecessary billing/API complexity).
-
-### Affected Surfaces
-
-- Landing Page (`apps/landing`)
-
-### Files / Areas Changed
-
-- `apps/landing/src/landing-content.ts`
-- `apps/landing/src/LandingPage.tsx`
-- `apps/landing/src/styles.css`
-- `apps/landing/src/app.test.tsx`
-- `docs/17_CHANGELOG.md`
-- `docs/24_CHANGE_QUEUE.md`
-
-### Tests Required
-
-- [x] Workspace typecheck — all 11 packages pass cleanly with 0 errors
-- [x] Landing tests — 8 of 8 tests pass including reviews marquee and Google Maps link
-- [x] Vitest workspace suite — 44 of 44 tests pass across all 6 test files
-- [x] Production build — all 4 applications build successfully
-- [x] ESLint — 0 warnings, 0 errors
-- [x] Browser visual verification — marquee motion, pause on hover, Google Maps button, and color tokens confirmed
-
-### Staging Result
-
-- Not Tested
-
-### Production Result
-
-- Not Released
-
-### Final Result
-
-Integrated `InfiniteMovingCards` Google Reviews marquee directly above the FAQ section on `LandingPage.tsx`. The marquee animates smoothly right-to-left at normal speed with `pauseOnHover` enabled. Features high-res pizza imagery, 5-star ratings, tags, reviewer names, and local community testimonials from Sainikpuri customers. Includes direct link badge to The Pizza Avenue Sainikpuri on Google Maps (`https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`) with 4.9★ rating badge. Fixed image height constraints and flex track layout across the Vanilla CSS system; implemented responsive mobile breakpoints ensuring cards scale to viewport width without horizontal page overflow, and the Google Maps pill badge aligns cleanly. Styled strictly using the project's official 7-color palette (`Cream`, `Sand Beige`, `Maroon`, `Italian Brown`, `Olive Green`, `Sage Green`, `Espresso`). All 44 unit and integration tests, TypeScript typechecks across all 11 packages, ESLint checks, and production builds pass cleanly.
-
-### Related Changes
-
-- CHG-0005
-- CHG-0006
-- CHG-0007
-
----
-
 ## CHG-0009 — Customer Flow Process section added after the story section
 
 - **Status:** IN_REVIEW
@@ -1402,79 +1259,6 @@ Created `CustomerFlow.tsx` component and integrated it directly after the story 
 - CHG-0005
 - CHG-0007
 - CHG-0008
-
----
-
-## CHG-0010 — Fix Category Best Sellers section and make it 100vh
-
-- **Status:** IN_REVIEW
-- **Type:** FIX, UX, DESIGN
-- **Priority:** P2
-- **Owner:** Antigravity / Priyansu
-- **Created:** 2026-10-07
-- **Last Updated:** 2026-10-07
-
-### Business Reason
-
-Ensure the Category Best Sellers section seamlessly fills the full desktop viewport height (100vh / 100dvh) without overflowing or clipping the cards and descriptions, providing a high-impact, cohesive visual showcase of crowd favourites directly between the Customer Flow process section and the signatures grid.
-
-### Requested Outcome
-
-Fix `.bestsellers-section` by making it full viewport height (`min-height: 100vh; min-height: 100dvh`) with flex column centering, fixing the oversized container/shell aspect-ratio and heights that caused viewport overflow on laptops (e.g. 1536x730), fixing the left-side chip vertical reel alignment and equal-width centering, fixing the right-side stage and card aspect-ratio sizing so cards and captions never clip, and ensuring responsive mobile/tablet behaviour.
-
-### Scope
-
-Included:
-- Update `.bestsellers-section`, `.bestsellers-header`, `.feature-carousel-container`, `.feature-carousel-shell`, `.feature-carousel-left`, `.feature-carousel-reel`, `.feature-carousel-right`, `.feature-carousel-stage`, `.feature-carousel-card`, `.feature-carousel-caption` in `apps/landing/src/styles.css`.
-- Update carousel reel sizing constants (`ITEM_HEIGHT`, `ITEM_GAP`, `REEL_HEIGHT`, `CENTER_Y`) and shortest circular click delta logic in `apps/landing/src/components/ui/feature-carousel.tsx` and `components/ui/feature-carousel.tsx`.
-- Add responsive media queries for screens `<= 1023px` and `<= 480px`.
-- Verify full test suite and typechecks pass.
-- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
-
-Excluded:
-- Modifications to ordering or payment workflows.
-
-### Affected Surfaces
-
-- Landing Page (`apps/landing`)
-
-### Files / Areas Changed
-
-- `apps/landing/src/styles.css`
-- `apps/landing/src/components/ui/feature-carousel.tsx`
-- `components/ui/feature-carousel.tsx`
-- `docs/17_CHANGELOG.md`
-- `docs/24_CHANGE_QUEUE.md`
-
-### Tests Required
-
-- [x] Workspace typecheck — all packages pass cleanly with 0 errors
-- [x] Landing tests — 10 of 10 tests pass
-- [x] Vitest workspace suite — 46 of 46 tests pass across all 6 test files
-- [x] Production build verification — `@pizza-avenue/landing` builds cleanly in 1.71s
-
-### Staging Result
-
-- Not Tested
-
-### Production Result
-
-- Not Released
-
-### Final Result
-
-- Made `.bestsellers-section` full viewport height (`min-height: 100vh; min-height: 100dvh;`) with flex column centering and compact header spacing.
-- Replaced rigid desktop `aspect-ratio: 16 / 9; min-height: 600px;` on `.feature-carousel-shell` with adaptive height `clamp(430px, 58vh, 560px)` to fit comfortably within 100vh on desktop/laptop screens without overflowing.
-- Fixed `.feature-carousel-left` centering by removing asymmetric `padding-left` and `align-items: flex-start`, ensuring equal-width pill chips are centered.
-- Coordinated reel constants (`REEL_HEIGHT = 380`, `ITEM_HEIGHT = 54`, `ITEM_GAP = 12`, `CENTER_Y = 163`) and implemented shortest angular delta click stepping.
-- Fixed `.feature-carousel-stage` to auto-fit container height (`height: 100%; aspect-ratio: 4 / 5; max-width: 380px;`) so the 3D cards and captions never clip.
-- Added responsive media queries for mobile/tablet (`<= 1023px` and `<= 480px`).
-- All 46 tests pass and production build succeeds.
-
-### Related Changes
-
-- CHG-0008
-- CHG-0009
 
 ---
 
@@ -2330,6 +2114,244 @@ What ultimately happened.
 # 7. Completed History
 
 > Move items here only after a final status.
+
+---
+
+## CHG-0006 — Integrate Faq05 component and Radix accordion into Landing and components/ui
+
+- **Status:** CANCELLED
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-13
+
+### Business Reason
+
+Provide answers to high-frequency customer questions regarding Sainikpuri store pickup, 72h sourdough dough, pizza customization and the Pizza Passport loyalty program directly on the marketing landing page, reducing customer hesitation before ordering.
+
+### Requested Outcome
+
+Integrate the `faq-05.tsx` component and `@radix-ui/react-accordion` primitive into `components/ui`, adapt `Faq05` to accept external questions via props with single-collapsible state, render it as the last section of the landing page with dedicated styling matching the Pizza Avenue brand palette, and provide automated test coverage.
+
+### Scope
+
+Included:
+- copy `accordion.tsx`, `faq-05.tsx` and `demo.tsx` into `components/ui` and `apps/landing/src/components/ui`,
+- install `@radix-ui/react-accordion` and `lucide-react`,
+- adapt `Faq05` to accept `items` as external props with single-collapsible mode,
+- provide brand-specific FAQ data for Sainikpuri pickup, dough, customization, loyalty and kitchen hygiene,
+- style the accordion expand/collapse transitions using vanilla CSS tokens,
+- add `Faq05` as the final content section in `LandingPage.tsx` with navigation anchor,
+- add automated test in `app.test.tsx`,
+- update documentation in `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- backend FAQ CMS or dynamic API endpoints,
+- changes to customer ordering flow or cart state machines.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+- UI Primitives (`components/ui`)
+
+### Files / Areas Changed
+
+- `components/ui/accordion.tsx`
+- `components/ui/faq-05.tsx`
+- `components/ui/demo.tsx`
+- `apps/landing/src/components/ui/accordion.tsx`
+- `apps/landing/src/components/ui/faq-05.tsx`
+- `apps/landing/src/components/ui/demo.tsx`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `apps/landing/package.json`
+- `lib/utils.ts`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — 11 packages clean with 0 errors
+- [x] Workspace test suite — 6 files, 42 tests passed
+- [x] Single-collapsible behavior verified in tests
+
+### Staging Result
+
+Status:
+- Not Tested
+
+### Production Result
+
+Status:
+- Not Released
+
+### Final Result
+
+`Faq05` and `@radix-ui/react-accordion` primitive successfully integrated. `Faq05` accepts external props, enforces single-collapsible mode, and renders brand-specific Sainikpuri pickup FAQs as the final section of `LandingPage.tsx`. All 42 vitest tests pass.
+
+### Related Changes
+
+- CHG-0005
+
+### 2026-10-13 Disposition
+
+The FAQ prototype is absent from the chosen complete Landing page; its demo and accordion files were removed before merge. No staging or production deployment occurred.
+
+---
+
+## CHG-0008 — Integrate InfiniteMovingCards Google Reviews marquee above FAQ
+
+- **Status:** CANCELLED
+- **Type:** FEATURE, UX, TEST, DOCUMENTATION
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-13
+
+### Business Reason
+
+Showcase genuine local customer praise and high Google Maps rating (4.9★) for The Pizza Avenue in Sainikpuri directly on the landing page, boosting social proof, trust, and pickup order conversion before users reach FAQs and the footer.
+
+### Requested Outcome
+
+Integrate the `InfiniteMovingCards` component on `LandingPage.tsx` directly above the FAQ section. The marquee must animate right-to-left at normal speed, pause on hover, link directly to the Sainikpuri Google Maps page (`https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`), and adhere strictly to the project's official 7-color palette.
+
+### Scope
+
+Included:
+- Add Google Reviews customer testimonial data to `landing-content.ts` with authentic Sainikpuri references, ratings, and tags.
+- Integrate `InfiniteMovingCards` into `LandingPage.tsx` above the FAQ section.
+- Add Google Maps 4.9★ rating badge with direct link to `https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`.
+- Add responsive CSS styles in `styles.css` using only official project color tokens (`Cream`, `Sand Beige`, `Maroon`, `Italian Brown`, `Olive Green`, `Sage Green`, `Espresso`).
+- Add automated test coverage in `app.test.tsx`.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Live dynamic Google Places API polling (V1 static curated authentic reviews avoids unnecessary billing/API complexity).
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/landing-content.ts`
+- `apps/landing/src/LandingPage.tsx`
+- `apps/landing/src/styles.css`
+- `apps/landing/src/app.test.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all 11 packages pass cleanly with 0 errors
+- [x] Landing tests — 8 of 8 tests pass including reviews marquee and Google Maps link
+- [x] Vitest workspace suite — 44 of 44 tests pass across all 6 test files
+- [x] Production build — all 4 applications build successfully
+- [x] ESLint — 0 warnings, 0 errors
+- [x] Browser visual verification — marquee motion, pause on hover, Google Maps button, and color tokens confirmed
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+Integrated `InfiniteMovingCards` Google Reviews marquee directly above the FAQ section on `LandingPage.tsx`. The marquee animates smoothly right-to-left at normal speed with `pauseOnHover` enabled. Features high-res pizza imagery, 5-star ratings, tags, reviewer names, and local community testimonials from Sainikpuri customers. Includes direct link badge to The Pizza Avenue Sainikpuri on Google Maps (`https://maps.app.goo.gl/dMzrGhS9LBqQVNx3A`) with 4.9★ rating badge. Fixed image height constraints and flex track layout across the Vanilla CSS system; implemented responsive mobile breakpoints ensuring cards scale to viewport width without horizontal page overflow, and the Google Maps pill badge aligns cleanly. Styled strictly using the project's official 7-color palette (`Cream`, `Sand Beige`, `Maroon`, `Italian Brown`, `Olive Green`, `Sage Green`, `Espresso`). All 44 unit and integration tests, TypeScript typechecks across all 11 packages, ESLint checks, and production builds pass cleanly.
+
+### Related Changes
+
+- CHG-0005
+- CHG-0006
+- CHG-0007
+
+### 2026-10-13 Disposition
+
+The InfiniteMovingCards prototype was replaced by the visible Testimonials section; its demo files were removed before merge. No staging or production deployment occurred.
+
+---
+
+## CHG-0010 — Fix Category Best Sellers section and make it 100vh
+
+- **Status:** CANCELLED
+- **Type:** FIX, UX, DESIGN
+- **Priority:** P2
+- **Owner:** Antigravity / Priyansu
+- **Created:** 2026-10-07
+- **Last Updated:** 2026-10-13
+
+### Business Reason
+
+Ensure the Category Best Sellers section seamlessly fills the full desktop viewport height (100vh / 100dvh) without overflowing or clipping the cards and descriptions, providing a high-impact, cohesive visual showcase of crowd favourites directly between the Customer Flow process section and the signatures grid.
+
+### Requested Outcome
+
+Fix `.bestsellers-section` by making it full viewport height (`min-height: 100vh; min-height: 100dvh`) with flex column centering, fixing the oversized container/shell aspect-ratio and heights that caused viewport overflow on laptops (e.g. 1536x730), fixing the left-side chip vertical reel alignment and equal-width centering, fixing the right-side stage and card aspect-ratio sizing so cards and captions never clip, and ensuring responsive mobile/tablet behaviour.
+
+### Scope
+
+Included:
+- Update `.bestsellers-section`, `.bestsellers-header`, `.feature-carousel-container`, `.feature-carousel-shell`, `.feature-carousel-left`, `.feature-carousel-reel`, `.feature-carousel-right`, `.feature-carousel-stage`, `.feature-carousel-card`, `.feature-carousel-caption` in `apps/landing/src/styles.css`.
+- Update carousel reel sizing constants (`ITEM_HEIGHT`, `ITEM_GAP`, `REEL_HEIGHT`, `CENTER_Y`) and shortest circular click delta logic in `apps/landing/src/components/ui/feature-carousel.tsx` and `components/ui/feature-carousel.tsx`.
+- Add responsive media queries for screens `<= 1023px` and `<= 480px`.
+- Verify full test suite and typechecks pass.
+- Update `17_CHANGELOG.md` and `24_CHANGE_QUEUE.md`.
+
+Excluded:
+- Modifications to ordering or payment workflows.
+
+### Affected Surfaces
+
+- Landing Page (`apps/landing`)
+
+### Files / Areas Changed
+
+- `apps/landing/src/styles.css`
+- `apps/landing/src/components/ui/feature-carousel.tsx`
+- `components/ui/feature-carousel.tsx`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md`
+
+### Tests Required
+
+- [x] Workspace typecheck — all packages pass cleanly with 0 errors
+- [x] Landing tests — 10 of 10 tests pass
+- [x] Vitest workspace suite — 46 of 46 tests pass across all 6 test files
+- [x] Production build verification — `@pizza-avenue/landing` builds cleanly in 1.71s
+
+### Staging Result
+
+- Not Tested
+
+### Production Result
+
+- Not Released
+
+### Final Result
+
+- Made `.bestsellers-section` full viewport height (`min-height: 100vh; min-height: 100dvh;`) with flex column centering and compact header spacing.
+- Replaced rigid desktop `aspect-ratio: 16 / 9; min-height: 600px;` on `.feature-carousel-shell` with adaptive height `clamp(430px, 58vh, 560px)` to fit comfortably within 100vh on desktop/laptop screens without overflowing.
+- Fixed `.feature-carousel-left` centering by removing asymmetric `padding-left` and `align-items: flex-start`, ensuring equal-width pill chips are centered.
+- Coordinated reel constants (`REEL_HEIGHT = 380`, `ITEM_HEIGHT = 54`, `ITEM_GAP = 12`, `CENTER_Y = 163`) and implemented shortest angular delta click stepping.
+- Fixed `.feature-carousel-stage` to auto-fit container height (`height: 100%; aspect-ratio: 4 / 5; max-width: 380px;`) so the 3D cards and captions never clip.
+- Added responsive media queries for mobile/tablet (`<= 1023px` and `<= 480px`).
+- All 46 tests pass and production build succeeds.
+
+### Related Changes
+
+- CHG-0008
+- CHG-0009
+
+### 2026-10-13 Disposition
+
+The Best Sellers prototype was superseded by the visible Craving Menu section before merge. No staging or production deployment occurred.
 
 ---
 

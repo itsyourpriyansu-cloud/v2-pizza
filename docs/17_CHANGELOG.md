@@ -21,6 +21,26 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-13 — Keep the complete Landing page as the sole preview
+
+Changed:
+- Kept the complete Pizza Avenue Landing page as the only marketing entry and removed unused demo components, duplicate Landing-only UI copies and obsolete draft content.
+- Removed dependencies used only by those demos and corrected the README's Landing description.
+
+Fixed:
+- Prevented older prototype content and fabricated draft review data from lingering alongside the chosen page.
+
+Docs updated:
+- `README.md`
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md` (CHG-0005, with superseded CHG-0006, CHG-0008 and CHG-0010 moved to history)
+
+Decision:
+- None; this follows the user's selection of the existing Landing preview.
+
+Risk:
+- Founder validation of menu details, imagery and claims remains open before release. No staging or production deployment occurred.
+
 ## 2026-10-09 — Publish assembled Landing chapters for review
 
 Changed:
