@@ -33,6 +33,27 @@ describe('Pizza Avenue landing', () => {
     ]);
   });
 
+  it('clears the branded loading screen if the first hero image fails', () => {
+    vi.useFakeTimers();
+    const loader = document.createElement('div');
+    loader.id = 'page-loader';
+    document.body.append(loader);
+
+    try {
+      const { container } = render(<LandingPage customerAppUrl={customerAppUrl} />);
+      const firstHeroImage = container.querySelector<HTMLImageElement>('.hero-card__media img');
+      expect(firstHeroImage).not.toBeNull();
+      fireEvent.error(firstHeroImage!);
+      expect(loader).toHaveClass('is-complete');
+
+      act(() => vi.advanceTimersByTime(300));
+      expect(document.getElementById('page-loader')).toBeNull();
+    } finally {
+      loader.remove();
+      vi.useRealTimers();
+    }
+  });
+
   it('filters the menu and keeps checkout in the customer app', () => {
     render(<LandingPage customerAppUrl={customerAppUrl} />);
     for (const category of ['HOT SELLING', 'VEG PIZZAS', 'NON-VEG PIZZAS', 'PASTAS', 'BREADS & SIDES', 'DESSERT & DIPS']) {

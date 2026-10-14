@@ -21,6 +21,25 @@ Decision:
 Risk:
 - ...
 
+## 2026-10-14 — Add Pizza Avenue Landing loading screen
+
+Added:
+- A first-paint Landing splash using the existing Pizza Avenue logo on Cream with a slim Sand and Maroon loading line.
+- Reduced-motion support and a failure-path test for the first hero image.
+
+Changed:
+- The splash clears after the first hero image loads or fails, with a 2.5-second fallback for slow image loading.
+
+Docs updated:
+- `docs/17_CHANGELOG.md`
+- `docs/24_CHANGE_QUEUE.md` (CHG-0020)
+
+Decision:
+- None; the existing brand asset and colour tokens are reused.
+
+Risk:
+- Local preview verified; staging and production have not been checked.
+
 ## 2026-10-13 — Keep the complete Landing page as the sole preview
 
 Changed:

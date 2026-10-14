@@ -103,10 +103,10 @@ P3 — Low priority
 Keep this section updated.
 
 ```text
-Next Change ID: CHG-0020
+Next Change ID: CHG-0021
 
 Open:
-16
+17
 
 In Progress:
 0
@@ -126,6 +126,46 @@ Production:
 # 6. Active Queue
 
 > Keep only non-final items here.
+
+## CHG-0020 — Add branded initial loading screen to Landing
+
+- **Status:** IN_REVIEW
+- **Type:** UX
+- **Priority:** P2
+- **Owner:** Codex
+- **Created:** 2026-10-14
+- **Last Updated:** 2026-10-14
+- **Issue:** Pending
+- **Branch:** `feature/landing-initial-ui`
+- **Pull Request:** #13 against `develop` (existing Landing PR)
+- **Release:** Not Released
+
+### Business Reason
+
+Give visitors a recognizable Pizza Avenue first paint while the public Landing page initializes.
+
+### Requested Outcome and Scope
+
+Match the supplied reference's quiet, centered-logo loading composition with Pizza Avenue's existing logo and Cream, Sand and Maroon palette. Show it during initial Landing load and remove it when the first hero content is ready, including image failure and slow-load recovery. Do not add an artificial long intro or alter ordering flows.
+
+### Impact
+
+- **Affected Surfaces / Modules:** Public Landing (`apps/landing`), initial HTML, bootstrap logic and loading styles.
+- **User Role:** Public visitor/customer.
+- **Database / API / State Machine / Permissions / Analytics:** None.
+- **Environment Variables:** None.
+- **Tests Required:** Landing tests, lint, typecheck, production build, desktop/mobile visual check and loader failure fallback.
+- **Known Risks:** Very fast loads may show the splash briefly; no staging or production validation yet.
+
+### Implementation and Verification
+
+- **Files / Areas Changed:** `apps/landing/index.html` (critical first-paint screen and logo preload), `apps/landing/src/LandingPage.tsx` (dismissal on hero image ready/failure with timeout), `apps/landing/src/app.test.tsx` (failed-image regression), and this queue/changelog.
+- **Database / API / State / Permissions / Analytics / Environment Changes:** None.
+- **Tests Completed:** `pnpm lint`, `pnpm typecheck`, `pnpm test` (6 files, 45 tests), and Landing production build passed locally.
+- **Edge Cases Verified:** Failed first hero image clears the screen; slow image has a 2.5-second fallback; reduced-motion style removes the animated progress line. Local browser reload showed the centered splash and then the Landing content.
+- **Security Review:** Public static screen only; no identity, money, state, credentials or provider data changed.
+- **Documentation Updated:** `docs/17_CHANGELOG.md`, `docs/24_CHANGE_QUEUE.md`.
+- **Known Risks / Follow-Up:** Very fast loads may show the splash only briefly. Staging and production remain unverified. The separate untracked `apps/landing2` draft and pre-existing `pnpm-lock.yaml` change were left untouched.
 
 Landing handoff (2026-10-13): The complete page shown in the local preview is the sole Landing entry on `feature/landing-initial-ui` in Pull Request #13 against `develop`. CHG-0006, CHG-0008 and CHG-0010 were prototype chapters superseded before merge and are recorded as CANCELLED in Completed History. The remaining Landing entries are pending review; no staging or production deployment is claimed. Current validation passed lint, workspace typecheck, 44 tests across 6 files and all four frontend builds. Earlier test counts within individual entries record their historical runs. The pickup-only V1 rules conflict with dine-in work in the separate customer PR chain; resolve that product decision before combining the branches.
 

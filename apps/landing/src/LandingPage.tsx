@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { heroCategoryCards } from './landing-content';
 import { BrandHighlights } from './components/BrandHighlights';
 import { CustomerFlow } from './components/CustomerFlow';
@@ -25,6 +25,39 @@ export function LandingPage({ customerAppUrl }: LandingPageProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('hot-selling');
   const menuUrl = customerUrl(customerAppUrl, '/menu');
+
+  useEffect(() => {
+    const loader = document.getElementById('page-loader');
+    if (!loader) return;
+
+    const firstHeroImage = document.querySelector<HTMLImageElement>('.hero-card__media img');
+    let finished = false;
+    let frame = 0;
+
+    const finishLoading = () => {
+      if (finished) return;
+      finished = true;
+      loader.classList.add('is-complete');
+      loader.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => loader.remove(), 300);
+    };
+
+    if (firstHeroImage && !firstHeroImage.complete) {
+      firstHeroImage.addEventListener('load', finishLoading, { once: true });
+      firstHeroImage.addEventListener('error', finishLoading, { once: true });
+    } else {
+      frame = window.requestAnimationFrame(finishLoading);
+    }
+
+    const timeout = window.setTimeout(finishLoading, 2500);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timeout);
+      firstHeroImage?.removeEventListener('load', finishLoading);
+      firstHeroImage?.removeEventListener('error', finishLoading);
+    };
+  }, []);
 
   return (
     <div className="reference-landing">
