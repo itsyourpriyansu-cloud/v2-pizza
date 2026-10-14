@@ -28,10 +28,13 @@ function valueFor(environment: object, key: PublicEnvironmentKey): string | unde
 }
 
 function isLocalEnvironment(environment: object, origin: string): boolean {
+  const hostname = new URL(origin).hostname;
   return (
     valueFor(environment, 'VITE_APP_ENV') === 'local' ||
     valueFor(environment, 'VITE_APP_ENV') === 'development' ||
-    new URL(origin).hostname === 'localhost'
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname === '[::1]'
   );
 }
 

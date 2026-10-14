@@ -27,10 +27,10 @@ The product uses four frontend deployments in V1: root-domain Landing is `apps/l
 
 ## Stage 1 frontend foundation
 
-The pnpm workspace currently provides architecture-only React applications and shared packages:
+The pnpm workspace provides the complete Landing preview, application foundations, and shared packages:
 
 ```text
-apps/landing       Root-domain landing architecture shell
+apps/landing       Root-domain Pizza Avenue marketing page
 apps/customer      Customer route and feature foundation
 apps/kds           Kitchen route foundation
 apps/admin         Founder/Admin route foundation
@@ -42,7 +42,7 @@ packages/utils     Query keys, money helpers and state helpers
 packages/ui        Neutral structural primitives only
 ```
 
-Stage 1 deliberately contains no final visual design system, backend service, database connection, provider integration, real payment flow or real authentication.
+The Landing has a complete visual prototype. Menu details, imagery and offers still need founder validation before release. The workspace has no backend service, database connection, provider integration, real payment flow or real authentication.
 
 ## Local development
 

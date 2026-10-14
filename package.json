@@ -20,9 +20,9 @@
     "build": "pnpm -r --if-present build"
   },
   "devDependencies": {
-    "@pizza-avenue/mocks": "workspace:*",
     "@eslint/js": "10.0.1",
     "@hookform/resolvers": "5.9.1",
+    "@pizza-avenue/mocks": "workspace:*",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.7",
